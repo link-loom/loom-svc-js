@@ -1,0 +1,7 @@
+{
+    "MainSecretJWT": "MainIsCool",
+    "MongoConnectionString": "mongodb://127.0.0.1:27017/Main",
+    "MailgunApiKey": "key-xxx",
+    "MailgunDomain": "MailgunDomain",
+    "stripe_sk": "sk_test_xxx"
+}

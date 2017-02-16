@@ -1,0 +1,60 @@
+{
+  "name": "Main.main.core",
+  "title": "Main",
+  "description": "Web server to get and analyze all insight from Main",
+  "version": "0.0.1",
+  "homepage": "http://Main.com",
+  "author": {
+    "name": "Main S.A.S. and other contributors",
+    "url": "https://github.com/Main/Main.Main/blob/master/AUTHORS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Main/Main.Main.git"
+  },
+  "keywords": [
+    "main",
+    "Main",
+    "heatmaps",
+    "remote",
+    "administration",
+    "tool",
+    "form",
+    "analysis",
+    "insights",
+    "record",
+    "usability",
+    "ux",
+    "user",
+    "experience"
+  ],
+  "bugs": {
+    "url": "https://github.com/Main/Main.Main/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "latest",
+    "colors": "latest",
+    "cors": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "gridfs-stream": "^1.1.1",
+    "is-online": "latest",
+    "jsonwebtoken": "latest",
+    "mongoose": "latest",
+    "mongoose-gridfs": "latest",
+    "morgan": "latest",
+    "mpromise": "latest",
+    "open": "latest",
+    "socket.io": "latest",
+    "socket.io-client": "latest",
+    "mailgun-js": "latest",
+    "config": "^1.20.4",
+    "stripe": "^4.15.0",
+    "uuid": "^3.0.1"
+  },
+  "engine": "node 4.4.7",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
