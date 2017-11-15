@@ -41,6 +41,6 @@
 	"scripts": {
 		"start": "node app.js",
 		"install-bower": "npm install -g bower",
-		"setup-front": "cd public/ && bower install && cd .."
+		"setup-frontend": "cd public/ && bower install && cd .."
 	}
 }
