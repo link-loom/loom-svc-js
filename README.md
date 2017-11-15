@@ -20,7 +20,7 @@ Boilerplate for your Node.js projects made with [Express](https://expressjs.com/
 
 Step 1. Install [NodeJS](http://nodejs.org/download/)
 
-Step 2. Install [Bower] (https://bower.io/#install-bower) or use npm script
+Step 2. Install [Bower](https://bower.io/#install-bower) or use npm script
 ```shell
 npm run install-bower
 ```
