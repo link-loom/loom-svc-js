@@ -1,7 +1,19 @@
 {
-    "MainSecretJWT": "MainIsCool",
-    "MongoConnectionString": "mongodb://127.0.0.1:27017/Main",
-    "MailgunApiKey": "key-xxx",
-    "MailgunDomain": "MailgunDomain",
-    "stripe_sk": "sk_test_xxx"
+	"MainSecretJWT": "NodeJSIsCool",
+	"ServerPort": "3500",
+	"ServerVersion": "0.0.1",
+	"ServerName":"Boilerplate Server #1",
+	"firebase": {
+		"type": "service_account",
+		"project_id": "xxxxx",
+		"private_key_id": "xxxxxx",
+		"private_key": "-----BEGIN PRIVATE KEY-----\\xxxxxx\n-----END PRIVATE KEY-----\n",
+		"client_email": "firebase-adminsdk-@xbase-da4dd.iam.gserviceaccount.com",
+		"client_id": "xxxxxxxx",
+		"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+		"token_uri": "https://accounts.google.com/o/oauth2/token",
+		"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+		"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-kurzd%xxxxxxx.iam.gserviceaccount.com"
+	},
+	"firebaseDatabase": "https://xbase-da4dd.firebaseio.com"
 }

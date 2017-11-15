@@ -1,0 +1,28 @@
+{
+	"name": "boilerplate.node",
+	"description": "Boilerplate of Node.js server",
+	"version": "0.1.0",
+	"main": "app.js",
+	"homepage": "https://reversebytes.wordpress.com",
+	"author": "Camilo Rodriguez <camiepisode@outlook.com>",
+	"license": "MIT",
+	"keywords": [
+		"Main",
+		"boilerplate",
+		"template",
+		"lite",
+		"tool"
+	],
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"vue": "^2.4.4",
+		"bootstrap": "v4.0.0-beta"
+	}
+}
