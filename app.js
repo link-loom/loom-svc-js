@@ -50,7 +50,7 @@ var dependencies = {
 	}
 }
 
-console.log(dependencies.colors.green(' Node.js Boilerplate: ') + 'Libs imported');
+console.log(dependencies.colors.green(' Boilerplate: ') + 'Libs imported');
 
 /**
  * Configuration
