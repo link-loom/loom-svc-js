@@ -24,7 +24,7 @@ console.log(` Server:  ${config.ServerName}`);
 console.log(` version: ${config.ServerVersion}`);
 console.log(' ------------------------------------');
 
-var cross = require('./app/Controllers/crossController')({ config: config });
+var cross = require('./app/controllers/crossController')({ config: config });
 cross.SetSettings();
 
 var dependencies = {
@@ -72,7 +72,7 @@ app.use(cors());
 /**
  * Initialize all app
  */
-const mainServer = require('./app/Controllers/mainController')(dependencies);
+const mainServer = require('./app/controllers/mainController')(dependencies);
 
 mainServer.Initialize(() => {
 	/**
