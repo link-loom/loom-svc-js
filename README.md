@@ -14,7 +14,7 @@ Boilerplate for your Node.js projects made with [Express](https://expressjs.com/
 
 ## Download
 
-- Clone the repo: `git clone https://github.com/sebastianekstrom/boilerplate.git`
+- Clone the repo: `git clone https://github.com/thEpisode/Node-Boilerplate.git`
 
 ## Getting started
 
