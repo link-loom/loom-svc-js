@@ -1,6 +1,6 @@
-# Node Boilerplate
+# Beat
 
-Boilerplate for your Node.js projects made with [Express](https://expressjs.com/), [ReactDOM](https://reactjs.org/docs/react-dom.html), [Firebase](https://firebase.google.com/) and [Vue.js](https://vuejs.org/).
+Server framework for your Node.js projects made with [Express](https://expressjs.com/), [ReactDOM](https://reactjs.org/docs/react-dom.html), [Firebase](https://firebase.google.com/) and [Vue.js](https://vuejs.org/).
 
 ## Features
 
@@ -14,7 +14,7 @@ Boilerplate for your Node.js projects made with [Express](https://expressjs.com/
 
 ## Download
 
-- Clone the repo: `git clone https://github.com/thEpisode/Node-Boilerplate.git`
+- Clone the repo: `git clone https://github.com/thEpisode/beat.git`
 
 ## Getting started
 
