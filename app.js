@@ -4,7 +4,7 @@
  * v0.1.0
  */
 
-const server = require('./app/server/server')({ root: __dirname });
+const server = require('./src/server/server')({ root: __dirname });
 server.start();
 
 var settings = server.settings();
@@ -13,7 +13,7 @@ settings.dependencies().add(server, 'server');
 /**
  * Initialize all app
  */
-const mainServer = require('./app/controllers/mainController')(settings.dependencies().get());
+const mainServer = require('./src/controllers/mainController')(settings.dependencies().get());
 
 mainServer.Initialize(() => {
 	/**
