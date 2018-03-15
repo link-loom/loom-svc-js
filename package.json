@@ -7,7 +7,7 @@
 	"author": "Camilo Rodriguez <camiepisode@outlook.com>",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Main/Main.Main.git"
+		"url": "https://github.com/thEpisode/Node-Boilerplate.git"
 	},
 	"keywords": [
 		"Main",
@@ -17,7 +17,7 @@
 		"tool"
 	],
 	"bugs": {
-		"url": "https://github.com/Main/Main.Main/issues"
+		"url": "https://github.com/thEpisode/Node-Boilerplate/issues"
 	},
 	"license": "MIT",
 	"dependencies": {
