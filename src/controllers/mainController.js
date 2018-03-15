@@ -1,11 +1,11 @@
-function MainServer(dependencies) {
+function mainController(dependencies) {
 	
 		var _app = dependencies.app;
 	
 		// Modules
 		const _cross = dependencies.cross;
-		const _console = require('./consoleController')(dependencies);
-		const _databaseController = require('./databaseController')(dependencies);
+		const _console = require('./console/consoleController')(dependencies);
+		const _databaseController = require('./database/databaseController')(dependencies);
 		
 	
 		var constructor =  (next) => {
@@ -15,11 +15,11 @@ function MainServer(dependencies) {
 				if (result == true) {
 					dependencies.database = _databaseController;
 	
-					const _apiController = require('./apiController')(dependencies);
+					const _apiController = require('./api/apiManager')(dependencies);
 					_apiController.Initialize();
 					dependencies.api = _apiController;
 	
-					const _frontendController = require('./frontendController')(dependencies);
+					const _frontendController = require('./frontend/frontendController')(dependencies);
 					_frontendController.Initialize();
 	
 					_console.success('Boilerplate', 'Modules initialized');
@@ -37,4 +37,4 @@ function MainServer(dependencies) {
 		}
 	}
 	
-	module.exports = MainServer;
+	module.exports = mainController;

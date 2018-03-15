@@ -1,4 +1,4 @@
-function Cross(dependencies) {
+function firebase(dependencies) {
   var _firebaseCredentials = '';
   var _firebaseURL = '';
 
@@ -44,4 +44,4 @@ function Cross(dependencies) {
   }
 }
 
-module.exports = Cross;
+module.exports = firebase;

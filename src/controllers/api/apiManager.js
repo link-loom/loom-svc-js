@@ -1,4 +1,4 @@
-function API(dependencies) {
+function apiManager(dependencies) {
 
   const _status = require(`${dependencies.root}/src/routes/backend/status`)(dependencies);
 
@@ -40,4 +40,4 @@ function API(dependencies) {
   }
 }
 
-module.exports = API;
+module.exports = apiManager;
