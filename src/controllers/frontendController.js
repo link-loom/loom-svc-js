@@ -1,10 +1,8 @@
 function FrontEnd(dependencies) {
 	
-		const home = require(`${dependencies.root}/routes/frontend/home`)(dependencies);
-		const seo = require(`${dependencies.root}/routes/frontend/seo`)(dependencies);
-		const maintenance = require(`${dependencies.root}/routes/frontend/maintenance`)(dependencies);
-		/* const watch = require(`${dependencies.root}/routes/frontend/watch`)(dependencies);
-		const about = require(`${dependencies.root}/routes/frontend/about`)(dependencies); */
+		const home = require(`${dependencies.root}/src/routes/frontend/home`)(dependencies);
+		const seo = require(`${dependencies.root}/src/routes/frontend/seo`)(dependencies);
+		const maintenance = require(`${dependencies.root}/src/routes/frontend/maintenance`)(dependencies);
 	
 		/// Dependencies
 		const _console = dependencies.console;
@@ -18,7 +16,7 @@ function FrontEnd(dependencies) {
 	
 		const buildFrontendViews = () => {
 			/// Setup React engine for Express
-			_app.set('views', `${dependencies.root}/views`);
+			_app.set('views', `${dependencies.root}/src/views`);
 			_app.set('view engine', 'jsx');
 			_app.engine('jsx', require('express-react-views').createEngine());
 	

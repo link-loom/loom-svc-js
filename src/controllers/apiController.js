@@ -1,6 +1,6 @@
 function API(dependencies) {
 
-  const _status = require(`${dependencies.root}/routes/backend/status`)(dependencies);
+  const _status = require(`${dependencies.root}/src/routes/backend/status`)(dependencies);
 
   /// Dependencies
   const _console = dependencies.console;
