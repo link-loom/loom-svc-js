@@ -23,17 +23,17 @@
 	"dependencies": {
 		"body-parser": "latest",
 		"colors": "latest",
-		"config": "^1.20.4",
+		"config": "^1.30.0",
 		"cors": "latest",
 		"ejs": "latest",
 		"express": "latest",
-		"express-react-views": "^0.10.4",
-		"firebase": "^4.5.0",
-		"firebase-admin": "^5.4.1",
+		"express-react-views": "^0.10.5",
+		"firebase": "^4.11.0",
+		"firebase-admin": "^5.10.0",
 		"jsonwebtoken": "latest",
 		"open": "latest",
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0"
+		"react": "^16.2.0",
+		"react-dom": "^16.2.0"
 	},
 	"engine": {
 		"node": "6.11.4 || 8.6.x"
