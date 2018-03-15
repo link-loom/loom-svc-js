@@ -6,7 +6,7 @@ function home(dependencies) {
 	const index = function (req, res) {
 		var someCondition = true;
 		if (someCondition === true) {
-			res.render('indexView', { title: 'Home', data: null});
+			res.render('index/index.view.jsx', { title: 'Home', data: null});
 		}
 		else {
 			_cross.SendBadRequest(req, res, categoriesResult.result);

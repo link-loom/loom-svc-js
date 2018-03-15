@@ -1,10 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function getCurrentYear(): string {
-	return (new Date).getFullYear();
-}
-
 class Layout extends React.Component {
 	render() {
 		return (

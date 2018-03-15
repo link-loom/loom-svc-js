@@ -1,6 +1,6 @@
 function apiManager(dependencies) {
 
-  const _status = require(`${dependencies.root}/src/routes/backend/status`)(dependencies);
+  const components = require(`${dependencies.root}/src/manage/components`);
 
   /// Dependencies
   const _console = dependencies.console;
@@ -20,7 +20,21 @@ function apiManager(dependencies) {
 
   const createAPI = () => {
 
-    _apiRoutes.get('/Status', _status.get);
+    components.api.map((component) => {
+      let componentController = require(`${dependencies.root}/src/routes/api${component.controller}`)(dependencies);
+      switch (component.method.toLocaleUpperCase()) {
+        case 'GET':
+          _apiRoutes.get(component.route, componentController[component.action]);
+          break;
+        case 'POST':
+        _apiRoutes.post(component.route, componentController[component.action]);
+          break;
+        default:
+          break;
+      }
+    })
+
+    
 
     /// Add some many routes
     /* _apiRoutes.post('/Video/Create', _video.createVideo);

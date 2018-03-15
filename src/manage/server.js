@@ -45,7 +45,7 @@ function server(args){
   }
 
   const sendBadRequestView = function (req, res) {
-    res.render('maintenanceView', null);
+    res.render('maintenance/maintenance.view.jsx', null);
   }
 
   const getSettings = ()=>{

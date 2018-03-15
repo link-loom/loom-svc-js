@@ -4,7 +4,7 @@
  * v0.1.0
  */
 
-const server = require('./src/server/server')({ root: __dirname });
+const server = require('./src/manage/server')({ root: __dirname });
 server.start();
 
 var settings = server.settings();
@@ -24,4 +24,3 @@ mainServer.Initialize(() => {
   console.log(`${settings.dependencies().get().colors.cyan(' Server: ')}${settings.dependencies().get().config.ServerName} v${settings.dependencies().get().config.ServerVersion}`);
   console.log(' ------------------------------------');
 });
-
