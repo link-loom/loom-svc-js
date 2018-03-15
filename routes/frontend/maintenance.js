@@ -1,11 +1,10 @@
 function maintenance(dependencies) {
 
 	const _database = dependencies.database;
-	const _cross = dependencies.cross;
+	const _server = dependencies.server;
 
 	const index = function (req, res) {
-		_cross.SendBadRequest(req, res, []);
-
+		_server.response.badRequestView(req, res, []);
 	}
 
 	return {

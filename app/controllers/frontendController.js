@@ -8,7 +8,7 @@ function FrontEnd(dependencies) {
 	
 		/// Dependencies
 		const _console = dependencies.console;
-		const _app = dependencies.app;
+		const _app = dependencies.httpServer;
 		const _express = dependencies.express;
 		const _path = dependencies.path;
 	
