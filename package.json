@@ -2,7 +2,7 @@
 	"name": "boilerplate.node",
 	"title": "Boilerplate NodeJS",
 	"description": "Boilerplate of Node.js server",
-	"version": "0.1.0",
+	"version": "2.0.1",
 	"homepage": "https://reversebytes.wordpress.com",
 	"author": "Camilo Rodriguez <camiepisode@outlook.com>",
 	"repository": {

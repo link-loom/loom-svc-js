@@ -1,6 +1,5 @@
 function FrontEnd(dependencies) {
   const maintenance = require(`${dependencies.root}/src/routes/frontend/maintenance/maintenance.route`)(dependencies);
-
   const components = require(`${dependencies.root}/src/manage/components`);
 
   /// Dependencies
