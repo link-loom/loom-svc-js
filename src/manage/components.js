@@ -7,12 +7,6 @@ components = {
   ],
   apiComponents: [
     { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' },
   ]
 }
 
