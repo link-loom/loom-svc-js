@@ -12,29 +12,39 @@ Server framework for your Node.js projects made with [Express](https://expressjs
 * Easy-code to noob devs
 * It's flexible, implement any architecture, database or so on.
 
-## Download
+## Create project
 
-- Clone the repo: `git clone https://github.com/thEpisode/beat.git`
+Step 1. Install beat-cli to easily manage files and project
 
-## Getting started
+```shell
+npm install -g beat-cli
+```
 
-Step 1. Install [NodeJS](http://nodejs.org/download/)
+## Install dependencies
 
-Step 2. Install [Bower](https://bower.io/#install-bower) or use npm script
+Step 1. Install [Bower](https://bower.io/#install-bower) or use npm script
+
 ```shell
 npm run install-bower
 ```
 
-Step 3. Install the npm dependencies
+Step 2. Install the npm dependencies
 ```shell
 npm install
 ```
 
-Step 4. Install Bower dependencies
+Step 3. Install Bower dependencies
 ```shell
 npm run setup-frontend
 ```
 
+## Create new frontend view and API controllers
+
+```shell
+beat-cli new
+```
+
+select an option what you want and follow instructions.
 
 ## License
 
