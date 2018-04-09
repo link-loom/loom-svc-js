@@ -1,7 +1,6 @@
-function settings(args) {
+function settings (args) {
   const dependenciesManager = require('./dependencies')(args);
-  const utilities = require('./dependencies')(args);
-  
+
   const setup = () => {
     globalDependencies();
     languageExtensions();
@@ -9,6 +8,7 @@ function settings(args) {
   }
 
   const globalDependencies = () => {
+    const utilities = require('./utilities')({ dependencies: dependenciesManager.get() });
     dependenciesManager.add(utilities, 'utilities');
 
     dependenciesManager.add((str) => {
@@ -49,7 +49,7 @@ function settings(args) {
   const getDependenciesManager = () => {
     return dependenciesManager;
   }
-  
+
   return {
     initialize: setup,
     dependencies: getDependenciesManager,

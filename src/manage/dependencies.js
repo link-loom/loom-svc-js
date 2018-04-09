@@ -25,14 +25,6 @@ function dependencies(args) {
       firebase: require('firebase-admin'),
       request: require('request'),
       root: args.root,
-      isJsonString: (str) => {
-        try {
-          JSON.parse(str);
-        } catch (e) {
-          return false;
-        }
-        return true;
-      }
     }
     console.log(_dependencies.colors.green(' Boilerplate: ') + 'Dependencies imported');
   }
