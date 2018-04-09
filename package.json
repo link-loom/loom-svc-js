@@ -33,14 +33,22 @@
 		"jsonwebtoken": "latest",
 		"open": "latest",
 		"react": "^16.2.0",
-		"react-dom": "^16.2.0"
+		"react-dom": "^16.2.0",
+		"standard": "^11.0.1"
 	},
+  "standard": {
+    "ignore": [
+      "/node_modules/**/*.js",
+      "/public/**/*.js"
+    ]
+  },
 	"engine": {
 		"node": "6.11.4 || 8.6.x"
 	},
 	"scripts": {
 		"start": "node app.js",
 		"install-bower": "npm install -g bower",
-		"setup-frontend": "cd public/ && bower install && cd .."
+		"setup-frontend": "cd public/ && bower install && cd ..",
+		"test": "./node_modules/.bin/standard"
 	}
 }

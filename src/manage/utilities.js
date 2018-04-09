@@ -1,18 +1,11 @@
-function utilities(){
+function utilities (dependencies) {
 
   /// Find an object dynamically by dot style
   /// E.g.
-  /// var objExample = {employee: { firstname: "camilo", job:{name:"driver"}}}
+  /// var objExample = {employee: { firstname: "camilo", job:{name:"developer"}}}
   /// findObject(objExample, 'employee.job.name')
-  const objectReferenceByDotStyle = (obj, is, value) => {
-    if (typeof is == 'string')
-      return index(obj, is.split('.'), value);
-    else if (is.length == 1 && value !== undefined)
-      return obj[is[0]] = value;
-    else if (is.length == 0)
-      return obj;
-    else
-      return index(obj[is[0]], is.slice(1), value);
+  const searchDotStyle = (obj, query) => {
+    return query.split('.').reduce((key, val) => key[val], obj)
   }
 
   const idGenerator = (length, prefix) => {
@@ -34,10 +27,41 @@ function utilities(){
       return false;
     }
   }
+
+  const throwError = function (message) {
+    if (message) {
+      return { success: false, message: message, result: null };
+    }
+    else {
+      return { success: false, message: 'Something was wrong while you make this action', result: null };
+    }
+  }
+
+  const throwSuccess = function (data, message) {
+    if (message) {
+      return {
+        success: true,
+        message: message,
+        result: data
+      }
+    }
+    else {
+      return {
+        success: true,
+        message: 'Operation completed succesfuly',
+        result: data
+      }
+    }
+  }
+
   return {
     objectReferenceByDotStyle: objectReferenceByDotStyle,
-    idGenerator:idGenerator,
-    propertyIsValid: propertyIsValid,
+    idGenerator: idGenerator,
+    response: {
+      success: throwSuccess,
+      error: throwError,
+      isValid: propertyIsValid,
+    },
   }
 }
 
