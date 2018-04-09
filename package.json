@@ -39,7 +39,8 @@
   "standard": {
     "ignore": [
       "/node_modules/**/*.js",
-      "/public/**/*.js"
+      "/public/**/*.js",
+      "/src/views/*"
     ]
   },
 	"engine": {
@@ -49,6 +50,7 @@
 		"start": "node app.js",
 		"install-bower": "npm install -g bower",
 		"setup-frontend": "cd public/ && bower install && cd ..",
-		"test": "./node_modules/.bin/standard"
+    "test": "./node_modules/.bin/standard",
+    "standard-fix": "./node_modules/.bin/standard --fix"
 	}
 }

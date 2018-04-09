@@ -1,15 +1,15 @@
-function dependencies(args) {
-  var _dependencies;
+function dependencies (args) {
+  var _dependencies
 
   const setup = () => {
-    _dependencies = {};
+    _dependencies = {}
 
-    instantiateDependencies();
+    instantiateDependencies()
   }
 
   const instantiateDependencies = () => {
-    let express = require("express");
-    let server = express();
+    let express = require('express')
+    let server = express()
 
     _dependencies = {
       express: express,
@@ -18,30 +18,29 @@ function dependencies(args) {
       http: require('http').Server(server),
       bodyParser: require('body-parser'),
       jwt: require('jsonwebtoken'), // used to create, sign, and verify tokens
-      open: require('open'),
       colors: require('colors/safe'),
       cors: require('cors'),
       config: require('config'),
       firebase: require('firebase-admin'),
       request: require('request'),
-      root: args.root,
+      root: args.root
     }
-    console.log(_dependencies.colors.green(' Boilerplate: ') + 'Dependencies imported');
+    console.log(_dependencies.colors.green(' Boilerplate: ') + 'Dependencies imported')
   }
 
   const getDependencies = () => {
-    return _dependencies;
+    return _dependencies
   }
 
-  const addDependency = (dependency, name)=>{
-    _dependencies[name] = dependency;
+  const addDependency = (dependency, name) => {
+    _dependencies[name] = dependency
   }
 
-  setup();
+  setup()
   return {
     get: getDependencies,
     add: addDependency
   }
 }
 
-module.exports = dependencies;
+module.exports = dependencies

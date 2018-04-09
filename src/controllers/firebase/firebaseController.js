@@ -1,47 +1,45 @@
-function firebase(dependencies) {
-  var _firebaseCredentials = '';
-  var _firebaseURL = '';
+function firebase (dependencies) {
+  var _firebaseCredentials = ''
+  var _firebaseURL = ''
 
   const setSettings = () => {
-    setFirebaseCredentials(dependencies.config.firebase);
-    setFirebaseURL(dependencies.config.firebaseDatabase);
+    setFirebaseCredentials(dependencies.config.firebase)
+    setFirebaseURL(dependencies.config.firebaseDatabase)
   }
 
   const getFirebaseCredentials = () => {
-    return _firebaseCredentials;
+    return _firebaseCredentials
   }
 
   const setFirebaseCredentials = (firebaseCredentials) => {
-    _firebaseCredentials = firebaseCredentials;
+    _firebaseCredentials = firebaseCredentials
   }
 
   const getFirebaseURL = () => {
-    return _firebaseURL;
+    return _firebaseURL
   }
 
   const setFirebaseURL = (firebaseURL) => {
     _firebaseURL = firebaseURL
   }
 
-  
-
   const castSnapshot = snapshot => {
-    let returnArr = [];
+    let returnArr = []
 
     snapshot.forEach(childSnapshot => {
-      let item = childSnapshot.val();
-      returnArr.push(item);
-    });
+      let item = childSnapshot.val()
+      returnArr.push(item)
+    })
 
-    return returnArr;
+    return returnArr
   }
 
   return {
     SetSettings: setSettings,
     GetFirebaseCredentials: getFirebaseCredentials,
     GetFirebaseURL: getFirebaseURL,
-    CastSnapshot: castSnapshot,
+    CastSnapshot: castSnapshot
   }
 }
 
-module.exports = firebase;
+module.exports = firebase

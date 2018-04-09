@@ -1,15 +1,14 @@
-function maintenance(dependencies) {
+function maintenance (dependencies) {
+  // const _database = dependencies.database
+  const _server = dependencies.server
 
-	const _database = dependencies.database;
-	const _server = dependencies.server;
+  const index = function (req, res) {
+    _server.response.badRequestView(req, res, [])
+  }
 
-	const index = function (req, res) {
-		_server.response.badRequestView(req, res, []);
-	}
-
-	return {
-		index: index
-	}
+  return {
+    index: index
+  }
 }
 
-module.exports = maintenance;
+module.exports = maintenance

@@ -1,9 +1,8 @@
 function utilities (dependencies) {
-
   /// Find an object dynamically by dot style
   /// E.g.
   /// var objExample = {employee: { firstname: "camilo", job:{name:"developer"}}}
-  /// findObject(objExample, 'employee.job.name')
+  /// searchDotStyle(objExample, 'employee.job.name')
   const searchDotStyle = (obj, query) => {
     return query.split('.').reduce((key, val) => key[val], obj)
   }
@@ -11,29 +10,26 @@ function utilities (dependencies) {
   const idGenerator = (length, prefix) => {
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
-    return (prefix == undefined ? 'seed-' : prefix) + Math.random().toString(36).substr(2, (length == undefined ? 5 : length));
+    return (prefix === undefined ? 'seed-' : prefix) + Math.random().toString(36).substr(2, (length === undefined ? 5 : length))
   }
 
   const propertyIsValid = function (property) {
     if (property) {
       if (property.success === true) {
-        return true;
+        return true
+      } else {
+        return false
       }
-      else {
-        return false;
-      }
-    }
-    else {
-      return false;
+    } else {
+      return false
     }
   }
 
   const throwError = function (message) {
     if (message) {
-      return { success: false, message: message, result: null };
-    }
-    else {
-      return { success: false, message: 'Something was wrong while you make this action', result: null };
+      return { success: false, message: message, result: null }
+    } else {
+      return { success: false, message: 'Something was wrong while you make this action', result: null }
     }
   }
 
@@ -44,8 +40,7 @@ function utilities (dependencies) {
         message: message,
         result: data
       }
-    }
-    else {
+    } else {
       return {
         success: true,
         message: 'Operation completed succesfuly',
@@ -55,14 +50,19 @@ function utilities (dependencies) {
   }
 
   return {
-    objectReferenceByDotStyle: objectReferenceByDotStyle,
+    searchers: {
+      object: {
+        searchDotStyle: searchDotStyle
+      },
+      array: {}
+    },
     idGenerator: idGenerator,
     response: {
       success: throwSuccess,
       error: throwError,
-      isValid: propertyIsValid,
-    },
+      isValid: propertyIsValid
+    }
   }
 }
 
-module.exports = utilities;
+module.exports = utilities
