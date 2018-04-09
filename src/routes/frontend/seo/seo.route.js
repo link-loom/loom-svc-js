@@ -1,6 +1,6 @@
 function search (dependencies) {
   // const _database = dependencies.database
-  // const _cross = dependencies.cross
+  // const _utilities = dependencies.utilities
 
   /**
      * Refer to: https://moz.com/learn/seo/robotstxt and https://support.google.com/webmasters/answer/6062596?hl=en

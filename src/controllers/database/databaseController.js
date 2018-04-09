@@ -1,7 +1,7 @@
 function Database (dependencies) {
   /// Dependencies
   /* const _firebase = dependencies.firebase
-  const _cross = dependencies.cross
+  const _utilities = dependencies.utilities
   const _console = dependencies.console */
 
   /// Properties

@@ -1,11 +1,13 @@
 function status (dependencies) {
+  const _utilities = dependencies.utilities
+
   /**
      * Status
      *
      * route to show message (GET http://<<URL>>/api/Status)
      */
   const get = function (req, res) {
-    res.json({ success: true, message: 'API is online' })
+    res.json(_utilities.response.success('API is online'))
   }
 
   return {

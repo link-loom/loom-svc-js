@@ -49,6 +49,11 @@ function utilities (dependencies) {
     }
   }
 
+  const badRequestView = function (req, res) {
+    res.render('maintenanceView', null)
+    res.render('maintenance/maintenance.view.jsx', null)
+  }
+
   return {
     searchers: {
       object: {
@@ -60,6 +65,7 @@ function utilities (dependencies) {
     response: {
       success: throwSuccess,
       error: throwError,
+      badRequestView: badRequestView,
       isValid: propertyIsValid
     }
   }
