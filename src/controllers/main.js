@@ -10,12 +10,12 @@ function mainController (dependencies) {
       if (result === true) {
         dependencies.database = _databaseController
 
-        const _apiController = require('./api/apiManager')(dependencies)
-        _apiController.Initialize()
-        dependencies.api = _apiController
+        const _apiManager = require('./api/apiManager')(dependencies)
+        _apiManager.start()
+        dependencies.api = _apiManager
 
-        const _frontendController = require('./frontend/frontendController')(dependencies)
-        _frontendController.Initialize()
+        const _frontendManager = require('./frontend/frontendManager')(dependencies)
+        _frontendManager.start()
 
         _console.success('Boilerplate', 'Modules initialized')
         next()
@@ -27,7 +27,7 @@ function mainController (dependencies) {
   }
 
   return {
-    Initialize: constructor
+    start: constructor
   }
 }
 

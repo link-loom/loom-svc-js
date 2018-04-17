@@ -1,5 +1,5 @@
 function apiManager (dependencies) {
-  const components = require(`${dependencies.root}/src/manage/components`)
+  const components = require(`${dependencies.root}/src/core/components`)
 
   /// Dependencies
   const _console = dependencies.console
@@ -45,7 +45,7 @@ function apiManager (dependencies) {
   }
 
   return {
-    Initialize: constructor
+    start: constructor
   }
 }
 

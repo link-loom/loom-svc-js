@@ -3,16 +3,16 @@
  * v0.1.0
  */
 
-const server = require('./src/manage/server')({ root: __dirname })
+const server = require('./src/core/server')({ root: __dirname })
 server.start()
 
 var settings = server.settings()
 settings.dependencies().add(server, 'server')
 
 // Initialize all app
-const mainServer = require('./src/controllers/mainController')(settings.dependencies().get())
+const main = require('./src/controllers/main')(settings.dependencies().get())
 
-mainServer.Initialize(() => {
+main.start(() => {
   // Launching server
   console.log(`${settings.dependencies().get().colors.cyan(' Server: ')}http://localhost:${settings.dependencies().get().config.ServerPort}`)
   console.log(`${settings.dependencies().get().colors.cyan(' Server: ')}${settings.dependencies().get().config.ServerName} v${settings.dependencies().get().config.ServerVersion}`)
