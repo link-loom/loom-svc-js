@@ -1,4 +1,4 @@
-let components = {
+let router = {
   frontend: [
     { route: '/', view: '/home/home.route', action: 'index' },
     { route: '/robots.txt', view: '/seo/seo.route', action: 'robots' },
@@ -10,4 +10,4 @@ let components = {
   ]
 }
 
-module.exports = components
+module.exports = router

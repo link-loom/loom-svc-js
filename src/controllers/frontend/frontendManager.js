@@ -1,6 +1,6 @@
 function FrontEnd (dependencies) {
   const maintenance = require(`${dependencies.root}/src/routes/frontend/maintenance/maintenance.route`)(dependencies)
-  const components = require(`${dependencies.root}/src/routes/definition/components`)
+  const router = require(`${dependencies.root}/src/routes/definition/router`)
 
   /// Dependencies
   const _console = dependencies.console
@@ -19,7 +19,7 @@ function FrontEnd (dependencies) {
     _app.engine('jsx', require('express-react-views').createEngine())
 
     // Build every frontend route
-    components.frontend.map((component) => {
+    router.frontend.map((component) => {
       let componentView = require(`${dependencies.root}/src/routes/frontend${component.view}`)(dependencies)
 
       _app.get(component.route, componentView[component.action])

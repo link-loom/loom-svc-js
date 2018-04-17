@@ -1,5 +1,5 @@
 function apiManager (dependencies) {
-  const components = require(`${dependencies.root}/src/routes/definition/components`)
+  const router = require(`${dependencies.root}/src/routes/definition/router`)
 
   /// Dependencies
   const _console = dependencies.console
@@ -17,7 +17,7 @@ function apiManager (dependencies) {
   }
 
   const createAPI = () => {
-    components.api.map((component) => {
+    router.api.map((component) => {
       let componentController = require(`${dependencies.root}/src/routes/api${component.controller}`)(dependencies)
       switch (component.method.toLocaleUpperCase()) {
         case 'GET':
