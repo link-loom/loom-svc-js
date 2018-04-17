@@ -32,7 +32,7 @@ function settings (args) {
       return this.replace(/\b\w/g, l => l.toUpperCase())
     }
 
-    console.log(dependenciesManager.get().colors.green(' Boilerplate: ') + 'Language extended')
+    console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Language extended`)
   }
 
   const setupMiddlewares = () => {
@@ -41,7 +41,7 @@ function settings (args) {
     dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
     dependenciesManager.get().httpServer.use(dependenciesManager.get().cors())
 
-    console.log(dependenciesManager.get().colors.green(' Boilerplate: ') + 'Configured middlewares')
+    console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Configured middlewares`)
   }
 
   const getDependenciesManager = () => {

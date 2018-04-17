@@ -14,7 +14,7 @@ const main = require('./src/controllers/main')(settings.dependencies().get())
 
 main.start(() => {
   // Launching server
-  console.log(`${settings.dependencies().get().colors.cyan(' Server: ')}http://localhost:${settings.dependencies().get().config.ServerPort}`)
-  console.log(`${settings.dependencies().get().colors.cyan(' Server: ')}${settings.dependencies().get().config.ServerName} v${settings.dependencies().get().config.ServerVersion}`)
+  console.log(` ${settings.dependencies().get().colors.cyan(`Server:`)} http://localhost:${settings.dependencies().get().config.SERVER_PORT}`)
+  console.log(` ${settings.dependencies().get().colors.cyan(`Server:`)} ${settings.dependencies().get().config.SERVER_NAME} v${settings.dependencies().get().config.SERVER_VERSION}`)
   console.log(' ------------------------------------')
 })

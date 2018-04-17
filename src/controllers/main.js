@@ -17,10 +17,10 @@ function mainController (dependencies) {
         const _frontendManager = require('./frontend/frontendManager')(dependencies)
         _frontendManager.start()
 
-        _console.success('Boilerplate', 'Modules initialized')
+        _console.success('Modules initialized')
         next()
       } else {
-        _console.error('Boilerplate', 'Failed to connect with database')
+        _console.error('Failed to connect with database')
         process.exit(0)
       }
     })

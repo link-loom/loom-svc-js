@@ -1,6 +1,7 @@
 function Console (dependencies) {
   /// Dependencies
   const _colors = dependencies.colors
+  const _serverName = dependencies.config.SERVER_NAME
 
   /// Properties
   var _stack = []
@@ -17,20 +18,20 @@ function Console (dependencies) {
     console.log(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)
   }
 
-  const error = (title, body) => {
-    console.log(_colors.red(` ${title}: `) + (dependencies.isJsonString(body) === true ? JSON.stringify(body) : body))
+  const error = (body, title) => {
+    console.log(` ${_colors.red()}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
-  const info = (title, body) => {
-    console.log(_colors.cyan(` ${title}: `) + (dependencies.isJsonString(body) === true ? JSON.stringify(body) : body))
+  const info = (body, title) => {
+    console.log(` ${_colors.cyan(`${title ? title : _serverName}:`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
-  const warning = (title, body) => {
-    console.log(_colors.yellow(` ${title}: `) + (dependencies.isJsonString(body) === true ? JSON.stringify(body) : body))
+  const warning = (body, title) => {
+    console.log(` ${_colors.yellow(`${title ? title : _serverName}:`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
-  const success = (title, body) => {
-    console.log(_colors.green(` ${title}: `) + (dependencies.isJsonString(body) === true ? JSON.stringify(body) : body))
+  const success = (body, title) => {
+    console.log(` ${_colors.green(`${title ? title : _serverName}:`)} ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
   const stack = {

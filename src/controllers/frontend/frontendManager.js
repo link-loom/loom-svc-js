@@ -31,7 +31,7 @@ function FrontEnd (dependencies) {
     // Something else, 404 error
     _app.get('*', maintenance.index)
 
-    _console.success('Boilerplate', 'FrontEnd module initialized')
+    _console.success('FrontEnd module initialized')
   }
 
   return {

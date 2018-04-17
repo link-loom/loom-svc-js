@@ -7,7 +7,7 @@ function server (args) {
     /**
      * Listening on port
      */
-    settings.dependencies().get().httpServer.listen(normalizePort(process.env.PORT || settings.dependencies().get().config.ServerPort))
+    settings.dependencies().get().httpServer.listen(normalizePort(process.env.PORT || settings.dependencies().get().config.SERVER_PORT))
   }
 
   const normalizePort = (val) => {

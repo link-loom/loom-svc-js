@@ -25,7 +25,7 @@ function dependencies (args) {
       request: require('request'),
       root: args.root
     }
-    console.log(_dependencies.colors.green(' Boilerplate: ') + 'Dependencies imported')
+    console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
   }
 
   const getDependencies = () => {

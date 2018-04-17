@@ -13,7 +13,7 @@ function apiManager (dependencies) {
 
     createAPI()
 
-    _console.success('Boilerplate', 'API routes module initialized')
+    _console.success('API routes module initialized')
   }
 
   const createAPI = () => {
