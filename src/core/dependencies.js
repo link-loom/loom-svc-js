@@ -23,9 +23,9 @@ function dependencies (args) {
       config: require('config'),
       firebase: require('firebase-admin'),
       request: require('request'),
-      compress: require("compression"),
-      helmet: require("helmet"),
-      vue : require("express-vue"),
+      compress: require('compression'),
+      helmet: require('helmet'),
+      vue: require('express-vue'),
       root: args.root
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)

@@ -17,7 +17,7 @@ function server (args) {
     if (port >= 0) return port
     return false
   }
-  
+
   const getSettings = () => {
     return settings
   }
