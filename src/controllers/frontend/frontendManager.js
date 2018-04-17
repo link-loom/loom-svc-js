@@ -1,6 +1,6 @@
 function FrontEnd (dependencies) {
   const maintenance = require(`${dependencies.root}/src/routes/frontend/maintenance/maintenance.route`)(dependencies)
-  const components = require(`${dependencies.root}/src/core/components`)
+  const components = require(`${dependencies.root}/src/routes/definition/components`)
 
   /// Dependencies
   const _console = dependencies.console
