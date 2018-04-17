@@ -36,6 +36,11 @@ function settings (args) {
   }
 
   const setupMiddlewares = () => {
+    //Security
+    dependenciesManager.get().httpServer.use(dependenciesManager.get().helmet());
+    dependenciesManager.get().httpServer.disable("x-powered-by");
+    dependenciesManager.get().httpServer.use(dependenciesManager.get().compress());
+
     // use body parser so we can get info from POST and/or URL parameters
     dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
     dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
