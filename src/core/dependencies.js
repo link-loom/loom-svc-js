@@ -25,7 +25,6 @@ function dependencies (args) {
       request: require('request'),
       compress: require('compression'),
       helmet: require('helmet'),
-      vue: require('express-vue'),
       root: args.root
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
@@ -35,14 +34,14 @@ function dependencies (args) {
     return _dependencies
   }
 
-  const addDependency = (dependency, name) => {
+  const addCustomDependency = (dependency, name) => {
     _dependencies[name] = dependency
   }
 
   setup()
   return {
     get: getDependencies,
-    add: addDependency
+    add: addCustomDependency
   }
 }
 

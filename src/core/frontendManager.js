@@ -13,12 +13,12 @@ function FrontEnd (dependencies) {
   }
 
   const buildFrontendViews = () => {
-    /// Setup React engine for Express
+    /// Setup engine for Express
     _app.set('views', `${dependencies.root}/src/views`)
     _app.set('view engine', 'jsx')
     _app.engine('jsx', require('express-react-views').createEngine())
 
-    // Build every frontend route
+    // build each frontend routes
     router.frontend.map((component) => {
       let componentView = require(`${dependencies.root}/src/routes/frontend${component.view}`)(dependencies)
 
@@ -27,6 +27,8 @@ function FrontEnd (dependencies) {
 
     // publish all files under public folder
     _app.use(_express.static(_path.join(dependencies.root, '/public')))
+    _app.use('/jquery', _express.static(_path.join(dependencies.root, '/node_modules/jquery/dist/')));
+    _app.use('/bootstrap', _express.static(_path.join(dependencies.root, '/node_modules/bootstrap/dist/')));
 
     // Something else, 404 error
     _app.get('*', maintenance.index)

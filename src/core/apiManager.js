@@ -17,6 +17,7 @@ function apiManager (dependencies) {
   }
 
   const createAPI = () => {
+    // build each api routes
     router.api.map((component) => {
       let componentController = require(`${dependencies.root}/src/routes/api${component.controller}`)(dependencies)
       switch (component.method.toLocaleUpperCase()) {
@@ -30,10 +31,6 @@ function apiManager (dependencies) {
           break
       }
     })
-
-    /// Add some many routes
-    /* _apiRoutes.post('/Video/Create', _video.createVideo);
-    _apiRoutes.get('/Videos/Newest', _video.getAllNewestVideos); */
 
     // apply the routes to our application with the prefix /api
     _app.use('/api', _apiRoutes)

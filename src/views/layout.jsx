@@ -51,8 +51,9 @@ class Layout extends React.Component {
 					<meta property="og:description" content="Awesome boilerplate to create node.js projects" />
 					<meta property="og:site_name" content="The X Base" />
 
-					<link href="/css/main.css" rel="stylesheet" />
+          <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
+					<link href="/css/main.css" rel="stylesheet" />
 
 				</head>
 
@@ -63,6 +64,9 @@ class Layout extends React.Component {
 						{this.props.children}
 						{/* End Content */}
 					</div>
+
+          <script src="/jquery/jquery.slim.min.js"></script>
+          <script src="/bootstrap/js/bootstrap.min.js"></script>
 
 				</body>
 

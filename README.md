@@ -1,6 +1,6 @@
 # Beat
 
-Server framework for your Node.js projects made with [Express](https://expressjs.com/), [ReactDOM](https://reactjs.org/docs/react-dom.html), [Firebase](https://firebase.google.com/) and [Vue.js](https://vuejs.org/).
+Server framework for your Node.js projects made with [Express](https://expressjs.com/), [Firebase](https://firebase.google.com/) and [ReactDOM](https://reactjs.org/docs/react-dom.html).
 
 ## Features
 
@@ -20,31 +20,36 @@ Step 1. Install beat-cli to easily manage files and project
 npm install -g beat-cli
 ```
 
-## Install dependencies
-
-Step 1. Install [Bower](https://bower.io/#install-bower) or use npm script
+Step 2. Create a project with cli tool and follow instructions
 
 ```shell
-npm run install-bower
+beat-cli new-project name-of-project
 ```
 
-Step 2. Install the npm dependencies
+## Install dependencies
+
+Step 1. Install the npm dependencies
 ```shell
 npm install
 ```
 
-Step 3. Install Bower dependencies
+## Create new frontend view
+
 ```shell
-npm run setup-frontend
+beat-cli new-view
 ```
 
-## Create new frontend view and API controllers
+## Create new API controllers
+
+```shell
+beat-cli new-api
+```
+
+Are you not decided? select an option what you want and follow instructions.
 
 ```shell
 beat-cli new
 ```
-
-select an option what you want and follow instructions.
 
 ## License
 

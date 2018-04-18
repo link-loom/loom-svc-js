@@ -1,1 +1,9 @@
 /* Add your global styles */
+.jumbotron{
+  margin-bottom: 0;
+  background-color: #fff;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
