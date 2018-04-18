@@ -23,11 +23,11 @@ function Console (dependencies) {
   }
 
   const info = (body, title) => {
-    console.log(` ${_colors.cyan(`${title || _serverName}:`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    console.log(` ${_colors.cyan(`${title || _serverName}:`)} ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
   const warning = (body, title) => {
-    console.log(` ${_colors.yellow(`${title || _serverName}:`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    console.log(` ${_colors.yellow(`${title || _serverName}:`)} ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
   const success = (body, title) => {

@@ -51,14 +51,8 @@ class Layout extends React.Component {
 					<meta property="og:description" content="Awesome boilerplate to create node.js projects" />
 					<meta property="og:site_name" content="The X Base" />
 
-					<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-
 					<link href="/css/main.css" rel="stylesheet" />
 
-					<link href="/css/font-awesome.min.css" rel="stylesheet" />
-
-					<link href="/assets/videojs/video-js.min.css" rel="stylesheet" />
-					<script src="/assets/videojs/ie8/videojs-ie8.min.js"></script>
 
 				</head>
 
@@ -70,9 +64,6 @@ class Layout extends React.Component {
 						{/* End Content */}
 					</div>
 
-					<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-					<script src="/bower_components/popper.js/dist/umd/popper.js"></script>
-					<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js" ></script>
 				</body>
 
 			</html>

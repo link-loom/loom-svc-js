@@ -1,9 +1,9 @@
 function maintenance (dependencies) {
   // const _database = dependencies.database
-  const _server = dependencies.server
+  const _utilities = dependencies.utilities
 
   const index = function (req, res) {
-    _server.response.badRequestView(req, res, [])
+    _utilities.response.badRequestView(req, res, [])
   }
 
   return {
