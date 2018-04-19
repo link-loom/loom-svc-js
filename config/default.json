@@ -2,7 +2,7 @@
 	"JWT_SECRET": "NodeJSIsCool",
 	"SERVER_PORT": "3500",
 	"SERVER_VERSION": "1.0.0",
-	"SERVER_NAME":"Boilerplate Server #1",
+	"SERVER_NAME":"%BEAT% Server #1",
 	"firebase": {
 		"type": "service_account",
 		"project_id": "xxxxx",
