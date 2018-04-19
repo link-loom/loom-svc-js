@@ -9,28 +9,28 @@ function server (args) {
 
     settings.dependencies().add(_console, 'console')
 
-    _databaseController.Initialize((result) => {
-      if (result === true) {
-        settings.dependencies().add(_databaseController, 'database')
+    let databaseStatus = _databaseController.Initialize()
 
-        const _apiManager = require('./apiManager')(settings.dependencies().get())
-        _apiManager.start()
-        settings.dependencies().add(_apiManager, 'api')
+    if (databaseStatus === true) {
+      settings.dependencies().add(_databaseController, 'database')
 
-        const _frontendManager = require('./frontendManager')(settings.dependencies().get())
-        _frontendManager.start()
+      const _apiManager = require('./apiManager')(settings.dependencies().get())
+      _apiManager.start()
+      settings.dependencies().add(_apiManager, 'api')
 
-        _console.success('Modules initialized')
+      const _frontendManager = require('./frontendManager')(settings.dependencies().get())
+      _frontendManager.start()
 
-        // Listening on port
-        settings.dependencies().get().httpServer.listen(normalizePort(process.env.PORT || settings.dependencies().get().config.SERVER_PORT))
+      _console.success('Modules initialized')
 
-        next(settings.dependencies().get())
-      } else {
-        _console.error('Failed to connect with database')
-        process.exit(0)
-      }
-    })
+      // Listening on port
+      settings.dependencies().get().httpServer.listen(normalizePort(process.env.PORT || settings.dependencies().get().config.SERVER_PORT))
+
+      next(settings.dependencies().get())
+    } else {
+      _console.error('Failed to connect with database')
+      process.exit(0)
+    }
   }
 
   const normalizePort = (val) => {

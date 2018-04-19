@@ -5,11 +5,11 @@ Server framework for your Node.js projects made with [Express](https://expressjs
 ## Features
 
 * No styling at all, this is a completely bare boilerplate containing only the essential things you need
-* A solid API implementation
-* ReactDOM to render views with Express.js
+* A solid MVC architecture implementation
+* CLI tool to quicly create new views and API routes
+* ReactDOM to server rendering views with Express.js
 * Strong validations to prevent code-vulnerabilities
-* MVC architecture to quick implementation
-* Easy-code to noob devs
+* Easy-code to newbies devs
 * It's flexible, implement any architecture, database or so on.
 
 ## Create project

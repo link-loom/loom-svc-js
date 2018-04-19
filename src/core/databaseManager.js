@@ -12,13 +12,11 @@ function Database (dependencies) {
   /* var _video
   var _categories */
 
-  const constructor = function (next) {
-    databaseConnect(function (result) {
-      next(result)
-    })
+  const constructor = function () {
+    return databaseConnect()
   }
 
-  const databaseConnect = function (next) {
+  const databaseConnect = function () {
     /* _firebaseApp = _firebase.initializeApp({
       credential: _firebase.credential.cert(_cross.GetFirebaseCredentials()),
       databaseURL: _cross.GetFirebaseURL()
@@ -28,23 +26,19 @@ function Database (dependencies) {
 
     dependencies.db = {}
 
-    databaseHandler(function (result) {
-      next(result)
-    })
+    return databaseHandler()
   }
 
-  const databaseHandler = function (next) {
-    entitiesControllers(function (result) {
-      next(result)
-    })
+  const databaseHandler = function () {
+    return entitiesControllers()
   }
 
-  const entitiesControllers = function (next) {
+  const entitiesControllers = function () {
     /// Some pretty controllers
     /* _video = require('./VideoController')(dependencies);
     _categories = require('./CategoryController')(dependencies); */
 
-    next(true) // <--- CHANGE IT TO CONTROL THE VALUE
+    return true // <--- CHANGE IT TO CONTROL THE VALUE
   }
 
   /* const getVideo = function(){
