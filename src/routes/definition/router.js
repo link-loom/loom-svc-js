@@ -1,12 +1,12 @@
 let router = {
   frontend: [
-    { route: '/', view: '/home/home.route', action: 'index' },
-    { route: '/robots.txt', view: '/seo/seo.route', action: 'robots' },
-    { route: '/sitemap/master.xml', view: '/seo/seo.route', action: 'sitemapMaster' },
-    { route: '/sitemap/latest.xml', view: '/seo/seo.route', action: 'sitemapLatest' }
+    { httpRoute: '/', route: '/routes/frontend/home/home.route', handler: 'index' },
+    { httpRoute: '/robots.txt', route: '/routes/frontend/seo/seo.route', handler: 'robots' },
+    { httpRoute: '/sitemap/master.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapMaster' },
+    { httpRoute: '/sitemap/latest.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapLatest' }
   ],
   api: [
-    { route: '/Status', controller: '/status/status.route', action: 'get', method: 'GET' }
+    { httpRoute: '/Status', route: '/routes/api/status/status.route', handler: 'get', method: 'GET' }
   ]
 }
 

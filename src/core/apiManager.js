@@ -19,13 +19,13 @@ function apiManager (dependencies) {
   const createAPI = () => {
     // build each api routes
     router.api.map((component) => {
-      let componentController = require(`${dependencies.root}/src/routes/api${component.controller}`)(dependencies)
+      let componentController = require(`${dependencies.root}/src${component.route}`)(dependencies)
       switch (component.method.toLocaleUpperCase()) {
         case 'GET':
-          _apiRoutes.get(component.route, componentController[component.action])
+          _apiRoutes.get(component.httpRoute, componentController[component.handler])
           break
         case 'POST':
-          _apiRoutes.post(component.route, componentController[component.action])
+          _apiRoutes.post(component.httpRoute, componentController[component.handler])
           break
         default:
           break

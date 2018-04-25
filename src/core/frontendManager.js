@@ -20,9 +20,9 @@ function FrontEnd (dependencies) {
 
     // build each frontend routes
     router.frontend.map((component) => {
-      let componentView = require(`${dependencies.root}/src/routes/frontend${component.view}`)(dependencies)
+      let componentView = require(`${dependencies.root}/src${component.route}`)(dependencies)
 
-      _app.get(component.route, componentView[component.action])
+      _app.get(component.httpRoute, componentView[component.handler])
     })
 
     // publish all files under public folder
