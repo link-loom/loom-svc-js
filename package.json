@@ -2,7 +2,7 @@
 	"name": "beat",
 	"title": "Beat",
 	"description": "Server framework to create fast and lightweight projects",
-	"version": "2.1.0",
+	"version": "3.0.1",
 	"homepage": "https://reversebytes.wordpress.com",
 	"author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
 	"repository": {
@@ -21,11 +21,14 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@fortawesome/fontawesome-free-webfonts": "^1.0.6",
+		"bcryptjs": "^2.4.3",
 		"body-parser": "latest",
 		"bootstrap": "^4.1.0",
 		"colors": "latest",
 		"compression": "^1.7.2",
 		"config": "^1.30.0",
+		"cookie-parser": "^1.4.3",
 		"cors": "latest",
 		"ejs": "latest",
 		"express": "latest",
@@ -36,6 +39,7 @@
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "latest",
 		"open": "latest",
+		"popper.js": "^1.14.3",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"standard": "^11.0.1"
@@ -44,7 +48,8 @@
 		"ignore": [
 			"/node_modules/**/*.js",
 			"/public/**/*.js",
-			"/src/views/*"
+			"/src/views/*",
+			"/ui-template/*"
 		]
 	},
 	"engine": {

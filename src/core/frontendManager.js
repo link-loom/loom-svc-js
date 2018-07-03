@@ -27,8 +27,10 @@ function FrontEnd (dependencies) {
 
     // publish all files under public folder
     _app.use(_express.static(_path.join(dependencies.root, '/public')))
-    _app.use('/jquery', _express.static(_path.join(dependencies.root, '/node_modules/jquery/dist/')));
-    _app.use('/bootstrap', _express.static(_path.join(dependencies.root, '/node_modules/bootstrap/dist/')));
+    _app.use('/jquery', _express.static(_path.join(dependencies.root, '/node_modules/jquery/dist/')))
+    _app.use('/bootstrap', _express.static(_path.join(dependencies.root, '/node_modules/bootstrap/dist/')))
+    _app.use('/fontawesome', _express.static(_path.join(dependencies.root, '/node_modules/@fortawesome/fontawesome-free-webfonts/')))
+    _app.use('/popper', _express.static(_path.join(dependencies.root, '/node_modules/popper.js/dist/')))
 
     // Something else, 404 error
     _app.get('*', maintenance.index)

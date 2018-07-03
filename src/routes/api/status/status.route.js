@@ -1,5 +1,5 @@
 function status (dependencies) {
-  const _utilities = dependencies.utilities
+  /* const _utilities = dependencies.utilities */
 
   const controller = require(`${dependencies.root}/src/controllers/status/statusController`)(dependencies)
 

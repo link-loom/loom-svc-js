@@ -3,11 +3,14 @@ function server (args) {
 
   const startServer = (next) => {
     settings.initialize()
+    settings.dependencies().add(settings, 'settings')
 
     const _console = require('./console')(settings.dependencies().get())
-    const _databaseController = require('./databaseManager')(settings.dependencies().get())
-
     settings.dependencies().add(_console, 'console')
+
+    const _auth = require('./auth')(settings.dependencies().get())
+    settings.dependencies().add(_auth, 'auth')
+    const _databaseController = require('./databaseManager')(settings.dependencies().get())
 
     let databaseStatus = _databaseController.Initialize()
 

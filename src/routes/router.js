@@ -6,7 +6,7 @@ let router = {
     { httpRoute: '/sitemap/latest.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapLatest' }
   ],
   api: [
-    { httpRoute: '/Status', route: '/routes/api/status/status.route', handler: 'get', method: 'GET' }
+    { httpRoute: '/status', route: '/routes/api/status/status.route', handler: 'get', method: 'GET', protected: false }
   ]
 }
 

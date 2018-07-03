@@ -18,6 +18,7 @@ function dependencies (args) {
       http: require('http').Server(server),
       bodyParser: require('body-parser'),
       jwt: require('jsonwebtoken'), // used to create, sign, and verify tokens
+      bcrypt: require('bcryptjs'),
       colors: require('colors/safe'),
       cors: require('cors'),
       config: require('config'),
@@ -25,6 +26,8 @@ function dependencies (args) {
       request: require('request'),
       compress: require('compression'),
       helmet: require('helmet'),
+      cookieParser: require('cookie-parser'),
+      crypto: require('crypto'),
       root: args.root
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)

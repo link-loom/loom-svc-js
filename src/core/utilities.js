@@ -1,4 +1,5 @@
 function utilities (dependencies) {
+  const _crypto = dependencies.crypto
   /// Find an object dynamically by dot style
   /// E.g.
   /// var objExample = {employee: { firstname: "camilo", job:{name:"developer"}}}
@@ -8,9 +9,11 @@ function utilities (dependencies) {
   }
 
   const idGenerator = (length, prefix) => {
-    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-    // after the decimal.
-    return (prefix === undefined ? 'seed-' : prefix) + Math.random().toString(36).substr(2, (length === undefined ? 5 : length))
+    // Generate 256 random bytes and converted to hex to prevent failures on unscaped chars
+    let buffer = _crypto.randomBytes(256)
+    let randomToken = buffer.toString('hex')
+    // Generating of token
+    return `${prefix || 'seed-'}${randomToken.slice(0, length)}`
   }
 
   const propertyIsValid = function (property) {
@@ -43,7 +46,7 @@ function utilities (dependencies) {
     } else {
       return {
         success: true,
-        message: 'Operation completed succesfuly',
+        message: 'Operation completed successfully',
         result: data
       }
     }
@@ -53,19 +56,93 @@ function utilities (dependencies) {
     res.render('maintenance/maintenance.view.jsx', null)
   }
 
+  const cleanObjectData = rawObj => {
+    if (rawObj && rawObj.formatted) {
+      return rawObj.formatted
+    } else {
+      return null
+    }
+  }
+
+  // Search an object in a simple array
+  const findObject = (query, _array) => {
+    return _array.find(function (element, index) {
+      return element === query
+    })
+  }
+
+  // Search an item by an object key
+  const findObjectByKey = (query, key, _array) => {
+    return _array.find(function (element, index) {
+      return element[key] === query
+    })
+  }
+
+  const findDeepObjectByKey = (query, key, _array) => {
+    return _array.find(function (element, index) {
+      let deepObject = searchDotStyle(element, key)
+      return deepObject === query
+    })
+  }
+
+  // Return index otherwise -1 is returned
+  const findIndexByKey = (query, key, _array) => {
+    return _array.findIndex(function (element, index) {
+      return element[key] === query
+    })
+  }
+
+  // Return index otherwise -1 is returned
+  const findIndex = (query, _array) => {
+    return _array.findIndex(function (element, index) {
+      return element === query
+    })
+  }
+
+  const findAndRemove = (query, _array) => {
+    let index = _array.findIndex(function (element, index) {
+      return element === query
+    })
+
+    if (index > -1) {
+      _array.splice(index, 1)
+    }
+    return index
+  }
+
+  const findAndRemoveByKey = (query, key, _array) => {
+    let index = _array.findIndex(function (element, index) {
+      return element[key] === query
+    })
+
+    if (index > -1) {
+      _array.splice(index, 1)
+    }
+    return index
+  }
+
   return {
     searchers: {
       object: {
-        searchDotStyle: searchDotStyle
+        searchDotStyle: searchDotStyle,
+        findAndRemove: findAndRemoveByKey,
+        findIndex: findIndexByKey,
+        findObject: findObjectByKey,
+        findDeepObject: findDeepObjectByKey
       },
-      array: {}
+      array: {
+        findAndRemove: findAndRemove,
+        findIndex: findIndex,
+        findObject: findObject
+      }
     },
     idGenerator: idGenerator,
     response: {
       success: throwSuccess,
       error: throwError,
       badRequestView: badRequestView,
-      isValid: propertyIsValid
+      isValid: propertyIsValid,
+      clean: cleanObjectData
     }
   }
 }

@@ -1,32 +1,43 @@
 function Database (dependencies) {
+  const _firebaseManager = require(`${dependencies.root}/src/core/firebaseManager`)(dependencies)
+
   /// Dependencies
-  /* const _firebase = dependencies.firebase
-  const _utilities = dependencies.utilities
-  const _console = dependencies.console */
+  const _firebase = dependencies.firebase
+  const _console = dependencies.console
+  const { lstatSync, readdirSync } = require('fs')
+  const { join } = require('path')
 
   /// Properties
-  /* var _db
-  var _firebaseApp */
-
-  /// Entities
-  /* var _video
-  var _categories */
+  let _db
+  let _entities = {}
 
   const constructor = function () {
+    _firebaseManager.setSettings()
+    dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
+
     return databaseConnect()
   }
 
   const databaseConnect = function () {
-    /* _firebaseApp = _firebase.initializeApp({
-      credential: _firebase.credential.cert(_cross.GetFirebaseCredentials()),
-      databaseURL: _cross.GetFirebaseURL()
-    });
-    _db = _firebase.database();
-    dependencies.db = _db; */
+    try {
+      _firebase.initializeApp({
+        credential: _firebase.credential.cert(_firebaseManager.getFirebaseCredentials()),
+        databaseURL: _firebaseManager.getFirebaseURL()
+      })
+      _db = _firebase.database()
+      dependencies.db = _db
 
-    dependencies.db = {}
+      return databaseHandler()
+    } catch (error) {
+      if (error) {
+        if (error.code === 'app/invalid-credential') {
+          _console.info(`Something was wrong with your Firebase credentials maybe you need to replace the mock data in config/default.json`)
+        }
 
-    return databaseHandler()
+        _console.error(error.message)
+        return false
+      }
+    }
   }
 
   const databaseHandler = function () {
@@ -34,25 +45,33 @@ function Database (dependencies) {
   }
 
   const entitiesControllers = function () {
-    /// Some pretty controllers
-    /* _video = require('./VideoController')(dependencies);
-    _categories = require('./CategoryController')(dependencies); */
+    try {
+      // Read all directories in controllers folder
+      const isDirectory = source => lstatSync(source).isDirectory()
+      const getDirectories = source =>
+        readdirSync(source).map(name => join(source, name)).filter(isDirectory)
 
-    return true // <--- CHANGE IT TO CONTROL THE VALUE
+      const directories = getDirectories(`${dependencies.root}/src/controllers/`)
+
+      // Map all controllers
+      _entities['Initialize'] = constructor
+      directories.map((path) => {
+        if (path) {
+          let name = path.split('\\')[path.split('\\').length - 1]
+          _entities[name] = require(`${path}\\${name}Controller`)(dependencies)
+        }
+      })
+
+      return true
+    } catch (error) {
+      _console.error(error)
+      return false
+    }
   }
-
-  /* const getVideo = function(){
-    return _video
-  }
-
-  const getCategories = function(){
-    return _categories;
-  } */
 
   return {
-    Initialize: constructor
-    /* Video: getVideo,
-    Category: getCategories, */
+    Initialize: constructor,
+    entities: _entities
   }
 }
 

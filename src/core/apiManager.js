@@ -5,6 +5,7 @@ function apiManager (dependencies) {
   const _console = dependencies.console
   const _app = dependencies.httpServer
   const _express = dependencies.express
+  const _auth = dependencies.auth
 
   var _apiRoutes
 
@@ -19,16 +20,29 @@ function apiManager (dependencies) {
   const createAPI = () => {
     // build each api routes
     router.api.map((component) => {
-      let componentController = require(`${dependencies.root}/src${component.route}`)(dependencies)
-      switch (component.method.toLocaleUpperCase()) {
-        case 'GET':
-          _apiRoutes.get(component.httpRoute, componentController[component.handler])
-          break
-        case 'POST':
-          _apiRoutes.post(component.httpRoute, componentController[component.handler])
-          break
-        default:
-          break
+      try {
+        let componentController = require(`${dependencies.root}/src${component.route}`)(dependencies)
+        switch (component.method.toLocaleUpperCase()) {
+          case 'GET':
+            if (component.protected) {
+              _apiRoutes.get(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
+            } else {
+              _apiRoutes.get(component.httpRoute, componentController[component.handler])
+            }
+            break
+          case 'POST':
+            if (component.protected) {
+              _apiRoutes.post(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
+            } else {
+              _apiRoutes.post(component.httpRoute, componentController[component.handler])
+            }
+            break
+          default:
+            break
+        }
+      } catch (error) {
+        _console.error(`Component failed: ${JSON.stringify(component)}`)
+        _console.error(error)
       }
     })
 

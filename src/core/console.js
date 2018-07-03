@@ -20,6 +20,7 @@ function Console (dependencies) {
 
   const error = (body, title) => {
     console.log(` ${_colors.red()}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    console.trace(`Stack trace: `)
   }
 
   const info = (body, title) => {

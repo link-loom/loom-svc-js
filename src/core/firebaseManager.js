@@ -23,22 +23,52 @@ function firebase (dependencies) {
     _firebaseURL = firebaseURL
   }
 
-  const castSnapshot = snapshot => {
-    let returnArr = []
+  const castArraySnapshot = snapshot => {
+    if (snapshot) {
+      let arr = []
+      let obj = {}
 
-    snapshot.forEach(childSnapshot => {
-      let item = childSnapshot.val()
-      returnArr.push(item)
-    })
+      snapshot.forEach(childSnapshot => {
+        let item = childSnapshot.val()
+        arr.push(item)
+      })
 
-    return returnArr
+      obj.raw = snapshot
+      obj.data = arr
+
+      return obj
+    } else {
+      return null
+    }
+  }
+
+  const castObjectSnapshot = snapshot => {
+    if (snapshot) {
+      let item = snapshot.val()
+      if (item) {
+        let obj = {}
+
+        obj.rawId = Object.keys(item)[0]
+        obj.formatted = item[Object.keys(item)[0]]
+        obj.raw = item
+
+        return obj
+      } else {
+        return null
+      }
+    } else {
+      return null
+    }
   }
 
   return {
-    SetSettings: setSettings,
-    GetFirebaseCredentials: getFirebaseCredentials,
-    GetFirebaseURL: getFirebaseURL,
-    CastSnapshot: castSnapshot
+    setSettings: setSettings,
+    getFirebaseCredentials: getFirebaseCredentials,
+    getFirebaseURL: getFirebaseURL,
+    cast: {
+      array: castArraySnapshot,
+      object: castObjectSnapshot
+    }
   }
 }
 
