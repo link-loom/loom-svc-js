@@ -19,32 +19,43 @@ function Database (dependencies) {
   }
 
   const databaseConnect = function () {
+    let result = false
     try {
-      _firebase.initializeApp({
-        credential: _firebase.credential.cert(_firebaseManager.getFirebaseCredentials()),
-        databaseURL: _firebaseManager.getFirebaseURL()
-      })
-      _db = _firebase.database()
-      dependencies.db = _db
+      if (dependencies.config.USE_DATABASE) {
+        switch (dependencies.config.DATABASE_NAME) {
+          case 'firebase':
+            firebaseConfig()
+            break;
+          default:
+            break;
+        }       
+      }
 
-      return databaseHandler()
+      result = entitiesManager()
     } catch (error) {
       if (error) {
         if (error.code === 'app/invalid-credential') {
-          _console.info(`Something was wrong with your Firebase credentials maybe you need to replace the mock data in config/default.json`)
+          _console.info(`Something was wrong with your Firebase credentials maybe you need add config/default.json file or check your credentials`)
         }
 
         _console.error(error.message)
-        return false
+        result = false
       }
     }
+    
+    return result
   }
 
-  const databaseHandler = function () {
-    return entitiesControllers()
+  const firebaseConfig = function () {
+    _firebase.initializeApp({
+      credential: _firebase.credential.cert(_firebaseManager.getFirebaseCredentials()),
+      databaseURL: _firebaseManager.getFirebaseURL()
+    })
+    _db = _firebase.database()
+    dependencies.db = _db
   }
 
-  const entitiesControllers = function () {
+  const entitiesManager = function () {
     try {
       // Read all directories in controllers folder
       const isDirectory = source => lstatSync(source).isDirectory()
