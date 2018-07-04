@@ -8,7 +8,7 @@ function auth (dependencies) {
   /// Properties
 
   const stringToHash = (data) => {
-    if (typeof data === 'string') {
+    if (data && typeof data === 'string') {
       return _bcrypt.hashSync(data, 8)
     } else {
       return null
