@@ -3,6 +3,7 @@ function userController (dependencies) {
   const _console = dependencies.console
   const _firebase = dependencies.firebaseManager
   const _utilities = dependencies.utilities
+  const _auth = dependencies.auth
 
   const _status = {
     inactive: 1,
@@ -58,15 +59,18 @@ function userController (dependencies) {
   const create = async (data) => {
     try {
       if (data && data.username && data.password) {
-        let userRef = _db.ref('users').push()
         // Generate a mnemonic id to be a secondary key
-        let id = _utilities.idGenerator(5, 'usr-')
+        data.id = _utilities.idGenerator(5, 'usr-')
+
+        let userRef = _db.ref('users').push()
         let timestamp = (new Date()).getTime() + ''
+        // Generate a hash with user plain text password
+        let userPasswordHash = _auth.hash.stringToHash(data.password || '')
 
         let result = await userRef.set({
-          id: id,
+          id: data.id,
           username: data.username || '', // Set as default empty string
-          password: data.password || '',
+          password: userPasswordHash,
           firstname: data.firstname || '',
           lastname: data.lastname || '',
           status: _status.active,
@@ -75,11 +79,14 @@ function userController (dependencies) {
           lastModification: timestamp
         })
 
+        // Removing sensitive data
+        delete data.id
+        delete data.password
+
         if (result) {
           _console.error(result)
           return _utilities.response.error()
         } else {
-          data.id = id
           return _utilities.response.success(data)
         }
       } else {
