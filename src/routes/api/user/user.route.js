@@ -14,13 +14,28 @@ function user (dependencies) {
   }
 
   /**
-     * Get By id
+     * Get by id
      *
      * route to show message (GET http://<<URL>>/api/user/getById/:id)
      */
   const getById = async (req, res) => {
     if (req.params) {
       let result = await _database.entities.user.getById(req.params)
+
+      res.json(result)
+    } else {
+      return _utilities.response.error('Please provide required data')
+    }
+  }
+
+  /**
+     * Get by username
+     *
+     * route to show message (GET http://<<URL>>/api/user/getByUsername/:username)
+     */
+  const getByUsername = async (req, res) => {
+    if (req.params) {
+      let result = await _database.entities.user.getByUsername(req.params)
 
       res.json(result)
     } else {
@@ -53,6 +68,7 @@ function user (dependencies) {
   return {
     getAll: get,
     getById,
+    getByUsername,
     create,
     update
   }

@@ -19,8 +19,10 @@ function userController (dependencies) {
       let users = _firebase.cast.array(rawUsers)
 
       // Check if exist any data
-      if (users && users.length > 0) {
-        return _utilities.response.success(users)
+      if (users && users.data.length > 0) {
+        // Remove sensitive data
+        users.data.map((user) => { delete user.password })
+        return _utilities.response.success(users.data)
       } else {
         return _utilities.response.error('No users found')
       }
@@ -38,6 +40,34 @@ function userController (dependencies) {
           .orderByChild('id')
           .startAt(data.id)
           .endAt(data.id)
+          .once('value')
+        // Cast the Firebase object returned to a simple JSON object
+        let user = _firebase.cast.object(rawUser)
+
+        if (user) {
+          // Removed sensitive data
+          delete user.password
+          return _utilities.response.success(user)
+        } else {
+          return _utilities.response.error('User not found')
+        }
+      } else {
+        return _utilities.response.error('Please provide an id')
+      }
+    } catch (error) {
+      _console.error(error)
+      return _utilities.response.error()
+    }
+  }
+
+  const getByUsername = async (data) => {
+    try {
+      if (data && data.username) {
+        // Do query in Firebase
+        let rawUser = await _db.ref(`users`)
+          .orderByChild('username')
+          .startAt(data.username)
+          .endAt(data.username)
           .once('value')
         // Cast the Firebase object returned to a simple JSON object
         let user = _firebase.cast.object(rawUser)
@@ -138,6 +168,7 @@ function userController (dependencies) {
   return {
     getAll: get,
     getById,
+    getByUsername,
     create,
     update
   }
