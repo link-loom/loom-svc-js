@@ -13,6 +13,8 @@ function server (args) {
     let databaseStatus = databaseInit()
 
     if (databaseStatus === true) {
+      controllersInit()
+
       apiInit()
 
       frontendInit()
@@ -23,7 +25,7 @@ function server (args) {
 
       next(settings.dependencies().get())
     } else {
-      _console.error('Failed to connect with database, you can disable this module')
+      _console.error('Failed to connect with database or you have not any controller defined, you can disable this module')
       process.exit(0)
     }
   }
@@ -44,12 +46,13 @@ function server (args) {
   }
 
   const databaseInit = () => {
-    let result = false
     let _databaseController = require('./databaseManager')(settings.dependencies().get())
-    result = _databaseController.Initialize()
-    settings.dependencies().add(_databaseController, 'database')
+    return _databaseController.initialize()
+  }
 
-    return result
+  const controllersInit = () => {
+    let _controllersManager = require('./controllerManager')(settings.dependencies().get())
+    settings.dependencies().add(_controllersManager, 'controllers')
   }
 
   const apiInit = () => {
