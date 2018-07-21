@@ -26,7 +26,7 @@ function FrontEnd (dependencies) {
     })
 
     // publish all files under public folder
-    _app.use('/public', _express.static(_path.join(dependencies.root, '/static/public')))
+    _app.use(_express.static(_path.join(dependencies.root, '/static/public')))
     _app.use('/private', _express.static(_path.join(dependencies.root, '/static/private')))
     _app.use('/jquery', _express.static(_path.join(dependencies.root, '/node_modules/jquery/dist/')))
     _app.use('/bootstrap', _express.static(_path.join(dependencies.root, '/node_modules/bootstrap/dist/')))
