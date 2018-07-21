@@ -19,6 +19,7 @@ function dependencies (args) {
       bodyParser: require('body-parser'),
       jwt: require('jsonwebtoken'), // used to create, sign, and verify tokens
       bcrypt: require('bcryptjs'),
+      aesjs: require('aes-js'),
       colors: require('colors/safe'),
       cors: require('cors'),
       config: require('config'),
