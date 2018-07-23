@@ -59,6 +59,8 @@ function utilities (dependencies) {
   const cleanObjectData = rawObj => {
     if (rawObj && rawObj.formatted) {
       return rawObj.formatted
+    } else if (rawObj && rawObj.data) {
+      return rawObj.data
     } else {
       return null
     }
@@ -121,7 +123,56 @@ function utilities (dependencies) {
     return index
   }
 
+  const serializerOjectToQueryString = (obj, prefix) => {
+    if (obj && typeof obj === 'object') {
+      let str = []
+      let p
+      for (p in obj) {
+        if (obj.hasOwnProperty(p)) {
+          let k = prefix ? prefix + '[' + p + ']' : p
+          let v = obj[p]
+          str.push((v !== null && typeof v === 'object')
+            ? serializerOjectToQueryString(v, k)
+            : encodeURIComponent(k) + '=' + encodeURIComponent(v))
+        }
+      }
+      return str.join('&')
+    }
+  }
+
+  const objectToQueryString = (obj) => {
+    if (obj && typeof obj === 'object') {
+      let result = serializerOjectToQueryString(obj)
+      return `?${result}`
+    } else {
+      return ''
+    }
+  }
+
+  const isEmpty = (obj) => {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        return false
+      }
+    }
+    return true
+  }
+
   return {
+    idGenerator: idGenerator,
+    objectIsEmpty: isEmpty,
+    serializer: {
+      object: {
+        toQueryString: objectToQueryString
+      }
+    },
+    response: {
+      success: throwSuccess,
+      error: throwError,
+      badRequestView: badRequestView,
+      isValid: propertyIsValid,
+      clean: cleanObjectData
+    },
     searchers: {
       object: {
         searchDotStyle: searchDotStyle,
@@ -135,14 +186,6 @@ function utilities (dependencies) {
         findIndex: findIndex,
         findObject: findObject
       }
-    },
-    idGenerator: idGenerator,
-    response: {
-      success: throwSuccess,
-      error: throwError,
-      badRequestView: badRequestView,
-      isValid: propertyIsValid,
-      clean: cleanObjectData
     }
   }
 }
