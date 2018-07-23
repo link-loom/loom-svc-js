@@ -37,6 +37,27 @@ function apiManager (dependencies) {
               _apiRoutes.post(component.httpRoute, componentController[component.handler])
             }
             break
+          case 'PUT':
+            if (component.protected) {
+              _apiRoutes.put(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
+            } else {
+              _apiRoutes.put(component.httpRoute, componentController[component.handler])
+            }
+            break
+          case 'PATCH':
+            if (component.protected) {
+              _apiRoutes.patch(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
+            } else {
+              _apiRoutes.patch(component.httpRoute, componentController[component.handler])
+            }
+            break
+          case 'DELETE':
+            if (component.protected) {
+              _apiRoutes.delete(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
+            } else {
+              _apiRoutes.delete(component.httpRoute, componentController[component.handler])
+            }
+            break
           default:
             break
         }
