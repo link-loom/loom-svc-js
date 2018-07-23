@@ -23,6 +23,31 @@ function settings (args) {
 
   const languageExtensions = () => {
     /* eslint-disable */
+    Object.defineProperty(global, '__stack', {
+      get: function () {
+        var orig = Error.prepareStackTrace;
+        Error.prepareStackTrace = function (_, stack) {
+          return stack;
+        };
+        var err = new Error;
+        Error.captureStackTrace(err, arguments.callee);
+        var stack = err.stack;
+        Error.prepareStackTrace = orig;
+        return stack;
+      }
+    });
+
+    Object.defineProperty(global, '__fullStackTrace', {
+      get: function () {
+        let stackTrace = __stack.map((trace) => {
+          return `[${trace.getFileName()}][Line ${trace.getLineNumber()}]: ${trace.getFunctionName()}()`
+        })
+        return stackTrace.slice(2, stackTrace.length - 1)
+      }
+    });
+    String.prototype.replaceAt=function(index, replacement) {
+      return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+  }
     String.prototype.replaceAll = function (search, replacement) {
       var target = this
       return target.replace(new RegExp(search, 'g'), replacement)
@@ -113,25 +138,17 @@ function settings (args) {
   }
 
   const setupMiddlewares = () => {
+    // Security
+    dependenciesManager.get().httpServer.use(dependenciesManager.get().helmet())
+    dependenciesManager.get().httpServer.disable('x-powered-by')
+    dependenciesManager.get().httpServer.use(dependenciesManager.get().compress())
+
     // use body parser so we can get info from POST and/or URL parameters
     dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
     dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
     dependenciesManager.get().httpServer.use(dependenciesManager.get().cors())
     dependenciesManager.get().httpServer.use(dependenciesManager.get().cookieParser())
 
-    // Security
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().helmet())
-    dependenciesManager.get().httpServer.disable('x-powered-by')
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().compress())
-    dependenciesManager.get().httpServer.all('/private/*', (req, res, next) => {
-      if (req.cookies.user_session) {
-        // TODO: Implement your own security schema for private files
-        next() // allow the next route to run
-      } else {
-        // require the user to log in
-        res.status(403).send('You do not have access to these resources')
-      }
-    })
     console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Configured middlewares`)
   }
 

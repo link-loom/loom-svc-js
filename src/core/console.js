@@ -1,3 +1,4 @@
+/* global __fullStackTrace */
 function Console (dependencies) {
   /// Dependencies
   const _colors = dependencies.colors
@@ -19,8 +20,14 @@ function Console (dependencies) {
   }
 
   const error = (body, title) => {
-    console.log(` ${_colors.red()}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
-    console.trace(`Stack trace: `)
+    var errorLine = body.stack.split('at')[1].split(':')[2]
+    let stacktrace = __fullStackTrace
+    let firstErrorIndex = stacktrace[0].indexOf('Line ') + 'Line '.length
+    stacktrace[0] = `> --${stacktrace[0].replaceAt(firstErrorIndex, errorLine)}`
+
+    console.log(` ${_colors.red(`Error`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    console.log(` ${_colors.red(`Stacktrace`)}: \n${stacktrace.join('\n --')}`)
+    // console.trace(`Stack trace: `)
   }
 
   const info = (body, title) => {
