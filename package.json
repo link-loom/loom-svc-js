@@ -2,7 +2,7 @@
 	"name": "beat",
 	"title": "Beat",
 	"description": "Server framework to create fast and lightweight projects",
-	"version": "3.1.5",
+	"version": "3.1.7",
 	"homepage": "https://reversebytes.wordpress.com",
 	"author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
 	"repository": {
@@ -22,6 +22,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@fortawesome/fontawesome-free-webfonts": "^1.0.6",
+		"aes-js": "^3.1.1",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "latest",
 		"bootstrap": "^4.1.0",

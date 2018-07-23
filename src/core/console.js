@@ -19,15 +19,17 @@ function Console (dependencies) {
     console.log(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)
   }
 
-  const error = (body, title) => {
-    var errorLine = body.stack.split('at')[1].split(':')[2]
-    let stacktrace = __fullStackTrace
-    let firstErrorIndex = stacktrace[0].indexOf('Line ') + 'Line '.length
-    stacktrace[0] = `> --${stacktrace[0].replaceAt(firstErrorIndex, errorLine)}`
-
+  const error = (body, ignoreStack = true) => {
     console.log(` ${_colors.red(`Error`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
-    console.log(` ${_colors.red(`Stacktrace`)}: \n${stacktrace.join('\n --')}`)
-    // console.trace(`Stack trace: `)
+
+    if (!ignoreStack && (body && body.stack)) {
+      let errorLine = body.stack.split('    at ')[1].split(':')[2]
+      let stacktrace = __fullStackTrace
+      let firstErrorIndex = stacktrace[0].indexOf('Line ') + 'Line '.length
+      stacktrace[0] = `> --${stacktrace[0].replaceAt(firstErrorIndex, errorLine)}`
+
+      console.log(` ${_colors.red(`Stacktrace`)}: \n${stacktrace.join('\n --')}`)
+    }
   }
 
   const info = (body, title) => {
