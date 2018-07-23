@@ -8,39 +8,24 @@ function user (dependencies) {
      * route to show message (GET http://<<URL>>/api/user/getAll/)
      */
   const get = async (req, res) => {
-    let result = await _controllers.user.getAll()
+    let result
+
+    if (req.query && !_utilities.objectIsEmpty(req.query)) {
+      // Map all object into individual variables
+      const { id, username } = req.query
+
+      if (id) {
+        result = await _controllers.user.getById(req.query)
+      } else if (username) {
+        result = await _controllers.user.getByUsername(req.query)
+      } else {
+        result = await _controllers.user.getAll(req.query)
+      }
+    } else {
+      result = await _controllers.user.getAll(req.query)
+    }
 
     res.json(result)
-  }
-
-  /**
-     * Get by id
-     *
-     * route to show message (GET http://<<URL>>/api/user/getById/:id)
-     */
-  const getById = async (req, res) => {
-    if (req.params) {
-      let result = await _controllers.user.getById(req.params)
-
-      res.json(result)
-    } else {
-      return _utilities.response.error('Please provide required data')
-    }
-  }
-
-  /**
-     * Get by username
-     *
-     * route to show message (GET http://<<URL>>/api/user/getByUsername/:username)
-     */
-  const getByUsername = async (req, res) => {
-    if (req.params) {
-      let result = await _controllers.user.getByUsername(req.params)
-
-      res.json(result)
-    } else {
-      return _utilities.response.error('Please provide required data')
-    }
   }
 
   /**
@@ -55,7 +40,7 @@ function user (dependencies) {
   }
 
   /**
-     * Update
+     * Partial update
      *
      * route to show message (POST http://<<URL>>/api/user/update)
      */
@@ -65,12 +50,29 @@ function user (dependencies) {
     res.json(result)
   }
 
+  /**
+     * Update or create
+     *
+     * route to show message (POST http://<<URL>>/api/user/update)
+     */
+  const updateOrCreate = async (req, res) => {
+    let result = await _controllers.user.updateOrCreate(req.body)
+
+    res.json(result)
+  }
+
+  const remove = async (req, res) => {
+    let result = await _controllers.user.remove(req.body)
+
+    res.json(result)
+  }
+
   return {
-    getAll: get,
-    getById,
-    getByUsername,
+    get,
     create,
-    update
+    update,
+    updateOrCreate,
+    remove
   }
 }
 
