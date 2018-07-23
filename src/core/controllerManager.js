@@ -17,10 +17,16 @@ function ControllerManager (dependencies) {
 
     // Map all controllers
     directories.map((path) => {
-      if (path) {
-        let name = path.split('\\')[path.split('\\').length - 1]
-        let pathName = `${path}\\${name}Controller`
-        _controllers[name] = require(pathName)(dependencies)
+      try {
+        if (path) {
+          let name = path.split('\\')[path.split('\\').length - 1]
+          let pathName = `${path}\\${name}Controller`
+          // self and dynamic propagation
+          dependencies.controllers = _controllers
+          _controllers[name] = require(pathName)(dependencies)
+        }
+      } catch (error) {
+        _console.error(error)
       }
     })
   } catch (error) {
