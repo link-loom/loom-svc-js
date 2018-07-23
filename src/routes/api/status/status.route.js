@@ -1,4 +1,5 @@
 function status (dependencies) {
+  const _console = dependencies.console
   // Direct calling, not recommended
   // because this controller have full access to database or sensitive data.
   // At this point you can add an additional security layer or flow layer, also
@@ -12,7 +13,12 @@ function status (dependencies) {
      * route to show message (GET http://<<URL>>/api/status)
      */
   const get = function (req, res) {
-    res.json(controller.get())
+    try {
+      res.json(controller.get())
+    } catch (error) {
+      // Show error and full stacktrace
+      _console.error(error)
+    }
   }
 
   return {

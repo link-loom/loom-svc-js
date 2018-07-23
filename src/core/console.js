@@ -19,7 +19,7 @@ function Console (dependencies) {
     console.log(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)
   }
 
-  const error = (body, ignoreStack = true) => {
+  const error = (body, ignoreStack = false) => {
     console.log(` ${_colors.red(`Error`)}: ${(dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
 
     if (!ignoreStack && (body && body.stack)) {

@@ -62,7 +62,7 @@ function apiManager (dependencies) {
             break
         }
       } catch (error) {
-        _console.error(`Component failed: ${JSON.stringify(component)}`, false)
+        _console.error(`Component failed: ${JSON.stringify(component)}`, true)
       }
     })
 
