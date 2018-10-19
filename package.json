@@ -45,7 +45,8 @@
 		"react-dom": "^16.2.0",
 		"standard": "^11.0.1",
 		"protobufjs": ">=5.0.3",
-		"atob": ">=2.1.0"
+		"atob": ">=2.1.0",
+		"cryptiles": ">=4.1.2"
 	},
 	"standard": {
 		"ignore": [
