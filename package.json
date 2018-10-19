@@ -25,7 +25,7 @@
 		"aes-js": "^3.1.1",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "latest",
-		"bootstrap": "^4.1.0",
+		"bootstrap": ">=4.1.2",
 		"colors": "latest",
 		"compression": "^1.7.2",
 		"config": "^1.30.0",
@@ -43,7 +43,9 @@
 		"popper.js": "^1.14.3",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
-		"standard": "^11.0.1"
+		"standard": "^11.0.1",
+		"protobufjs": ">=5.0.3",
+		"atob": ">=2.1.0"
 	},
 	"standard": {
 		"ignore": [
