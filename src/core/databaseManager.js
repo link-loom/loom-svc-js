@@ -38,6 +38,8 @@ function Database (dependencies) {
       }
     }
 
+    dependencies.db = _db || {}
+
     return result
   }
 
@@ -48,7 +50,7 @@ function Database (dependencies) {
         databaseURL: _firebaseManager.getFirebaseURL()
       })
       _db = _firebase.database()
-      dependencies.db = _db
+
       return true
     } catch (error) {
       _console.error(error)
