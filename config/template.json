@@ -3,7 +3,7 @@
   "SERVER_PORT": "3500",
   "SERVER_VERSION": "1.0.0",
   "SERVER_NAME": "%BEAT% Server #1",
-  "USE_DATABASE": "false",
+  "USE_DATABASE": false,
   "DATABASE_NAME": "firebase",
   "firebase": {
     "type": "service_account",
