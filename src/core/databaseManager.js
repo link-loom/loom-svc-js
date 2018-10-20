@@ -26,6 +26,9 @@ function Database (dependencies) {
           default:
             break
         }
+      } else {
+        _console.info(`Database is not configured`)
+        result = true
       }
     } catch (error) {
       if (error) {
