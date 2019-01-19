@@ -28,8 +28,13 @@ function ControllerManager (dependencies) {
     directories.map((path) => {
       try {
         if (path) {
-          let name = path.split('\\')[path.split('\\').length - 1]
-          let pathName = `${path}\\${name}Controller`
+          let name = path.includes('/')
+            ? path.split('/')[path.split('/').length - 1]
+            : path.split('\\')[path.split('\\').length - 1]
+
+          let pathName = path.includes('/')
+            ? `${path}/${name}Controller`
+            : `${path}\\${name}Controller`
           // self and dynamic propagation
           dependencies.controllers = _controllers
           _controllers[name] = require(pathName)(dependencies)
