@@ -9,9 +9,18 @@ function ControllerManager (dependencies) {
 
   try {
     // Read all directories in controllers folder
-    const isDirectory = source => lstatSync(source).isDirectory()
-    const getDirectories = source =>
-      readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+     // Read all directories in controllers folder
+     const isDirectory = (source) => {
+      return lstatSync(source).isDirectory()
+    }
+    const getDirectories = (source) => {
+      let result = readdirSync(source)
+        .map((name) => {
+          return join(source, name)
+        })
+        .filter(isDirectory)
+      return result
+    }
 
     const directories = getDirectories(`${dependencies.root}/src/controllers/`)
 
