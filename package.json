@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-free-webfonts": "^1.0.6",
 		"aes-js": "^3.1.1",
+		"atob": ">=2.1.0",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "latest",
 		"bootstrap": ">=4.1.2",
@@ -31,21 +32,20 @@
 		"config": "^1.30.0",
 		"cookie-parser": "^1.4.3",
 		"cors": "latest",
+		"cryptiles": ">=4.1.2",
 		"ejs": "latest",
 		"express": "latest",
-		"express-react-views": "^0.10.5",
+		"express-react-views": "^0.11.0",
 		"firebase": "^5.7.3",
 		"firebase-admin": "^6.5.0",
 		"helmet": "^3.12.0",
 		"jquery": "^3.3.1",
 		"jsonwebtoken": "latest",
 		"popper.js": "^1.14.3",
+		"protobufjs": ">=5.0.3",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
-		"standard": "^11.0.1",
-		"protobufjs": ">=5.0.3",
-		"atob": ">=2.1.0",
-		"cryptiles": ">=4.1.2"
+		"standard": "^11.0.1"
 	},
 	"standard": {
 		"ignore": [
