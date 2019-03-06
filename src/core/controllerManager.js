@@ -33,8 +33,8 @@ function ControllerManager (dependencies) {
             : path.split('\\')[path.split('\\').length - 1]
 
           let pathName = path.includes('/')
-            ? `${path}/${name}Controller`
-            : `${path}\\${name}Controller`
+            ? `${path}/${name}.ontroller`
+            : `${path}\\${name}.controller`
           // self and dynamic propagation
           dependencies.controllers = _controllers
           _controllers[name] = require(pathName)(dependencies)
