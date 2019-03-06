@@ -9,6 +9,11 @@ Server framework for your Node.js projects made with [Express](https://expressjs
 * CLI tool to quicly create new views and API routes
 * ReactDOM to server rendering views with Express.js
 * Strong validations to prevent code-vulnerabilities
+* Authentication middlewares
+* Cookies management
+* Tons of utilities to cypher data, search, handle responses, generate automatic IDs and so on
+* Own logs management to handle errors or queue messages
+* Possibility to change SQL engine
 * Easy-code to newbies devs
 * It's flexible, implement any architecture, database or so on.
 
