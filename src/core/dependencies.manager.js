@@ -29,6 +29,7 @@ function dependencies (args) {
       helmet: require('helmet'),
       cookieParser: require('cookie-parser'),
       crypto: require('crypto'),
+      moment: require('moment'),
       root: args.root
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)

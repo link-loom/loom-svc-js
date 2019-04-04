@@ -1,5 +1,5 @@
 function server (args) {
-  const settings = require('./settings')(args)
+  const settings = require('./settings.manager')(args)
 
   let _console = {}
 
@@ -10,10 +10,12 @@ function server (args) {
 
     authInit()
 
-    let databaseStatus = databaseInit()
+    const databaseStatus = databaseInit()
 
     if (databaseStatus === true) {
       controllersInit()
+
+      functionsInit()
 
       apiInit()
 
@@ -36,34 +38,39 @@ function server (args) {
   }
 
   const consoleInit = () => {
-    _console = require('./console')(settings.dependencies().get())
+    _console = require('./console.manager')(settings.dependencies().get())
     settings.dependencies().add(_console, 'console')
   }
 
   const authInit = () => {
-    const _auth = require('./auth')(settings.dependencies().get())
+    const _auth = require('./auth.manager')(settings.dependencies().get())
     settings.dependencies().add(_auth, 'auth')
   }
 
   const databaseInit = () => {
-    let _databaseController = require('./databaseManager')(settings.dependencies().get())
+    let _databaseController = require('./database.manager')(settings.dependencies().get())
     return _databaseController.initialize()
   }
 
   const controllersInit = () => {
-    let _controllersManager = require('./controllerManager')(settings.dependencies().get())
+    let _controllersManager = require('./controller.manager')(settings.dependencies().get())
     settings.dependencies().add(_controllersManager, 'controllers')
   }
 
   const apiInit = () => {
-    const _apiManager = require('./apiManager')(settings.dependencies().get())
+    const _apiManager = require('./api.manager')(settings.dependencies().get())
     _apiManager.start()
     settings.dependencies().add(_apiManager, 'api')
   }
 
   const frontendInit = () => {
-    const _frontendManager = require('./frontendManager')(settings.dependencies().get())
+    const _frontendManager = require('./frontend.manager')(settings.dependencies().get())
     _frontendManager.start()
+  }
+
+  const functionsInit = () => {
+    const _functionsManager = require('./functions.manager')(settings.dependencies().get())
+    settings.dependencies().add(_functionsManager, 'functions')
   }
 
   const serverInit = () => {

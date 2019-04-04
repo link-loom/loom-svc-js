@@ -1,5 +1,5 @@
 function Database (dependencies) {
-  const _firebaseManager = require(`${dependencies.root}/src/core/firebaseManager`)(dependencies)
+  const _firebaseManager = require(`${dependencies.root}/src/core/firebase.manager`)(dependencies)
 
   /// Dependencies
   const _firebase = dependencies.firebase
