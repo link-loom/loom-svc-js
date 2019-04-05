@@ -1,13 +1,16 @@
 # Beat
 
-Server framework for your Node.js projects made with [Express](https://expressjs.com/), [Firebase](https://firebase.google.com/) and [ReactDOM](https://reactjs.org/docs/react-dom.html).
+Server framework for your Node.js projects made with [Express](https://expressjs.com/), [Firebase](https://firebase.google.com/) and [ReactDOM](https://reactjs.org/docs/react-dom.html) to server rendering.
 
 ## Features
 
-* No styling at all, this is a completely bare %BEAT% containing only the essential things you need
+* No styling at all, this is a completely bare containing only the essential things you need
 * A solid MVC architecture implementation
-* CLI tool to quicly create new views and API routes
+* Cron functions to execute code in intervals
+* Cached functions to save concurrent data, you can upgrade to Redis.
+* CLI tool to quicly create new views and API routes.
 * ReactDOM to server rendering views with Express.js
+* Vue.js to implement in client side
 * Strong validations to prevent code-vulnerabilities
 * Authentication middlewares
 * Cookies management
@@ -15,7 +18,8 @@ Server framework for your Node.js projects made with [Express](https://expressjs
 * Own logs management to handle errors or queue messages
 * Possibility to change SQL engine
 * Easy-code to newbies devs
-* It's flexible, implement any architecture, database or so on.
+* Isolated core code to be upgraded more easily
+* It's flexible, implement any architecture, database or change every thing you need.
 
 ## Create project
 
@@ -55,6 +59,10 @@ Are you not decided? select an option what you want and follow instructions.
 ```shell
 beat-cli new
 ```
+
+## Documentation
+
+For all docs you need go to Wiki in this project.
 
 ## License
 
