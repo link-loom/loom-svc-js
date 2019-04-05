@@ -1,10 +1,22 @@
 function firebase (dependencies) {
-  var _firebaseCredentials = ''
-  var _firebaseURL = ''
+  var _firebaseAdminCredentials = ''
+  let _firebaseCredentials = ''
+  let _firebaseURL = ''
+  let _storageBucket = ''
 
   const setSettings = () => {
-    setFirebaseCredentials(dependencies.config.firebase)
+    setFirebaseAdminCredentials(dependencies.config.FIREBASE_ADMIN)
+    setFirebaseCredentials(dependencies.config.FIREBASE)
     setFirebaseURL(dependencies.config.firebaseDatabase)
+    setStorageBucketURL(dependencies.config.firebaseStorageBucket)
+  }
+
+  const getStorageBucketURL = () => {
+    return _storageBucket
+  }
+
+  const setStorageBucketURL = (firebaseStorageBucketUrl) => {
+    _storageBucket = firebaseStorageBucketUrl
   }
 
   const getFirebaseCredentials = () => {
@@ -13,6 +25,14 @@ function firebase (dependencies) {
 
   const setFirebaseCredentials = (firebaseCredentials) => {
     _firebaseCredentials = firebaseCredentials
+  }
+
+  const getFirebaseAdminCredentials = () => {
+    return _firebaseAdminCredentials
+  }
+
+  const setFirebaseAdminCredentials = (firebaseAdminCredentials) => {
+    _firebaseAdminCredentials = firebaseAdminCredentials
   }
 
   const getFirebaseURL = () => {
@@ -62,9 +82,11 @@ function firebase (dependencies) {
   }
 
   return {
-    setSettings: setSettings,
-    getFirebaseCredentials: getFirebaseCredentials,
-    getFirebaseURL: getFirebaseURL,
+    setSettings,
+    getFirebaseURL,
+    getStorageBucketURL,
+    getFirebaseCredentials,
+    getFirebaseAdminCredentials,
     cast: {
       array: castArraySnapshot,
       object: castObjectSnapshot

@@ -29,6 +29,7 @@ function dependencies (args) {
       helmet: require('helmet'),
       cookieParser: require('cookie-parser'),
       crypto: require('crypto'),
+      googleStorage: require('@google-cloud/storage'),
       moment: require('moment'),
       root: args.root
     }
