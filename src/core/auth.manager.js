@@ -17,10 +17,8 @@ function auth (dependencies) {
     return [...hashBuffer]
   }
 
-  const key = generatePrivateKey(dependencies.config.BACKEND_SECRET)
-
-  const cypherObject = (data) => {
-    if (data && typeof data === 'object') {
+  const cypherObject = (key, data) => {
+    if (data && (typeof data === 'object' || typeof data === 'string')) {
       // Convert data to bytes
       let dataBytes = _aesjs.utils.utf8.toBytes(JSON.stringify(data))
 
@@ -38,7 +36,7 @@ function auth (dependencies) {
     }
   }
 
-  const decipherObject = (data) => {
+  const decipherObject = (key, data) => {
     if (data && typeof data === 'string') {
       // When ready to decrypt the hex string, convert it back to bytes
       let encryptedBytes = _aesjs.utils.hex.toBytes(data)
@@ -89,25 +87,39 @@ function auth (dependencies) {
     }
   }
 
-  const validateApi = (req, res, next) => {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token']
-
-    // decode token
-    if (token) {
-      // verifies secret and checks exp
+  const validateToken = (token) => {
+    return new Promise(function (resolve, reject) {
       _jwt.verify(token, dependencies.config.JWT_SECRET, function (err, decoded) {
-        if (err) {
-          return res.status(403).send(_utilities.response.error('Failed to authenticate token.'))
-        } else {
-          // if everything is good, save to request for use in other routes
-          req.decoded = decoded
-          next()
-        }
+        if (err) return reject(err)
+        else resolve(decoded)
       })
+    })
+  }
+
+  const validateApi = async (req, res, next) => {
+    const _controllers = dependencies.controllers
+    // check header or url parameters or post parameters for token
+    var encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
+
+    // exist token
+    if (encryptedToken) {
+      try {
+        let decipherToken = decipherObject(_controllers.backend.getKey(), encryptedToken)
+        if (decipherToken && decipherToken.token) {
+          let decoded = await validateToken(decipherToken.token)
+          req.decodedToken = decoded
+          req.token = encryptedToken
+
+          next()
+        } else {
+          return res.status(403).json(_utilities.response.error('Malformed token. Try with a valid token'))
+        }
+      } catch (error) {
+        return res.status(403).json(_utilities.response.error('Failed to authenticate token.'))
+      }
     } else {
       // if there is no token return an error
-      return res.status(403).send(_utilities.response.error('No token provided.'))
+      return res.status(403).json(_utilities.response.error('No token provided.'))
     }
   }
 
@@ -119,10 +131,26 @@ function auth (dependencies) {
     return passwordIsValid
   }
 
+  const b64Encode = (data) => {
+    return Buffer.from(typeof data === 'string' ? data : JSON.stringify(data)).toString('base64')
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+  }
+
+  const b64Decode = (data) => {
+    return Buffer.from(typeof data === 'string' ? data : JSON.stringify(data), 'base64').toString()
+  }
+
   return {
     crypto: {
+      generatePrivateKey,
       cypherObject,
       decipherObject
+    },
+    encoder: {
+      base64: {
+        encode: b64Encode,
+        decode: b64Decode
+      }
     },
     hash: {
       stringToHash,
@@ -130,7 +158,8 @@ function auth (dependencies) {
     },
     token: {
       create: createToken,
-      destroy: destroyToken
+      destroy: destroyToken,
+      validate: validateToken
     },
     middleware: {
       validateApi

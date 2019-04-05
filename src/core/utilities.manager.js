@@ -158,6 +158,20 @@ function utilities (dependencies) {
     return true
   }
 
+  const getParameters = (data) => {
+    if (!data) { return null }
+
+    if (!isEmpty(data.query)) {
+      return data.query
+    } else if (!isEmpty(data.body)) {
+      return data.body
+    } else if (!isEmpty(data.params)) {
+      return data.params
+    } else {
+      return null
+    }
+  }
+
   return {
     idGenerator: idGenerator,
     objectIsEmpty: isEmpty,
@@ -165,6 +179,9 @@ function utilities (dependencies) {
       object: {
         toQueryString: objectToQueryString
       }
+    },
+    request: {
+      getParameters
     },
     response: {
       success: throwSuccess,
