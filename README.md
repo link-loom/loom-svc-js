@@ -1,3 +1,9 @@
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![GitHub license](https://img.shields.io/github/license/thepisode/beat.svg)](https://github.com/thepisode/beat/blob/master/LICENSE) 
+[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/beat-cli)
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
 # Beat
 
 Server framework for your Node.js projects made with [Express](https://expressjs.com/), [Firebase](https://firebase.google.com/) and [ReactDOM](https://reactjs.org/docs/react-dom.html) to server rendering.
