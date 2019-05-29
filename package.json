@@ -49,12 +49,13 @@
 		"react": "^16.2.0",
 		"react-dom": "^16.8.4",
 		"request": "^2.88.0",
-		"standard": "^12.0.1"
+		"standard": "^12.0.1",
+		"sweetalert2": "^8.11.6"
 	},
 	"standard": {
 		"ignore": [
 			"/node_modules/**/*.js",
-			"/public/**/*.js",
+			"/static/**/*.js",
 			"/src/views/*",
 			"/ui-template/*"
 		]
