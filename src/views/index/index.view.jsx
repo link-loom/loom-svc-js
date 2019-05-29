@@ -7,12 +7,25 @@ class Index extends React.Component {
 
     return (
       <Layout {...this.props}>
-        <section className="jumbotron text-center">
-          <div className="container">
-            <h1 className="jumbotron-heading">%BEAT% project</h1>
-            <p className="lead text-muted">Server framework for your Node.js projects made with Express, Firebase and ReactDOM.</p>
-            <a href="https://github.com/thEpisode/beat/wiki" className="btn btn-primary my-2 mx-2" target="_blank">Documentation</a>
-            <a href="https://github.com/thEpisode/beat-cli" className="btn btn-secondary my-2 mx-2" target="_blank">beat-cli</a>
+        <section class="hero-wrap js-fullheight">
+          <div class="overlay"></div>
+          <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+              <div class="col-md-9 text-center">
+                <h1 class="mb-3 bread">About Beat project</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="https://github.com/thEpisode/beat-cli">Home</a></span> <span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="ftco-section d-md-flex bg-light">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-10 text-center">
+                <h2>Server framework for your Node.js projects made with Express, Firebase and ReactDOM.</h2>
+              </div>
+            </div>
           </div>
         </section>
       </Layout>

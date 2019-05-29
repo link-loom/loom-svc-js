@@ -5,11 +5,37 @@ class Footer extends React.Component {
   render () {
     let date = new Date()
     return (
-
-      <footer className="footer d-none d-lg-block">
-        <div className="d-sm-flex justify-content-center justify-content-sm-between">
-          <span className="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {date.getFullYear()} <a href="https://www.virtualcapitalofamerica.com/" target="_blank" className="text-muted">Virtual capital of America</a>. All rights reserved.</span>
-          <span className="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">Help <i className="mdi mdi-comment-question text-info"></i></span>
+      <footer class="ftco-footer ftco-section img">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+              <div class="ftco-footer-widget mb-4">
+                <h1 class="logo">%BEAT%</h1>
+              </div>
+            </div>
+            <div class="col-lg col-md-6 mb-5 mb-md-5 ">
+              <div class="ftco-footer-widget mb-4">
+                <h2 class="location">Virtual capital of America</h2>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
+              <div class="ftco-footer-widget mb-4">
+                <ul class="ftco-footer-social list-unstyled float-md-left float-lft">
+                  <li class=""><a href="https://twitter.com/vca_global"><span class="icon-twitter"></span></a></li>
+                  <li class=""><a href="https://www.facebook.com/virtualcapitalofamerica/"><span class="icon-facebook"></span></a></li>
+                  <li class=""><a href="https://www.instagram.com/virtualcapitalofamerica/"><span class="icon-instagram"></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <p className="">
+                Copyright © {date.getFullYear()} <a href="https://www.virtualcapitalofamerica.com/" target="_blank">
+                  Virtual capital of America</a>. All rights reserved.</p>
+            </div>
+          </div>
         </div>
       </footer>
 

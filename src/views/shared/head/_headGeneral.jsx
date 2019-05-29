@@ -52,9 +52,13 @@ class Head extends React.Component {
         <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
         <script src="https://unpkg.com/vue-cookies@1.5.5/vue-cookies.js"></script>
 
-        <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="/css/main.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet"></link>
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.min.css"></link>
+        <link rel="stylesheet" href="css/icomoon.css"></link>
 
       </head>
     );
