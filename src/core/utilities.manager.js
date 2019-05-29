@@ -17,39 +17,31 @@ function utilities (dependencies) {
   }
 
   const propertyIsValid = function (property) {
-    if (property) {
-      if (property.success === true) {
-        return true
-      } else {
-        return false
-      }
-    } else {
-      return false
+    let isValid = false
+
+    if (property && property.success === true) {
+      isValid = true
     }
+
+    return isValid
   }
 
   const throwError = function (message) {
     if (message) {
       return { success: false, message: message, result: null }
-    } else {
-      return { success: false, message: 'Something was wrong while you make this action', result: null }
     }
+
+    return { success: false, message: 'Something was wrong while you make this action', result: null }
   }
 
   const throwSuccess = function (data, message) {
-    if (message) {
-      return {
-        success: true,
-        message: message,
-        result: data
-      }
-    } else {
-      return {
-        success: true,
-        message: 'Operation completed successfully',
-        result: data
-      }
+    let succesResponse = {
+      success: true,
+      message: message || 'Operation completed successfully',
+      result: data || {}
     }
+
+    return succesResponse
   }
 
   const badRequestView = function (req, res) {
@@ -125,18 +117,19 @@ function utilities (dependencies) {
 
   const serializerOjectToQueryString = (obj, prefix) => {
     if (obj && typeof obj === 'object') {
-      let str = []
-      let p
-      for (p in obj) {
-        if (obj.hasOwnProperty(p)) {
-          let k = prefix ? prefix + '[' + p + ']' : p
-          let v = obj[p]
-          str.push((v !== null && typeof v === 'object')
-            ? serializerOjectToQueryString(v, k)
-            : encodeURIComponent(k) + '=' + encodeURIComponent(v))
+      let serializedArr = []
+      let key = {}
+
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const k = prefix ? prefix + '[' + key + ']' : key
+          const value = obj[key] || null
+          serializedArr.push((value !== null && typeof value === 'object')
+            ? serializerOjectToQueryString(value, k)
+            : encodeURIComponent(k) + '=' + encodeURIComponent(value))
         }
       }
-      return str.join('&')
+      return serializedArr.join('&')
     }
   }
 
