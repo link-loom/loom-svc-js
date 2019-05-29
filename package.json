@@ -40,7 +40,7 @@
 		"firebase": "^5.7.3",
 		"firebase-admin": "^6.5.0",
 		"helmet": "^3.12.0",
-		"jquery": "^3.3.1",
+		"jquery": "^3.4.1",
 		"jsonwebtoken": "latest",
 		"moment": "^2.24.0",
 		"multer": "^1.4.1",
