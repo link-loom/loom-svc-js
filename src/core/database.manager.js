@@ -8,14 +8,14 @@ function Database (dependencies) {
   /// Properties
   let _db
 
-  const constructor = function () {
+  const constructor = () => {
     _firebaseManager.setSettings()
     dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
 
     return databaseConnect()
   }
 
-  const databaseConnect = function () {
+  const databaseConnect = () => {
     let result = false
     try {
       if (dependencies.config.USE_DATABASE) {
@@ -46,7 +46,7 @@ function Database (dependencies) {
     return result
   }
 
-  const firebaseConfig = function () {
+  const firebaseConfig = () => {
     try {
       _firebase.initializeApp({
         credential: _firebase.credential.cert(_firebaseManager.getFirebaseCredentials()),
