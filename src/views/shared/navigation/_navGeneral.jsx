@@ -10,17 +10,17 @@ class NavigationHeader extends React.Component {
       }
     }
     return (
-      <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container">
-          <a class="navbar-brand" href="/">%BEAT%</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse"
+      <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div className="container">
+          <a className="navbar-brand" href="/">%BEAT%</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
+            <span className="oi oi-menu"></span> Menu
           </button>
-          <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
-              <li class="nav-item"><a href="https://github.com/thEpisode/beat/wiki" class="nav-link">Documentation</a></li>
+          <div className="collapse navbar-collapse" id="ftco-nav">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item active"><a href="/" className="nav-link">Home</a></li>
+              <li className="nav-item"><a href="https://github.com/thEpisode/beat/wiki" className="nav-link">Documentation</a></li>
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="https://github.com/thEpisode/beat" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Another projects</a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
