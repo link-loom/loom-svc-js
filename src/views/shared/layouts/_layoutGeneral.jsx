@@ -24,6 +24,7 @@ class Layout extends React.Component {
             <Footer {...this.props} />
           </section>
 
+          {/* PWA installer banner */}
           <section className="pwa-prompt banner-bottom-center">
             <div className="d-flex flex-row justify-content-center position-relative">
               <div className="d-flex align-items-center col-6">
@@ -39,12 +40,14 @@ class Layout extends React.Component {
             </div>
           </section>
 
+          {/* Loader */}
           <div id="ftco-loader" className="loader show fullscreen"><svg className="circular" width="48px" height="48px">
             <circle className="path-bg" cx="24" cy="24" r="22" fill="none" strokeWidth="4" stroke="#eeeeee" />
             <circle className="path" cx="24" cy="24" r="22" fill="none" strokeWidth="4" strokeMiterlimit="10"
               stroke="#F96D00" /></svg>
           </div>
 
+          {/* Scripts */}
           <script type="text/javascript" src="/jquery/jquery.slim.min.js"></script>
           <script type="text/javascript" src="/popperjs/umd/popper.min.js"></script>
           <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
