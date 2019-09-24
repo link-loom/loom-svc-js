@@ -39,6 +39,10 @@ class Layout extends React.Component {
 
           <script type="text/javascript" src="/js/scripts.js"></script>
 
+          <script type="text/javascript" src="/pwa.js"></script>
+          {/* FIXME: If you want to be a PWA installable */}
+          {/* <script type="text/javascript" src="/pwa/pwa-installer.js"></script> */}
+
         </body>
 
       </html>
