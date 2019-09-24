@@ -4,11 +4,6 @@ const PropTypes = require('prop-types');
 class NavigationHeader extends React.Component {
 
   render () {
-    let bindings = {
-      style: {
-        hasNewNotifications: { 'v-bind:class': '{ "alert-animation-active": vueBind.model.notifications && vueBind.model.notifications.length > 0 }' },
-      }
-    }
     return (
       <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div className="container">

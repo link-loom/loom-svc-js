@@ -33,6 +33,9 @@ function FrontEnd (dependencies) {
     _app.use('/fontawesome', _express.static(_path.join(dependencies.root, '/node_modules/@fortawesome/fontawesome-free-webfonts/')))
     _app.use('/popperjs', _express.static(_path.join(dependencies.root, '/node_modules/popper.js/dist/')))
     _app.use('/sweetalert2', _express.static(_path.join(dependencies.root, '/node_modules/sweetalert2/dist/')))
+    _app.use('/vue', _express.static(_path.join(dependencies.root, '/node_modules/vue/dist')))
+    _app.use('/vue-resource', _express.static(_path.join(dependencies.root, '/node_modules/vue-resource/dist')))
+    _app.use('/vue-cookies', _express.static(_path.join(dependencies.root, '/node_modules/vue-cookies/')))
 
     // Something else, 404 error
     _app.get('*', maintenance.index)

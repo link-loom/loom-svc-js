@@ -48,9 +48,10 @@ class Head extends React.Component {
         <meta property="og:description" content="%BEAT% is an awesome project created with node.js" />
         <meta property="og:site_name" content="%BEAT%" />
 
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
-        <script src="https://unpkg.com/vue-cookies@1.5.5/vue-cookies.js"></script>
+        {/* Vue */}
+        <script src="/vue/vue.js"></script>
+        <script src="/vue-resource/vue-resource.min.js"></script>
+        <script src="/vue-cookies/vue-cookies.js"></script>
 
         <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet"></link>
 
