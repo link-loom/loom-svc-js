@@ -24,7 +24,22 @@ class Layout extends React.Component {
             <Footer {...this.props} />
           </section>
 
-          <div id="ftco-loader" className="show fullscreen"><svg className="circular" width="48px" height="48px">
+          <section className="pwa-prompt banner-bottom-center">
+            <div className="d-flex flex-row justify-content-center position-relative">
+              <div className="d-flex align-items-center col-6">
+                <div className="ath-banner-cell">
+                  <img width="48" src="/img/favicon.svg" alt="PWA Installer icon" className="ath-prompt-logo" />
+                </div>
+                <p className="w-100">Do you want install Mi Retail?</p>
+              </div>
+              <div className="d-flex align-items-center justify-content-end col-6">
+                <button className="btn btn-notnow btn-outline-light btn-fw mx-2">Not Now</button>
+                <button className="btn btn-install btn-warning mx-2">Install</button>
+              </div>
+            </div>
+          </section>
+
+          <div id="ftco-loader" className="loader show fullscreen"><svg className="circular" width="48px" height="48px">
             <circle className="path-bg" cx="24" cy="24" r="22" fill="none" strokeWidth="4" stroke="#eeeeee" />
             <circle className="path" cx="24" cy="24" r="22" fill="none" strokeWidth="4" strokeMiterlimit="10"
               stroke="#F96D00" /></svg>

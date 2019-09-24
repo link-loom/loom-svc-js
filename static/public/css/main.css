@@ -1,4 +1,8 @@
+/* ==================================================== */
+/* Generic styles */
 /* Add your global styles */
+/* ==================================================== */
+
 body {
   margin: 0;
   font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -8,6 +12,236 @@ body {
   text-align: left;
   background-color: #fff;
   line-height: 1.8;
+}
+
+@media print {
+  pre {
+    border: none;
+  }
+}
+
+.blur {
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+  -webkit-filter: url(#blur-filter);
+  filter: url(#blur-filter);
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+  height: 100%;
+  background-color: rgba(132, 172, 205, .65);
+}
+
+.blur-svg {
+  display: none;
+}
+
+.swal2-container.swal2-shown {
+  background-color: rgba(132, 172, 205, .65)!important;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #4d4d4d;
+  z-index: 2;
+}
+
+.loader .text {
+  display: block;
+  width: 150px;
+  height: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #d0d0d0;
+}
+
+.custom-file-label {
+  overflow: hidden;
+}
+
+.invoice-container {
+  min-height: 60vh;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.invoice-content {
+  max-height: 35vh;
+  height: 35vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 5vw;
+  object-fit: contain;
+}
+
+.border-3 {
+  border-width: 3px !important;
+}
+
+.border-2 {
+  border-width: 2px !important;
+}
+
+.border-1 {
+  border-width: 1px !important;
+}
+
+.display-5 {
+  font-size: 1.45rem;
+}
+
+.display-6 {
+  font-size: 1.245rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pwa-prompt {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  width: 100%;
+  background-color: #3c4876;
+  color: #fff;
+  padding: 0.5rem;
+  text-align: center;
+  bottom: 1rem;
+}
+
+.ath-banner-cell-2x, .ath-banner-cell {
+  width: 70px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ath-banner-cell-2x {
+  width: 120px;
+}
+
+@media (min-width: 576px) {
+  .ath-banner-cell {
+    width: 90px;
+    margin: 3px;
+  }
+}
+
+@media(min-width: 768px) {
+  .ath-banner-cell-2x, .ath-banner-cell {
+    width: 120px;
+  }
+  .ath-banner-cell-2x {
+    width: 160px;
+  }
+}
+
+@media (min-width: 992px) {
+  .banner-bottom-center {
+    width: 60%;
+    left: 20%;
+  }
+  .pwa-prompt img {
+    left: 15%;
+  }
+}
+
+.pwa-prompt p {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-size: 1.1em;
+}
+
+.app-popup-graphic.info {
+  background-color: #243a5e;
+}
+
+.app-popup-graphic.error {
+  background-color: #990404;
+}
+
+.app-popup-graphic.warning {
+  background-color: #c28503;
+}
+
+.app-popup-graphic.success {
+  background-color: #398002;
+}
+
+.app-popup-graphic {
+  position: relative;
+  width: 240px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  border-radius: 6px 0 0 6px;
+}
+
+.app-popup-graphic-image {
+  left: 24px;
+  right: 24px;
+  top: 36px;
+  bottom: 36px;
+  background-size: contain;
+  background-position: center 40%;
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.app-popup-content {
+  height: 100%;
+  padding: 7rem 0rem;
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.app-popup.app-popup-confirm-show .app-popup-confirm {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .2s;
+}
+
+.app-popup-confirm {
+  padding: 3rem 2rem;
+}
+
+.app-popup.app-popup-confirm-show .app-popup-confirm .app-popup-confirm-content {
+  opacity: 1;
+  transition: opacity .3s cubic-bezier(.165, .84, .44, 1) .2s, transform .3s cubic-bezier(.165, .84, .44, 1) .2s;
+  transform: translate(0, -45%);
+}
+
+.swal2-content {
+  width: 100%;
+}
+
+.swal2-popup-compose {
+  width: 50rem;
+  padding: 0!important;
+}
+
+.swal2-header-compose {
+  height: 0!important;
+}
+
+.swal2-popup .swal2-close {
+  z-index: 2;
 }
 
 .jumbotron{
