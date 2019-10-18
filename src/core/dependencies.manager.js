@@ -31,6 +31,7 @@ function dependencies (args) {
       crypto: require('crypto'),
       googleStorage: require('@google-cloud/storage'),
       moment: require('moment'),
+      nodemailer: require('nodemailer'),
       root: args.root
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)

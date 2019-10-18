@@ -66,6 +66,37 @@ Are you not decided? select an option what you want and follow instructions.
 beat-cli new
 ```
 
+## Docker PostgreSQL
+
+Download the official postgres image
+
+> docker pull postgres
+
+Run and start the image:
+
+> docker run -d -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=password123 --name postgresdb -p 5432:5432  --restart=always postgres
+> docker start postgresdb
+
+Check if image is running
+
+> docker ps
+
+Execute postgres
+
+> docker exec -it postgresdb psql -U postgres
+
+### psql commands summary
+Task	Psql command
+Close conection	\q
+Connect to a database	\c __base_datos__
+List databases	\l
+Show table definition including triggers	\d __table__
+Listar Schemas	\dn
+List functions	\df
+List views	\dv
+Show function SQL code	\df+ __function
+Pretty-format	\x
+
 ## Documentation
 
 For all docs you need go to Wiki in this project.
