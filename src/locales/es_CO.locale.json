@@ -1,0 +1,237 @@
+{
+  "name": "Español Colombia",
+  "code": "es_CO",
+  "shortcode": "es",
+  "country": "Colombia",
+  "country_iso_code": "CO",
+  "dictionary": {
+    "account": {
+      "profile": {},
+      "overview": {
+        "MAIN_TITLE_LABEL": "Vista general de la cuenta",
+        "MAIN_DESCRIPTION_LABEL": "",
+        "PROFILE_TITLE_LABEL": "Perfil",
+        "PROFILE_EMAIL_LABEL": "Correo electrónico",
+        "PROFILE_DNI_LABEL": "DNI",
+        "PROFILE_NAME_LABEL": "Nombre",
+        "PROFILE_EDIT_BUTTON": "Editar perfil",
+        "PLAN_TITLE_LABEL": "Tu plan",
+        "PLAN_DESCRIPTION_LABEL": "Descripción",
+        "PLAN_DESCRIPTION_LEARNMORE_BUTTON": "Conocer más",
+        "PLAN_PAYMENT_LABEL": "Pagos",
+        "PLAN_PAYMENT_DATE_COMPOSED": "Tu siguiente factura es por $ {{vueBind.model.plan.price}} en {{vueBind.model.plan.next_payment}}.",
+        "PLAN_PAYMENT_MANAGE_BUTTON": "Administrar mi plan",
+        "SIGNOUT_TITLE_LABEL": "Cierra sesión en todas partes",
+        "SIGNOUT_DESCRIPTION_LABEL": "Cierra sesión donde quiera que tengas Go Bot abierto, incluyendo la web, el celular, tu computadora de escritorio o cualquier otro dispositivo.",
+        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Importante: Esto no incluye dispositivos y apps de socios, como VCA apps and Amazon Alexa devices, smart watches. Para obtener más información sobre cómo cerrar tu sesión (o desvincular tu cuenta) de Go Bot en un dispositivo fabricado por uno de nuestros socios, consulta el manual del fabricante del dispositivo.",
+        "SIGNOUT_ACTION_BUTTON": "Cierra sesión en todas partes"
+      },
+      "getting-started": {
+        "MAIN_TITLE_LABEL": "Configura tu negocio",
+        "MAIN_DESCRIPTION_LABEL": "Iformación acerca de tu negocio para configurar y darte la mejor experiencia",
+        "RETAILER_QUESTION_TYPE_RETAILER_LABEL": "¿Qué tipo de negocio eres?",
+        "RETAILER_FOOD_DRINK_LABEL": "Comida y bebida",
+        "RETAILER_SALONS_BARBERSHOPS_LABEL": "Salones y peluquerías",
+        "RETAILER_CAFE_SMALL_RESTAURANTS_LABEL": "Cafetería y pequeños restaurantes",
+        "RETAILER_FASHION_APPAREL_LABEL": "Moda y vestimenta",
+        "RETAILER_HOME_LIFESTYLE_GIFTS_LABEL": "Hogar, estilo de vida y regalos",
+        "RETAILER_SPORTS_HOBBIES_TOYS_LABEL": "Deportes, pasatiempos y juguetes",
+        "RETAILER_HEALTH_BEAUTY_LABEL_LABEL": "Salud y Belleza",
+        "RETAILER_OTHER_LABEL": "Otro",
+        "RETAILER_QUESTION_AMOUNT_SHOPS": "¿Cuántas tiendas tienes?",
+        "FORM_NAME_LABEL": "Nombre del Negocio",
+        "FORM_ADDRESS_LABEL": "Dirección del Negocio",
+        "FORM_CITY_LABEL": "Ciudad del negocio",
+        "FORM_COUNTRY_LABEL": "Pais del negocio",
+        "FORM_NEXT_BUTTON": "Siguiente",
+        "FORM_ACTION_BUTTON": "Comience a crear bots con Go Bot"
+      }
+    },
+    "auth": {
+      "validateEmail": {},
+      "confirmAccount": {
+        "MAIN_TITLE_LABEL": "Verifica tu dirección de correo electrónico",
+        "MAIN_DESCRIPTION_CHECK_INBOX_LABEL": "Verifica tu bandeja de entrada para confirmar la cuenta.",
+        "MAIN_DESCRIPTION_ACTIVATE_LABEL": "También puedes activar tu cuenta ahora mismo con Whatsapp",
+        "ACTIVATE_OPEN_WHATSAPP_BUTTON": "Abrir Whatsapp",
+        "ACTIVATE_ACCOUNT_LABEL": "o enviar \"Activar cuenta\" al +57 305 8126314",
+        "ACTIVATE_OPEN_STORE": "Has clic aquí para abrir tu tienda.",
+        "ACTIVATE_QUESTION_EMAIL_LABEL": "¿No recibiste el correo electrónico?",
+        "ACTIVATE_SEND_EMAIL_LABEL": "Has clic aquí para enviar nuevamente."
+      },
+      "login": {
+        "MAIN_TITLE_LABEL": "Bienvenido!",
+        "MAIN_MESSAGE_LABEL": "Nos alegra tenerte de vuelta!",
+        "SIGNIN_USER_LABEL": "Usuario",
+        "SIGNIN_PASSWORD_LABEL": "Contraseña",
+        "SIGNIN_USER_PLACEHOLDER": "Teléfono, DNI o email",
+        "SIGNIN_PASSWORD_PLACEHOLDER": "Tu contraseña",
+        "SIGNIN_KEEP_SIGNED_CHECK": "Mantenme conectado",
+        "SIGNIN_RECOVER_ACOUNT_LABEL": "¿Olvidaste tu nombre de usuario?",
+        "SIGNIN_LOGIN_BUTTON": "LOGIN",
+        "ACCOUNT_QUESTION_CREATE_LABEL": "¿No tienes una cuenta?",
+        "ACCOUNT_ACCOUNT_CREATE_LABEL": "Crea tu cuenta aquí"
+      },
+      "signup": {
+        "MAIN_TITLE_LABEL": "Comienza tu prueba gratuita de 30 días",
+        "MAIN_DESCRIPTION_LABEL": "Sin tarjeta de crédito, sin compromisos.",
+        "FORM_NAME_LABEL": "Primer nombre",
+        "FORM_LAST_NAME_LABEL": "Apellido",
+        "FORM_PHONE_LABEL": "Teléfono",
+        "FORM_EMAIL_LABEL": "Email",
+        "FORM_NAME_PLACEHOLDER": "Ingresa un nombre",
+        "FORM_LAST_NAME_PLACEHOLDER": "Ingresa un apellido",
+        "FORM_PHONECOUNTRY_LABEL": "País",
+        "FORM_PHONE_PLACEHOLDER": "Ingresa tu número telefónico",
+        "FORM_EMAIL_PLACEHOLDER": "Introduce una dirección de correo electrónico",
+        "FORM_PASSWORD_LABEL": "Contraseña",
+        "FORM_PASSWORD_PLACEHOLDER": "Introduce una contraseña",
+        "FORM_AGREE_TERMS_LABEL": "Acepto todos los términos y condiciones",
+        "FORM_GET_STARTED_BUTTON_BUTTON": "Empezar",
+        "FORM_QUESTION_ACCOUNT_LABEL": "¿Ya tienes una cuenta?",
+        "FORM_LOGIN_LINK": "Iniciar sesión"
+      }
+    },
+    "dashboard": {
+      "dashboard": {
+        "MAIN_TITLE_LABEL": "Inicia tu agente con Go Bot",
+        "MAIN_DESCRIPTION_LABEL": "Conoce los conceptos básicos en tres maneras fáciles.",
+        "BOT_DEFAULT_TITLE_LABEL": "Crear desde plantilla",
+        "BOT_DEFAULT_DESCRIPTION_LABEL": "Agregar a tu dashboard",
+        "BOT_DESCRIPTION_LABEL": "Conectar a",
+        "BOT_CONNECT_BUTTON": "Conectar",
+        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de Go Bot, consulta la",
+        "FOOTER_GUIDE_LINK": "Guía de inicio."
+      }
+    },
+    "bot": {
+      "gettingStarted": {
+        "MAIN_TITLE_LABEL": "Comenzando con tu bot",
+        "MAIN_DESCRIPTION_LABEL": "Configura todas las opciones para crear tu bot",
+        "BOT_QUESTION_PLATFORM_LABEL": "¿Qué plataforma para tu bot quieres?",
+        "BOT_QUESTION_TYPE_LABEL": "¿Qué tipo de bot quieres?",
+        "BOT_QUESTION_BEHAVIOR_LABEL": "¿Cuál es el comportamiento de tu bot?",
+        "FORM_NAME_LABEL": "Nombre para tu bot",
+        "FORM_DESCRIPTION_LABEL": "Descripción de tu bot",
+        "FORM_ACTION_BUTTON": "Crear mi bot!"
+      },
+      "structure": {
+        "MAIN_TITLE_LABEL": "Blocks of your bot",
+        "MAIN_DESCRIPTION_LABEL": "Your bot consists of content ‘blocks’. Blocks are like individual pages on a website."
+      },
+      "live": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      },
+      "ai": {
+        "MAIN_TITLE_LABEL": "Configura cómo responde el bot a los mensajes de texto",
+        "MAIN_DESCRIPTION_LABEL": "Tu bot comprenderá frases de tus clientes similares a las que escribe a la izquierda y responderá con texto o un bloque."
+      },
+      "contacts": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      },
+      "settings": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      },
+      "statics": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      }
+    },
+    "store": {
+      "category": {
+        "MAIN_TITLE_LABEL": "Tienda",
+        "BOT_AUTHOR_LABEL": "Por ",
+        "BOT_PREVIEW_BUTTON": "Vista previa",
+        "CATEGORY_COMINGSOON_TITLE_LABEL": "Próximamente",
+        "CATEGORY_COMINGSOON_DESCRIPTION_LABEL": "más plantillas",
+        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de Go Bot, consulta la",
+        "FOOTER_GUIDE_LINK": "Guía de inicio."
+      }
+    },
+    "tools": {
+      "gettingStarted": {
+        "MAIN_TITLE_LABEL": "Utiliza nuestras herramientas básicas",
+        "MAIN_DESCRIPTION_LABEL": "Conoce las herramientas que te facilitarán la interacción con tus contactos.",
+        "IMPORT_TITLE_LABEL": "Importar contactos",
+        "IMPORT_DESCRIPTION_LABEL": "Con un archivo de Excel (xlsx) importa todos los contactos a los que quieres llegar.",
+        "IMPORT_ACTION_BUTTON": "Importar contactos",
+        "EXPORT_TITLE_LABEL": "Exportar contactos",
+        "EXPORT_DESCRIPTION_LABEL": "Creamos un vCard para que lo puedas importar en tu teléfono padre.",
+        "EXPORT_ACTION_BUTTON": "Exportar contactos",
+        "CONVERT_TITLE": "Convertir contactos",
+        "CONVERT_DESCRIPTION": "Con un archivo de Excel (xlsx) los convertirás en un un vCard y no serán importados.",
+        "CONVERT_ACTION_BUTTON": "Convertir contactos",
+        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de Go Bot, consulta la",
+        "FOOTER_GUIDE_LINK": "Guía de inicio."
+      },
+      "importContacts": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      },
+      "exportContacts": {
+        "MAIN_TITLE_LABEL": "Próximamente",
+        "MAIN_DESCRIPTION_LABEL": "Serás notificado cuando esta funcionalidad esté lista"
+      },
+      "convertContacts": {
+        "MAIN_TITLE_LABEL": "Convertir contactos",
+        "MAIN_DESCRIPTION_LABEL": "Con un archivo de Excel (xlsx) los convertirás en un un vCard y no serán importados.",
+        "MAIN_DOWNLOAD_TEMPLATE_LINK": "Click aquí para descargar la plantilla",
+        "CONVERT_BUTTON": "Convertir"
+      }
+    },
+    "maintenance": {
+      "index": {
+        "MAIN_TITLE_LABEL": "404",
+        "MAIN_SUBTITLE": "LO SENTIMOS!",
+        "MAIN_MESSAGE_LABEL": "No se encontró la página que estás buscando.",
+        "MAIN_BACK_LINK": "Volver al inicio"
+      }
+    },
+    "notification": {
+      "list": {
+        "SIDE_COMPOSE_BUTTON": "Mensaje nuevo",
+        "SIDE_INBOX_OPTION": "Bandeja de entrada",
+        "SIDE_SENT_OPTION": "Enviados",
+        "SIDE_DRAFT_OPTION": "Borradores",
+        "SIDE_TRASH_OPTION": "Papelera",
+        "MAIL_REPLY_BUTTON": "Responder",
+        "MAIL_FORWARD_BUTTON": "Reenviar",
+        "MAIL_DELETE_BUTTON": "Eliminar",
+        "EMPTYDATA_MESSAGE_LABEL": "Oops! aún no tienes notificaciones.",
+        "EMPTYDATA_ACTION_BUTTON": "Clic aquí para crear una nueva."
+      },
+      "create": {
+        "MAIN_TITLE_LABEL": "Enviar notificación",
+        "FORM_RECEIVER_LABEL": "Para:",
+        "FORM_LONG_TITLE_LABEL": "Asunto:",
+        "FORM_MESSAGE_LABEL": "Mensaje:",
+        "FORM_SEND_BUTTON": "Enviar",
+        "FORM_SELECT_PLACEHOLDER": "Selecciona uno"
+      }
+    },
+    "shared": {
+      "FOOTER_COPYRIGHT_APENDIXA": "Go Bot™ is una marca registrada usada bajo licencia. ",
+      "FOOTER_COPYRIGHT_APENDIX_B_LINK": "VCA Ventures",
+      "FOOTER_COPYRIGHT_APENDIX_B": "Copyright @",
+      "FOOTER_COPYRIGHT_APENDIX_C": "Todos los derechos reservados",
+      "FOOTER_HELP_LINK": "Ayuda",
+      "NAV_SEARCH_PLACEHOLDER": "Buscar...",
+      "NAV_NOTIFICATIONS_LABEL": "Mensajes",
+      "NAV_NOTIFICATIONSHOWALL_LABEL": "Ver todos",
+      "NAV_NOTIFICATIONSEMPTY_LABEL": "No tienes mensajes",
+      "NAV_ACCOUNT_LABEL": "Mi cuenta",
+      "NAV_LOGOUT_LABEL": "Salir",
+      "SIDEBAR_HOME_LABEL": "Dashboard",
+      "SIDEBAR_BLOCKS_LABEL": "Bloques",
+      "SIDEBAR_LIVE_LABEL": "Live chat",
+      "SIDEBAR_AI_LABEL": "Configurar IA",
+      "SIDEBAR_CONTACTS_LABEL": "Contactos",
+      "SIDEBAR_CONFIGURE_LABEL": "Configurar",
+      "SIDEBAR_STATICS_LABEL": "Analizar",
+      "SIDEBAR_TOOLS_LABEL": "Herramientas"
+    }
+  }
+}
