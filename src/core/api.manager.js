@@ -7,7 +7,6 @@ function apiManager (dependencies) {
   const _express = dependencies.expressModule
   const _auth = dependencies.auth
   const _storage = dependencies.storage
-  const _cdnStorage = dependencies.cdnStorage
 
   var _apiRoutes
 
@@ -33,13 +32,11 @@ function apiManager (dependencies) {
             }
             break
           case 'POST':
-            if (component.isUpload && component.isCDN) {
-              _apiRoutes.post(component.httpRoute, _cdnStorage.single('file'), componentController[component.handler])
-              break
-            }
             if (component.isUpload) {
               _apiRoutes.post(component.httpRoute, _storage.single('file'), componentController[component.handler])
+              break
             }
+
             if (component.protected) {
               _apiRoutes.post(component.httpRoute, _auth.middleware.validateApi, componentController[component.handler])
             } else {

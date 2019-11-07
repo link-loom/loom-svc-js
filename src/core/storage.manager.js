@@ -5,10 +5,8 @@ function Storage (dependencies) {
   const _console = dependencies.console
   const _aws = dependencies.aws
   const _multer = dependencies.multerModule
-  const _multerS3 = dependencies.multerS3
 
   /// Properties
-  let _cdnStorage = {}
   let _storage = {}
   let _s3 = {}
 
@@ -34,7 +32,6 @@ function Storage (dependencies) {
 
     await storageConfig()
 
-    dependencies.cdnStorage = _cdnStorage || {}
     dependencies.storage = _storage || {}
     dependencies.s3 = _s3
     _console.success('Storage imported')
@@ -55,13 +52,6 @@ function Storage (dependencies) {
       endpoint: spacesEndpoint,
       accessKeyId: _spacesManager.getCredentials().accessKeyId,
       secretAccessKey: _spacesManager.getCredentials().secretAccessKey
-    })
-
-    _cdnStorage = _multer({
-      limits: {
-        fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
-      },
-      storage: _multer.memoryStorage()
     })
   }
 

@@ -1,7 +1,5 @@
 function uploadController (dependencies) {
   const _s3 = dependencies.s3
-  const _cdnStorage = dependencies.cdnStorage
-  const _console = dependencies.console
   const _spacesManager = dependencies.spacesManager
   const _utilities = dependencies.utilities
   const _excel = dependencies.exceljs

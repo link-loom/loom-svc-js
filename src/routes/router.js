@@ -13,8 +13,8 @@ const router = {
     { httpRoute: '/users/', route: '/routes/api/user/user.route', handler: 'update', method: 'PATCH', protected: true },
     { httpRoute: '/users/', route: '/routes/api/user/user.route', handler: 'updateOrCreate', method: 'PUT', protected: true },
     // Upload files
-    { httpRoute: '/upload', route: '/routes/api/upload/upload.route', handler: 'upload', method: 'POST', protected: false, isUpload: true, isCDN: true },
-    { httpRoute: '/upload/bulk', route: '/routes/api/upload/upload.route', handler: 'bulk', method: 'POST', protected: false, isUpload: true, isCDN: false },
+    { httpRoute: '/upload', route: '/routes/api/upload/upload.route', handler: 'upload', method: 'POST', protected: false, isUpload: true },
+    { httpRoute: '/upload/bulk', route: '/routes/api/upload/upload.route', handler: 'bulk', method: 'POST', protected: false, isUpload: true },
     // Auth
     { httpRoute: '/login', route: '/routes/api/auth/auth.route', handler: 'login', method: 'POST', protected: false },
     { httpRoute: '/logout', route: '/routes/api/auth/auth.route', handler: 'logout', method: 'POST', protected: false },
