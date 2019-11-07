@@ -12,7 +12,14 @@ const router = {
     { httpRoute: '/users/', route: '/routes/api/user/user.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/users/', route: '/routes/api/user/user.route', handler: 'update', method: 'PATCH', protected: true },
     { httpRoute: '/users/', route: '/routes/api/user/user.route', handler: 'updateOrCreate', method: 'PUT', protected: true },
-    { httpRoute: '/login/user/', route: '/routes/api/login/login.route', handler: 'user', method: 'POST', protected: false }
+    // Upload files
+    { httpRoute: '/upload', route: '/routes/api/upload/upload.route', handler: 'upload', method: 'POST', protected: false, isUpload: true, isCDN: true },
+    { httpRoute: '/upload/bulk', route: '/routes/api/upload/upload.route', handler: 'bulk', method: 'POST', protected: false, isUpload: true, isCDN: false },
+    // Auth
+    { httpRoute: '/login', route: '/routes/api/auth/auth.route', handler: 'login', method: 'POST', protected: false },
+    { httpRoute: '/logout', route: '/routes/api/auth/auth.route', handler: 'logout', method: 'POST', protected: false },
+    { httpRoute: '/validate-email/', route: '/routes/api/auth/auth.route', handler: 'validateEmail', method: 'POST', protected: false },
+    { httpRoute: '/validate-account-chatbot', route: '/routes/api/auth/auth.route', handler: 'validateAccountChatbot', method: 'POST', protected: false }
   ]
 }
 

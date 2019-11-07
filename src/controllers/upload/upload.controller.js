@@ -1,87 +1,61 @@
-function userController (dependencies) {
-  const _storage = dependencies.storage
+function uploadController (dependencies) {
+  const _cdnStorage = dependencies.cdnStorage
   const _console = dependencies.console
   const _utilities = dependencies.utilities
   const _excel = dependencies.exceljs
 
-  let bucket = {}
-
-  const uploadImage = (file) => {
-    bucket = _storage.bucket()
-    let prom = new Promise((resolve, reject) => {
-      if (!file) {
+  const uploadFile = (req, res) => {
+    return new Promise((resolve, reject) => {
+      if (!req || !req.file) {
         reject(new Error('Add an image file, please'))
       }
-      let newFileName = `${Date.now()}_${file.originalname}`
 
-      let bucketFile = bucket.file(newFileName)
+      const file = req.file
+      file.originalname = `${Date.now()}_${file.originalname}`
 
-      const blobStream = bucketFile.createWriteStream({
-        metadata: {
-          contentType: file.mimetype
+      _cdnStorage(req, res, (error) => {
+        if (error) {
+          _console.log(error)
+          reject(_utilities.response.error(error))
+          return
         }
+
+        resolve(_utilities.response.success(`${file.originalname}`))
       })
-
-      blobStream.on('error', (error) => {
-        _console.error(error)
-        reject(new Error('Something was wrong, try again'))
-      })
-
-      blobStream.on('finish', () => {
-        // The public URL can be used to directly access the file via HTTP.
-        const url = `https://storage.googleapis.com/${bucket.name}/${bucketFile.name}`
-
-        bucketFile.makePublic().then(() => {
-          resolve(_utilities.response.success({
-            status: 'success',
-            url
-          }))
-        })
-      })
-
-      blobStream.end(file.buffer)
     })
-    return prom
   }
 
-  const bulk = (file) => {
-    let prom = new Promise((resolve, reject) => {
-      if (!file) {
+  const bulk = (req, res) => {
+    return new Promise(async (resolve, reject) => {
+      const file = req.file
+
+      if (!req || !req.file) {
         reject(new Error('Add an image file, please'))
+        return
       }
 
-      var workbook = new _excel.Workbook()
+      let workbook = new _excel.Workbook()
+      let processedFile = {}
 
-      workbook.xlsx.load(file.buffer)
-        .then(function () {
-          // use workbook
+      await workbook.xlsx.load(file.buffer)
 
-          workbook.eachSheet(function (worksheet, sheetId) {
-            console.log('Current worksheet: ', worksheet.name)
-            console.log('Rows: ', worksheet.rowCount)
+      workbook.eachSheet((worksheet, sheetId) => {
+        processedFile[worksheet.name] = { rows: [] }
 
-            worksheet.eachRow({}, function (row, rowNumber) {
-              console.log('Row ' + rowNumber + ' = ' + JSON.stringify(row.values))
-
-              row.eachCell(function (cell, colNumber) {
-                console.log('Cell ' + colNumber + ' = ' + cell.value)
-              })
-            })
+        worksheet.eachRow({}, (row, rowNumber) => {
+          processedFile[worksheet.name].rows.push({
+            values: row.values
           })
-          // var worksheet = workbook.getWorksheet('Hoja1')
-
-          resolve(_utilities.response.success({
-            status: 'success'
-          }))
+          resolve(_utilities.response.success(processedFile))
         })
+      })
     })
-    return prom
   }
 
   return {
-    uploadImage,
+    uploadFile,
     bulk
   }
 }
 
-module.exports = userController
+module.exports = uploadController

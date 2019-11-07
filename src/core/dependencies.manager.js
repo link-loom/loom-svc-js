@@ -16,18 +16,12 @@ function dependencies (args) {
     const httpServer = http.createServer(express)
     const socketModule = require('socket.io')
     const eventBus = new events.EventEmitter()
-    const multerConstructor = require('multer')
-    const multer = multerConstructor({
-      storage: multerConstructor.memoryStorage(),
-      limits: {
-        fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
-      }
-    })
+    const multerModule = require('multer')
 
     _dependencies = {
       root,
       http,
-      multer,
+      multerModule,
       express,
       eventBus,
       httpServer,
