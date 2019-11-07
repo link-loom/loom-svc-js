@@ -4,9 +4,10 @@ function userController (dependencies) {
   const _utilities = dependencies.utilities
   const _excel = dependencies.exceljs
 
-  const bucket = _storage.bucket()
+  let bucket = {}
 
   const uploadImage = (file) => {
+    bucket = _storage.bucket()
     let prom = new Promise((resolve, reject) => {
       if (!file) {
         reject(new Error('Add an image file, please'))

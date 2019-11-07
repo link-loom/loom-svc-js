@@ -1,64 +1,59 @@
 function Database (dependencies) {
   const _firebaseManager = require(`${dependencies.root}/src/core/firebase.manager`)(dependencies)
+  const _postgresqlManager = require(`${dependencies.root}/src/core/postgresql.manager`)(dependencies)
 
   /// Dependencies
   const _firebase = dependencies.firebase
   const _console = dependencies.console
+  const _pg = dependencies.pg
 
   /// Properties
   let _db
+  let _storage = {}
 
   const constructor = () => {
-    _firebaseManager.setSettings()
-    dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
-
     return databaseConnect()
   }
 
-  const databaseConnect = () => {
-    let result = false
-    try {
-      if (dependencies.config.USE_DATABASE) {
-        switch (dependencies.config.DATABASE_NAME) {
-          case 'firebase':
-            result = firebaseConfig()
-            break
-          default:
-            break
-        }
-      } else {
-        _console.info(`Database is not configured`)
-        result = true
+  const databaseConnect = async () => {
+    if (dependencies.config.USE_DATABASE) {
+      switch (dependencies.config.DATABASE_NAME) {
+        case 'firebase':
+          _firebaseManager.setSettings()
+          dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
+          await firebaseConfig()
+          break
+        case 'postgresql':
+          _postgresqlManager.setSettings(dependencies.config.POSTGRESQL)
+          dependencies.settings.dependencies().add(_postgresqlManager, 'postgresqlManager')
+          await postgresqlConfig()
+          break
+        default:
+          break
       }
-    } catch (error) {
-      if (error) {
-        if (error.code === 'app/invalid-credential') {
-          _console.info(`Something was wrong with your Firebase credentials maybe you need add config/default.json file or check your credentials`)
-        }
-
-        _console.error(error.message)
-        result = false
-      }
+    } else {
+      _console.info('Database is not configured')
     }
 
     dependencies.db = _db || {}
-
-    return result
+    dependencies.storage = _storage || {}
   }
 
-  const firebaseConfig = () => {
-    try {
-      _firebase.initializeApp({
-        credential: _firebase.credential.cert(_firebaseManager.getFirebaseCredentials()),
-        databaseURL: _firebaseManager.getFirebaseURL()
-      })
-      _db = _firebase.database()
+  const postgresqlConfig = async () => {
+    const pool = new _pg.Pool(_postgresqlManager.getCredentials())
+    _db = pool
+  }
 
-      return true
-    } catch (error) {
-      _console.error(error)
-      return false
-    }
+  const firebaseConfig = async () => {
+    _firebase.initializeApp({
+      credential: _firebase.credential.cert(_firebaseManager.getFirebaseAdminCredentials()),
+      databaseURL: _firebaseManager.getFirebaseURL(),
+      storageBucket: _firebaseManager.getStorageBucketURL()
+    })
+    const settings = { timestampsInSnapshots: true }
+    _db = _firebase.firestore()
+    _db.settings(settings)
+    _storage = _firebase.storage()
   }
 
   return {

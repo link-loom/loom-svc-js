@@ -26,6 +26,7 @@ function ControllerManager (dependencies) {
           _controllers[name] = require(pathName)(dependencies)
         }
       } catch (error) {
+        _console.error(`Error on path ${path}`)
         _console.error(error)
       }
     })
