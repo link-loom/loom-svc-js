@@ -10,12 +10,12 @@ function Socket (dependencies) {
 
   const buildSocketDefinition = () => {
     /* if (!eventsIsInitialized) {
-      _eventBus.emit('initializeEvents')
+      _eventBus.emit('initialize-event-engine')
       eventsIsInitialized = true
     } */
 
     _socket.on('connection', (client) => {
-      client.on('reversebytes.gobot.api', (data) => {
+      client.on('reversebytes.beat.api', (data) => {
         _eventBus.emit(
           'admin-event',
           {
@@ -25,9 +25,9 @@ function Socket (dependencies) {
           }
         )
       })
-      client.on('reversebytes.gobot.bot', (data) => {
+      client.on('reversebytes.beat.chatbot', (data) => {
         _eventBus.emit(
-          'bot-event',
+          'chatbot-event',
           {
             context: data.context || {},
             command: data.command || '',
@@ -35,7 +35,7 @@ function Socket (dependencies) {
           }
         )
       })
-      client.on('reversebytes.gobot.client', (data) => {
+      client.on('reversebytes.beat.client', (data) => {
         _eventBus.emit(
           'client-event',
           {

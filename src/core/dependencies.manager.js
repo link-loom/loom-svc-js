@@ -8,31 +8,48 @@ function dependencies (args) {
   }
 
   const instantiateDependencies = () => {
-    let express = require('express')
-    let server = express()
+    const root = args.root
+    const http = require('http')
+    const events = require('events')
+    const expressModule = require('express')
+    const express = expressModule()
+    const httpServer = http.createServer(express)
+    const socketModule = require('socket.io')
+    const eventBus = new events.EventEmitter()
+    const multerConstructor = require('multer')
+    const multer = multerConstructor({
+      storage: multerConstructor.memoryStorage(),
+      limits: {
+        fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
+      }
+    })
 
     _dependencies = {
-      express: express,
-      httpServer: server,
-      path: require('path'),
-      http: require('http').Server(server),
-      bodyParser: require('body-parser'),
-      jwt: require('jsonwebtoken'), // used to create, sign, and verify tokens
-      bcrypt: require('bcryptjs'),
-      aesjs: require('aes-js'),
-      colors: require('colors/safe'),
+      root,
+      http,
+      multer,
+      express,
+      eventBus,
+      httpServer,
+      socketModule,
+      expressModule,
       cors: require('cors'),
-      config: require('config'),
-      firebase: require('firebase-admin'),
-      request: require('request'),
-      compress: require('compression'),
-      helmet: require('helmet'),
-      cookieParser: require('cookie-parser'),
-      crypto: require('crypto'),
-      googleStorage: require('@google-cloud/storage'),
+      path: require('path'),
+      aesjs: require('aes-js'),
       moment: require('moment'),
+      crypto: require('crypto'),
+      config: require('config'),
+      helmet: require('helmet'),
+      bcrypt: require('bcryptjs'),
+      request: require('request'),
+      jwt: require('jsonwebtoken'),
+      colors: require('colors/safe'),
+      compress: require('compression'),
       nodemailer: require('nodemailer'),
-      root: args.root
+      bodyParser: require('body-parser'),
+      firebase: require('firebase-admin'),
+      cookieParser: require('cookie-parser'),
+      googleStorage: require('@google-cloud/storage')
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
   }

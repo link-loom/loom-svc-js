@@ -10,26 +10,25 @@ function server (args) {
 
     authInit()
 
-    const databaseStatus = databaseInit()
+    databaseInit()
 
-    if (databaseStatus === true) {
-      controllersInit()
+    socketSetup()
 
-      functionsInit()
+    controllersInit()
 
-      apiInit()
+    socketInit()
 
-      frontendInit()
+    functionsInit()
 
-      _console.success('Core modules initialized')
+    apiInit()
 
-      serverInit()
+    frontendInit()
 
-      next(settings.dependencies().get())
-    } else {
-      _console.error('Failed to connect with database or you have not any controller defined, you can disable this module')
-      process.exit(0)
-    }
+    _console.success('Core modules initialized')
+
+    serverInit()
+
+    next(settings.dependencies().get())
   }
 
   const settingsInit = () => {
@@ -71,6 +70,24 @@ function server (args) {
   const functionsInit = () => {
     const _functionsManager = require('./functions.manager')(settings.dependencies().get())
     settings.dependencies().add(_functionsManager, 'functions')
+  }
+
+  const socketSetup = () => {
+    // Listening and setup socket
+    let socket = settings.dependencies().get().socketConstructor(settings.dependencies().get().httpServer, {})
+    socket.origins((origin, callback) => {
+      callback(null, true)
+    })
+    settings.dependencies().add(socket, 'socket')
+
+    const _socketManager = require('./socketManager')(settings.dependencies().get())
+    _socketManager.start()
+  }
+
+  const socketInit = () => {
+    // Initialize socket when controllers are initialized
+    let socketController = settings.dependencies().get().controllers.socket
+    socketController.initialize()
   }
 
   const serverInit = () => {

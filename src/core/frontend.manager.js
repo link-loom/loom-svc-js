@@ -4,8 +4,8 @@ function FrontEnd (dependencies) {
 
   /// Dependencies
   const _console = dependencies.console
-  const _app = dependencies.httpServer
-  const _express = dependencies.express
+  const _app = dependencies.express
+  const _express = dependencies.expressModule
   const _path = dependencies.path
 
   const constructor = () => {

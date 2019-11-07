@@ -35,7 +35,7 @@ function settings (args) {
         Error.prepareStackTrace = orig;
         return stack;
       }
-    });
+    })
 
     Object.defineProperty(global, '__fullStackTrace', {
       get: function () {
@@ -44,11 +44,13 @@ function settings (args) {
         })
         return stackTrace.slice(2, stackTrace.length - 1)
       }
-    });
+    })
+
     String.prototype.regexIndexOf = function (regex, startpos) {
       var indexOf = this.substring(startpos || 0).search(regex);
       return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
     }
+
     String.prototype.regexLastIndexOf = function (regex, startpos) {
       regex = (regex.global) ? regex : new RegExp(regex.source, "g" + (regex.ignoreCase ? "i" : "") + (regex.multiLine ? "m" : ""));
       if (typeof (startpos) == "undefined") {
@@ -65,13 +67,16 @@ function settings (args) {
       }
       return lastIndexOf;
     }
+
     String.prototype.replaceAt = function (index, replacement) {
       return this.substr(0, index) + replacement + this.substr(index + replacement.length);
     }
+
     String.prototype.replaceAll = function (search, replacement) {
       var target = this
       return target.replace(new RegExp(search, 'g'), replacement)
     }
+    
     /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
     String.prototype.capitalize = function () {
       return this.replace(/\b\w/g, l => l.toUpperCase())

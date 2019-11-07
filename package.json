@@ -1,77 +1,79 @@
 {
-	"name": "beat",
-	"title": "Beat",
-	"description": "Server framework to create fast and lightweight projects",
-	"version": "3.2.8",
-	"homepage": "https://reversebytes.wordpress.com",
-	"author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thEpisode/beat.git"
-	},
-	"keywords": [
-		"Main",
-		"%BEAT%",
-		"template",
-		"lite",
-		"tool"
-	],
-	"bugs": {
-		"url": "https://github.com/thEpisode/beat/issues"
-	},
-	"license": "MIT",
-	"dependencies": {
-		"@fortawesome/fontawesome-free-webfonts": "^1.0.6",
-		"@google-cloud/storage": "^2.5.0",
-		"aes-js": "^3.1.1",
-		"atob": ">=2.1.0",
-		"bcryptjs": "^2.4.3",
-		"body-parser": "latest",
-		"bootstrap": ">=4.3.1",
-		"colors": "latest",
-		"compression": "^1.7.2",
-		"config": "^1.30.0",
-		"cookie-parser": "^1.4.3",
-		"cors": "latest",
-		"cryptiles": ">=4.1.2",
-		"ejs": "latest",
-		"express": "latest",
-		"express-react-views": "^0.11.0",
-		"firebase": "^6.6.2",
-		"firebase-admin": "^8.6.0",
-		"helmet": "^3.12.0",
-		"jquery": "^3.4.1",
-		"jsonwebtoken": "latest",
-		"moment": "^2.24.0",
-		"multer": "^1.4.1",
+  "name": "beat",
+  "title": "Beat",
+  "description": "Server framework to create fast and lightweight projects",
+  "version": "3.2.8",
+  "homepage": "https://reversebytes.wordpress.com",
+  "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thEpisode/beat.git"
+  },
+  "keywords": [
+    "Main",
+    "%BEAT%",
+    "template",
+    "lite",
+    "tool"
+  ],
+  "bugs": {
+    "url": "https://github.com/thEpisode/beat/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.6",
+    "@google-cloud/storage": "^2.5.0",
+    "aes-js": "^3.1.1",
+    "atob": ">=2.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "latest",
+    "bootstrap": ">=4.3.1",
+    "colors": "latest",
+    "compression": "^1.7.2",
+    "config": "^1.30.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "latest",
+    "cryptiles": ">=4.1.2",
+    "ejs": "latest",
+    "express": "latest",
+    "express-react-views": "^0.11.0",
+    "firebase": "^6.6.2",
+    "firebase-admin": "^8.6.0",
+    "helmet": "^3.12.0",
+    "jquery": "^3.4.1",
+    "jsonwebtoken": "latest",
+    "moment": "^2.24.0",
+    "multer": "^1.4.1",
     "nodemailer": "^4.6.7",
-		"popper.js": "^1.15.0",
-		"protobufjs": ">=5.0.3",
-		"react": "^16.2.0",
-		"react-dom": "^16.8.4",
-		"request": "^2.88.0",
-		"sweetalert2": "^8.11.6",
-		"vue": "^2.6.10",
-		"vue-cookies": "^1.5.13",
-		"vue-resource": "^1.5.1"
-	},
-	"devDependencies": {
-		"standard": "^12.0.1"
-	},
-	"standard": {
-		"ignore": [
-			"/node_modules/**/*.js",
-			"/static/**/*.js",
-			"/src/views/*",
-			"/ui-template/*"
-		]
-	},
-	"engine": {
-		"node": "10.x"
-	},
-	"scripts": {
-		"start": "node app.js",
-		"test": "./node_modules/.bin/standard",
-		"standard-fix": "./node_modules/.bin/standard --fix"
-	}
+    "popper.js": "^1.15.0",
+    "protobufjs": ">=5.0.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.8.4",
+    "request": "^2.88.0",
+    "sweetalert2": "^8.11.6",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "vue": "^2.6.10",
+    "vue-cookies": "^1.5.13",
+    "vue-resource": "^1.5.1"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "/node_modules/**/*.js",
+      "/static/**/*.js",
+      "/src/views/*",
+      "/ui-template/*"
+    ]
+  },
+  "engine": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "./node_modules/.bin/standard",
+    "standard-fix": "./node_modules/.bin/standard --fix"
+  }
 }
