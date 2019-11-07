@@ -2,7 +2,7 @@ function route (dependencies) {
   const handler = (req, res) => {
     req.route.name = 'template'
     req.route.handler = 'handler'
-    req.lookup = dependencies.geolocator.getLookup({ ip: req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress })
+    req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) { return }
 

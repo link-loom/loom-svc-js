@@ -1,19 +1,24 @@
 function userController (dependencies) {
   const _db = dependencies.db
   const _console = dependencies.console
-  const _firebase = dependencies.firebaseManager
   const _utilities = dependencies.utilities
   const _auth = dependencies.auth
   const _controllers = dependencies.controllers
   const _models = dependencies.models
+  const _dal = dependencies.dal
 
-  const get = async () => {
+  const getAll = async () => {
     try {
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users')
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.array(docRaw)
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'READ',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        condition: '1=1'
+      })
+      const entityResponse = _db
+        .query(query)
+      // .query('SELECT * FROM users;')
       const entityCleaned = _utilities.response.clean(entityResponse)
 
       return _utilities.response.success(entityCleaned.data)
@@ -29,18 +34,102 @@ function userController (dependencies) {
         return _utilities.response.error('Please provide an id')
       }
 
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users').doc(`${data.id}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.object(docRaw)
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'READ',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        condition: 'id=$1'
+      })
+      const entityResponse = await _db.query(query, [data.id])
 
       // Check if exist any data
-      if (!docRaw || !docRaw.exists || !entityResponse) {
+      if (!entityResponse) {
         return _utilities.response.error('No user found')
       }
 
       return _utilities.response.success(_utilities.response.clean(entityResponse))
+    } catch (error) {
+      _console.error(error)
+      return _utilities.response.error()
+    }
+  }
+
+  const getByDni = async (data) => {
+    try {
+      if (!data || !data.dni) {
+        return _utilities.response.error('Please provide a dni')
+      }
+
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'READ',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        condition: 'dni=$1'
+      })
+      const entityResponse = _db.query(query, [data.dni])
+
+      // Check if exist any data
+      if (!entityResponse || entityResponse.data.length <= 0) {
+        return _utilities.response.error('No user found')
+      }
+
+      return _utilities.response.success(entityResponse.data[0])
+    } catch (error) {
+      _console.error(error)
+      return _utilities.response.error()
+    }
+  }
+
+  const getByPhone = async (data) => {
+    try {
+      if (!data || !data.phone) {
+        return _utilities.response.error('Please provide a dni')
+      }
+
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'READ',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        condition: 'phone=$1'
+      })
+      const entityResponse = _db.query(query, [data.phone])
+
+      // Check if exist any data
+      if (!entityResponse || entityResponse.data.length <= 0) {
+        return _utilities.response.error('No user found')
+      }
+
+      return _utilities.response.success(entityResponse.data[0])
+    } catch (error) {
+      _console.error(error)
+      return _utilities.response.error()
+    }
+  }
+
+  const getByEmail = async (data) => {
+    try {
+      if (!data || !data.email) {
+        return _utilities.response.error('Please provide a email')
+      }
+
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'READ',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        condition: 'email=$1'
+      })
+      const entityResponse = _db.query(query, [data.email])
+
+      // Check if exist any data
+      if (!entityResponse || entityResponse.data.length <= 0) {
+        return _utilities.response.error('No user found')
+      }
+
+      return _utilities.response.success(entityResponse.data[0])
     } catch (error) {
       _console.error(error)
       return _utilities.response.error()
@@ -84,101 +173,6 @@ function userController (dependencies) {
     }
   }
 
-  const getByDni = async (data) => {
-    try {
-      if (!data || !data.dni) {
-        return _utilities.response.error('Please provide a dni')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users')
-        .where('dni', '==', `${data.dni}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.array(docRaw)
-
-      // Check if exist any data
-      if (!docRaw || !entityResponse || entityResponse.data.length <= 0) {
-        return _utilities.response.error('No user found')
-      }
-
-      return _utilities.response.success(entityResponse.data[0])
-    } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
-    }
-  }
-
-  const getByPhone = async (data) => {
-    try {
-      if (!data || !data.phone) {
-        return _utilities.response.error('Please provide a dni')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users')
-        .where('phone', '==', `${data.phone}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.array(docRaw)
-
-      // Check if exist any data
-      if (!docRaw || !entityResponse || entityResponse.data.length <= 0) {
-        return _utilities.response.error('No user found')
-      }
-
-      return _utilities.response.success(entityResponse.data[0])
-    } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
-    }
-  }
-
-  const getByEmail = async (data) => {
-    try {
-      if (!data || !data.email) {
-        return _utilities.response.error('Please provide a email')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users')
-        .where('email', '==', `${data.email}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.array(docRaw)
-
-      // Check if exist any data
-      if (!docRaw || !entityResponse || entityResponse.data.length <= 0) {
-        return _utilities.response.error('No user found')
-      }
-
-      return _utilities.response.success(entityResponse.data[0])
-    } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
-    }
-  }
-
-  const getAllByBusinessId = async (data) => {
-    try {
-      if (!data || !data.businessId) {
-        return _utilities.response.error('Please provide a business_id')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = _db.collection('users')
-        .where('business_id', '==', `${data.businessId}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = _firebase.cast.array(docRaw)
-
-      return _utilities.response.success(entityResponse.data)
-    } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
-    }
-  }
-
   const create = async (data) => {
     try {
       if (!data || !data.email) {
@@ -192,7 +186,6 @@ function userController (dependencies) {
 
       data.id = _utilities.idGenerator(15, 'usr-')
       const timestamp = (new Date()).getTime() + ''
-      const docRef = _db.collection('users').doc(data.id)
       const timestampKey = _auth.encoder.base64.encode('timestamp')
       const serverUri = dependencies.config.FRONTEND_URI + dependencies.config.MAIL.VALIDATION_PATH
       const emailTokenKey = _auth.encoder.base64.encode('token')
@@ -201,7 +194,16 @@ function userController (dependencies) {
       data.password = _auth.hash.stringToHash(data.password || '')
 
       const entity = new _models.User(data, dependencies)
-      const docResponse = await docRef.set(entity.get)
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'CREATE',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        properties: entity.getPropertiesAsCommas,
+        values: entity.getPropertiesAsBindings
+      })
+      const docResponse = _db
+        .query(query, entity.getValuesAsArray)
 
       if (!docResponse) {
         _console.error(docResponse)
@@ -229,18 +231,21 @@ function userController (dependencies) {
 
   const update = async (data) => {
     try {
-      if (!data || !data.identity) {
+      if (!data || !data.id) {
         return _utilities.response.error('Please provide an identity')
       }
-      const entityResponse = await getByIdentity(data)
 
-      if (!_utilities.response.isValid(entityResponse)) {
-        return entityResponse
-      }
-
-      const docRef = _db.collection('users').doc(entityResponse.result.id)
-      const entity = new _models.User({ ...entityResponse.result, ...data }, dependencies)
-      const docResponse = await docRef.update(entity.get)
+      const entity = new _models.User(data, dependencies)
+      const query = _dal.queryBuilder({
+        path: 'QUERIES',
+        query: 'UPDATE',
+        namespace: dependencies.config.POSTGRESQL.default_namespace,
+        table: 'user',
+        properties: entity.getPropertiesAsAssignment,
+        condition: 'id = $1'
+      })
+      const docResponse = _db
+        .query(query, entity.get.id)
 
       if (!docResponse) {
         _console.error(docResponse)
@@ -255,13 +260,12 @@ function userController (dependencies) {
   }
 
   return {
-    getAll: get,
+    getAll,
     getById,
     getByDni,
     getByEmail,
     getByPhone,
     getByIdentity,
-    getAllByBusinessId,
     create,
     update,
     status: _models.User.statuses,
