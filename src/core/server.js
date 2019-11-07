@@ -3,32 +3,66 @@ function server (args) {
 
   let _console = {}
 
-  const startServer = (next) => {
-    settingsInit()
+  const startServer = () => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      settingsInit()
 
-    consoleInit()
+      consoleInit()
 
-    authInit()
+      authInit()
 
-    databaseInit()
+      dalInit()
 
-    socketSetup()
+      await databaseInit()
 
-    controllersInit()
+      socketSetup()
 
-    socketInit()
+      await geolocatorInit()
 
-    functionsInit()
+      localizationInit()
 
-    apiInit()
+      modelsInit()
 
-    frontendInit()
+      controllersInit()
 
-    _console.success('Core modules initialized')
+      socketInit()
 
-    serverInit()
+      functionsInit()
 
-    next(settings.dependencies().get())
+      apiInit()
+
+      frontendInit()
+
+      _console.success('Core modules initialized')
+
+      serverInit()
+
+      resolve(settings.dependencies().get())
+    })
+  }
+
+  const modelsInit = () => {
+    const _modelsManager = require('./model.manager')(settings.dependencies().get())
+    settings.dependencies().add(_modelsManager.get(), 'models')
+  }
+
+  const dalInit = async () => {
+    const DalManager = require('./dal.manager')
+    const _dalManager = new DalManager(settings.dependencies().get())
+    settings.dependencies().add(_dalManager, 'dal')
+  }
+
+  const geolocatorInit = async () => {
+    const _geolocatorManager = require('./geolocator.manager')(settings.dependencies().get())
+    await _geolocatorManager.start()
+    settings.dependencies().add(_geolocatorManager, 'geolocator')
+  }
+
+  const localizationInit = () => {
+    const _localizationManager = require('./localization.manager')(settings.dependencies().get())
+    _localizationManager.start()
+    settings.dependencies().add(_localizationManager, 'locale')
   }
 
   const settingsInit = () => {

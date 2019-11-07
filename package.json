@@ -2,7 +2,7 @@
   "name": "beat",
   "title": "Beat",
   "description": "Server framework to create fast and lightweight projects",
-  "version": "3.2.8",
+  "version": "4.0.0",
   "homepage": "https://reversebytes.wordpress.com",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
