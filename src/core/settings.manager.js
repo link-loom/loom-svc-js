@@ -76,7 +76,7 @@ function settings (args) {
       var target = this
       return target.replace(new RegExp(search, 'g'), replacement)
     }
-    
+
     /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
     String.prototype.capitalize = function () {
       return this.replace(/\b\w/g, l => l.toUpperCase())
@@ -164,15 +164,15 @@ function settings (args) {
 
   const setupMiddlewares = () => {
     // Security
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().helmet())
-    dependenciesManager.get().httpServer.disable('x-powered-by')
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().compress())
+    dependenciesManager.get().express.use(dependenciesManager.get().helmet())
+    dependenciesManager.get().express.disable('x-powered-by')
+    dependenciesManager.get().express.use(dependenciesManager.get().compress())
 
     // use body parser so we can get info from POST and/or URL parameters
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().cors())
-    dependenciesManager.get().httpServer.use(dependenciesManager.get().cookieParser())
+    dependenciesManager.get().express.use(dependenciesManager.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
+    dependenciesManager.get().express.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
+    dependenciesManager.get().express.use(dependenciesManager.get().cors())
+    dependenciesManager.get().express.use(dependenciesManager.get().cookieParser())
 
     console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Configured middlewares`)
   }

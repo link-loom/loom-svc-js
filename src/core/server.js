@@ -108,7 +108,7 @@ function server (args) {
 
   const socketSetup = () => {
     // Listening and setup socket
-    let socket = settings.dependencies().get().socketConstructor(settings.dependencies().get().httpServer, {})
+    let socket = settings.dependencies().get().socketModule(settings.dependencies().get().httpServer, {})
     socket.origins((origin, callback) => {
       callback(null, true)
     })

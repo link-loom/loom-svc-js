@@ -12,7 +12,7 @@ class Index extends React.Component {
           <div className="container">
             <div className="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
               <div className="col-md-9 text-center">
-                <h1 className="mb-3 bread">About Beat project</h1>
+                <h1 className="mb-3 bread">About Beat project - %BEAT%</h1>
                 <p className="breadcrumbs"><span className="mr-2"><a href="https://github.com/thEpisode/beat-cli">Home</a></span> <span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>
               </div>
             </div>

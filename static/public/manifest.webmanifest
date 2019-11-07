@@ -1,7 +1,7 @@
 {
-  "name": "Mi Retail",
-  "short_name": "Mi Retail",
-  "description": "The world's best retail POS software system",
+  "name": "%BEAT%",
+  "short_name": "%BEAT%",
+  "description": "The world's best software system",
   "start_url": "/",
   "scope": ".",
   "display": "standalone",

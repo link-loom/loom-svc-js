@@ -1,21 +1,53 @@
 {
   "JWT_SECRET": "NodeJSIsCool",
   "SERVER_PORT": "3500",
-  "SERVER_VERSION": "1.0.0",
-  "SERVER_NAME": "%BEAT% Server #1",
+  "SERVER_VERSION": "4.0.0",
+  "SERVER_NAME": "%BEAT% server #1",
+  "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
   "USE_DATABASE": false,
   "DATABASE_NAME": "firebase",
-  "firebase": {
+  "FIREBASE_ADMIN": {
     "type": "service_account",
-    "project_id": "xxxxx",
-    "private_key_id": "xxxxxx",
-    "private_key": "-----BEGIN PRIVATE KEY-----\\xxxxxx\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-@xbase-da4dd.iam.gserviceaccount.com",
-    "client_id": "xxxxxxxx",
+    "project_id": "xxxx",
+    "private_key_id": "27756dd1fba76427899afa2380a26ccc3c42bf2b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nxxxx\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-dn31i@xxxx.iam.gserviceaccount.com",
+    "client_id": "105079062454853884302",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-kurzd%xxxxxxx.iam.gserviceaccount.com"
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-dn31i%40xxxx.iam.gserviceaccount.com"
   },
-  "firebaseDatabase": "https://xbase-da4dd.firebaseio.com"
+  "FIREBASE": {
+    "apiKey": "AIzaSyA5HkZeMu0EYpmFmqVgKtdusS6uwDdRhnY",
+    "authDomain": "xxxx.firebaseapp.com",
+    "databaseURL": "https://xxxx.firebaseio.com",
+    "projectId": "xxxx",
+    "storageBucket": "xxxx.appspot.com",
+    "messagingSenderId": "992690359753",
+    "appId": "1:992690359753:web:2a6f1941aec4871b6f2c18"
+  },
+  "firebaseDatabase": "https://xxxxx.firebaseio.com",
+  "firebaseStorageBucket": "gs://xxxxx.appspot.com",
+  "POSTGRESQL": {
+    "user": "user",
+    "host": "127.0.0.1",
+    "database": "databasename",
+    "password": "pass",
+    "port": 5432,
+    "default_namespace": "chatbotsdb_test2"
+  },
+  "FRONTEND_URI": "http://localhost:3500",
+  "MAIL": {
+    "VALIDATION_PATH": "/validate-email",
+    "FROM": "\"Beat\" support@virtualcapitalofamerica.com",
+    "USER": "xxxx@virtualcapitalofamerica.com",
+    "PASSWORD": "xxxxx",
+    "SECURE": true,
+    "HOST": "smtp.gmail.com",
+    "PORT": 465
+  },
+  "GEOIP_DATABASE": {
+    "PATH": "/databases/GeoLite2-City.mmdb"
+  }
 }

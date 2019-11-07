@@ -40,15 +40,18 @@ function dependencies (args) {
       crypto: require('crypto'),
       config: require('config'),
       helmet: require('helmet'),
+      maxmind: require('maxmind'),
       bcrypt: require('bcryptjs'),
       request: require('request'),
       jwt: require('jsonwebtoken'),
       colors: require('colors/safe'),
       compress: require('compression'),
+      unfluff: require('html-to-text'),
       nodemailer: require('nodemailer'),
       bodyParser: require('body-parser'),
       firebase: require('firebase-admin'),
       cookieParser: require('cookie-parser'),
+      exceljs: require('exceljs'),
       googleStorage: require('@google-cloud/storage')
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
