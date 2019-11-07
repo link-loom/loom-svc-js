@@ -1,16 +1,11 @@
 function uploadRoute (dependencies) {
   const _controllers = dependencies.controllers
-  const _console = dependencies.console
   const _utilities = dependencies.utilities
 
   const upload = async (req, res) => {
-    try {
-      const response = await _controllers.upload.uploadImage(req, res)
+    const response = await _controllers.upload.uploadFile(req, res)
 
-      res.json(response)
-    } catch (error) {
-      _console.error(_utilities.response.error(error))
-    }
+    res.json(response)
   }
 
   const bulk = async (req, res) => {

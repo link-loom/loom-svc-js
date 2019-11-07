@@ -10,6 +10,7 @@ function Storage (dependencies) {
   /// Properties
   let _cdnStorage = {}
   let _storage = {}
+  let _s3 = {}
 
   const constructor = () => {
     return storageConnect()
@@ -35,6 +36,7 @@ function Storage (dependencies) {
 
     dependencies.cdnStorage = _cdnStorage || {}
     dependencies.storage = _storage || {}
+    dependencies.s3 = _s3
     _console.success('Storage imported')
   }
 
@@ -48,29 +50,18 @@ function Storage (dependencies) {
   }
 
   const spacesConfig = async () => {
-    _aws.config.update({
+    const spacesEndpoint = new _aws.Endpoint(_spacesManager.getCredentials().endpoint)
+    _s3 = new _aws.S3({
+      endpoint: spacesEndpoint,
       accessKeyId: _spacesManager.getCredentials().accessKeyId,
       secretAccessKey: _spacesManager.getCredentials().secretAccessKey
-    })
-    const spacesEndpoint = new _aws.Endpoint(_spacesManager.getCredentials().endpoint)
-
-    const s3 = new _aws.S3({
-      endpoint: spacesEndpoint
     })
 
     _cdnStorage = _multer({
       limits: {
         fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
       },
-      storage: _multerS3({
-        s3,
-        bucket: _spacesManager.getCredentials().bucket,
-        acl: 'public-read',
-        key: (request, file, cb) => {
-          _console.log(`Uploading file: ${file}`)
-          cb(null, file.originalname)
-        }
-      })
+      storage: _multer.memoryStorage()
     })
   }
 
