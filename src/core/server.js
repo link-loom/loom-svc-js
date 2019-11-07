@@ -16,6 +16,8 @@ function server (args) {
 
       await databaseInit()
 
+      await storageInit()
+
       socketSetup()
 
       await geolocatorInit()
@@ -81,8 +83,13 @@ function server (args) {
   }
 
   const databaseInit = () => {
-    let _databaseController = require('./database.manager')(settings.dependencies().get())
-    return _databaseController.initialize()
+    let _databaseManager = require('./database.manager')(settings.dependencies().get())
+    return _databaseManager.initialize()
+  }
+
+  const storageInit = () => {
+    let _storageManager = require('./storage.manager')(settings.dependencies().get())
+    return _storageManager.initialize()
   }
 
   const controllersInit = () => {

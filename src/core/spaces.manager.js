@@ -1,4 +1,4 @@
-function postgresql (dependencies) {
+function spaces (dependencies) {
   const _console = dependencies.console
   let _credentials = ''
 
@@ -21,4 +21,4 @@ function postgresql (dependencies) {
   }
 }
 
-module.exports = postgresql
+module.exports = spaces

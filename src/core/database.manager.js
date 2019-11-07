@@ -9,34 +9,34 @@ function Database (dependencies) {
 
   /// Properties
   let _db
-  let _storage = {}
 
   const constructor = () => {
     return databaseConnect()
   }
 
   const databaseConnect = async () => {
-    if (dependencies.config.USE_DATABASE) {
-      switch (dependencies.config.DATABASE_NAME) {
-        case 'firebase':
-          _firebaseManager.setSettings()
-          dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
-          await firebaseConfig()
-          break
-        case 'postgresql':
-          _postgresqlManager.setSettings(dependencies.config.POSTGRESQL)
-          dependencies.settings.dependencies().add(_postgresqlManager, 'postgresqlManager')
-          await postgresqlConfig()
-          break
-        default:
-          break
-      }
-    } else {
+    if (!dependencies.config.USE_DATABASE) {
       _console.info('Database is not configured')
+      return
+    }
+
+    switch (dependencies.config.DATABASE_NAME) {
+      case 'firebase':
+        _firebaseManager.setSettings()
+        dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
+        await firebaseConfig()
+        break
+      case 'postgresql':
+        _postgresqlManager.setSettings(dependencies.config.POSTGRESQL)
+        dependencies.settings.dependencies().add(_postgresqlManager, 'postgresqlManager')
+        await postgresqlConfig()
+        break
+      default:
+        break
     }
 
     dependencies.db = _db || {}
-    dependencies.storage = _storage || {}
+    _console.success('Database imported')
   }
 
   const postgresqlConfig = async () => {
@@ -53,7 +53,6 @@ function Database (dependencies) {
     const settings = { timestampsInSnapshots: true }
     _db = _firebase.firestore()
     _db.settings(settings)
-    _storage = _firebase.storage()
   }
 
   return {

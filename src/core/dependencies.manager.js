@@ -52,6 +52,8 @@ function dependencies (args) {
       firebase: require('firebase-admin'),
       cookieParser: require('cookie-parser'),
       exceljs: require('exceljs'),
+      multerS3: require('multer-s3'),
+      aws: require('aws-sdk'),
       googleStorage: require('@google-cloud/storage')
     }
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)

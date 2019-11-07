@@ -5,7 +5,9 @@
   "SERVER_NAME": "%BEAT% server #1",
   "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
   "USE_DATABASE": false,
+  "USE_STORAGE": true,
   "DATABASE_NAME": "firebase",
+  "STORAGE_NAME": "spaces",
   "FIREBASE_ADMIN": {
     "type": "service_account",
     "project_id": "xxxx",
@@ -49,5 +51,12 @@
   },
   "GEOIP_DATABASE": {
     "PATH": "/databases/GeoLite2-City.mmdb"
+  },
+  "DIGITALOCEAN": {
+    "SPACES": {
+      "accessKeyId": "YOUR_ACCESS_KEY_ID",
+      "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
+      "endpoint": "xxxx.digitaloceanspaces.com"
+    }
   }
 }
