@@ -34,8 +34,6 @@
     "config": "^1.30.0",
     "cookie-parser": "^1.4.3",
     "cors": "latest",
-    "cryptiles": ">=4.1.2",
-    "ejs": "latest",
     "exceljs": "^3.3.1",
     "express": "latest",
     "express-react-views": "^0.11.0",
@@ -48,10 +46,8 @@
     "maxmind": "^4.0.0",
     "moment": "^2.24.0",
     "multer": "^1.4.1",
-    "multer-s3": "^2.9.0",
     "nodemailer": "^4.6.7",
     "popper.js": "^1.15.0",
-    "protobufjs": ">=5.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.8.4",
     "request": "^2.88.0",
@@ -63,7 +59,7 @@
     "vue-resource": "^1.5.1"
   },
   "devDependencies": {
-    "standard": "^12.0.1"
+    "standard": "^14.3.1"
   },
   "standard": {
     "ignore": [

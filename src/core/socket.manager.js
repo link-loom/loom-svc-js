@@ -5,15 +5,10 @@ function Socket (dependencies) {
   const _eventBus = dependencies.eventBus
 
   const constructor = () => {
-    buildSocketDefinition()
+    buildSocketEvents()
   }
 
-  const buildSocketDefinition = () => {
-    /* if (!eventsIsInitialized) {
-      _eventBus.emit('initialize-event-engine')
-      eventsIsInitialized = true
-    } */
-
+  const buildSocketEvents = () => {
     _socket.on('connection', (client) => {
       client.on('reversebytes.beat.api', (data) => {
         _eventBus.emit(

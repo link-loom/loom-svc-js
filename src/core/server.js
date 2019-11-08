@@ -121,7 +121,7 @@ function server (args) {
     })
     settings.dependencies().add(socket, 'socket')
 
-    const _socketManager = require('./socketManager')(settings.dependencies().get())
+    const _socketManager = require('./socket.manager')(settings.dependencies().get())
     _socketManager.start()
   }
 

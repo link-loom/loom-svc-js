@@ -46,11 +46,25 @@ function dependencies (args) {
       firebase: require('firebase-admin'),
       cookieParser: require('cookie-parser'),
       exceljs: require('exceljs'),
-      multerS3: require('multer-s3'),
       aws: require('aws-sdk'),
       googleStorage: require('@google-cloud/storage')
     }
+
+    importCustomDependencies()
+
     console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
+  }
+
+  const importCustomDependencies = () => {
+    const dependencies = _dependencies.config.CUSTOM_DEPENDENCIES
+
+    if (!dependencies || !dependencies.length) {
+      return
+    }
+
+    dependencies.map(customDependency => {
+      _dependencies[customDependency.name] = require(customDependency.package)
+    })
   }
 
   const getDependencies = () => {

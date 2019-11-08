@@ -57,7 +57,13 @@
       "accessKeyId": "YOUR_ACCESS_KEY_ID",
       "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
       "endpoint": "xxxx.digitaloceanspaces.com",
-      "bucket":"xxxx"
+      "bucket": "xxxx"
     }
-  }
+  },
+  "CUSTOM_DEPENDENCIES": [
+    {
+      "name": "socketClient",
+      "package": "socket.io-client"
+    }
+  ]
 }
