@@ -203,7 +203,7 @@ body {
 
 .app-popup-content {
   height: 100%;
-  padding: 7rem 0rem;
+  /* padding: 7rem 0rem; */
   flex-grow: 1;
   flex-shrink: 1;
   max-width: 100%;

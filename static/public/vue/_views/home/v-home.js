@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService,  */
+   notificationService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -12,7 +12,8 @@ window.app = new Vue({
     localization,
     loader,
     parameters,
-    notificationService],
+    notificationService,
+    userService],
   data: {
     vueBind: {
       model: {
