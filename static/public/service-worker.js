@@ -1,6 +1,6 @@
 /* global self, caches, fetch, Response
 */
-const CACHE = '%BEAT%-cache'
+const CACHE = 'chatbots-cache'
 const precacheFiles = [
   /* Add an array of files to precache for your app */
 ]
@@ -72,14 +72,14 @@ function installOnClick () {
 }
 
 self.addEventListener('install', function (event) {
-  console.log('[PWA Builder] Install Event processing')
+  console.log('[PWA] Install Event processing')
 
-  console.log('[PWA Builder] Skip waiting on install')
+  console.log('[PWA] Skip waiting on install')
   self.skipWaiting()
 
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
-      console.log('[PWA Builder] Caching pages during install')
+      console.log('[PWA] Caching pages during install')
 
       return cache.addAll(precacheFiles).then(function () {
         if (offlineFallbackPage === 'ToDo-replace-this-name.html') {
@@ -94,13 +94,19 @@ self.addEventListener('install', function (event) {
 
 // Allow sw to control of current page
 self.addEventListener('activate', function (event) {
-  console.log('[PWA Builder] Claiming clients for current page')
+  console.log('[PWA] Claiming clients for current page')
   event.waitUntil(self.clients.claim())
 })
 
 // If any fetch fails, it will look for the request in the cache and serve it from there first
 self.addEventListener('fetch', function (event) {
+  if (event.request.url.includes('localhost')) return
   if (event.request.method !== 'GET') return
+  if (event.request.url.includes('/api') && navigator.onLine) return
+  if (event.request.url.includes('v-') && navigator.onLine) return
+  if (event.request.url.includes('s-') && navigator.onLine) return
+  if (event.request.url.includes('m-') && navigator.onLine) return
+  if (event.request.url.includes('c-') && navigator.onLine) return
 
   if (comparePaths(event.request.url, networkFirstPaths)) {
     networkFirstFetch(event)
@@ -140,7 +146,7 @@ function cacheFirstFetch (event) {
               return
             }
 
-            console.log('[PWA Builder] Network request failed and no cache.' + error)
+            console.log('[PWA] Network request failed and no cache.' + error)
             // Use the precached offline page as fallback
             return caches.open(CACHE).then(function (cache) {
               cache.match(offlineFallbackPage)
@@ -160,7 +166,7 @@ function networkFirstFetch (event) {
         return response
       })
       .catch(function (error) {
-        console.log('[PWA Builder] Network request Failed. Serving content from cache: ' + error)
+        console.log('[PWA] Network request Failed. Serving content from cache: ' + error)
         return fromCache(event.request)
       })
   )

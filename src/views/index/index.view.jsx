@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Layout = require('../shared/layouts/_layoutGeneral');
+const Layout = require('../shared/layouts/_layoutPublic');
 
 class Index extends React.Component {
   render () {
@@ -13,7 +13,7 @@ class Index extends React.Component {
             <div className="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
               <div className="col-md-9 text-center">
                 <h1 className="mb-3 bread">%BEAT%</h1>
-                <p className="breadcrumbs"><span className="mr-2"><a href="https://github.com/thEpisode/beat-cli">Home</a></span> <span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>
+                <p className="breadcrumbs"><span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>
               </div>
             </div>
           </div>

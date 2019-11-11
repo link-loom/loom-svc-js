@@ -21,7 +21,7 @@ function home (dependencies) {
           '_services/user/s-user.js'
         ]
       },
-      vue: 'home/v-home.js'
+      vue: '_views/home/v-home.js'
     })
   }
 
