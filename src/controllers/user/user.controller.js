@@ -49,35 +49,31 @@ function userController (dependencies) {
 
   const getByIdentity = async (data) => {
     try {
-      if (data && data.identity) {
-        let userResult = await getByDni({ dni: data.identity })
-
-        if (_utilities.response.isValid(userResult)) {
-          return userResult
-        } else {
-          userResult = await getByPhone({ phone: data.identity })
-
-          if (_utilities.response.isValid(userResult)) {
-            return userResult
-          } else {
-            userResult = await getByEmail({ email: data.identity })
-
-            if (_utilities.response.isValid(userResult)) {
-              return userResult
-            } else {
-              userResult = await getById({ id: data.identity })
-
-              if (_utilities.response.isValid(userResult)) {
-                return userResult
-              } else {
-                return _utilities.response.error('User not found')
-              }
-            }
-          }
-        }
-      } else {
+      if (!data || !data.identity) {
         return _utilities.response.error('Please provide a phone number, dni or email')
       }
+
+      let userResult = await getByDni({ dni: data.identity })
+      if (_utilities.response.isValid(userResult)) {
+        return userResult
+      }
+
+      userResult = await getByPhone({ phone: data.identity })
+      if (_utilities.response.isValid(userResult)) {
+        return userResult
+      }
+
+      userResult = await getByEmail({ email: data.identity })
+      if (_utilities.response.isValid(userResult)) {
+        return userResult
+      }
+
+      userResult = await getById({ id: data.identity })
+      if (_utilities.response.isValid(userResult)) {
+        return userResult
+      }
+
+      return _utilities.response.error('User not found')
     } catch (error) {
       _console.error(error)
       return _utilities.response.error()

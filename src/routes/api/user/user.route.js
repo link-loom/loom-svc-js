@@ -1,28 +1,26 @@
-function user (dependencies) {
+function route (dependencies) {
   const _utilities = dependencies.utilities
   const _controllers = dependencies.controllers
 
-  /**
-     * Get All
-     *
-     * route to show message (GET http://<<URL>>/api/user/getAll/)
-     */
   const get = async (req, res) => {
-    let result
+    let result = {}
+    const params = _utilities.request.getParameters(req)
+    const { id, dni, phone, identity, email, businessId } = params
 
-    if (req.query && !_utilities.objectIsEmpty(req.query)) {
-      // Map all object into individual variables
-      const { id, username } = req.query
-
-      if (id) {
-        result = await _controllers.user.getById(req.query)
-      } else if (username) {
-        result = await _controllers.user.getByUsername(req.query)
-      } else {
-        result = await _controllers.user.getAll(req.query)
-      }
+    if (id) {
+      result = await _controllers.user.getById(params)
+    } else if (dni) {
+      result = await _controllers.user.getByDni(params)
+    } else if (phone) {
+      result = await _controllers.user.getByPhone(params)
+    } else if (identity) {
+      result = await _controllers.user.getByIdentity(params)
+    } else if (email) {
+      result = await _controllers.user.getByEmail(params)
+    } else if (businessId) {
+      result = await _controllers.user.getAllByBusinessId(params)
     } else {
-      result = await _controllers.user.getAll(req.query)
+      result = await _controllers.user.getAll(params)
     }
 
     res.json(result)
@@ -34,35 +32,20 @@ function user (dependencies) {
    * route to show message (POST http://<<URL>>/api/user/create)
    */
   const create = async (req, res) => {
-    const result = await _controllers.user.create(req.body)
+    const params = _utilities.request.getParameters(req)
+    const result = await _controllers.user.create(params)
 
     res.json(result)
   }
 
   /**
-     * Partial update
+     * Update
      *
      * route to show message (POST http://<<URL>>/api/user/update)
      */
   const update = async (req, res) => {
-    const result = await _controllers.user.update(req.body)
-
-    res.json(result)
-  }
-
-  /**
-     * Update or create
-     *
-     * route to show message (POST http://<<URL>>/api/user/update)
-     */
-  const updateOrCreate = async (req, res) => {
-    const result = await _controllers.user.updateOrCreate(req.body)
-
-    res.json(result)
-  }
-
-  const remove = async (req, res) => {
-    const result = await _controllers.user.remove(req.body)
+    const params = _utilities.request.getParameters(req)
+    const result = await _controllers.user.update(params)
 
     res.json(result)
   }
@@ -70,10 +53,8 @@ function user (dependencies) {
   return {
     get,
     create,
-    update,
-    updateOrCreate,
-    remove
+    update
   }
 }
 
-module.exports = user
+module.exports = route

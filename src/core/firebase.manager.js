@@ -43,8 +43,8 @@ class FirebaseManager {
       const arr = []
       const obj = {}
 
-      snapshot.forEach(childSnapshot => {
-        const item = childSnapshot.val()
+      snapshot.docs.forEach(childSnapshot => {
+        const item = childSnapshot.data()
         arr.push(item)
       })
 
@@ -58,22 +58,23 @@ class FirebaseManager {
   }
 
   castObjectSnapshot (snapshot) {
-    if (snapshot) {
-      const item = snapshot.val()
-      if (item) {
-        const obj = {}
-
-        obj.rawId = Object.keys(item)[0]
-        obj.formatted = item[Object.keys(item)[0]]
-        obj.raw = item
-
-        return obj
-      } else {
-        return null
-      }
-    } else {
+    if (!snapshot || snapshot.isEmpty) {
       return null
     }
+
+    const item = snapshot.data()
+
+    if (!item) {
+      return null
+    }
+
+    const obj = {}
+
+    obj.rawId = snapshot.id
+    obj.formatted = item
+    obj.raw = snapshot
+
+    return obj
   }
 
   get cast () {
