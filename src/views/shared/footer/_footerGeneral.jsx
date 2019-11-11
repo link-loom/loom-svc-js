@@ -9,17 +9,12 @@ class Footer extends React.Component {
         <div className="overlay"></div>
         <div className="container">
           <div className="row mb-5">
-            <div className="col-lg-3 col-md-6 mb-5 mb-md-5">
+            <div className="col-md-6 mb-5 mb-md-5">
               <div className="ftco-footer-widget mb-4">
                 <h1 className="logo">%BEAT%</h1>
               </div>
             </div>
-            <div className="col-lg col-md-6 mb-5 mb-md-5 ">
-              <div className="ftco-footer-widget mb-4">
-                <h2 className="location">Virtual capital of America</h2>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 mb-5 mb-md-5">
+            <div className="col-md-6 mb-5 mb-md-5">
               <div className="ftco-footer-widget mb-4">
                 <ul className="ftco-footer-social list-unstyled float-md-left float-lft">
                   <li className=""><a href="https://twitter.com/vca_global"><span className="icon-twitter"></span></a></li>
