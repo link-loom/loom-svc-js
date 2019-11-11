@@ -6,7 +6,7 @@ function closedMarketsFunction (dependencies) {
 
   const runEvery24H = async (data) => {
     try {
-      _console.info(`Executing runEvery24H function`)
+      _console.info('Executing runEvery24H function')
 
       const statusResponse = await _controllers.status.get()
 

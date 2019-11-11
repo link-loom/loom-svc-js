@@ -68,7 +68,7 @@ function uploadController (dependencies) {
   }
 
   const bulk = (req, res) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => { // eslint-disable-line
       const file = req.file
 
       if (!req || !req.file) {
@@ -76,8 +76,8 @@ function uploadController (dependencies) {
         return
       }
 
-      let workbook = new _excel.Workbook()
-      let processedFile = {}
+      const workbook = new _excel.Workbook()
+      const processedFile = {}
 
       await workbook.xlsx.load(file.buffer)
 

@@ -1,24 +1,22 @@
-function spaces (dependencies) {
-  const _console = dependencies.console
-  let _credentials = ''
-
-  const setSettings = (credentials) => {
-    setCredentials(credentials)
-    _console.success('Spaces manager imported')
+class SpacesManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._credentials = ''
   }
 
-  const getCredentials = () => {
-    return _credentials
+  setSettings (credentials) {
+    this.setCredentials(credentials)
+    this._console.success('Spaces manager loaded')
   }
 
-  const setCredentials = (credentials) => {
-    _credentials = credentials
+  getCredentials () {
+    return this._credentials
   }
 
-  return {
-    setSettings,
-    getCredentials
+  setCredentials (credentials) {
+    this._credentials = credentials
   }
 }
 
-module.exports = spaces
+module.exports = { SpacesManager }

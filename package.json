@@ -2,7 +2,7 @@
   "name": "beat",
   "title": "Beat",
   "description": "Server framework to create fast and lightweight projects",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "homepage": "https://reversebytes.wordpress.com",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
@@ -64,7 +64,8 @@
   "standard": {
     "ignore": [
       "/node_modules/**/*.js",
-      "/static/**/*.js",
+      "/static/private/js/**/*.js",
+      "/static/public/js/**/*.js",
       "/src/views/*",
       "/ui-template/*"
     ]

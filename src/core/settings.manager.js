@@ -1,17 +1,24 @@
-function settings (args) {
-  const dependenciesManager = require('./dependencies.manager')(args)
+class SettingsManager {
+  constructor (args) {
+    this._args = args
 
-  const setup = () => {
-    globalDependencies()
-    languageExtensions()
-    setupMiddlewares()
+    this.loadSettings()
   }
 
-  const globalDependencies = () => {
-    const utilities = require('./utilities.manager')(dependenciesManager.get())
-    dependenciesManager.add(utilities, 'utilities')
+  loadSettings () {
+    this.globalDependencies()
+    this.languageExtensions()
+    this.setupMiddlewares()
+  }
 
-    dependenciesManager.add((str) => {
+  globalDependencies () {
+    const { DependenciesManager } = require('./dependencies.manager')
+    const { UtilitiesManager } = require('./utilities.manager')
+    this._dependencies = new DependenciesManager(this._args)
+    this._utilities = new UtilitiesManager(this._dependencies.core.get())
+
+    this._dependencies.core.add(this._utilities, 'utilities')
+    this._dependencies.core.add((str) => {
       try {
         JSON.parse(str)
       } catch (e) {
@@ -21,17 +28,17 @@ function settings (args) {
     }, 'isJsonString')
   }
 
-  const languageExtensions = () => {
+  languageExtensions () {
     /* eslint-disable */
     Object.defineProperty(global, '__stack', {
       get: function () {
-        var orig = Error.prepareStackTrace;
+        const orig = Error.prepareStackTrace;
         Error.prepareStackTrace = function (_, stack) {
           return stack;
         };
-        var err = new Error;
+        const err = new Error;
         Error.captureStackTrace(err, arguments.callee);
-        var stack = err.stack;
+        const stack = err.stack;
         Error.prepareStackTrace = orig;
         return stack;
       }
@@ -83,13 +90,13 @@ function settings (args) {
     }
     /* eslint-enable */
 
-    findPolyfill()
-    findIndexPolyfill()
+    this.findPolyfill()
+    this.findIndexPolyfill()
 
-    console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Language extended`)
+    console.log(` ${this._dependencies.core.get().colors.green(`${this._dependencies.core.get().config.SERVER_NAME}:`)} Language extended`)
   }
 
-  const findPolyfill = () => {
+  findPolyfill () {
     /* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */
     if (!Array.prototype.find) {
       Object.defineProperty(Array.prototype, 'find', {
@@ -99,10 +106,10 @@ function settings (args) {
             throw new TypeError('"this" is null or not defined')
           }
 
-          var o = Object(this)
+          const obj = Object(this)
 
           // 2. Let len be ? ToLength(? Get(O, "length")).
-          var len = o.length >>> 0
+          const len = obj.length >>> 0
 
           // 3. If IsCallable(predicate) is false, throw a TypeError exception.
           if (typeof predicate !== 'function') {
@@ -110,23 +117,23 @@ function settings (args) {
           }
 
           // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
-          var thisArg = arguments[1]
+          const args = arguments[1]
 
           // 5. Let k be 0.
-          var k = 0
+          let index = 0
 
           // 6. Repeat, while k < len
-          while (k < len) {
+          while (index < len) {
             // a. Let Pk be ! ToString(k).
             // b. Let kValue be ? Get(O, Pk).
             // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
             // d. If testResult is true, return kValue.
-            var kValue = o[k]
-            if (predicate.call(thisArg, kValue, k, o)) {
-              return kValue
+            const indexValue = obj[index]
+            if (predicate.call(args, indexValue, index, obj)) {
+              return indexValue
             }
             // e. Increase k by 1.
-            k++
+            index++
           }
 
           // 7. Return undefined.
@@ -136,24 +143,25 @@ function settings (args) {
     }
   }
 
-  const findIndexPolyfill = () => {
+  findIndexPolyfill () {
     /* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */
     if (!Array.prototype.findIndex) {
-      Array.prototype.findIndex = function (predicate) {
+      Array.prototype.findIndex = function (fn) {
         if (this === null) {
           throw new TypeError('Array.prototype.findIndex called on null or undefined')
         }
-        if (typeof predicate !== 'function') {
+        if (typeof fn !== 'function') {
           throw new TypeError('predicate must be a function')
         }
-        var list = Object(this)
-        var length = list.length >>> 0
-        var thisArg = arguments[1]
-        var value
 
-        for (var i = 0; i < length; i++) {
+        const list = Object(this)
+        const length = list.length >>> 0
+        const args = arguments[1]
+        let value = {}
+
+        for (let i = 0; i < length; i++) {
           value = list[i]
-          if (predicate.call(thisArg, value, i, list)) {
+          if (fn.call(args, value, i, list)) {
             return i
           }
         }
@@ -162,29 +170,24 @@ function settings (args) {
     }
   }
 
-  const setupMiddlewares = () => {
+  setupMiddlewares () {
     // Security
-    dependenciesManager.get().express.use(dependenciesManager.get().helmet())
-    dependenciesManager.get().express.disable('x-powered-by')
-    dependenciesManager.get().express.use(dependenciesManager.get().compress())
+    this._dependencies.core.get().express.use(this._dependencies.core.get().helmet())
+    this._dependencies.core.get().express.disable('x-powered-by')
+    this._dependencies.core.get().express.use(this._dependencies.core.get().compress())
 
     // use body parser so we can get info from POST and/or URL parameters
-    dependenciesManager.get().express.use(dependenciesManager.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
-    dependenciesManager.get().express.use(dependenciesManager.get().bodyParser.json()) // support json encoded bodies
-    dependenciesManager.get().express.use(dependenciesManager.get().cors())
-    dependenciesManager.get().express.use(dependenciesManager.get().cookieParser())
+    this._dependencies.core.get().express.use(this._dependencies.core.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
+    this._dependencies.core.get().express.use(this._dependencies.core.get().bodyParser.json()) // support json encoded bodies
+    this._dependencies.core.get().express.use(this._dependencies.core.get().cors())
+    this._dependencies.core.get().express.use(this._dependencies.core.get().cookieParser())
 
-    console.log(` ${dependenciesManager.get().colors.green(`${dependenciesManager.get().config.SERVER_NAME}:`)} Configured middlewares`)
+    console.log(` ${this._dependencies.core.get().colors.green(`${this._dependencies.core.get().config.SERVER_NAME}:`)} Configured middlewares`)
   }
 
-  const getDependenciesManager = () => {
-    return dependenciesManager
-  }
-
-  return {
-    initialize: setup,
-    dependencies: getDependenciesManager
+  get dependencies () {
+    return this._dependencies
   }
 }
 
-module.exports = settings
+module.exports = { SettingsManager }

@@ -34,7 +34,7 @@ function user (dependencies) {
    * route to show message (POST http://<<URL>>/api/user/create)
    */
   const create = async (req, res) => {
-    let result = await _controllers.user.create(req.body)
+    const result = await _controllers.user.create(req.body)
 
     res.json(result)
   }
@@ -45,7 +45,7 @@ function user (dependencies) {
      * route to show message (POST http://<<URL>>/api/user/update)
      */
   const update = async (req, res) => {
-    let result = await _controllers.user.update(req.body)
+    const result = await _controllers.user.update(req.body)
 
     res.json(result)
   }
@@ -56,13 +56,13 @@ function user (dependencies) {
      * route to show message (POST http://<<URL>>/api/user/update)
      */
   const updateOrCreate = async (req, res) => {
-    let result = await _controllers.user.updateOrCreate(req.body)
+    const result = await _controllers.user.updateOrCreate(req.body)
 
     res.json(result)
   }
 
   const remove = async (req, res) => {
-    let result = await _controllers.user.remove(req.body)
+    const result = await _controllers.user.remove(req.body)
 
     res.json(result)
   }

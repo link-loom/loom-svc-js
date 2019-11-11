@@ -1,55 +1,50 @@
-function firebase (dependencies) {
-  var _firebaseAdminCredentials = ''
-  let _firebaseCredentials = ''
-  let _firebaseURL = ''
-  let _storageBucket = ''
+class FirebaseManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
 
-  const setSettings = () => {
-    setFirebaseAdminCredentials(dependencies.config.FIREBASE_ADMIN)
-    setFirebaseCredentials(dependencies.config.FIREBASE)
-    setFirebaseURL(dependencies.config.firebaseDatabase)
-    setStorageBucketURL(dependencies.config.firebaseStorageBucket)
+    this._firebaseAdminCredentials = ''
+    this._firebaseCredentials = ''
+    this._firebaseURL = ''
   }
 
-  const getStorageBucketURL = () => {
-    return _storageBucket
+  setSettings () {
+    this.setFirebaseAdminCredentials(this._dependencies.config.FIREBASE_ADMIN)
+    this.setFirebaseCredentials(this._dependencies.config.FIREBASE)
+    this.setFirebaseURL(this._dependencies.config.firebaseDatabase)
   }
 
-  const setStorageBucketURL = (firebaseStorageBucketUrl) => {
-    _storageBucket = firebaseStorageBucketUrl
+  getFirebaseCredentials () {
+    return this._firebaseCredentials
   }
 
-  const getFirebaseCredentials = () => {
-    return _firebaseCredentials
+  setFirebaseCredentials (firebaseCredentials) {
+    this._firebaseCredentials = firebaseCredentials
   }
 
-  const setFirebaseCredentials = (firebaseCredentials) => {
-    _firebaseCredentials = firebaseCredentials
+  getFirebaseAdminCredentials () {
+    return this._firebaseAdminCredentials
   }
 
-  const getFirebaseAdminCredentials = () => {
-    return _firebaseAdminCredentials
+  setFirebaseAdminCredentials (firebaseAdminCredentials) {
+    this._firebaseAdminCredentials = firebaseAdminCredentials
   }
 
-  const setFirebaseAdminCredentials = (firebaseAdminCredentials) => {
-    _firebaseAdminCredentials = firebaseAdminCredentials
+  getFirebaseURL () {
+    return this._firebaseURL
   }
 
-  const getFirebaseURL = () => {
-    return _firebaseURL
+  setFirebaseURL (firebaseURL) {
+    this._firebaseURL = firebaseURL
   }
 
-  const setFirebaseURL = (firebaseURL) => {
-    _firebaseURL = firebaseURL
-  }
-
-  const castArraySnapshot = snapshot => {
+  castArraySnapshot (snapshot) {
     if (snapshot) {
-      let arr = []
-      let obj = {}
+      const arr = []
+      const obj = {}
 
       snapshot.forEach(childSnapshot => {
-        let item = childSnapshot.val()
+        const item = childSnapshot.val()
         arr.push(item)
       })
 
@@ -62,11 +57,11 @@ function firebase (dependencies) {
     }
   }
 
-  const castObjectSnapshot = snapshot => {
+  castObjectSnapshot (snapshot) {
     if (snapshot) {
-      let item = snapshot.val()
+      const item = snapshot.val()
       if (item) {
-        let obj = {}
+        const obj = {}
 
         obj.rawId = Object.keys(item)[0]
         obj.formatted = item[Object.keys(item)[0]]
@@ -81,17 +76,12 @@ function firebase (dependencies) {
     }
   }
 
-  return {
-    setSettings,
-    getFirebaseURL,
-    getStorageBucketURL,
-    getFirebaseCredentials,
-    getFirebaseAdminCredentials,
-    cast: {
-      array: castArraySnapshot,
-      object: castObjectSnapshot
+  get cast () {
+    return {
+      array: this.castArraySnapshot.bind(this),
+      object: this.castObjectSnapshot.bind(this)
     }
   }
 }
 
-module.exports = firebase
+module.exports = { FirebaseManager }

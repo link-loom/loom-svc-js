@@ -1,170 +1,211 @@
-function auth (dependencies) {
-  /// Dependencies
-  const _console = dependencies.console
-  const _bcrypt = dependencies.bcrypt
-  const _jwt = dependencies.jwt
-  const _utilities = dependencies.utilities
-  const _aesjs = dependencies.aesjs
-  const _crypto = dependencies.crypto
+class AuthManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._bcrypt = dependencies.bcrypt
+    this._jwt = dependencies.jwt
+    this._utilities = dependencies.utilities
+    this._aesjs = dependencies.aesjs
+    this._crypto = dependencies.crypto
+  }
 
-  /// Properties
-  const generatePrivateKey = function (seed) {
+  generatePrivateKey (seed) {
     // Get a 32 bit hash from given seed
-    let hashString = _crypto.createHash('sha256').update(seed || '', 'utf8').digest('hex').slice(0, 32)
+    const hashString = this._crypto
+      .createHash('sha256')
+      .update(seed || '', 'utf8')
+      .digest('hex')
+      .slice(0, 32)
     // Cast the string to a array buffer
-    let hashBuffer = Uint8Array.from(hashString, (x) => x.charCodeAt(0))
+    const hashBuffer = Uint8Array.from(hashString, (x) => x.charCodeAt(0))
     // Cast array buffer to array int
     return [...hashBuffer]
   }
 
-  const cypherObject = (key, data) => {
-    if (data && (typeof data === 'object' || typeof data === 'string')) {
+  cypherObject (key, payload) {
+    try {
+      if (!payload || (typeof payload !== 'object' && typeof payload !== 'string')) {
+        return null
+      }
+
       // Convert data to bytes
-      let dataBytes = _aesjs.utils.utf8.toBytes(JSON.stringify(data))
+      const dataBytes = this._aesjs.utils.utf8.toBytes(JSON.stringify(payload))
 
       // Turns a block cipher into a stream cipher. It generates the next keystream
       // block by encrypting successive values of a "counter"
-      let aesCTR = new _aesjs.ModeOfOperation.ctr(key, new _aesjs.Counter(5))
-      let encryptedBytes = aesCTR.encrypt(dataBytes)
+      const aesCTR = new this._aesjs.ModeOfOperation.ctr(key, new this._aesjs.Counter(5))
+      const encryptedBytes = aesCTR.encrypt(dataBytes)
 
       // convert bytes it to hex, is to handle in Key Vault Network
-      let encryptedHex = _aesjs.utils.hex.fromBytes(encryptedBytes)
+      const encryptedHex = this._aesjs.utils.hex.fromBytes(encryptedBytes)
 
       return encryptedHex
-    } else {
+    } catch (error) {
+      this._console.error(error)
       return null
     }
   }
 
-  const decipherObject = (key, data) => {
-    if (data && typeof data === 'string') {
+  decipherObjec (key, payload) {
+    try {
+      if (!payload || typeof payload !== 'string') {
+        return null
+      }
+
       // When ready to decrypt the hex string, convert it back to bytes
-      let encryptedBytes = _aesjs.utils.hex.toBytes(data)
+      const encryptedBytes = this._aesjs.utils.hex.toBytes(payload)
 
       // The counter mode of operation maintains internal state, so to
       // decrypt a new instance must be instantiated.
       /* eslint new-cap: ["error", { "properties": false }] */
-      let aesCtr = new _aesjs.ModeOfOperation.ctr(key, new _aesjs.Counter(5))
-      let decryptedBytes = aesCtr.decrypt(encryptedBytes)
+      const aesCtr = new this._aesjs.ModeOfOperation.ctr(key, new this._aesjs.Counter(5))
+      const decryptedBytes = aesCtr.decrypt(encryptedBytes)
 
       // Convert our bytes back into text
-      let decryptedText = _aesjs.utils.utf8.fromBytes(decryptedBytes)
+      const decryptedText = this._aesjs.utils.utf8.fromBytes(decryptedBytes)
 
-      try {
-        return JSON.parse(decryptedText)
-      } catch (error) {
-        _console.error(error)
-        return null
-      }
-    }
-  }
-
-  const stringToHash = (data) => {
-    if (data && typeof data === 'string') {
-      return _bcrypt.hashSync(data, 8)
-    } else {
+      return JSON.parse(decryptedText)
+    } catch (error) {
+      this._console.error(error)
       return null
     }
   }
 
-  const destroyToken = () => {
+  stringToHash (payload) {
+    if (!payload || typeof payload !== 'string') {
+      return null
+    }
+
+    return this._bcrypt.hashSync(payload, 8)
+  }
+
+  destroyToken () {
     return { auth: false, token: null }
   }
 
-  const createToken = (data) => {
+  createToken (payload) {
     try {
-      if (data) {
-        let token = _jwt.sign(data, dependencies.config.JWT_SECRET, {
-          expiresIn: 86400 // expires in 24 hours
-        })
-        return { userId: data.userId, auth: true, token: token }
-      } else {
+      if (!payload) {
         return null
       }
+
+      const token = this._jwt.sign(payload, this._dependencies.config.JWT_SECRET, {
+        expiresIn: this._dependencies.config.TOKEN_EXPIRE * 3600
+      })
+
+      return { userId: payload.userId, auth: true, token: token }
     } catch (error) {
-      _console.error(error)
+      this._console.error(error)
       return null
     }
   }
 
-  const validateToken = (token) => {
-    return new Promise(function (resolve, reject) {
-      _jwt.verify(token, dependencies.config.JWT_SECRET, function (err, decoded) {
-        if (err) return reject(err)
-        else resolve(decoded)
+  validateToken (token) {
+    return new Promise((resolve, reject) => {
+      this._jwt.verify(token, this._dependencies.config.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          return reject(err)
+        } else {
+          resolve(decoded)
+        }
       })
     })
   }
 
-  const validateApi = async (req, res, next) => {
-    const _controllers = dependencies.controllers
+  async validateApi (req, res, next) {
+    const _controllers = this._dependencies.controllers
     // check header or url parameters or post parameters for token
-    var encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
+    const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
 
     // exist token
-    if (encryptedToken) {
-      try {
-        let decipherToken = decipherObject(_controllers.backend.getKey(), encryptedToken)
-        if (decipherToken && decipherToken.token) {
-          let decoded = await validateToken(decipherToken.token)
-          req.decodedToken = decoded
-          req.token = encryptedToken
-
-          next()
-        } else {
-          return res.status(403).json(_utilities.response.error('Malformed token. Try with a valid token'))
-        }
-      } catch (error) {
-        return res.status(403).json(_utilities.response.error('Failed to authenticate token.'))
-      }
-    } else {
+    if (!encryptedToken) {
       // if there is no token return an error
-      return res.status(403).json(_utilities.response.error('No token provided.'))
+      return res.status(403).json(this._utilities.response.error('No token provided.'))
+    }
+
+    try {
+      const decipherToken = this.decipherObject(_controllers.backend.getKey(), encryptedToken)
+
+      if (!decipherToken || !decipherToken.token) {
+        return res.status(403).json(this._utilities.response.error('Malformed token. Try with a valid token'))
+      }
+
+      const decoded = await this.validateToken(decipherToken.token)
+      req.decodedToken = decoded
+      req.token = encryptedToken
+
+      next()
+    } catch (error) {
+      return res.status(403).json(this._utilities.response.error('Failed to authenticate token.'))
     }
   }
 
-  const compare = (data) => {
+  compare (payload) {
     let passwordIsValid = false
-    if (data.receivedPassword && data.hash) {
-      passwordIsValid = _bcrypt.compareSync(data.receivedPassword, data.hash)
+
+    if (payload && payload.receivedPassword && payload.hash) {
+      passwordIsValid = this._bcrypt.compareSync(payload.receivedPassword, payload.hash)
     }
+
     return passwordIsValid
   }
 
-  const b64Encode = (data) => {
-    return Buffer.from(typeof data === 'string' ? data : JSON.stringify(data)).toString('base64')
+  b64Encode (payload) {
+    if (!payload) {
+      return ''
+    }
+
+    payload = typeof payload === 'string' ? payload : JSON.stringify(payload)
+    return Buffer.from(payload).toString('base64')
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
   }
 
-  const b64Decode = (data) => {
-    return Buffer.from(typeof data === 'string' ? data : JSON.stringify(data), 'base64').toString()
+  b64Decode (payload) {
+    if (!payload) {
+      return ''
+    }
+
+    payload = typeof payload === 'string' ? payload : JSON.stringify(payload)
+    return Buffer.from(payload, 'base64').toString()
   }
 
-  return {
-    crypto: {
-      generatePrivateKey,
-      cypherObject,
-      decipherObject
-    },
-    encoder: {
+  get crypto () {
+    return {
+      generatePrivateKey: this.generatePrivateKey,
+      cypherObject: this.cypherObject,
+      decipherObject: this.decipherObject
+    }
+  }
+
+  get encoder () {
+    return {
       base64: {
-        encode: b64Encode,
-        decode: b64Decode
+        encode: this.b64Encode,
+        decode: this.b64Decode
       }
-    },
-    hash: {
-      stringToHash,
-      isValid: compare
-    },
-    token: {
-      create: createToken,
-      destroy: destroyToken,
-      validate: validateToken
-    },
-    middleware: {
-      validateApi
+    }
+  }
+
+  get hash () {
+    return {
+      stringToHash: this.stringToHash,
+      isValid: this.compare
+    }
+  }
+
+  get token () {
+    return {
+      create: this.createToken,
+      destroy: this.destroyToken,
+      validate: this.validateToken
+    }
+  }
+
+  get middleware () {
+    return {
+      validateApi: this.validateApi.bind(this)
     }
   }
 }
 
-module.exports = auth
+module.exports = { AuthManager }

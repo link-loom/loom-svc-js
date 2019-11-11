@@ -115,4 +115,4 @@ DalManager.statuses = {
   deleted: { id: 3, name: 'deleted', title: 'Deleted' }
 }
 
-module.exports = DalManager
+module.exports = { DalManager }

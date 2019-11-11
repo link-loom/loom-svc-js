@@ -1,63 +1,59 @@
-function Database (dependencies) {
-  const _firebaseManager = require(`${dependencies.root}/src/core/firebase.manager`)(dependencies)
-  const _postgresqlManager = require(`${dependencies.root}/src/core/postgresql.manager`)(dependencies)
+class DatabaseManager {
+  constructor (dependencies) {
+    const { FirebaseManager } = require(`${dependencies.root}/src/core/firebase.manager`)
+    const { PostgresqlManager } = require(`${dependencies.root}/src/core/postgresql.manager`)
 
-  /// Dependencies
-  const _firebase = dependencies.firebase
-  const _console = dependencies.console
-  const _pg = dependencies.pg
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._firebaseManager = new FirebaseManager(dependencies)
+    this._postgresqlManager = new PostgresqlManager(dependencies)
+    this._firebase = dependencies.firebase
+    this._pg = dependencies.pg
+    this._db = {}
 
-  /// Properties
-  let _db
-
-  const constructor = () => {
-    return databaseConnect()
+    this.loadDatabase()
   }
 
-  const databaseConnect = async () => {
-    if (!dependencies.config.USE_DATABASE) {
-      _console.info('Database is not configured')
+  async loadDatabase () {
+    if (!this._dependencies.config.USE_DATABASE) {
+      this._console.info('Database is not configured')
       return
     }
 
-    switch (dependencies.config.DATABASE_NAME) {
+    switch (this._dependencies.config.DATABASE_NAME) {
       case 'firebase':
-        _firebaseManager.setSettings()
-        dependencies.settings.dependencies().add(_firebaseManager, 'firebaseManager')
-        await firebaseConfig()
+        this._firebaseManager.setSettings()
+        this._dependencies.settings.dependencies.core.add(this._firebaseManager, 'firebaseManager')
+        await this.firebaseConfig()
         break
       case 'postgresql':
-        _postgresqlManager.setSettings(dependencies.config.POSTGRESQL)
-        dependencies.settings.dependencies().add(_postgresqlManager, 'postgresqlManager')
-        await postgresqlConfig()
+        this._postgresqlManager.setSettings()
+        this._dependencies.settings.dependencies.core.add(this._postgresqlManager, 'postgresqlManager')
+        await this.postgresqlConfig()
         break
       default:
         break
     }
 
-    dependencies.db = _db || {}
-    _console.success('Database imported')
+    this._dependencies.db = this._db || {}
+    this._console.success('Database manager loaded')
   }
 
-  const postgresqlConfig = async () => {
-    const pool = new _pg.Pool(_postgresqlManager.getCredentials())
-    _db = pool
+  async postgresqlConfig () {
+    const pool = new this._pg.Pool(this._postgresqlManager.getCredentials())
+    this._db = pool
   }
 
-  const firebaseConfig = async () => {
-    _firebase.initializeApp({
-      credential: _firebase.credential.cert(_firebaseManager.getFirebaseAdminCredentials()),
-      databaseURL: _firebaseManager.getFirebaseURL(),
-      storageBucket: _firebaseManager.getStorageBucketURL()
+  async firebaseConfig () {
+    this._firebase.initializeApp({
+      credential: this._firebase.credential.cert(this._firebaseManager.getFirebaseAdminCredentials()),
+      databaseURL: this._firebaseManager.getFirebaseURL()
     })
-    const settings = { timestampsInSnapshots: true }
-    _db = _firebase.firestore()
-    _db.settings(settings)
-  }
 
-  return {
-    initialize: constructor
+    const settings = { timestampsInSnapshots: true }
+    this._db = this._firebase.firestore()
+    this._db.settings(settings)
   }
 }
 
-module.exports = Database
+module.exports = { DatabaseManager }

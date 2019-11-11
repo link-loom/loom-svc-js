@@ -1,18 +1,19 @@
-function localization (dependencies) {
-  /// Dependencies
-  const _console = dependencies.console
-  const fs = require('fs')
+class LocalizationManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
 
-  const dictionaryFolder = `${dependencies.root}/src/locales/`
-  let _locales
+    this._locales = {}
 
-  const constructor = () => {
-    _locales = {}
+    this.loadLocales()
 
-    return instantiateLocales()
+    this._console.success('Localization manager loaded')
   }
 
-  const instantiateLocales = () => {
+  loadLocales () {
+    const dictionaryFolder = `${this._dependencies.root}/src/locales/`
+    const fs = require('fs')
+
     const dictionaries = fs
       .readdirSync(dictionaryFolder, { withFileTypes: true })
 
@@ -24,15 +25,13 @@ function localization (dependencies) {
       const localeFilename = (locale.name || locale)
 
       if (localeFilename.includes('.locale')) {
-        const localeFile = require(`${dependencies.root}/src/locales/${localeFilename}`)
-        _locales[localeFile.country_iso_code.toLocaleLowerCase()] = localeFile
+        const localeFile = require(`${this._dependencies.root}/src/locales/${localeFilename}`)
+        this._locales[localeFile.country_iso_code.toLocaleLowerCase()] = localeFile
       }
     })
-
-    _console.success('Localization imported')
   }
 
-  const getLocales = (req, res) => {
+  international (req, res) {
     if (!req.params.lang) {
       if (!req.params) { req.params = {} }
       if (!req.lookup) { req.lookup = { country: { iso_code: '' } } }
@@ -59,9 +58,9 @@ function localization (dependencies) {
       return null
     }
 
-    locale = _locales[lang]
+    locale = this._locales[lang]
     if (!locale) {
-      locale = _locales.us
+      locale = this._locales.us
     }
 
     locales = (locale.dictionary[req.route.name][req.route.handler])
@@ -71,11 +70,6 @@ function localization (dependencies) {
 
     return { ...locales, ...components }
   }
-
-  return {
-    start: constructor,
-    international: getLocales
-  }
 }
 
-module.exports = localization
+module.exports = { LocalizationManager }

@@ -65,5 +65,6 @@
       "name": "socketClient",
       "package": "socket.io-client"
     }
-  ]
+  ],
+  "TOKEN_EXPIRE": 24
 }

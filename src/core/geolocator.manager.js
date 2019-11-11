@@ -1,25 +1,18 @@
-function localization (dependencies) {
-  /// Dependencies
-  const _console = dependencies.console
-  const _maxmind = dependencies.maxmind
-  let _lookup
-
-  const constructor = async () => {
-    _lookup = {}
-
-    return instantiateLocales()
+class GeolocatorManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._maxmind = dependencies.maxmind
   }
 
-  const instantiateLocales = async () => {
-    const database = `${dependencies.root}${dependencies.config.GEOIP_DATABASE.PATH}`
+  async loadDatabases () {
+    const database = `${this._dependencies.root}${this._dependencies.config.GEOIP_DATABASE.PATH}`
 
-    _lookup = await _maxmind.open(database)
-    _console.success('Geolocate imported')
-
-    return _lookup
+    this._lookup = await this._maxmind.open(database)
+    this._console.success('Geolocate manager loaded')
   }
 
-  const getLookup = (req) => {
+  getLookup (req) {
     if (!req) { return null }
 
     let ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress || '::1'
@@ -29,17 +22,12 @@ function localization (dependencies) {
       ip = '190.147.120.104'
     }
 
-    if (!_maxmind.validate(ip)) {
+    if (!this._maxmind.validate(ip)) {
       return null
     }
 
-    return _lookup.get(ip)
-  }
-
-  return {
-    start: constructor,
-    getLookup
+    return this._lookup.get(ip)
   }
 }
 
-module.exports = localization
+module.exports = { GeolocatorManager }

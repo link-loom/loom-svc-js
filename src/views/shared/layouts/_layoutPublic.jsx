@@ -10,9 +10,9 @@ class Layout extends React.Component {
     const vueServices = []
 
     for (const [index, value] of this.props.data.services.entries()) {
-      vueServices.push(<script type="text/javascript" key={index} src={'/private/vue/' + value}></script>)
+      vueServices.push(<script type="text/javascript" key={index} src={'/vue/' + value}></script>)
     }
-    
+
     return (
       <html lang="en">
 
@@ -59,20 +59,20 @@ class Layout extends React.Component {
           <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
           <script type="text/javascript" src="/sweetalert2/sweetalert2.min.js"></script>
 
-          <script type="text/javascript" src="/private/vue/_mixins/m-popup.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-b64.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-format.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-time.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-auth.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-find.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-localization.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-loader.js"></script>
-          <script type="text/javascript" src="/private/vue/_mixins/m-parameters.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-popup.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-b64.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-format.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-time.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-auth.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-find.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-localization.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-loader.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-parameters.js"></script>
 
-          <script type="text/javascript" src="/private/vue/_components/c-selectable.js"></script>
-          <script type="text/javascript" src="/private/vue/_components/c-wizard.js"></script>
+          <script type="text/javascript" src="/vue/_components/c-selectable.js"></script>
+          <script type="text/javascript" src="/vue/_components/c-wizard.js"></script>
           {vueServices}
-          <script type="text/javascript" {...{ 'src': this.props.vue ? `/private/vue/${this.props.vue}` : '' }}></script>
+          <script type="text/javascript" {...{ 'src': this.props.vue ? `/vue/${this.props.vue}` : '' }}></script>
 
           <script type="text/javascript" src="/js/scripts.js"></script>
 

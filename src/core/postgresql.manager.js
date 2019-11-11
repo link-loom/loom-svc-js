@@ -1,24 +1,23 @@
-function postgresql (dependencies) {
-  const _console = dependencies.console
-  let _credentials = ''
-
-  const setSettings = (credentials) => {
-    setCredentials(credentials)
-    _console.success('Spaces manager imported')
+class PostgresqlManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._credentials = ''
   }
 
-  const getCredentials = () => {
-    return _credentials
+  setSettings () {
+    this.setCredentials(this._dependencies.config.POSTGRESQL)
+
+    this._console.success('PostgreSQL manager loaded')
   }
 
-  const setCredentials = (credentials) => {
-    _credentials = credentials
+  getCredentials () {
+    return this._credentials
   }
 
-  return {
-    setSettings,
-    getCredentials
+  setCredentials (credentials) {
+    this._credentials = credentials
   }
 }
 
-module.exports = postgresql
+module.exports = { PostgresqlManager }

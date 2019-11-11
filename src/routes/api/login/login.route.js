@@ -9,7 +9,7 @@ function login (dependencies) {
      */
   const user = async (req, res) => {
     if (req.body) {
-      let result = await _database.entities.login.user(req.body)
+      const result = await _database.entities.login.user(req.body)
 
       res.json(result)
     } else {
@@ -18,7 +18,7 @@ function login (dependencies) {
   }
 
   const logout = async (req, res) => {
-    let result = await _database.entities.login.logout()
+    const result = await _database.entities.login.logout()
 
     res.json(result)
   }

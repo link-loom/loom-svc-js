@@ -1,17 +1,15 @@
-function Socket (dependencies) {
-  /// Dependencies
-  const _console = dependencies.console
-  const _socket = dependencies.socket
-  const _eventBus = dependencies.eventBus
-
-  const constructor = () => {
-    buildSocketEvents()
+class SocketManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._socket = dependencies.socket
+    this._eventBus = dependencies.eventBus
   }
 
-  const buildSocketEvents = () => {
-    _socket.on('connection', (client) => {
+  loadSocketEvents () {
+    this._socket.on('connection', (client) => {
       client.on('reversebytes.beat.api', (data) => {
-        _eventBus.emit(
+        this._eventBus.emit(
           'admin-event',
           {
             context: data.context || {},
@@ -21,7 +19,7 @@ function Socket (dependencies) {
         )
       })
       client.on('reversebytes.beat.chatbot', (data) => {
-        _eventBus.emit(
+        this._eventBus.emit(
           'chatbot-event',
           {
             context: data.context || {},
@@ -31,7 +29,7 @@ function Socket (dependencies) {
         )
       })
       client.on('reversebytes.beat.client', (data) => {
-        _eventBus.emit(
+        this._eventBus.emit(
           'client-event',
           {
             context: data.context || {},
@@ -42,18 +40,14 @@ function Socket (dependencies) {
       })
 
       client.on('disconnect', () => {
-        _console.success(`Node disconnected ${client.id}`)
+        this._console.success(`Node disconnected ${client.id}`)
       })
 
-      _console.success(`Node connected ${client.id}`)
+      this._console.success(`Node connected ${client.id}`)
     })
 
-    _console.success('Socket module initialized')
-  }
-
-  return {
-    start: constructor
+    this._console.success('Socket manager loaded')
   }
 }
 
-module.exports = Socket
+module.exports = { SocketManager }

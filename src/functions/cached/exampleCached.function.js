@@ -32,7 +32,7 @@ function currenciesManagerFunction (dependencies) {
     }
 
     _status = data
-    _console.success(`status are setted succesfully`)
+    _console.success('status are setted succesfully')
   }
 
   return {

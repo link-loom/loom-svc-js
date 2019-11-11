@@ -1,14 +1,13 @@
-function dependencies (args) {
-  var _dependencies
+class DependenciesManager {
+  constructor (args) {
+    this._args = args
+    this._dependencies = {}
 
-  const setup = () => {
-    _dependencies = {}
-
-    instantiateDependencies()
+    this.loadDependencies()
   }
 
-  const instantiateDependencies = () => {
-    const root = args.root
+  loadDependencies () {
+    const root = this._args.root
     const http = require('http')
     const events = require('events')
     const expressModule = require('express')
@@ -18,7 +17,7 @@ function dependencies (args) {
     const eventBus = new events.EventEmitter()
     const multerModule = require('multer')
 
-    _dependencies = {
+    this._dependencies = {
       root,
       http,
       multerModule,
@@ -50,36 +49,41 @@ function dependencies (args) {
       googleStorage: require('@google-cloud/storage')
     }
 
-    importCustomDependencies()
+    this.importCustomDependencies()
 
-    console.log(` ${_dependencies.colors.green(`${_dependencies.config.SERVER_NAME}:`)} Dependencies imported`)
+    console.log(` ${this._dependencies.colors.green(`${this._dependencies.config.SERVER_NAME}:`)} Dependencies manager loaded`)
   }
 
-  const importCustomDependencies = () => {
-    const dependencies = _dependencies.config.CUSTOM_DEPENDENCIES
+  importCustomDependencies () {
+    const dependencies = this._dependencies.config.CUSTOM_DEPENDENCIES
 
     if (!dependencies || !dependencies.length) {
       return
     }
 
     dependencies.map(customDependency => {
-      _dependencies[customDependency.name] = require(customDependency.package)
+      this._dependencies[customDependency.name] = require(customDependency.package)
     })
   }
 
-  const getDependencies = () => {
-    return _dependencies
+  getDependencies () {
+    return this._dependencies
   }
 
-  const addCustomDependency = (dependency, name) => {
-    _dependencies[name] = dependency
+  addCustomDependency (dependency, name) {
+    this._dependencies[name] = dependency
   }
 
-  setup()
-  return {
-    get: getDependencies,
-    add: addCustomDependency
+  get get () {
+    return this.getDependencies
+  }
+
+  get core () {
+    return {
+      add: this.addCustomDependency.bind(this),
+      get: this.getDependencies.bind(this)
+    }
   }
 }
 
-module.exports = dependencies
+module.exports = { DependenciesManager }

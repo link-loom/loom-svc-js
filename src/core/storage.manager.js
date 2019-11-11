@@ -1,63 +1,56 @@
-function Storage (dependencies) {
-  const _spacesManager = require(`${dependencies.root}/src/core/spaces.manager`)(dependencies)
+class StorageManager {
+  constructor (dependencies) {
+    const { SpacesManager } = require(`${dependencies.root}/src/core/spaces.manager`)
 
-  /// Dependencies
-  const _console = dependencies.console
-  const _aws = dependencies.aws
-  const _multer = dependencies.multerModule
-
-  /// Properties
-  let _storage = {}
-  let _s3 = {}
-
-  const constructor = () => {
-    return storageConnect()
+    this._dependencies = dependencies
+    this._console = dependencies.console
+    this._aws = dependencies.aws
+    this._multer = dependencies.multerModule
+    this._spacesManager = new SpacesManager(dependencies)
+    this._storage = {}
+    this._s3 = {}
   }
 
-  const storageConnect = async () => {
-    if (!dependencies.config.USE_STORAGE) {
-      _console.info('Storage is not configured')
+  async loadStorage () {
+    if (!this._dependencies.config.USE_STORAGE) {
+      this._console.info('Storage is not configured')
       return
     }
 
-    switch (dependencies.config.STORAGE_NAME) {
+    switch (this._dependencies.config.STORAGE_NAME) {
       case 'spaces':
-        _spacesManager.setSettings(dependencies.config.DIGITALOCEAN.SPACES)
-        dependencies.settings.dependencies().add(_spacesManager, 'spacesManager')
-        await spacesConfig()
+        this._spacesManager.setSettings(this._dependencies.config.DIGITALOCEAN.SPACES)
+        this._dependencies.settings.dependencies.core.add(this._spacesManager, 'spacesManager')
+        await this.spacesConfig()
         break
       default:
         break
     }
 
-    await storageConfig()
+    await this.storageConfig()
 
-    dependencies.storage = _storage || {}
-    dependencies.s3 = _s3
-    _console.success('Storage imported')
+    this._dependencies.storage = this._storage || {}
+    this._dependencies.s3 = this._s3
+    this._console.success('Storage manager loaded')
   }
 
-  const storageConfig = async () => {
-    _storage = _multer({
+  async storageConfig () {
+    this._storage = this._multer({
       limits: {
         fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
       },
-      storage: _multer.memoryStorage()
+      storage: this._multer.memoryStorage()
     })
   }
 
-  const spacesConfig = async () => {
-    const spacesEndpoint = new _aws.Endpoint(_spacesManager.getCredentials().endpoint)
-    _s3 = new _aws.S3({
+  async spacesConfig () {
+    const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)
+    this._s3 = new this._aws.S3({
       endpoint: spacesEndpoint,
-      accessKeyId: _spacesManager.getCredentials().accessKeyId,
-      secretAccessKey: _spacesManager.getCredentials().secretAccessKey
+      accessKeyId: this._spacesManager.getCredentials().accessKeyId,
+      secretAccessKey: this._spacesManager.getCredentials().secretAccessKey
     })
-  }
-
-  return {
-    initialize: constructor
   }
 }
 
-module.exports = Storage
+module.exports = { StorageManager }

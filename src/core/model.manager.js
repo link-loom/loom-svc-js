@@ -1,28 +1,20 @@
-function dependencies (dependencies) {
-  const _console = dependencies.console
+class ModelManager {
+  constructor (dependencies) {
+    this._dependencies = dependencies
+    this._console = dependencies.console
 
-  let _models
-
-  const setup = () => {
-    _models = {}
-
-    instantiateDependencies()
+    this.loadModels()
   }
 
-  const instantiateDependencies = () => {
-    _models = require(`${dependencies.root}/src/models/index`)
+  loadModels () {
+    this._models = require(`${this._dependencies.root}/src/models/index`)
 
-    _console.success('Models imported')
+    this._console.success('Models manager loaded')
   }
 
-  const getModels = () => {
-    return _models
-  }
-
-  setup()
-  return {
-    get: getModels
+  get models () {
+    return this._models
   }
 }
 
-module.exports = dependencies
+module.exports = { ModelManager }
