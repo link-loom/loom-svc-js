@@ -19,9 +19,13 @@ class FrontendManager {
 
     // build each frontend routes
     this._router.frontend.map((component) => {
-      const componentView = require(`${this._dependencies.root}/src${component.route}`)(this._dependencies)
+      try {
+        const componentView = require(`${this._dependencies.root}/src${component.route}`)(this._dependencies)
 
-      this._app.get(component.httpRoute, componentView[component.handler])
+        this._app.get(component.httpRoute, componentView[component.handler])
+      } catch (error) {
+        this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
+      }
     })
 
     // publish all files under public folder
