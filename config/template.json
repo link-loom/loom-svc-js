@@ -29,8 +29,6 @@
     "messagingSenderId": "992690359753",
     "appId": "1:992690359753:web:2a6f1941aec4871b6f2c18"
   },
-  "firebaseDatabase": "https://xxxxx.firebaseio.com",
-  "firebaseStorageBucket": "gs://xxxxx.appspot.com",
   "POSTGRESQL": {
     "user": "user",
     "host": "127.0.0.1",

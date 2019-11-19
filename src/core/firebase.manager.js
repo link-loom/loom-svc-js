@@ -11,7 +11,7 @@ class FirebaseManager {
   setSettings () {
     this.setFirebaseAdminCredentials(this._dependencies.config.FIREBASE_ADMIN)
     this.setFirebaseCredentials(this._dependencies.config.FIREBASE)
-    this.setFirebaseURL(this._dependencies.config.firebaseDatabase)
+    this.setFirebaseURL(this._dependencies.config.FIREBASE.databaseURL)
   }
 
   getFirebaseCredentials () {
