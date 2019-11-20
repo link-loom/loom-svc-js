@@ -31,19 +31,25 @@ class FrontendManager {
     // publish all files under public folder
     this._app.use(this._express.static(this._path.join(this._dependencies.root, '/static/public')))
     this._app.use('/private', this._express.static(this._path.join(this._dependencies.root, '/static/private')))
-    this._app.use('/jquery', this._express.static(this._path.join(this._dependencies.root, '/node_modules/jquery/dist/')))
-    this._app.use('/bootstrap', this._express.static(this._path.join(this._dependencies.root, '/node_modules/bootstrap/dist/')))
-    this._app.use('/fontawesome', this._express.static(this._path.join(this._dependencies.root, '/node_modules/@fortawesome/fontawesome-free-webfonts/')))
-    this._app.use('/popperjs', this._express.static(this._path.join(this._dependencies.root, '/node_modules/popper.js/dist/')))
-    this._app.use('/sweetalert2', this._express.static(this._path.join(this._dependencies.root, '/node_modules/sweetalert2/dist/')))
-    this._app.use('/vue', this._express.static(this._path.join(this._dependencies.root, '/node_modules/vue/dist')))
-    this._app.use('/vue-resource', this._express.static(this._path.join(this._dependencies.root, '/node_modules/vue-resource/dist')))
-    this._app.use('/vue-cookies', this._express.static(this._path.join(this._dependencies.root, '/node_modules/vue-cookies/')))
+
+    this.importCustomRoutes()
 
     // Something else, 404 error
     this._app.get('*', this._maintenance.index)
 
     this._console.success('FrontEnd manager loaded')
+  }
+
+  importCustomRoutes () {
+    const dependencies = this._dependencies.config.CUSTOM_STATIC_ROUTES
+
+    if (!dependencies || !dependencies.length) {
+      return
+    }
+
+    dependencies.map(customRoute => {
+      this._app.use(customRoute.route, this._express.static(this._path.join(this._dependencies.root, customRoute.path)))
+    })
   }
 }
 

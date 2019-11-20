@@ -64,5 +64,39 @@
       "package": "socket.io-client"
     }
   ],
+  "CUSTOM_STATIC_ROUTES":[
+    {
+      "route": "/jquery",
+      "path": "/node_modules/jquery/dist/"
+    },
+    {
+      "route": "/bootstrap",
+      "path": "/node_modules/bootstrap/dist/"
+    },
+    {
+      "route": "/fontawesome",
+      "path": "/node_modules/@fortawesome/fontawesome-free-webfonts/"
+    },
+    {
+      "route": "/popperjs",
+      "path": "/node_modules/popper.js/dist/"
+    },
+    {
+      "route": "/sweetalert2",
+      "path": "/node_modules/sweetalert2/dist/"
+    },
+    {
+      "route": "/vue",
+      "path": "/node_modules/vue/dist"
+    },
+    {
+      "route": "/vue-resource",
+      "path": "/node_modules/vue-resource/dist"
+    },
+    {
+      "route": "/vue-cookies",
+      "path": "/node_modules/vue-cookies/"
+    }
+  ],
   "TOKEN_EXPIRE": 24
 }
