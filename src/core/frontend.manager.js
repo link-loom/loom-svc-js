@@ -32,7 +32,7 @@ class FrontendManager {
     this._app.use(this._express.static(this._path.join(this._dependencies.root, '/static/public')))
     this._app.use('/private', this._express.static(this._path.join(this._dependencies.root, '/static/private')))
 
-    this.importCustomRoutes()
+    this.importCustomStaticRoutes()
 
     // Something else, 404 error
     this._app.get('*', this._maintenance.index)
@@ -40,7 +40,7 @@ class FrontendManager {
     this._console.success('FrontEnd manager loaded')
   }
 
-  importCustomRoutes () {
+  importCustomStaticRoutes () {
     const dependencies = this._dependencies.config.CUSTOM_STATIC_ROUTES
 
     if (!dependencies || !dependencies.length) {
