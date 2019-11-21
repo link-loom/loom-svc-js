@@ -49,8 +49,8 @@ class UtilitiesManager {
     return succesResponse
   }
 
-  badRequestView (req, res) {
-    res.render('maintenance/maintenance.view.jsx', null)
+  badRequestView (req, res, payload) {
+    res.render('maintenance/maintenance.view.jsx', payload)
   }
 
   cleanObjectData (rawObj) {
