@@ -11,7 +11,7 @@ function closedMarketsFunction (dependencies) {
       const statusResponse = await _controllers.status.get()
 
       if (_utilities.response.isValid(statusResponse)) {
-        dependencies.functions.cached.currenciesManager.saveConcurrentData(statusResponse.result)
+        // dependencies.functions.cached.currenciesManager.saveConcurrentData(statusResponse.result)
       }
     } catch (error) {
       _console.error(error)
