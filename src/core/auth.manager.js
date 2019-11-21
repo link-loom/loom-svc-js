@@ -46,7 +46,7 @@ class AuthManager {
     }
   }
 
-  decipherObjec (key, payload) {
+  decipherObject (key, payload) {
     try {
       if (!payload || typeof payload !== 'string') {
         return null
@@ -171,33 +171,33 @@ class AuthManager {
 
   get crypto () {
     return {
-      generatePrivateKey: this.generatePrivateKey,
-      cypherObject: this.cypherObject,
-      decipherObject: this.decipherObject
+      generatePrivateKey: this.generatePrivateKey.bind(this),
+      cypherObject: this.cypherObject.bind(this),
+      decipherObject: this.decipherObject.bind(this)
     }
   }
 
   get encoder () {
     return {
       base64: {
-        encode: this.b64Encode,
-        decode: this.b64Decode
+        encode: this.b64Encode.bind(this),
+        decode: this.b64Decode.bind(this)
       }
     }
   }
 
   get hash () {
     return {
-      stringToHash: this.stringToHash,
-      isValid: this.compare
+      stringToHash: this.stringToHash.bind(this),
+      isValid: this.compare.bind(this)
     }
   }
 
   get token () {
     return {
-      create: this.createToken,
-      destroy: this.destroyToken,
-      validate: this.validateToken
+      create: this.createToken.bind(this),
+      destroy: this.destroyToken.bind(this),
+      validate: this.validateToken.bind(this)
     }
   }
 
