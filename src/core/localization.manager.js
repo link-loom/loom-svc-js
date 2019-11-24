@@ -10,6 +10,20 @@ class LocalizationManager {
     this._console.success('Localization manager loaded')
   }
 
+  getAllLocales () {
+    const dictionaryFolder = `${this._dependencies.root}/src/locales/`
+    const fs = require('fs')
+
+    const dictionaries = fs
+      .readdirSync(dictionaryFolder, { withFileTypes: true })
+
+    if (!dictionaries || dictionaries.length <= 0) {
+      return null
+    }
+
+    return dictionaries
+  }
+
   loadLocales () {
     const dictionaryFolder = `${this._dependencies.root}/src/locales/`
     const fs = require('fs')

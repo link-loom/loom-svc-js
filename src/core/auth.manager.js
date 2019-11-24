@@ -83,17 +83,17 @@ class AuthManager {
     return { auth: false, token: null }
   }
 
-  createToken (payload) {
+  createToken (data, payload) {
     try {
-      if (!payload) {
+      if (!data || !payload) {
         return null
       }
 
-      const token = this._jwt.sign(payload, this._dependencies.config.JWT_SECRET, {
+      const token = this._jwt.sign(data, this._dependencies.config.JWT_SECRET, {
         expiresIn: this._dependencies.config.TOKEN_EXPIRE * 3600
       })
 
-      return { userId: payload.userId, auth: true, token: token }
+      return { userId: data.userId, auth: true, token, payload }
     } catch (error) {
       this._console.error(error)
       return null
