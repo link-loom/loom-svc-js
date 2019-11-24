@@ -11,17 +11,7 @@ class LocalizationManager {
   }
 
   getAllLocales () {
-    const dictionaryFolder = `${this._dependencies.root}/src/locales/`
-    const fs = require('fs')
-
-    const dictionaries = fs
-      .readdirSync(dictionaryFolder, { withFileTypes: true })
-
-    if (!dictionaries || dictionaries.length <= 0) {
-      return null
-    }
-
-    return dictionaries
+    return this._locales
   }
 
   loadLocales () {
