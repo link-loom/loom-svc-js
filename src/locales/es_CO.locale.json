@@ -5,6 +5,72 @@
   "country": "Colombia",
   "country_iso_code": "CO",
   "dictionary": {
+    "account": {
+      "getting-started": {
+        "MAIN_TITLE_LABEL": "Configura tu negocio",
+        "MAIN_DESCRIPTION_LABEL": "Iformación acerca de tu negocio para configurar y darte la mejor experiencia",
+        "RETAILER_QUESTION_TYPE_RETAILER_LABEL": "¿Qué tipo de negocio eres?",
+        "RETAILER_FOOD_DRINK_LABEL": "Comida y bebida",
+        "RETAILER_SALONS_BARBERSHOPS_LABEL": "Salones y peluquerías",
+        "RETAILER_CAFE_SMALL_RESTAURANTS_LABEL": "Cafetería y pequeños restaurantes",
+        "RETAILER_FASHION_APPAREL_LABEL": "Moda y vestimenta",
+        "RETAILER_HOME_LIFESTYLE_GIFTS_LABEL": "Hogar, estilo de vida y regalos",
+        "RETAILER_SPORTS_HOBBIES_TOYS_LABEL": "Deportes, pasatiempos y juguetes",
+        "RETAILER_HEALTH_BEAUTY_LABEL_LABEL": "Salud y Belleza",
+        "RETAILER_OTHER_LABEL": "Otro",
+        "RETAILER_QUESTION_AMOUNT_SHOPS": "¿Cuántas tiendas tienes?",
+        "FORM_NAME_LABEL": "Nombre del Negocio",
+        "FORM_ADDRESS_LABEL": "Dirección del Negocio",
+        "FORM_CITY_LABEL": "Ciudad del negocio",
+        "FORM_COUNTRY_LABEL": "Pais del negocio",
+        "FORM_NEXT_BUTTON": "Siguiente",
+        "FORM_ACTION_BUTTON": "Comience a vender con My Retail"
+      },
+      "profile": {},
+      "overview": {
+        "MAIN_TITLE_LABEL": "Vista general de la cuenta",
+        "MAIN_DESCRIPTION_LABEL": "",
+        "PROFILE_TITLE_LABEL": "Perfil",
+        "PROFILE_EMAIL_LABEL": "Correo electrónico",
+        "PROFILE_DNI_LABEL": "DNI",
+        "PROFILE_NAME_LABEL": "Nombre",
+        "PROFILE_EDIT_BUTTON": "Editar perfil",
+        "PLAN_TITLE_LABEL": "Tu plan",
+        "PLAN_DESCRIPTION_LABEL": "Descripción",
+        "PLAN_DESCRIPTION_LEARNMORE_BUTTON": "Conocer más",
+        "PLAN_PAYMENT_LABEL": "Pagos",
+        "PLAN_PAYMENT_DATE_COMPOSED": "Tu siguiente factura es por $ {{vueBind.model.plan.price}} en {{vueBind.model.plan.next_payment}}.",
+        "PLAN_PAYMENT_MANAGE_BUTTON": "Administrar mi plan",
+        "SIGNOUT_TITLE_LABEL": "Cierra sesión en todas partes",
+        "SIGNOUT_DESCRIPTION_LABEL": "Cierra sesión donde quiera que tengas Mi Retail abierto, incluyendo la web, el celular, tu computadora de escritorio o cualquier otro dispositivo.",
+        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Importante: Esto no incluye dispositivos y apps de socios, como VCA apps and Amazon Alexa devices, smart watches. Para obtener más información sobre cómo cerrar tu sesión (o desvincular tu cuenta) de Mi Retail en un dispositivo fabricado por uno de nuestros socios, consulta el manual del fabricante del dispositivo.",
+        "SIGNOUT_ACTION_BUTTON": "Cierra sesión en todas partes",
+        "LANGUAGE_TITLE_LABEL": "Configuración de lenguaje",
+        "LANGUAGE_DESCRIPTION_LABEL": "Esta configuración cambiará el lenguaje de toda tu sesión en este dispositivo.",
+        "LANGUAGE_DESCRIPTION_BLOCKQUOTE": "Importante: Deberás refrescar la pantalla o navegar a otra sección.",
+        "LANGUAGE_ACTION_BUTTON": "Cambiar lenguaje",
+        "GOPREMIUM_TITLE_LABEL": "Prueba premium",
+        "GOPREMIUM_DESCRIPTION_LABEL": "Sabemos que buscas lo mejor para tu negocio, sé premium",
+        "GOPREMIUM_BUTTON": "Ver planes"
+      }
+    },
+    "dashboard": {
+      "index": {
+        "MAIN_TITLE_LABEL": "Inicia tu retail exitoso con Mi Retail",
+        "MAIN_DESCRIPTION_LABEL": "Conoce los conceptos básicos en tres maneras fáciles.",
+        "SALE_TITLE_LABEL": "Has una venta",
+        "SALE_DESCRIPTION_LABEL": "Explora la sección Vender y aprende a realizar tu primer venta en segundos.",
+        "SALE_ACTION_BUTTON": "Has una venta",
+        "PRODUCT_TITLE": "Agregar un producto",
+        "PRODUCT_DESCRIPTION": "Administra tus productos fácilmente, ya sea que desees agregar uno o importar miles.",
+        "PRODUCT_ACTION_BUTTON": "Agregar un producto",
+        "CUSTOMER_TITLE": "Agregar un cliente",
+        "CUSTOMER_DESCRIPTION": "Comienza una base de clientes para hacer crecer tu negocio o simplemente cargue clientes existentes.",
+        "CUSTOMER_ACTION_BUTTON": "Agregar un cliente",
+        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de Mi Retail, consulta la",
+        "FOOTER_GUIDE_LINK": "Guía de inicio."
+      }
+    },
     "home": {
       "index": {
         "MAIN_TITLE_LABEL": "Vista general de la cuenta",
@@ -33,6 +99,96 @@
         "MAIN_MESSAGE_LABEL": "No se encontró la página que estás buscando.",
         "MAIN_BACK_LINK": "Volver al inicio"
       }
+    },
+    "notification": {
+      "list": {
+        "SIDE_COMPOSE_BUTTON": "Mensaje nuevo",
+        "SIDE_INBOX_OPTION": "Bandeja de entrada",
+        "SIDE_SENT_OPTION": "Enviados",
+        "SIDE_DRAFT_OPTION": "Borradores",
+        "SIDE_TRASH_OPTION": "Papelera",
+        "MAIL_REPLY_BUTTON": "Responder",
+        "MAIL_FORWARD_BUTTON": "Reenviar",
+        "MAIL_DELETE_BUTTON": "Eliminar",
+        "EMPTYDATA_MESSAGE_LABEL": "Oops! aún no tienes notificaciones.",
+        "EMPTYDATA_ACTION_BUTTON": "Clic aquí para crear una nueva."
+      },
+      "create": {
+        "MAIN_TITLE_LABEL": "Enviar notificación",
+        "FORM_RECEIVER_LABEL": "Para:",
+        "FORM_LONG_TITLE_LABEL": "Asunto:",
+        "FORM_MESSAGE_LABEL": "Mensaje:",
+        "FORM_SEND_BUTTON": "Enviar",
+        "FORM_SELECT_PLACEHOLDER": "Selecciona uno"
+      }
+    },
+    "user": {
+      "block": {
+        "MAIN_TITLE_LABEL": "Bloquear",
+        "MAIN_DESCRIPTION_LABEL": "¿Estás seguro de que quieres bloquear?",
+        "MAIN_BLOCK_BUTTON": "Bloquear"
+      },
+      "create": {
+        "MAIN_TITLE_LABEL": "Crear nuevo usuario",
+        "FORM_FIRSTNAME_LABEL": "Primer nombre",
+        "FORM_LASTNAME_LABEL": "Apellido:",
+        "FORM_IDENTITY_LABEL": "Identificación (Identificación nacional):",
+        "FORM_IDENTITY_PLACEHOLDER": "Only numbers",
+        "FORM_EMAIL_LABEL": "Email",
+        "FORM_EMAIL_PLACEHOLDER": "email@ofemployee.com",
+        "FORM_PASSWORD_LABEL": "Contraseña",
+        "FORM_BOSS_LABEL": "Jefe",
+        "FORM_BOSS_PLACEHOLDER": "Name",
+        "FORM_FRANCHISE_LABEL": "Franquicia/POS:",
+        "FORM_SELECT_PLACEHOLDER": "Seleccione uno",
+        "FORM_POSITION_LABEL": "Posición",
+        "ROLE_SELECT_LABEL": "Seleccione un rol:",
+        "FORM_CANCEL_BUTTON": "Cancelar",
+        "FORM_CREATE_BUTTON": "Crear nuevo empleado"
+      },
+      "delete": {
+        "MAIN_TITLE_LABEL": "Eliminar",
+        "MAIN_DESCRIPTION_LABEL": "¿Estás seguro de que quieres bloquear?",
+        "MAIN_DELETE_BUTTON": "Eliminar"
+      },
+      "detail": {
+        "DETAIL_LAST_LOGIN_LABEL": "Último acceso",
+        "DETAIL_LAST_TIME_LABEL": "Última vez en la aplicación",
+        "DETAIL_PHONE_LABEL": "Teléfono"
+      },
+      "edit": {
+        "MAIN_TITLE_LABEL": "Editar usuario",
+        "FORM_FIRSTNAME_LABEL": "Primer nombre",
+        "FORM_LASTNAME_LABEL": "Apellido:",
+        "FORM_IDENTITY_LABEL": "Identificación (Identificación nacional):",
+        "FORM_IDENTITY_PLACEHOLDER": "Only numbers",
+        "FORM_EMAIL_LABEL": "Email",
+        "FORM_EMAIL_PLACEHOLDER": "email@ofemployee.com",
+        "FORM_PASSWORD_LABEL": "Contraseña",
+        "FORM_BOSS_LABEL": "Jefe",
+        "FORM_BOSS_PLACEHOLDER": "Name",
+        "FORM_FRANCHISE_LABEL": "Franquicia/POS:",
+        "FORM_SELECT_PLACEHOLDER": "Seleccione uno",
+        "FORM_POSITION_LABEL": "Posición",
+        "ROLE_SELECT_LABEL": "Seleccione un rol:",
+        "FORM_CANCEL_BUTTON": "Cancelar",
+        "FORM_CREATE_BUTTON": "Guardar"
+      },
+      "list": {
+        "MAIN_TITLE_LABEL": "Lista de usuarios",
+        "MAIN_DESCRIPTION_LABEL": "",
+        "MAIN_CREATE_BUTTON": "Crear nuevo",
+        "TABLE_ID_TH": "Id",
+        "TABLE_EMAIL_TH": "Email",
+        "TABLE_NAME_TH": "Nombre",
+        "TABLE_ROLE_TH": "Rol",
+        "TABLE_ROPORT_TH": "Informes a",
+        "TABLE_LOGIN_TH": "Último acceso",
+        "TABLE_STATUS_TH": "Estado",
+        "TABLE_ACTIONS_TH": "Opciones",
+        "MAIN_BULK_LABEL": "Carga masiva"
+      },
+      "getting-started": {}
     },
     "shared": {
       "FOOTER_COPYRIGHT_APENDIXA": "Beat™ is una marca registrada usada bajo licencia. ",

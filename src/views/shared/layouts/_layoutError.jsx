@@ -1,9 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const LayoutHead = require('../head/_headMaintenance')
-const Navigation = require('../navigation/_navMaintenance')
-const Footer = require('../footer/_footerMaintenance')
+const LayoutHead = require('../head/_headError')
+const Navigation = require('../navigation/_navError')
+const Footer = require('../footer/_footerError')
 
 class Layout extends React.Component {
   render () {

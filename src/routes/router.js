@@ -1,10 +1,4 @@
 const router = {
-  frontend: [
-    { httpRoute: '/', route: '/routes/frontend/home/home.route', handler: 'index' },
-    { httpRoute: '/robots.txt', route: '/routes/frontend/seo/seo.route', handler: 'robots' },
-    { httpRoute: '/sitemap/master.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapMaster' },
-    { httpRoute: '/sitemap/latest.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapLatest' }
-  ],
   api: [
     { httpRoute: '/status', route: '/routes/api/status/status.route', handler: 'get', method: 'GET', protected: false },
     // Upload files
@@ -23,6 +17,30 @@ const router = {
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'update', method: 'PATCH', protected: false }
+  ],
+  frontend: [
+    { httpRoute: '/', route: '/routes/frontend/home/home.route', handler: 'index' },
+    { httpRoute: '/robots.txt', route: '/routes/frontend/seo/seo.route', handler: 'robots' },
+    { httpRoute: '/sitemap/master.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapMaster' },
+    { httpRoute: '/sitemap/latest.xml', route: '/routes/frontend/seo/seo.route', handler: 'sitemapLatest' },
+    // Auth
+    { httpRoute: '/:lang?/login', route: '/routes/frontend/auth/auth.route', handler: 'login' },
+    { httpRoute: '/:lang?/signup', route: '/routes/frontend/auth/auth.route', handler: 'signup' },
+    { httpRoute: '/:lang?/confirm-account', route: '/routes/frontend/auth/auth.route', handler: 'confirmAccount' },
+    { httpRoute: '/:lang?/validate-email', route: '/routes/frontend/auth/auth.route', handler: 'validateEmail' },
+    // Dashboard
+    { httpRoute: '/:lang?/dashboard', route: '/routes/frontend/dashboard/dashboard.route', handler: 'index' },
+    // Account
+    { httpRoute: '/:lang?/account/getting-started', route: '/routes/frontend/account/account.route', handler: 'gettingStarted' },
+    { httpRoute: '/:lang?/account/profile/', route: '/routes/frontend/account/account.route', handler: 'profile' },
+    { httpRoute: '/:lang?/account/overview/', route: '/routes/frontend/account/account.route', handler: 'overview' },
+    // User
+    { httpRoute: '/:lang?/user/create/', route: '/routes/frontend/user/user.route', handler: 'create' },
+    { httpRoute: '/:lang?/user/list/', route: '/routes/frontend/user/user.route', handler: 'list' },
+    { httpRoute: '/:lang?/user/edit/', route: '/routes/frontend/user/user.route', handler: 'edit' },
+    { httpRoute: '/:lang?/user/detail/', route: '/routes/frontend/user/user.route', handler: 'detail' },
+    { httpRoute: '/:lang?/user/block/', route: '/routes/frontend/user/user.route', handler: 'block' },
+    { httpRoute: '/:lang?/user/delete/', route: '/routes/frontend/user/user.route', handler: 'uDelete' }
   ]
 }
 
