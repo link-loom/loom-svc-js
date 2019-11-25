@@ -45,8 +45,7 @@ class DependenciesManager {
       firebase: require('firebase-admin'),
       cookieParser: require('cookie-parser'),
       exceljs: require('exceljs'),
-      aws: require('aws-sdk'),
-      googleStorage: require('@google-cloud/storage')
+      aws: require('aws-sdk')
     }
 
     this.importCustomDependencies()

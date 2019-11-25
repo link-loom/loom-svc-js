@@ -9,14 +9,14 @@
       "index": {
         "MAIN_TITLE_LABEL": "Account overview",
         "MAIN_DESCRIPTION_LABEL": ""
-      },
-      "maintenance": {
-        "index": {
-          "MAIN_TITLE_LABEL": "404",
-          "MAIN_SUBTITLE": "SORRY!",
-          "MAIN_MESSAGE_LABEL": "The page you’re looking for was not found.",
-          "MAIN_BACK_LINK": "Back to home"
-        }
+      }
+    },
+    "maintenance": {
+      "index": {
+        "MAIN_TITLE_LABEL": "404",
+        "MAIN_SUBTITLE": "SORRY!",
+        "MAIN_MESSAGE_LABEL": "The page you’re looking for was not found.",
+        "MAIN_BACK_LINK": "Back to home"
       }
     },
     "shared": {
