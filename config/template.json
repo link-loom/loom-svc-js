@@ -78,6 +78,10 @@
       "path": "/node_modules/@fortawesome/fontawesome-free-webfonts/"
     },
     {
+      "route": "/material-design-font",
+      "path": "/node_modules/@mdi/font/"
+    },
+    {
       "route": "/popperjs",
       "path": "/node_modules/popper.js/dist/"
     },

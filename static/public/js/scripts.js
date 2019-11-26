@@ -12,8 +12,8 @@
   // loader
   var loader = function () {
     setTimeout(function () {
-      if ($('#ftco-loader').length > 0) {
-        $('#ftco-loader').removeClass('show');
+      if ($('#loader').length > 0) {
+        $('#loader').removeClass('show');
       }
     }, 1);
   };

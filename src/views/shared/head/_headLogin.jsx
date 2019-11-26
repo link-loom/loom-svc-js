@@ -9,7 +9,7 @@ class Head extends React.Component {
         <title>{`${this.props.title} -` || ''} %BEAT%</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="keywords" content="some, words, about, this, project" />
+        <meta name="keywords" content="%BEAT%, best, ever, world, easy, use, usage" />
         <meta name="description" content="%BEAT% is an awesome project created with node.js" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
 
@@ -22,10 +22,10 @@ class Head extends React.Component {
         <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png" />
         <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/img/android-icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/img/android-icon-192x192.png?v=2" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png?v=2" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png?v=2" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png?v=2" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#2F395D" />
         <meta name="msapplication-TileColor" content="#ffffff" />
@@ -56,14 +56,13 @@ class Head extends React.Component {
         <script src="/vue-resource/vue-resource.min.js"></script>
         <script src="/vue-cookies/vue-cookies.js"></script>
 
-        <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet"></link>
-
         {/* Libraries */}
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.min.css"></link>
         <link rel="stylesheet" href="css/icomoon.css"></link>
-        
+        <link rel="stylesheet" href="/material-design-font/css/materialdesignicons.css"></link>
+
         {/* Custom CSS */}
         <link rel="stylesheet" href="/css/main.css"></link>
 

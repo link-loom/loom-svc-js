@@ -15,7 +15,7 @@ function auth (dependencies) {
 
     if (!req.cookies.user_session) {
       res.render('auth/login.view.jsx', {
-        title: 'Best POS Software for Small Business',
+        title: 'Signin',
         data: {
           locale,
           services: [
@@ -41,7 +41,7 @@ function auth (dependencies) {
 
     if (!req.cookies.user_session) {
       res.render('auth/signup.view.jsx', {
-        title: 'Best POS Software for Small Business',
+        title: 'Signup',
         data: {
           locale,
           services: [

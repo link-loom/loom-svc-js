@@ -54,6 +54,51 @@
         "GOPREMIUM_BUTTON": "See plans"
       }
     },
+    "auth": {
+      "validateEmail": {},
+      "confirmAccount": {
+        "MAIN_TITLE_LABEL": "Verify your email address",
+        "MAIN_DESCRIPTION_CHECK_INBOX_LABEL": "Please check your inbox to confirm your account.",
+        "MAIN_DESCRIPTION_ACTIVATE_LABEL": "Also you can activate your account right now with Whatsapp",
+        "ACTIVATE_OPEN_WHATSAPP_BUTTON": "Open Whatsapp",
+        "ACTIVATE_ACCOUNT_LABEL": "send \"Activate account\" to +57 305 8126314",
+        "ACTIVATE_OPEN_STORE": "Click here to open your store",
+        "ACTIVATE_QUESTION_EMAIL_LABEL": "Not received email?",
+        "ACCOUNT_ACCOUNT_CREATE_LABEL": "please click here to send again."
+      },
+      "login": {
+        "MAIN_TITLE_LABEL": "Welcome back!",
+        "MAIN_MESSAGE_LABEL": "Happy to see you again!",
+        "SIGNIN_USER_LABEL": "Username",
+        "SIGNIN_PASSWORD_LABEL": "Password",
+        "SIGNIN_USER_PLACEHOLDER": "Phone, DNI or email",
+        "SIGNIN_PASSWORD_PLACEHOLDER": "Your password",
+        "SIGNIN_KEEP_SIGNED_CHECK": "Keep me signed in",
+        "SIGNIN_RECOVER_ACOUNT_LABEL": "Forgot username?",
+        "SIGNIN_LOGIN_BUTTON": "LOGIN",
+        "ACCOUNT_QUESTION_CREATE_LABEL": "Don't have an account?",
+        "ACCOUNT_CREATE_LABEL": "Create here"
+      },
+      "signup": {
+        "MAIN_TITLE_LABEL": "Start your free 30 day trial",
+        "MAIN_DESCRIPTION_LABEL": "No credit card, no commitments.",
+        "FORM_NAME_LABEL": "First Name",
+        "FORM_LAST_NAME_LABEL": "Last Name",
+        "FORM_PHONE_LABEL": "Phone",
+        "FORM_EMAIL_LABEL": "Email",
+        "FORM_NAME_PLACEHOLDER": "Enter a first name",
+        "FORM_LAST_NAME_PLACEHOLDER": "Enter a last name",
+        "FORM_PHONECOUNTRY_LABEL": "Country",
+        "FORM_PHONE_PLACEHOLDER": "Enter your phone number",
+        "FORM_EMAIL_PLACEHOLDER": "Enter an email address",
+        "FORM_PASSWORD_LABEL": "Password",
+        "FORM_PASSWORD_PLACEHOLDER": "Enter a password",
+        "FORM_AGREE_TERMS_LABEL": "I agree to all Terms & Conditions",
+        "FORM_GET_STARTED_BUTTON_BUTTON": "Get started",
+        "FORM_QUESTION_ACCOUNT_LABEL": "Already have an account?",
+        "FORM_LOGIN_LINK": "login"
+      }
+    },
     "dashboard": {
       "index": {
         "MAIN_TITLE_LABEL": "Start your retail success with Mi Retail",

@@ -34,6 +34,15 @@ body {
   display: none;
 }
 
+h4, .h4 {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.text-primary, .list-wrapper .completed .remove {
+  color: #3c4876 !important;
+}
+
 .swal2-container.swal2-shown {
   background-color: rgba(132, 172, 205, .65)!important;
 }
@@ -251,6 +260,15 @@ body {
 
 .jumbotron-heading {
   font-weight: 300;
+}
+
+.btn-primary {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(60, 72, 118, 0.14), 0 3px 1px -2px rgba(60, 72, 118, 0.2), 0 1px 5px 0 rgba(60, 72, 118, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(60, 72, 118, 0.14), 0 3px 1px -2px rgba(60, 72, 118, 0.2), 0 1px 5px 0 rgba(60, 72, 118, 0.12);
+  color: #fff;
+  background-color: #3c4876;
+  border-color: #3c4876;
+  font-size: 0.875rem;
 }
 
 .hero-wrap {
@@ -744,7 +762,7 @@ body {
   letter-spacing: 2px;
 }
 
-#ftco-loader {
+#loader {
   position: fixed;
   width: 96px;
   height: 96px;
@@ -765,7 +783,7 @@ body {
   z-index: 1000;
 }
 
-#ftco-loader.fullscreen {
+#loader.fullscreen {
   padding: 0;
   left: 0;
   top: 0;
@@ -780,7 +798,7 @@ body {
   box-shadow: none;
 }
 
-#ftco-loader.show {
+#loader.show {
   -webkit-transition: opacity .4s ease-out, visibility 0s linear 0s;
   -o-transition: opacity .4s ease-out, visibility 0s linear 0s;
   transition: opacity .4s ease-out, visibility 0s linear 0s;
@@ -788,7 +806,7 @@ body {
   opacity: 1;
 }
 
-#ftco-loader .circular {
+#loader .circular {
   -webkit-animation: loader-rotate 2s linear infinite;
   animation: loader-rotate 2s linear infinite;
   position: absolute;
@@ -800,7 +818,7 @@ body {
   transform: rotate(0deg);
 }
 
-#ftco-loader .path {
+#loader .path {
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   -webkit-animation: loader-dash 1.5s ease-in-out infinite;
@@ -854,4 +872,154 @@ body {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px;
   }
+}
+
+/* === Landing screens === */
+
+/* Auth */
+
+.auth .login-half-bg {
+  background: url("/img/auth/login-bg.webp");
+  background-size: cover;
+}
+
+.auth .register-half-bg {
+  background: url("/private/dashboard/images/auth/register-bg.jpg");
+  background-size: cover;
+}
+
+.auth.lock-full-bg {
+  background: url("/private/dashboard/images/auth/lockscreen-bg.jpg");
+  background-size: cover;
+}
+
+.auth .lock-profile-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+}
+
+.auth .auth-form-light {
+  background: #ffffff;
+}
+
+.auth .auth-form-light select {
+  color: #c9c8c8;
+}
+
+.auth .auth-form-light .input-group .form-control:focus, .auth .auth-form-light .asColorPicker-wrap .form-control:focus, .auth .auth-form-light .input-group .asColorPicker-input:focus, .auth .auth-form-light .asColorPicker-wrap .asColorPicker-input:focus, .auth .auth-form-light .input-group .dataTables_wrapper select:focus, .dataTables_wrapper .auth .auth-form-light .input-group select:focus, .auth .auth-form-light .asColorPicker-wrap .dataTables_wrapper select:focus, .dataTables_wrapper .auth .auth-form-light .asColorPicker-wrap select:focus, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group input[type=text]:focus, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap input[type=text]:focus, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group select:focus, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap select:focus, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group input[type=number]:focus, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap input[type=number]:focus, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single:focus, .select2-container--default .auth .auth-form-light .input-group .select2-selection--single:focus, .auth .auth-form-light .asColorPicker-wrap .select2-container--default .select2-selection--single:focus, .select2-container--default .auth .auth-form-light .asColorPicker-wrap .select2-selection--single:focus, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single .select2-search__field:focus, .select2-container--default .select2-selection--single .auth .auth-form-light .input-group .select2-search__field:focus, .auth .auth-form-light .asColorPicker-wrap .select2-container--default .select2-selection--single .select2-search__field:focus, .select2-container--default .select2-selection--single .auth .auth-form-light .asColorPicker-wrap .select2-search__field:focus, .auth .auth-form-light .input-group .typeahead:focus, .auth .auth-form-light .asColorPicker-wrap .typeahead:focus, .auth .auth-form-light .input-group .tt-query:focus, .auth .auth-form-light .asColorPicker-wrap .tt-query:focus, .auth .auth-form-light .input-group .tt-hint:focus, .auth .auth-form-light .asColorPicker-wrap .tt-hint:focus, .auth .auth-form-light .input-group .form-control:active, .auth .auth-form-light .asColorPicker-wrap .form-control:active, .auth .auth-form-light .input-group .asColorPicker-input:active, .auth .auth-form-light .asColorPicker-wrap .asColorPicker-input:active, .auth .auth-form-light .input-group .dataTables_wrapper select:active, .dataTables_wrapper .auth .auth-form-light .input-group select:active, .auth .auth-form-light .asColorPicker-wrap .dataTables_wrapper select:active, .dataTables_wrapper .auth .auth-form-light .asColorPicker-wrap select:active, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group input[type=text]:active, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap input[type=text]:active, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row select:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group select:active, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row select:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap select:active, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group input[type=number]:active, .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap input[type=number]:active, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single:active, .select2-container--default .auth .auth-form-light .input-group .select2-selection--single:active, .auth .auth-form-light .asColorPicker-wrap .select2-container--default .select2-selection--single:active, .select2-container--default .auth .auth-form-light .asColorPicker-wrap .select2-selection--single:active, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single .select2-search__field:active, .select2-container--default .select2-selection--single .auth .auth-form-light .input-group .select2-search__field:active, .auth .auth-form-light .asColorPicker-wrap .select2-container--default .select2-selection--single .select2-search__field:active, .select2-container--default .select2-selection--single .auth .auth-form-light .asColorPicker-wrap .select2-search__field:active, .auth .auth-form-light .input-group .typeahead:active, .auth .auth-form-light .asColorPicker-wrap .typeahead:active, .auth .auth-form-light .input-group .tt-query:active, .auth .auth-form-light .asColorPicker-wrap .tt-query:active, .auth .auth-form-light .input-group .tt-hint:active, .auth .auth-form-light .asColorPicker-wrap .tt-hint:active {
+  border-color: #e9e8ef;
+}
+
+.auth .auth-form-transparent {
+  background: transparent;
+}
+
+.auth .auth-form-transparent .form-control, .auth .auth-form-transparent .asColorPicker-input, .auth .auth-form-transparent .dataTables_wrapper select, .dataTables_wrapper .auth .auth-form-transparent select, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text], .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=text], .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row select, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent select, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number], .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=number], .auth .auth-form-transparent .select2-container--default .select2-selection--single, .select2-container--default .auth .auth-form-transparent .select2-selection--single, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field, .auth .auth-form-transparent .typeahead, .auth .auth-form-transparent .tt-query, .auth .auth-form-transparent .tt-hint, .auth .auth-form-transparent .input-group-text {
+  border-color: #dfe3e9;
+}
+
+.auth .auth-form-transparent .form-control:focus, .auth .auth-form-transparent .asColorPicker-input:focus, .auth .auth-form-transparent .dataTables_wrapper select:focus, .dataTables_wrapper .auth .auth-form-transparent select:focus, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=text]:focus, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent select:focus, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:focus, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=number]:focus, .auth .auth-form-transparent .select2-container--default .select2-selection--single:focus, .select2-container--default .auth .auth-form-transparent .select2-selection--single:focus, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field:focus, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field:focus, .auth .auth-form-transparent .typeahead:focus, .auth .auth-form-transparent .tt-query:focus, .auth .auth-form-transparent .tt-hint:focus, .auth .auth-form-transparent .form-control:active, .auth .auth-form-transparent .asColorPicker-input:active, .auth .auth-form-transparent .dataTables_wrapper select:active, .dataTables_wrapper .auth .auth-form-transparent select:active, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=text]:active, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row select:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent select:active, .auth .auth-form-transparent .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]:active, .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-transparent input[type=number]:active, .auth .auth-form-transparent .select2-container--default .select2-selection--single:active, .select2-container--default .auth .auth-form-transparent .select2-selection--single:active, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field:active, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field:active, .auth .auth-form-transparent .typeahead:active, .auth .auth-form-transparent .tt-query:active, .auth .auth-form-transparent .tt-hint:active, .auth .auth-form-transparent .input-group-text:focus, .auth .auth-form-transparent .input-group-text:active {
+  border-color: #dfe3e9;
+}
+
+.auth .auth-form-transparent select {
+  outline-color: #dfe3e9;
+}
+
+.auth.auth-img-bg {
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .auth.auth-img-bg .auth-form-transparent {
+    width: 65%;
+    margin: auto;
+  }
+}
+
+.auth .brand-logo {
+  margin-bottom: 1rem;
+}
+
+.auth .brand-logo img {
+  width: 100px;
+}
+
+.auth form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.auth form .form-group label {
+  font-size: .8125rem;
+}
+
+.auth form .form-group .form-control, .auth form .form-group .asColorPicker-input, .auth form .form-group .dataTables_wrapper select, .dataTables_wrapper .auth form .form-group select, .auth form .form-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text], .jsgrid .jsgrid-table .jsgrid-filter-row .auth form .form-group input[type=text], .auth form .form-group .jsgrid .jsgrid-table .jsgrid-filter-row select, .jsgrid .jsgrid-table .jsgrid-filter-row .auth form .form-group select, .auth form .form-group .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number], .jsgrid .jsgrid-table .jsgrid-filter-row .auth form .form-group input[type=number], .auth form .form-group .select2-container--default .select2-selection--single, .select2-container--default .auth form .form-group .select2-selection--single, .auth form .form-group .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth form .form-group .select2-search__field, .auth form .form-group .typeahead, .auth form .form-group .tt-query, .auth form .form-group .tt-hint {
+  background: transparent;
+  border-radius: 0;
+  font-size: .9375rem;
+}
+
+.auth form .auth-form-btn {
+  height: 50px;
+  line-height: 1.5;
+}
+
+.auth form .auth-link {
+  font-size: 0.875rem;
+}
+
+.auth form .auth-link:hover {
+  color: initial;
+}
+
+.page-body-wrapper {
+  min-height: calc(100vh - 69px);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 69px;
+}
+
+.page-body-wrapper.full-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 0;
+}
+
+.main-panel {
+  width: calc(100% - 220px);
+}
+
+.main-panel-external {
+  width: calc(100%);
+}
+
+.main-panel-external, .main-panel {
+  background: #f3f3f3;
+  transition: width 0.25s ease, margin 0.25s ease;
+  min-height: calc(100vh - 69px);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  background-image: url(/private/img/dashboard-upsell-bg-v1.svg);
+}
+
+@media (max-width: 991px) {
+  .main-panel-external, .main-panel {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.content-wrapper {
+  /* background: #F7F7FA; */
+  padding: 1.5rem;
+  width: 100%;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
 }

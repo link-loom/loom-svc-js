@@ -12,7 +12,7 @@ class Index extends React.Component {
         <div className="col-lg-6 d-flex align-items-center justify-content-center">
           <div className="auth-form-transparent text-left p-3">
             <div className="brand-logo">
-              <img src="/private/dashboard/images/logo.svg" alt="logo" />
+              <img src="/img/logo.svg" alt="logo" />
             </div>
             <h4>{this.props.data.locale.MAIN_TITLE_LABEL}</h4>
             <h6 className="font-weight-light">{this.props.data.locale.MAIN_MESSAGE_LABEL}</h6>

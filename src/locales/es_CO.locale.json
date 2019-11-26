@@ -24,7 +24,7 @@
         "FORM_CITY_LABEL": "Ciudad del negocio",
         "FORM_COUNTRY_LABEL": "Pais del negocio",
         "FORM_NEXT_BUTTON": "Siguiente",
-        "FORM_ACTION_BUTTON": "Comience a vender con My Retail"
+        "FORM_ACTION_BUTTON": "Comience a vender con Mi Retail"
       },
       "profile": {},
       "overview": {
@@ -52,6 +52,51 @@
         "GOPREMIUM_TITLE_LABEL": "Prueba premium",
         "GOPREMIUM_DESCRIPTION_LABEL": "Sabemos que buscas lo mejor para tu negocio, sé premium",
         "GOPREMIUM_BUTTON": "Ver planes"
+      }
+    },
+    "auth": {
+      "validateEmail": {},
+      "confirmAccount": {
+        "MAIN_TITLE_LABEL": "Verifica tu dirección de correo electrónico",
+        "MAIN_DESCRIPTION_CHECK_INBOX_LABEL": "Verifica tu bandeja de entrada para confirmar la cuenta.",
+        "MAIN_DESCRIPTION_ACTIVATE_LABEL": "También puedes activar tu cuenta ahora mismo con Whatsapp",
+        "ACTIVATE_OPEN_WHATSAPP_BUTTON": "Abrir Whatsapp",
+        "ACTIVATE_ACCOUNT_LABEL": "o enviar \"Activar cuenta\" al +57 305 8126314",
+        "ACTIVATE_OPEN_STORE": "Has clic aquí para abrir tu tienda.",
+        "ACTIVATE_QUESTION_EMAIL_LABEL": "¿No recibiste el correo electrónico?",
+        "ACTIVATE_SEND_EMAIL_LABEL": "Has clic aquí para enviar nuevamente."
+      },
+      "login": {
+        "MAIN_TITLE_LABEL": "Bienvenido!",
+        "MAIN_MESSAGE_LABEL": "Nos alegra tenerte de vuelta!",
+        "SIGNIN_USER_LABEL": "Usuario",
+        "SIGNIN_PASSWORD_LABEL": "Contraseña",
+        "SIGNIN_USER_PLACEHOLDER": "Teléfono, DNI o email",
+        "SIGNIN_PASSWORD_PLACEHOLDER": "Tu contraseña",
+        "SIGNIN_KEEP_SIGNED_CHECK": "Mantenme conectado",
+        "SIGNIN_RECOVER_ACOUNT_LABEL": "¿Olvidaste tu nombre de usuario?",
+        "SIGNIN_LOGIN_BUTTON": "LOGIN",
+        "ACCOUNT_QUESTION_CREATE_LABEL": "¿No tienes una cuenta?",
+        "ACCOUNT_ACCOUNT_CREATE_LABEL": "Crea tu cuenta aquí"
+      },
+      "signup": {
+        "MAIN_TITLE_LABEL": "Comienza tu prueba gratuita de 30 días",
+        "MAIN_DESCRIPTION_LABEL": "Sin tarjeta de crédito, sin compromisos.",
+        "FORM_NAME_LABEL": "Primer nombre",
+        "FORM_LAST_NAME_LABEL": "Apellido",
+        "FORM_PHONE_LABEL": "Teléfono",
+        "FORM_EMAIL_LABEL": "Email",
+        "FORM_NAME_PLACEHOLDER": "Ingresa un nombre",
+        "FORM_LAST_NAME_PLACEHOLDER": "Ingresa un apellido",
+        "FORM_PHONECOUNTRY_LABEL": "País",
+        "FORM_PHONE_PLACEHOLDER": "Ingresa tu número telefónico",
+        "FORM_EMAIL_PLACEHOLDER": "Introduce una dirección de correo electrónico",
+        "FORM_PASSWORD_LABEL": "Contraseña",
+        "FORM_PASSWORD_PLACEHOLDER": "Introduce una contraseña",
+        "FORM_AGREE_TERMS_LABEL": "Acepto todos los términos y condiciones",
+        "FORM_GET_STARTED_BUTTON_BUTTON": "Empezar",
+        "FORM_QUESTION_ACCOUNT_LABEL": "¿Ya tienes una cuenta?",
+        "FORM_LOGIN_LINK": "Iniciar sesión"
       }
     },
     "dashboard": {
