@@ -1,4 +1,3 @@
-/* global __fullStackTrace */
 class ConsoleManager {
   constructor (dependencies) {
     this._dependencies = dependencies
@@ -19,12 +18,7 @@ class ConsoleManager {
     console.log(` ${this._colors.red('Error')}: ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
 
     if (!ignoreStack && (body && body.stack)) {
-      const errorLine = body.stack.split('    at ')[1].split(':')[2]
-      const stacktrace = __fullStackTrace
-      const firstErrorIndex = stacktrace[0].indexOf('Line ') + 'Line '.length
-      stacktrace[0] = `> --${stacktrace[0].replaceAt(firstErrorIndex, errorLine)}`
-
-      console.log(` ${this._colors.red('Stacktrace')}: \n${stacktrace.join('\n --')}`)
+      console.log(` ${this._colors.red('Stacktrace')}: \n${body.stack}`)
     }
   }
 
