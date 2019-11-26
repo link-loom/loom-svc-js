@@ -276,6 +276,12 @@ h4, .h4 {
   font-size: 0.875rem;
 }
 
+.btn-primary:hover {
+  color: #fff;
+  background-color: #2f395d;
+  border-color: #2b3354;
+}
+
 .hero-wrap {
   width: 100%;
   position: relative;
