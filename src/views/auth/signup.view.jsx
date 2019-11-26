@@ -16,7 +16,7 @@ class Index extends React.Component {
               </div>
               <h2 className="text-center">{this.props.data.locale.MAIN_TITLE_LABEL}</h2>
               <h6 className="font-weight-light text-center">{this.props.data.locale.MAIN_DESCRIPTION_LABEL}</h6>
-              <form className="pt-3 px-5">
+              <form className="pt-3 px-md-5">
                 <div className="form-row">
                   <div className="form-group col-12 mb-2 col-lg-6">
                     <label htmlFor="firstname">{this.props.data.locale.FORM_NAME_LABEL}</label>
