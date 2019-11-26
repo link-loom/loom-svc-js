@@ -34,7 +34,7 @@ class Index extends React.Component {
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="form-group col-6 mb-2">
+                  <div className="form-group col-12 mb-2 col-lg-6">
                     <label htmlFor="phone">{this.props.data.locale.FORM_PHONECOUNTRY_LABEL}</label>
                     <select className="countries-list w-100">
                       <option
@@ -42,7 +42,7 @@ class Index extends React.Component {
                         {...{ 'v-bind:value': '_country.calling_code' }}>{'{{_country.country}}'}</option>
                     </select>
                   </div>
-                  <div className="form-group col-6 mb-2">
+                  <div className="form-group col-12 mb-2 col-lg-6">
                     <label htmlFor="phone">{this.props.data.locale.FORM_PHONE_LABEL}</label>
                     <input
                       v-model="vueBind.model.user.phone"
