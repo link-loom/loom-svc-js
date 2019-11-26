@@ -90,6 +90,14 @@
       "path": "/node_modules/sweetalert2/dist/"
     },
     {
+      "route": "/select2",
+      "path": "/node_modules/select2/dist/"
+    },
+    {
+      "route": "/select2-bootstrap-theme",
+      "path": "/node_modules/select2-bootstrap-theme/dist/"
+    },
+    {
       "route": "/vue",
       "path": "/node_modules/vue/dist"
     },

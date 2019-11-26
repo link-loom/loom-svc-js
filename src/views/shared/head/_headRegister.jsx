@@ -60,7 +60,8 @@ class Head extends React.Component {
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.min.css"></link>
-        <link rel="stylesheet" href="css/icomoon.css"></link>
+        <link rel="stylesheet" href="/css/icomoon.css"></link>
+        <link rel="stylesheet" href="/select2/css/select2.min.css"></link>
 
         {/* Custom CSS */}
         <link rel="stylesheet" href="/css/main.css"></link>

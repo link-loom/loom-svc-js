@@ -34,6 +34,11 @@ body {
   display: none;
 }
 
+h2, .h2 {
+  font-size: 1.875rem;
+  font-weight: 400;
+}
+
 h4, .h4 {
   font-size: 1.125rem;
   font-weight: bold;
@@ -877,6 +882,12 @@ h4, .h4 {
 /* === Landing screens === */
 
 /* Auth */
+
+.register-bg {
+  background-image: url('/img/auth/register-bg.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 .auth .login-half-bg {
   background: url("/img/auth/login-bg.webp");

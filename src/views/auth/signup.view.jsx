@@ -12,7 +12,7 @@ class Index extends React.Component {
           <div className="col-12 col-lg-6 col-xl-6 mr-auto">
             <div className="auth-form-light text-left p-4">
               <div className="brand-logo">
-                <img src="/private/dashboard/images/logo.svg" alt="logo" />
+                <img src="/img/logo.svg" alt="logo" />
               </div>
               <h2 className="text-center">{this.props.data.locale.MAIN_TITLE_LABEL}</h2>
               <h6 className="font-weight-light text-center">{this.props.data.locale.MAIN_DESCRIPTION_LABEL}</h6>
@@ -69,7 +69,7 @@ class Index extends React.Component {
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="mb-4">
+                  <div className="mb-1">
                     <div className="form-check">
                       <label className="form-check-label text-muted">
                         <input
@@ -80,7 +80,7 @@ class Index extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="mt-3">
+                <div className="mt-1">
                   <button
                     {...{ 'v-on:click': 'createUserOnClick($event)' }}
                     className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">{this.props.data.locale.FORM_GET_STARTED_BUTTON_BUTTON}</button>

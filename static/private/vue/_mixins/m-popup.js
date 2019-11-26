@@ -33,7 +33,7 @@ var popup = {
                   <div class="col-9 col-xs-12 app-popup-content">
                     <div class="app-popup-confirm x-hidden-focus">
                       <div class="app-popup-confirm-content">
-                        <h2 class="card-title display-3">${data.title}</h2>
+                        <h2 class="card-title">${data.title}</h2>
                         <p class="lead mb-5">${data.message}</p>
                         <button class="btn btn-closepopup btn-primary">Close</button>
                       </div>

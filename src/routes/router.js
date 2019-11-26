@@ -9,6 +9,10 @@ const router = {
     { httpRoute: '/logout', route: '/routes/api/auth/auth.route', handler: 'logout', method: 'POST', protected: false },
     { httpRoute: '/validate-email/', route: '/routes/api/auth/auth.route', handler: 'validateEmail', method: 'POST', protected: false },
     { httpRoute: '/validate-account-chatbot', route: '/routes/api/auth/auth.route', handler: 'validateAccountChatbot', method: 'POST', protected: false },
+    // Locale
+    { httpRoute: '/locale/', route: '/routes/api/locale/locale.route', handler: 'getAllLocales', method: 'GET', protected: false },
+    { httpRoute: '/locale/get-idd-countries/', route: '/routes/api/locale/locale.route', handler: 'getAllIDDCountries', method: 'GET', protected: false },
+    { httpRoute: '/locale/get-locale/', route: '/routes/api/locale/locale.route', handler: 'getLocale', method: 'GET', protected: false },
     // Notification
     { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/notification/create', route: '/routes/api/notification/notification.route', handler: 'create', method: 'POST', protected: false },
