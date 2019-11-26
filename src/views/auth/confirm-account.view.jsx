@@ -14,7 +14,7 @@ class Index extends React.Component {
               <div className="card-body">
                 <div className="container pt-2">
                   <img src="/private/dashboard/images/logo.svg" alt="Logo" className="logo mx-auto mb-0" />
-                  <img src="/private/img/email-en-route-v1.svg" alt="Logo" className="logo mx-auto d-block mt-1 mb-3" height="85" />
+                  <img src="/img/email-en-route-v1.svg" alt="Logo" className="logo mx-auto d-block mt-1 mb-3" height="85" />
                   <h2 className="text-center text-primary">{this.props.data.locale.MAIN_TITLE_LABEL}</h2>
                   <p className="text-center card-description mb-1">{this.props.data.locale.MAIN_DESCRIPTION_CHECK_INBOX_LABEL}</p>
                   <p className="text-center card-description">{this.props.data.locale.MAIN_DESCRIPTION_ACTIVATE_LABEL}</p>
@@ -36,7 +36,7 @@ class Index extends React.Component {
 
                   <p className="card-description text-center">{this.props.data.locale.ACTIVATE_QUESTION_EMAIL_LABEL}
                   <a
-                      {...{ 'v-on:click': 'sendEmailAgainOnClick($event)' }} href="javascript: void(0);">{this.props.data.locale.ACTIVATE_SEND_EMAIL_LABEL}</a></p>
+                      {...{ 'v-on:click': 'sendEmailAgainOnClick($event)' }} href="#">{this.props.data.locale.ACTIVATE_SEND_EMAIL_LABEL}</a></p>
                 </div>
               </div>
             </div>
