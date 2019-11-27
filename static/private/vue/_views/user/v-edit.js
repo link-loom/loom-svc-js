@@ -26,10 +26,13 @@ window.app = new Vue({
         },
         roles: [],
         franchises: []
-      },
-      paths: {},
-      visibility: {},
-      style: {}
+      }
+    },
+    issues: {
+      '[CODE]': {
+        title: '[TITLE]',
+        message: '[MESSAGE]'
+      }
     }
   },
   mounted () {
@@ -46,26 +49,18 @@ window.app = new Vue({
 
       await this.getUser()
       await this.getSelectedUser()
+      await this.getRoles()
 
-      const franchisesResponse = await this.services.franchise.getAllByBusinessId({
-        business_id: this.vueBind.model.user.business_id
-      })
-
-      if (!franchisesResponse || !franchisesResponse.success) {
-        this.showDefaultError(franchisesResponse)
-        return
-      }
-
-      this.vueBind.model.franchises = franchisesResponse.result
-
-      const rolesResponse = await this.services.role.getAll()
-
-      if (!rolesResponse || !rolesResponse.success) {
-        return
-      }
-
-      this.vueBind.model.roles = rolesResponse.result
       this.hideLoader()
+
+      this.checkIssuesMessages()
+    },
+    async checkIssuesMessages () {
+      if (!window.location.queryString || !window.location.queryString.issue) {
+        return
+      }
+
+      this.showIconPopup(this.issues[window.location.queryString.issue])
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -74,13 +69,8 @@ window.app = new Vue({
         this.vueBind.model.user = userData
         return
       }
-      const identity = window.context.identity
 
-      if (!identity) {
-        this.showError({ message: 'Please, login again' })
-        return
-      }
-      const userResponse = await this.services.user.getByIdentity(identity)
+      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
@@ -93,13 +83,22 @@ window.app = new Vue({
       return this.vueBind.model.user
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getAllLastByReceiver({
+      const notificationsResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
       if (notificationsResponse && notificationsResponse.success) {
         this.vueBind.model.notifications = notificationsResponse.result
       }
+    },
+    async getRoles () {
+      const rolesResponse = await this.services.role.getAll()
+
+      if (!rolesResponse || !rolesResponse.success) {
+        return
+      }
+
+      this.vueBind.model.roles = rolesResponse.result
     },
     async getSelectedUser () {
       if (!window.location.queryString || !window.location.queryString.id) {

@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, franchiseService, roleService, userService */
+   notificationService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -13,25 +13,21 @@ window.app = new Vue({
     loader,
     parameters,
     notificationService,
-    franchiseService,
-    roleService,
     userService],
   data: {
     vueBind: {
       model: {
+        notification_type: 'franchisor',
         notifications: [],
         user: {},
-        newUser: {
-          role: { id: 0 }
-        },
-        roles: [],
-        franchises: []
-      },
-      paths: {},
-      visibility: {
-        userRoleIsSelected: false
-      },
-      style: {}
+        userDetail: {}
+      }
+    },
+    issues: {
+      '[CODE]': {
+        title: '[TITLE]',
+        message: '[MESSAGE]'
+      }
     }
   },
   mounted () {
@@ -44,28 +40,21 @@ window.app = new Vue({
   },
   methods: {
     async initializeView () {
-      await this.getUser()
+      this.getUser()
       this.getAllNotifications()
 
-      const franchisesResponse = await this.services.franchise.getAllByBusinessId({
-        business_id: this.vueBind.model.user.business_id
-      })
+      await this.getSelectedUser()
 
-      if (franchisesResponse && franchisesResponse.success) {
-        this.vueBind.model.franchises = franchisesResponse.result
+      this.hideLoader()
 
-        this.hideLoader()
-      } else {
-        this.showDefaultError(franchisesResponse)
-      }
-
-      const rolesResponse = await this.services.role.getAll()
-
-      if (!rolesResponse || !rolesResponse.success) {
+      this.checkIssuesMessages()
+    },
+    async checkIssuesMessages () {
+      if (!window.location.queryString || !window.location.queryString.issue) {
         return
       }
 
-      this.vueBind.model.roles = rolesResponse.result
+      this.showIconPopup(this.issues[window.location.queryString.issue])
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -75,12 +64,7 @@ window.app = new Vue({
         return
       }
 
-      if (!window.context.identity) {
-        this.showError({ message: 'Please, login again' })
-        return
-      }
-
-      const userResponse = await this.services.user.getByIdentity({ identity: window.context.identity })
+      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
@@ -93,7 +77,7 @@ window.app = new Vue({
       return this.vueBind.model.user
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getAllLastByReceiver({
+      const notificationsResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
@@ -101,54 +85,37 @@ window.app = new Vue({
         this.vueBind.model.notifications = notificationsResponse.result
       }
     },
-    selectRoleOnClick: function (event, role) {
+    blockOnClick: async (event) => {
       if (event) { event.preventDefault() }
 
-      if (!role) {
-        this.showError({ title: 'Oops!', message: 'Select a role first' })
+      const userResponse = await this.services.user.update({
+        id: window.location.queryString.id,
+        status: { id: 4, name: 'blocked', title: 'Blocked' }
+      })
+
+      if (!userResponse || !userResponse.success) {
+        this.showDefaultError(userResponse)
         return
       }
 
-      this.vueBind.model.newUser.role = role
-      this.vueBind.visibility.userRoleIsSelected = true
+      window.location.replace('/franchisor/users/list/')
     },
-    async createUserOnClick (event) {
-      if (event) { event.preventDefault() }
-
-      if (!this.vueBind.model.newUser.identity) {
-        this.showError({ message: 'Provide at least an identity' })
+    async getSelectedUser () {
+      if (!window.location.queryString || !window.location.queryString.id) {
+        this.showError({ message: 'Please return and select an user to use this action' })
         return
       }
 
-      this.vueBind.model.newUser.business_id = this.vueBind.model.user.business_id
-      this.vueBind.model.newUser.franchisor_id = this.vueBind.model.user.franchisor_id
+      const userResponse = await this.services.user.getByIdentity({
+        identity: window.location.queryString.id
+      })
 
-      if (this.vueBind.model.newUser.role.name.toLocaleLowerCase() === 'franchise' ||
-        this.vueBind.model.newUser.role.name.toLocaleLowerCase() === 'franchisor') {
-        const userResult = await this.services.user.create(this.vueBind.model.newUser)
-
-        if (!userResult) {
-          this.showDefaultError(userResult)
-          return
-        }
-
-        await window.Swal.fire({
-          title: 'User created!',
-          text: 'We have confirmed the creation of the user, can now authenticate and work.',
-          type: 'success',
-          confirmButtonClass: 'btn-success',
-          confirmButtonText: 'Continuar'
-        })
-
-        window.location.reload()
-      } else {
-        this.showError({ message: 'You\'re not allowed to select this role' })
+      if (!userResponse || !userResponse.success) {
+        this.showDefaultError(userResponse)
+        return
       }
-    },
-    returnOnClick (event) {
-      if (event) { event.preventDefault() }
 
-      window.location.assign('user/list/')
+      this.vueBind.model.userDetail = userResponse.result
     }
   }
 })

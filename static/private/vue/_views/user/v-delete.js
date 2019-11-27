@@ -21,10 +21,13 @@ window.app = new Vue({
         notifications: [],
         user: {},
         userDetail: {}
-      },
-      paths: {},
-      visibility: {},
-      style: {}
+      }
+    },
+    issues: {
+      '[CODE]': {
+        title: '[TITLE]',
+        message: '[MESSAGE]'
+      }
     }
   },
   mounted () {
@@ -42,6 +45,15 @@ window.app = new Vue({
       await this.getSelectedUser()
 
       this.hideLoader()
+
+      this.checkIssuesMessages()
+    },
+    async checkIssuesMessages () {
+      if (!window.location.queryString || !window.location.queryString.issue) {
+        return
+      }
+
+      this.showIconPopup(this.issues[window.location.queryString.issue])
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -50,13 +62,8 @@ window.app = new Vue({
         this.vueBind.model.user = userData
         return
       }
-      const identity = window.context.identity
 
-      if (!identity) {
-        this.showError({ message: 'Please, login again' })
-        return
-      }
-      const userResponse = await this.services.user.getByIdentity(identity)
+      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
@@ -69,7 +76,7 @@ window.app = new Vue({
       return this.vueBind.model.user
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getAllLastByReceiver({
+      const notificationsResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
@@ -91,30 +98,6 @@ window.app = new Vue({
       }
 
       window.location.replace('/franchisor/users/list/')
-    },
-    async updateUser () {
-      try {
-        if (!this.vueBind.model.userDetail) {
-          this.showError({ message: 'Select an user to continue' })
-          return
-        }
-
-        this.vueBind.model.userDetail.status = { id: 3, name: 'deleted', title: 'Deleted' }
-
-        const result = await this.$http
-          .post('/api/user/update/',
-            this.vueBind.model.userDetail,
-            {
-              headers: {
-                'x-access-token': window.context.token
-              }
-            })
-
-        return result.body
-      } catch (error) {
-        console.error(error)
-        return error.body
-      }
     },
     async getSelectedUser () {
       if (!window.location.queryString || !window.location.queryString.id) {

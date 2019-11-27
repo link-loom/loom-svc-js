@@ -21,10 +21,13 @@ window.app = new Vue({
         notifications: [],
         user: {},
         users: []
-      },
-      paths: {},
-      visibility: {},
-      style: {}
+      }
+    },
+    issues: {
+      '[CODE]': {
+        title: '[TITLE]',
+        message: '[MESSAGE]'
+      }
     }
   },
   mounted () {
@@ -43,6 +46,15 @@ window.app = new Vue({
       await this.getAllUsers()
 
       this.hideLoader()
+
+      this.checkIssuesMessages()
+    },
+    async checkIssuesMessages () {
+      if (!window.location.queryString || !window.location.queryString.issue) {
+        return
+      }
+
+      this.showIconPopup(this.issues[window.location.queryString.issue])
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -52,12 +64,7 @@ window.app = new Vue({
         return
       }
 
-      if (!window.context.identity) {
-        this.showError({ message: 'Please, login again' })
-        return
-      }
-
-      const userResponse = await this.services.user.getByIdentity({ identity: window.context.identity })
+      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
@@ -93,19 +100,18 @@ window.app = new Vue({
           search: ''
         }
       })
-      $('#order-listing').each(function () {
-        var datatable = $(this)
+      $('#order-listing').each(() => {
         // SEARCH - Add the placeholder for Search and Turn this into in-line form control
-        var searchInput = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input')
+        const searchInput = $(this).closest('.dataTables_wrapper').find('div[id$=_filter] input')
         searchInput.attr('placeholder', 'Search')
         searchInput.removeClass('form-control-sm')
         // LENGTH - Inline-Form control
-        var lengthSel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select')
+        const lengthSel = $(this).closest('.dataTables_wrapper').find('div[id$=_length] select')
         lengthSel.removeClass('form-control-sm')
       })
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getAllLastByReceiver({
+      const notificationsResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
