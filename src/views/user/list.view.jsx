@@ -36,34 +36,34 @@ class Index extends React.Component {
                       </thead>
                       <tbody>
                         <tr
-                          v-for="_user in vueBind.model.users">
-                          <td>{'{{_user.id}}'}</td>
-                          <td>{'{{_user.email}}'}</td>
-                          <td>{`{{_user.firstname}}`} {'{{_user.lastname}}'}</td>
-                          <td>{'{{_user.role.title}}'}</td>
-                          <td>{'{{_user.boss_user_id}}'}</td>
-                          <td>{'{{_user.last_login}}'}</td>
+                          v-for="_entity in vueBind.model.entities">
+                          <td>{'{{_entity.id}}'}</td>
+                          <td>{'{{_entity.email}}'}</td>
+                          <td>{`{{_entity.firstname}}`} {'{{_entity.lastname}}'}</td>
+                          <td>{'{{_entity.role.title}}'}</td>
+                          <td>{'{{_entity.boss_entity_id}}'}</td>
+                          <td>{'{{_entity.last_login}}'}</td>
                           <td>
-                            <label className="badge badge-info">{'{{_user.status.title}}'}</label>
+                            <label className="badge badge-info">{'{{_entity.status.title}}'}</label>
                           </td>
                           <td>
                             <a
-                              {...{ 'v-bind:href': '"/user/detail?id=" + _user.id' }}
+                              {...{ 'v-bind:href': '"/user/detail?id=" + _entity.id' }}
                               className="btn btn-outline-secondary btn-rounded btn-icon mx-1 p-0 position-relative">
                               <i className="icon-link icon-magnifier text-primary"></i>
                             </a>
                             <a
-                              {...{ 'v-bind:href': '"/user/edit?id=" + _user.id' }}
+                              {...{ 'v-bind:href': '"/user/edit?id=" + _entity.id' }}
                               className="btn btn-outline-secondary btn-rounded btn-icon mx-1 p-0 position-relative">
                               <i className="icon-link ti-pencil text-primary"></i>
                             </a>
                             <a
-                              {...{ 'v-bind:href': '"/user/block?id=" + _user.id' }}
+                              {...{ 'v-bind:href': '"/user/block?id=" + _entity.id' }}
                               className="btn btn-outline-secondary btn-rounded btn-icon mx-1 p-0 position-relative">
                               <i className="icon-link ti-na text-primary"></i>
                             </a>
                             <a
-                              {...{ 'v-bind:href': '"/user/delete?id=" + _user.id' }}
+                              {...{ 'v-bind:href': '"/user/delete?id=" + _entity.id' }}
                               className="btn btn-outline-secondary btn-rounded btn-icon mx-1 p-0 position-relative">
                               <i className="icon-link ti-close text-danger"></i>
                             </a>

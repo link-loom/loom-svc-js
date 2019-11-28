@@ -20,12 +20,12 @@ class Index extends React.Component {
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_FIRSTNAME_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.firstname"
+                        v-model="vueBind.model.entity.firstname"
                           type="text" autoComplete="off" className="form-control" id="name" placeholder="" />
                       </div>
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_LASTNAME_LABEL}</label>
-                        <input v-model="vueBind.model.newUser.lastname"
+                        <input v-model="vueBind.model.entity.lastname"
                           type="text" autoComplete="off" className="form-control" id="lastname" placeholder="" />
                       </div>
                     </div>
@@ -33,13 +33,13 @@ class Index extends React.Component {
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_IDENTITY_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.identity"
+                        v-model="vueBind.model.entity.identity"
                           type="number" autoComplete="off" className="form-control" id="dni" placeholder={this.props.data.locale.FORM_IDENTITY_PLACEHOLDER} />
                       </div>
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_EMAIL_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.email"
+                        v-model="vueBind.model.entity.email"
                           type="email" autoComplete="off" className="form-control" id="email" placeholder={this.props.data.locale.FORM_EMAIL_PLACEHOLDER} />
                       </div>
                     </div>
@@ -47,13 +47,13 @@ class Index extends React.Component {
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_PASSWORD_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.password"
+                        v-model="vueBind.model.entity.password"
                           type="email" autoComplete="off" className="form-control" id="email" placeholder="" />
                       </div>
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_BOSS_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.boss_user_id"
+                        v-model="vueBind.model.entity.boss_user_id"
                           type="text" autoComplete="off" className="form-control" id="reportsto" placeholder={this.props.data.locale.FORM_BOSS_PLACEHOLDER}/>
                       </div>
                     </div>
@@ -61,7 +61,7 @@ class Index extends React.Component {
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_FRANCHISE_LABEL}</label>
                         <select
-                        v-model="vueBind.model.newUser.franchise_id"
+                        v-model="vueBind.model.entity.franchise_id"
                           className="form-control" name="franchise" id="franchise" >
                           <option disabled selected value="0">{this.props.data.locale.FORM_SELECT_PLACEHOLDER}</option>
                           <option
@@ -72,7 +72,7 @@ class Index extends React.Component {
                       <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_POSITION_LABEL}</label>
                         <input 
-                        v-model="vueBind.model.newUser.job_title"
+                        v-model="vueBind.model.entity.job_title"
                           type="text" autoComplete="off" className="form-control" id="jobtitle" placeholder="Eg: Cashier" />
                       </div>
                     </div>
@@ -84,7 +84,7 @@ class Index extends React.Component {
 
                           <button
                             v-for="_role in vueBind.model.roles"
-                            {...{ 'v-bind:class': '{ selected: vueBind.model.newUser.role.id === _role.id }' }}
+                            {...{ 'v-bind:class': '{ selected: vueBind.model.entity.role.id === _role.id }' }}
                             {...{ 'v-on:click': 'selectRoleOnClick($event, _role)' }}
                             type="button" className="btn btn-outline-secondary btn-icon-text mr-2" >
                             <img src="/img/test/starter/employee.svg" alt="expense type" className="icon mr-2" />

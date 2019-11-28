@@ -12,7 +12,7 @@ class Index extends React.Component {
             <div className="card">
               <div className="card-body">
                 <div className="container pt-2 text-center">
-                  <h2 className="mb-3">{this.props.data.locale.MAIN_TITLE_LABEL} {'{{vueBind.model.userDetail.firstname}}'}</h2>
+                  <h2 className="mb-3">{this.props.data.locale.MAIN_TITLE_LABEL} {'{{vueBind.model.entity.firstname}}'}</h2>
                   <p className="card-description">{this.props.data.locale.MAIN_DESCRIPTION_LABEL}</p>
                   <button
                     {...{ 'v-on:click': 'deleteOnClick($event)' }}
