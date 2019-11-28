@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, userService */
+   notificationService, franchiseService, roleService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -13,15 +13,25 @@ window.app = new Vue({
     loader,
     parameters,
     notificationService,
+    franchiseService,
+    roleService,
     userService],
   data: {
     vueBind: {
       model: {
-        notification_type: 'franchisor',
         notifications: [],
         user: {},
-        userDetail: {}
-      }
+        entity: {
+          role: { id: 0 }
+        },
+        roles: [],
+        franchises: []
+      },
+      paths: {},
+      visibility: {
+        userRoleIsSelected: false
+      },
+      style: {}
     },
     issues: {
       '[CODE]': {
@@ -40,12 +50,28 @@ window.app = new Vue({
   },
   methods: {
     async initializeView () {
-      this.getUser()
+      await this.getUser()
       this.getAllNotifications()
 
-      await this.getSelectedUser()
+      const franchisesResponse = await this.services.franchise.getAllByBusinessId({
+        business_id: this.vueBind.model.user.business_id
+      })
 
-      this.hideLoader()
+      if (franchisesResponse && franchisesResponse.success) {
+        this.vueBind.model.franchises = franchisesResponse.result
+
+        this.hideLoader()
+      } else {
+        this.showDefaultError(franchisesResponse)
+      }
+
+      const rolesResponse = await this.services.role.getAll()
+
+      if (!rolesResponse || !rolesResponse.success) {
+        return
+      }
+
+      this.vueBind.model.roles = rolesResponse.result
 
       this.checkIssuesMessages()
     },
@@ -85,37 +111,48 @@ window.app = new Vue({
         this.vueBind.model.notifications = notificationsResponse.result
       }
     },
-    blockOnClick: async (event) => {
+    selectRoleOnClick: function (event, role) {
       if (event) { event.preventDefault() }
 
-      const userResponse = await this.services.user.update({
-        id: window.location.queryString.id,
-        status: { id: 4, name: 'blocked', title: 'Blocked' }
-      })
-
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
+      if (!role) {
+        this.showError({ title: 'Oops!', message: 'Select a role first' })
         return
       }
 
-      window.location.replace('/franchisor/users/list/')
+      this.vueBind.model.entity.role = role
+      this.vueBind.visibility.userRoleIsSelected = true
     },
-    async getSelectedUser () {
-      if (!window.location.queryString || !window.location.queryString.id) {
-        this.showError({ message: 'Please return and select an user to use this action' })
+    async createUserOnClick (event) {
+      if (event) { event.preventDefault() }
+
+      if (!this.vueBind.model.entity.identity) {
+        this.showError({ message: 'Provide at least an identity' })
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({
-        identity: window.location.queryString.id
+      this.vueBind.model.entity.business_id = this.vueBind.model.user.business_id
+
+      const entityResult = await this.services.user.create(this.vueBind.model.entity)
+
+      if (!entityResult) {
+        this.showDefaultError(entityResult)
+        return
+      }
+
+      await window.Swal.fire({
+        title: 'User created!',
+        text: 'We have confirmed the creation of the user, can now authenticate and work.',
+        type: 'success',
+        confirmButtonClass: 'btn-success',
+        confirmButtonText: 'Continuar'
       })
 
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
-        return
-      }
+      window.location.reload()
+    },
+    returnOnClick (event) {
+      if (event) { event.preventDefault() }
 
-      this.vueBind.model.userDetail = userResponse.result
+      window.location.assign('user/list/')
     }
   }
 })

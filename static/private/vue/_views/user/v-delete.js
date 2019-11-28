@@ -20,7 +20,7 @@ window.app = new Vue({
         notification_type: 'franchisor',
         notifications: [],
         user: {},
-        userDetail: {}
+        entity: {}
       }
     },
     issues: {
@@ -42,7 +42,7 @@ window.app = new Vue({
     async initializeView () {
       this.getUser()
       this.getAllNotifications()
-      await this.getSelectedUser()
+      await this.getSelectedEntity()
 
       this.hideLoader()
 
@@ -87,34 +87,34 @@ window.app = new Vue({
     async deleteOnClick (event) {
       if (event) { event.preventDefault() }
 
-      const userResponse = await this.services.user.update({
+      const entityResponse = await this.services.user.update({
         id: window.location.queryString.id,
         status: { id: 3, name: 'deleted', title: 'Deleted' }
       })
 
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
+      if (!entityResponse || !entityResponse.success) {
+        this.showDefaultError(entityResponse)
         return
       }
 
-      window.location.replace('/franchisor/users/list/')
+      window.location.replace('/user/list/')
     },
-    async getSelectedUser () {
+    async getSelectedEntity () {
       if (!window.location.queryString || !window.location.queryString.id) {
         this.showError({ message: 'Please return and select an user to use this action' })
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({
+      const entityResponse = await this.services.user.getByParameters({
         identity: window.location.queryString.id
       })
 
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
+      if (!entityResponse || !entityResponse.success) {
+        this.showDefaultError(entityResponse)
         return
       }
 
-      this.vueBind.model.userDetail = userResponse.result
+      this.vueBind.model.entity = entityResponse.result
     }
   }
 })

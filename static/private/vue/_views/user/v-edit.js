@@ -21,7 +21,7 @@ window.app = new Vue({
       model: {
         notifications: [],
         user: {},
-        newUser: {
+        entity: {
           role: { id: 0 }
         },
         roles: [],
@@ -106,16 +106,16 @@ window.app = new Vue({
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({
+      const entityResponse = await this.services.user.getByParameters({
         identity: window.location.queryString.id
       })
 
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
+      if (!entityResponse || !entityResponse.success) {
+        this.showDefaultError(entityResponse)
         return
       }
 
-      this.vueBind.model.newUser = userResponse.result
+      this.vueBind.model.entity = entityResponse.result
     }
   }
 })

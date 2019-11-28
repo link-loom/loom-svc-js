@@ -20,7 +20,7 @@ window.app = new Vue({
         notification_type: 'franchisor',
         notifications: [],
         user: {},
-        userDetail: {
+        entity: {
           role: '',
           status: ''
         }
@@ -93,7 +93,7 @@ window.app = new Vue({
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({
+      const userResponse = await this.services.user.getByParameters({
         identity: window.location.queryString.id
       })
 
@@ -102,7 +102,7 @@ window.app = new Vue({
         return
       }
 
-      this.vueBind.model.userDetail = userResponse.result
+      this.vueBind.model.entity = userResponse.result
     }
   }
 })

@@ -20,7 +20,7 @@ window.app = new Vue({
         notification_type: 'franchisor',
         notifications: [],
         user: {},
-        users: []
+        entities: []
       }
     },
     issues: {
@@ -43,7 +43,7 @@ window.app = new Vue({
       await this.getUser()
       this.getAllNotifications()
 
-      await this.getAllUsers()
+      await this.getAllEntities()
 
       this.hideLoader()
 
@@ -76,13 +76,13 @@ window.app = new Vue({
 
       return this.vueBind.model.user
     },
-    async getAllUsers () {
-      const usersResponse = await this.services.user.getAllByBusinessId({
+    async getAllEntities () {
+      const entityResponse = await this.services.user.getByParameters({
         business_id: this.vueBind.model.user.business_id
       })
 
-      if (usersResponse && usersResponse.success) {
-        this.vueBind.model.users = usersResponse.result
+      if (entityResponse && entityResponse.success) {
+        this.vueBind.model.entities = entityResponse.result
 
         setTimeout(() => {
           this.setupDataTable()

@@ -57,7 +57,7 @@ window.app = new Vue({
         this.showError({ message: 'Please, login again' })
         return
       }
-      const userResponse = await this.services.user.getByIdentity(identity)
+      const userResponse = await this.services.user.getByParameters(identity)
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
@@ -119,7 +119,7 @@ window.app = new Vue({
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({
+      const userResponse = await this.services.user.getByParameters({
         identity: window.location.queryString.id
       })
 
