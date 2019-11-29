@@ -26,7 +26,7 @@ window.app = new Vue({
   },
   mounted () {
     window.context = {
-      userId: this.$cookies.get('user_identity'),
+      identity: this.$cookies.get('user_identity'),
       token: this.$cookies.get('user_session')
     }
 
