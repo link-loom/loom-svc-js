@@ -22,16 +22,15 @@ window.app = new Vue({
         notifications: [],
         user: {},
         entity: {
+          dni: '',
+          email: '',
+          phone: '',
+          password: '',
+          firstname: '',
+          lastname: '',
           role: { id: 0 }
-        },
-        roles: [],
-        franchises: []
-      },
-      paths: {},
-      visibility: {
-        userRoleIsSelected: false
-      },
-      style: {}
+        }
+      }
     },
     issues: {
       '[CODE]': {
@@ -53,25 +52,7 @@ window.app = new Vue({
       await this.getUser()
       this.getAllNotifications()
 
-      const franchisesResponse = await this.services.franchise.getAllByBusinessId({
-        business_id: this.vueBind.model.user.business_id
-      })
-
-      if (franchisesResponse && franchisesResponse.success) {
-        this.vueBind.model.franchises = franchisesResponse.result
-
-        this.hideLoader()
-      } else {
-        this.showDefaultError(franchisesResponse)
-      }
-
-      const rolesResponse = await this.services.role.getAll()
-
-      if (!rolesResponse || !rolesResponse.success) {
-        return
-      }
-
-      this.vueBind.model.roles = rolesResponse.result
+      await this.getRoles()
 
       this.checkIssuesMessages()
     },
@@ -81,6 +62,15 @@ window.app = new Vue({
       }
 
       this.showIconPopup(this.issues[window.location.queryString.issue])
+    },
+    async getRoles () {
+      const rolesResponse = await this.services.role.getAll()
+
+      if (!rolesResponse || !rolesResponse.success) {
+        return
+      }
+
+      this.vueBind.model.roles = rolesResponse.result
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -111,7 +101,7 @@ window.app = new Vue({
         this.vueBind.model.notifications = notificationsResponse.result
       }
     },
-    selectRoleOnClick: function (event, role) {
+    selectRoleOnClick (event, role) {
       if (event) { event.preventDefault() }
 
       if (!role) {
@@ -132,10 +122,10 @@ window.app = new Vue({
 
       this.vueBind.model.entity.business_id = this.vueBind.model.user.business_id
 
-      const entityResult = await this.services.user.create(this.vueBind.model.entity)
+      const userResult = await this.services.user.create(this.vueBind.model.entity)
 
-      if (!entityResult) {
-        this.showDefaultError(entityResult)
+      if (!userResult) {
+        this.showDefaultError(userResult)
         return
       }
 
