@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, userService, roleService, franchiseService */
+   notificationService, userService, roleService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -14,8 +14,7 @@ window.app = new Vue({
     parameters,
     notificationService,
     userService,
-    roleService,
-    franchiseService],
+    roleService],
   data: {
     vueBind: {
       model: {
@@ -24,8 +23,7 @@ window.app = new Vue({
         entity: {
           role: { id: 0 }
         },
-        roles: [],
-        franchises: []
+        roles: []
       }
     },
     issues: {

@@ -1,6 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, userService, businessService, franchiseService,
-    franchisorService */
+   notificationService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -14,21 +13,13 @@ window.app = new Vue({
     loader,
     parameters,
     notificationService,
-    userService,
-    businessService,
-    franchiseService,
-    franchisorService],
+    userService],
   data: {
     vueBind: {
       model: {
         notification_type: 'REPLACE-ME',
         notifications: [],
         user: {},
-        franchise: {},
-        franchisor: {},
-        business: {
-          type: {}
-        },
         businessTypes: [
           {
             name: 'food',
@@ -176,37 +167,8 @@ window.app = new Vue({
       this.showLoader()
 
       await this.createBusiness()
-      await this.createFranchisor()
-      await this.createFranchise()
 
       window.location.assign('/dashboard')
-    },
-    async createFranchisor () {
-      this.showLoader()
-
-      this.vueBind.model.business.business_id = this.vueBind.model.user.business_id
-      const franchisorResponse = await this.services.franchisor.create(this.vueBind.model.business)
-
-      if (!franchisorResponse || !franchisorResponse.success) {
-        this.hideLoader()
-        this.showDefaultError(franchisorResponse)
-        return
-      }
-      this.vueBind.model.franchisor = franchisorResponse.result
-    },
-    async createFranchise () {
-      this.showLoader()
-
-      this.vueBind.model.business.franchisor_id = this.vueBind.model.franchisor.id
-      const franchiseResponse = await this.services.franchise.create(this.vueBind.model.business)
-
-      if (!franchiseResponse || !franchiseResponse.success) {
-        this.hideLoader()
-        this.showDefaultError(franchiseResponse)
-        return
-      }
-
-      this.vueBind.model.franchise = franchiseResponse.result
     }
   }
 })

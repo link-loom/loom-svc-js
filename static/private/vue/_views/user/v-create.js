@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, franchiseService, roleService, userService */
+   notificationService, roleService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -13,7 +13,6 @@ window.app = new Vue({
     loader,
     parameters,
     notificationService,
-    franchiseService,
     roleService,
     userService],
   data: {

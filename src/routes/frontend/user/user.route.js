@@ -17,7 +17,6 @@ function route (dependencies) {
           locale,
           services: [
             '_services/notification/s-notification.js',
-            '_services/franchise/s-franchise.js',
             '_services/role/s-role.js',
             '_services/user/s-user.js'
           ]
@@ -75,7 +74,6 @@ function route (dependencies) {
           locale,
           services: [
             '_services/notification/s-notification.js',
-            '_services/franchise/s-franchise.js',
             '_services/role/s-role.js',
             '_services/user/s-user.js'
           ]

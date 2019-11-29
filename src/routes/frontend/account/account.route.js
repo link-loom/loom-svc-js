@@ -18,8 +18,6 @@ function route (dependencies) {
           services: [
             '_services/notification/s-notification.js',
             '_services/user/s-user.js',
-            '_services/franchise/s-franchise.js',
-            '_services/franchisor/s-franchisor.js',
             '_services/business/s-business.js'
           ]
         },

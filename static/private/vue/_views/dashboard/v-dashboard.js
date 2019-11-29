@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   userService, notificationService, accountingBookService, franchiseService, businessService */
+   userService, notificationService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -13,16 +13,12 @@ window.app = new Vue({
     loader,
     parameters,
     userService,
-    notificationService,
-    accountingBookService,
-    franchiseService,
-    businessService],
+    notificationService],
   data: {
     vueBind: {
       model: {
         notifications: [],
-        user: {},
-        franchises: []
+        user: {}
       },
       paths: {},
       visibility: {},
@@ -41,60 +37,10 @@ window.app = new Vue({
     async initializeView () {
       await this.getUser()
       this.getAllNotifications()
-      await this.getBusinesses()
-      await this.getFranchises()
 
       if (!this.vueBind.model.user.business_id) {
         window.location.assign('/account/getting-started?issue=b-0001')
       }
-    },
-    async getFranchises () {
-      if (!this.vueBind.model.businesses || this.vueBind.model.businesses.length <= 0) {
-        this.configureBusiness()
-        return
-      }
-
-      this.vueBind.model.businesses.map(async (business) => {
-        const response = await this.services.franchise.getAllByBusinessId({ business_id: business })
-
-        if (response && response.success) {
-          if (this.vueBind.model.franchises && this.vueBind.model.franchises.length > 0) {
-            response.result.map(franchise => {
-              this.vueBind.model.franchises.push(franchise)
-            })
-          } else {
-            this.vueBind.model.franchises = response.result
-          }
-
-          this.hideLoader()
-
-          this.getBalances()
-        } else {
-          this.showDefaultError(response)
-        }
-      })
-    },
-    async getBusinesses () {
-      const response = await this.services.business.getAllByManagerId({
-        manager_id: this.vueBind.model.user.id
-      })
-
-      if (!response || !response.success) {
-        this.showDefaultError(response)
-        return
-      }
-
-      this.vueBind.model.businesses = response.result
-
-      if (!this.vueBind.model.businesses || this.vueBind.model.businesses.length <= 0) {
-        this.configureBusiness()
-        return
-      }
-
-      return response.result
-    },
-    configureBusiness: async function () {
-      window.location.assign('/account/getting-started')
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
@@ -129,24 +75,6 @@ window.app = new Vue({
       if (notificationsResponse && notificationsResponse.success) {
         this.vueBind.model.notifications = notificationsResponse.result
       }
-    },
-    franchiseCardOnClick: function (event, franchise) {
-      if (event) { event.preventDefault() }
-
-      window.location.assign(`/business/franchise/balance?franchise_id=${franchise.id}`)
-    },
-    getBalances: function () {
-      this.getAccountingBooks()
-    },
-    getAccountingBooks: function () {
-      this.vueBind.model.franchises.map((franchise) => {
-        this.services.accountingBook.getLastAccountingBookSheetByFranchiseId(franchise, (sheetResult) => {
-          if (sheetResult && sheetResult.success) {
-            franchise.accountingBook = sheetResult.result
-            franchise.name = franchise.name + ' '
-          }
-        })
-      })
     }
   }
 })
