@@ -26,8 +26,6 @@ class NotificationModel extends baseModel {
     this.receiver = { value: args.receiver, type: dependencies.dal.types.string }
     this.subject = { value: args.subject, type: dependencies.dal.types.string }
     this.message_resume = { value: args.message_resume, type: dependencies.dal.types.string }
-    this.franchise_id = { value: args.franchise_id, type: dependencies.dal.types.string }
-    this.franchisor_id = { value: args.franchisor_id, type: dependencies.dal.types.string }
     this.business_id = { value: args.business_id, type: dependencies.dal.types.string }
     this.folder = { value: args.folder || NotificationModel.folders.inbox, type: dependencies.dal.types.object }
   }

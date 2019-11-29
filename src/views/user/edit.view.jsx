@@ -59,17 +59,6 @@ class Index extends React.Component {
                     </div>
                     <div className="form-row">
                       <div className=" form-group col-12 col-md-6">
-                        <label className="form-control-label">{this.props.data.locale.FORM_FRANCHISE_LABEL}</label>
-                        <select
-                        v-model="vueBind.model.entity.franchise_id"
-                          className="form-control" name="franchise" id="franchise" >
-                          <option disabled selected value="0">{this.props.data.locale.FORM_SELECT_PLACEHOLDER}</option>
-                          <option
-                          v-for="_franchise in vueBind.model.franchises"
-                            {...{ 'v-bind:value': '_franchise.id' }}>{'{{_franchise.name}}'} - {'{{_franchise.tin}}'}</option>
-                        </select>
-                      </div>
-                      <div className=" form-group col-12 col-md-6">
                         <label className="form-control-label">{this.props.data.locale.FORM_POSITION_LABEL}</label>
                         <input 
                         v-model="vueBind.model.entity.job_title"

@@ -89,11 +89,8 @@ UserModel.statuses = {
 }
 
 UserModel.roles = {
-  franchise: { id: 1, name: 'franchise', title: 'Franchise' },
-  franchisor: { id: 2, name: 'franchisor', title: 'Franchisor' },
-  business: { id: 3, name: 'business', title: 'Business' },
-  auditor: { id: 4, name: 'auditor', title: 'Auditor' },
-  dispatcher: { id: 5, name: 'dispatcher', title: 'Dispatcher' },
+  business: { id: 1, name: 'business', title: 'Business' },
+  auditor: { id: 2, name: 'auditor', title: 'Auditor' },
   admin: { id: 9999, name: 'admin', title: 'Admin' }
 }
 
