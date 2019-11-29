@@ -141,7 +141,7 @@ window.app = new Vue({
     returnOnClick (event) {
       if (event) { event.preventDefault() }
 
-      window.location.assign('user/list/')
+      window.location.assign('/user/list/')
     }
   }
 })
