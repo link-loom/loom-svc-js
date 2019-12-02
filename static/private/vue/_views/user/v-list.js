@@ -111,12 +111,12 @@ window.app = new Vue({
       })
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getByParameters({
+      const entityResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
-      if (notificationsResponse && notificationsResponse.success) {
-        this.vueBind.model.notifications = notificationsResponse.result
+      if (entityResponse && entityResponse.success) {
+        this.vueBind.model.notifications = entityResponse.result
       }
     }
   }
