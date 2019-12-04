@@ -1,9 +1,14 @@
 function route (dependencies) {
   const create = (req, res) => {
-    req.route.name = 'user'
-    req.route.handler = 'create'
+    req.route = { ...req.route, ...{ name: 'user', handler: 'create' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return
@@ -29,10 +34,15 @@ function route (dependencies) {
   }
 
   const list = (req, res) => {
-    req.route.name = 'user'
-    req.route.handler = 'list'
+    req.route = { ...req.route, ...{ name: 'user', handler: 'list' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return
@@ -57,10 +67,15 @@ function route (dependencies) {
   }
 
   const edit = (req, res) => {
-    req.route.name = 'user'
-    req.route.handler = 'edit'
+    req.route = { ...req.route, ...{ name: 'user', handler: 'edit' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return
@@ -86,10 +101,15 @@ function route (dependencies) {
   }
 
   const block = (req, res) => {
-    req.route.name = 'user'
-    req.route.handler = 'block'
+    req.route = { ...req.route, ...{ name: 'user', handler: 'block' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return
@@ -114,10 +134,15 @@ function route (dependencies) {
   }
 
   const uDelete = (req, res) => {
-    req.route.name = 'user'
-    req.route.handler = 'delete'
+    req.route = { ...req.route, ...{ name: 'user', handler: 'delete' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return
@@ -142,10 +167,17 @@ function route (dependencies) {
   }
 
   const detail = (req, res) => {
+    req.route = { ...req.route, ...{ name: 'user', handler: 'create' } }
     req.route.name = 'user'
     req.route.handler = 'detail'
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
+
+    if (!req.cookies.user_session) {
+      res.redirect((`/login?redirect=${encodeURIComponent(`/${req.route.name}/${req.route.handler}`)}`))
+      return
+    }
+
     if (!locale) {
       res.redirect('/maintenance?error=lang-not-found')
       return

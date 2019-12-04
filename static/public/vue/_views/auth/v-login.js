@@ -62,7 +62,12 @@ window.app = new Vue({
 
       this.$cookies.set('user_session', loginResponse.result.token, '1d', '/')
       this.$cookies.set('user_identity', loginResponse.result.payload.identity, '1d', '/')
-      window.location.assign('/')
+
+      if (window.location.queryString && window.location.queryString.redirect) {
+        window.location.assign(unescape(window.location.queryString.redirect))
+      } else {
+        window.location.assign('/')
+      }
     },
     loginOnClick: function (event) {
       if (event) { event.preventDefault() }
