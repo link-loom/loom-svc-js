@@ -168,8 +168,6 @@ function route (dependencies) {
 
   const detail = (req, res) => {
     req.route = { ...req.route, ...{ name: 'user', handler: 'create' } }
-    req.route.name = 'user'
-    req.route.handler = 'detail'
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
 
