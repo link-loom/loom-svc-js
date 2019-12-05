@@ -37,6 +37,11 @@ class FrontendManager {
     // Something else, 404 error
     this._app.get('*', this._maintenance.index)
 
+    this._app.use((err, req, res, next) => {
+      res.redirect(`/maintenance?error=${err.code}&message=${err.message}`)
+      next()
+    })
+
     this._console.success('FrontEnd manager loaded')
   }
 

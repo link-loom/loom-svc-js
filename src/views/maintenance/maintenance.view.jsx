@@ -15,6 +15,7 @@ class Index extends React.Component {
             <div className="col-lg-6 error-page-divider text-lg-left pl-lg-4">
               <h2>{this.props.data.locale.MAIN_SUBTITLE}</h2>
               <h3 className="font-weight-light">{this.props.data.locale.MAIN_MESSAGE_LABEL}</h3>
+              <pre className="error-message">{'{{vueBind.model.message}}'}</pre>
             </div>
           </div>
           <div className="row mt-5">

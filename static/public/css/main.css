@@ -1040,3 +1040,11 @@ h4, .h4 {
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
+
+.error-message {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
