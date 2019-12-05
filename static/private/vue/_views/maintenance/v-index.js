@@ -1,5 +1,5 @@
 /* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService,  */
+    */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -11,15 +11,16 @@ window.app = new Vue({
     find,
     localization,
     loader,
-    parameters,
-    notificationService],
+    parameters],
   data: {
     vueBind: {
       model: {
         notification_type: 'REPLACE-ME',
         notifications: [],
         user: {},
-        message: ''
+        message: '',
+        code: '',
+        error: ''
       }
     },
     issues: {
@@ -39,8 +40,18 @@ window.app = new Vue({
   },
   methods: {
     async initializeView () {
-      if (window.location.queryString.message) {
-        this.vueBind.model.message = window.location.queryString.message
+      if (window.location.queryString) {
+        if (window.location.origin.includes('localhost') && window.location.queryString.code === '500') {
+          this.vueBind.model.message = ''
+          this.vueBind.model.code = '503'
+          this.vueBind.model.error = 'Something was wrong'
+
+          return
+        }
+
+        this.vueBind.model.message = window.location.queryString.message || ''
+        this.vueBind.model.code = window.location.queryString.code || ''
+        this.vueBind.model.error = window.location.queryString.error || ''
       }
 
       this.hideLoader()
@@ -53,35 +64,6 @@ window.app = new Vue({
       }
 
       this.showIconPopup(this.issues[window.location.queryString.issue])
-    },
-    async getUser () {
-      const userData = this.$cookies.get('user_data')
-
-      if (userData) {
-        this.vueBind.model.user = userData
-        return
-      }
-
-      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
-
-      if (!userResponse || !userResponse.success) {
-        this.showDefaultError(userResponse)
-        return
-      }
-
-      this.$cookies.set('user_data', userResponse.result, '1d', '/')
-      this.vueBind.model.user = userResponse.result
-
-      return this.vueBind.model.user
-    },
-    async getAllNotifications () {
-      const entityResponse = await this.services.notification.getByParameters({
-        receiver: this.vueBind.model.user.id || window.context.identity || ''
-      })
-
-      if (entityResponse && entityResponse.success) {
-        this.vueBind.model.notifications = entityResponse.result
-      }
     }
   }
 })

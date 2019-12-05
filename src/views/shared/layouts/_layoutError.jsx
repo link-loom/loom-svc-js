@@ -7,11 +7,6 @@ const Footer = require('../footer/_footerError')
 
 class Layout extends React.Component {
   render () {
-    let vueBinding = {
-      attr: {
-        vueSrc: { 'src': this.props.vue ? `/js/vue/${this.props.vue}` : '' }
-      }
-    }
     return (
       <html lang="en">
 
@@ -34,9 +29,22 @@ class Layout extends React.Component {
           <script src="/jquery/jquery.slim.min.js"></script>
           <script src="/bootstrap/js/bootstrap.min.js"></script>
 
-          <script src="/js/scripts.js"></script>>
+          <script src="/js/scripts.js"></script>
 
-          <script {...vueBinding.attr.vueSrc}></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-popup.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-b64.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-format.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-time.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-auth.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-find.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-localization.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-loader.js"></script>
+          <script type="text/javascript" src="/private/vue/_mixins/m-parameters.js"></script>
+
+          <script type="text/javascript" src="/private/vue/_components/c-selectable.js"></script>
+          <script type="text/javascript" src="/private/vue/_components/c-wizard.js"></script>
+          {vueServices}
+          <script type="text/javascript" {...{ 'src': this.props.vue ? `/private/vue/${this.props.vue}` : '' }}></script>
 
         </body>
 
