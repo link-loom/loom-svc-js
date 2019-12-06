@@ -60,8 +60,8 @@ window.app = new Vue({
         return
       }
 
-      this.$cookies.set('user_session', loginResponse.result.token, '1d', '/')
-      this.$cookies.set('user_identity', loginResponse.result.payload.identity, '1d', '/')
+      this.$cookies.set('user_session', loginResponse.result.token, `${loginResponse.result.payload.session_time}d`, '/')
+      this.$cookies.set('user_identity', loginResponse.result.payload.identity, `${loginResponse.result.payload.session_time}d`, '/')
 
       if (window.location.queryString && window.location.queryString.redirect) {
         window.location.assign(unescape(window.location.queryString.redirect))

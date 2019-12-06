@@ -42,7 +42,7 @@ function authController (dependencies) {
       const user = userResponse.result
       const result = await authenticateUser(data, user)
 
-      _controllers.user.update({ last_login: timestamp, identity: data.id })
+      _controllers.user.update({ last_login: timestamp, identity: data.id, session_time: Math.round(dependencies.config.TOKEN_EXPIRE / 24) })
 
       return result
     } catch (error) {
