@@ -3,6 +3,7 @@ function uploadController (dependencies) {
   const _spacesManager = dependencies.spacesManager
   const _utilities = dependencies.utilities
   const _excel = dependencies.exceljs
+  const _controllers = dependencies.controllers
 
   const listBuckets = async () => {
     return _s3.listBuckets().promise()
@@ -67,31 +68,89 @@ function uploadController (dependencies) {
     }
   }
 
-  const bulk = (req, res) => {
-    return new Promise(async (resolve, reject) => { // eslint-disable-line
-      const file = req.file
-
-      if (!req || !req.file) {
-        reject(new Error('Add an image file, please'))
-        return
-      }
-
+  const bulkFileHandler = async (file) => {
+    const transformFileData = async (resolve, reject) => {
       const workbook = new _excel.Workbook()
-      const processedFile = {}
+      const processedFile = { rows: [] }
 
       await workbook.xlsx.load(file.buffer)
 
       workbook.eachSheet((worksheet, sheetId) => {
-        processedFile[worksheet.name] = { rows: [] }
+        if (worksheet._rows <= 0) {
+          resolve(processedFile)
+          return
+        }
+
+        const labels = worksheet._rows[0].values
 
         worksheet.eachRow({}, (row, rowNumber) => {
-          processedFile[worksheet.name].rows.push({
-            values: row.values
-          })
-          resolve(_utilities.response.success(processedFile))
+          if (rowNumber > 1) {
+            // Transform rows to objects
+            const transformedRow = Object
+              .assign({}, ...row.values
+                .map((item, index) => ({
+                  [labels[index]]: (item && item.result ? item.result : item && item.text ? item.text : item)
+                })
+                )
+              )
+
+            processedFile.rows.push(transformedRow)
+            resolve(processedFile)
+          }
         })
       })
-    })
+    }
+
+    return new Promise(transformFileData)
+  }
+
+  const bulk = async (req, res) => {
+    try {
+      const file = req.file
+
+      if (!req || !req.file) {
+        return _utilities.response.error('Add a file')
+      }
+
+      if (!req.body || !req.body.route || !req.body.handler) {
+        return _utilities.response.error('Add a path to handle your bulk request, please')
+      }
+
+      if (!_controllers[req.body.route] || !_controllers[req.body.route][req.body.handler]) {
+        return _utilities.response.error('Given path to handle your bulk request is not available')
+      }
+
+      const fileTransformed = await bulkFileHandler(file)
+
+      if (!fileTransformed || !fileTransformed.rows || !fileTransformed.rows.length) {
+        return _utilities.response.error('File not processed because is empty')
+      }
+
+      const response = {
+        success: 0,
+        failed: 0
+      }
+
+      await Promise.all(fileTransformed.rows.map((row) => {
+        const bulkHandler = async (resolve, reject) => {
+          const entityResponse = await _controllers[req.body.route][req.body.handler](row)
+
+          if (entityResponse && entityResponse.success) {
+            response.success += 1
+          } else {
+            response.failed += 1
+          }
+
+          resolve()
+        }
+
+        return new Promise(bulkHandler)
+      }))
+
+      return _utilities.response.success(response)
+    } catch (error) {
+      return _utilities.response.error(error.message)
+    }
   }
 
   return {

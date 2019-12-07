@@ -45,7 +45,9 @@ var uploadService = {
         }
 
         const formData = new FormData()
-        formData.append('file', this.data)
+        formData.append('file', this.data.file)
+        formData.append('route', this.data.route)
+        formData.append('handler', this.data.handler)
 
         const result = await this.$http
           .post('/api/upload/bulk',
