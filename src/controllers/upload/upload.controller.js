@@ -89,7 +89,7 @@ function uploadController (dependencies) {
             const transformedRow = Object
               .assign({}, ...row.values
                 .map((item, index) => ({
-                  [labels[index]]: (item && item.result ? item.result : item && item.text ? item.text : item)
+                  [labels[index].toLocaleLowerCase()]: (item && item.result ? item.result : item && item.text ? item.text : item)
                 })
                 )
               )
