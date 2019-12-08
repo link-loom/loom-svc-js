@@ -4,10 +4,15 @@
   "SERVER_VERSION": "4.0.0",
   "SERVER_NAME": "%BEAT% server #1",
   "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
+  "FRONTEND_URI": "http://localhost:3500",
+  "TOKEN_EXPIRE": 24,
   "USE_DATABASE": false,
   "USE_STORAGE": true,
   "DATABASE_NAME": "firebase",
   "STORAGE_NAME": "spaces",
+  "GEOIP_DATABASE": {
+    "PATH": "/databases/GeoLite2-City.mmdb"
+  },
   "FIREBASE_ADMIN": {
     "type": "service_account",
     "project_id": "xxxx",
@@ -37,7 +42,6 @@
     "port": 5432,
     "default_namespace": "chatbotsdb_test2"
   },
-  "FRONTEND_URI": "http://localhost:3500",
   "MAIL": {
     "VALIDATION_PATH": "/validate-email",
     "FROM": "\"Beat\" support@virtualcapitalofamerica.com",
@@ -46,9 +50,6 @@
     "SECURE": true,
     "HOST": "smtp.gmail.com",
     "PORT": 465
-  },
-  "GEOIP_DATABASE": {
-    "PATH": "/databases/GeoLite2-City.mmdb"
   },
   "DIGITALOCEAN": {
     "SPACES": {
@@ -109,6 +110,5 @@
       "route": "/vue-cookies",
       "path": "/node_modules/vue-cookies/"
     }
-  ],
-  "TOKEN_EXPIRE": 24
+  ]
 }
