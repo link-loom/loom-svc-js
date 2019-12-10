@@ -45,7 +45,7 @@ function uploadController (dependencies) {
       }
 
       const file = req.file
-      file.originalname = `${file.originalname}_${Date.now()}`
+      file.originalname = `${file.originalname.slice(0, file.originalname.lastIndexOf('.'))}_${Date.now()}${file.originalname.slice(file.originalname.lastIndexOf('.'), file.originalname.length)}`
       const bucketName = _spacesManager.getCredentials().bucket
       const uploadParams = {
         Bucket: bucketName,
