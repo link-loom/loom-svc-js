@@ -20,7 +20,10 @@ var uploadService = {
         }
 
         const formData = new FormData()
-        formData.append('file', this.data)
+        formData.append('file', data.file)
+        formData.append('route', data.route)
+        formData.append('handler', data.handler)
+        formData.append('payload', JSON.stringify(data.payload || {}))
 
         const result = await this.$http
           .post('/api/upload/file',
@@ -45,9 +48,9 @@ var uploadService = {
         }
 
         const formData = new FormData()
-        formData.append('file', this.data.file)
-        formData.append('route', this.data.route)
-        formData.append('handler', this.data.handler)
+        formData.append('file', data.file)
+        formData.append('route', data.route)
+        formData.append('handler', data.handler)
 
         const result = await this.$http
           .post('/api/upload/bulk',

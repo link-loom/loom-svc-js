@@ -33,12 +33,20 @@ function uploadController (dependencies) {
   const uploadFile = async (req, res) => {
     try {
       if (!req || !req.file) {
-        return _utilities.response.error('Add an image file, please')
+        return _utilities.response.error('Add a file')
       }
 
-      const bucketName = _spacesManager.getCredentials().bucket
+      if (!req.body || !req.body.route || !req.body.handler) {
+        return _utilities.response.error('Add a path to handle your bulk request, please')
+      }
+
+      if (!_controllers[req.body.route] || !_controllers[req.body.route][req.body.handler]) {
+        return _utilities.response.error('Given path to handle your bulk request is not available')
+      }
+
       const file = req.file
-      file.originalname = `${Date.now()}_${file.originalname}`
+      file.originalname = `${file.originalname}_${Date.now()}`
+      const bucketName = _spacesManager.getCredentials().bucket
       const uploadParams = {
         Bucket: bucketName,
         Key: file.originalname,
@@ -59,12 +67,21 @@ function uploadController (dependencies) {
       const uploadResponse = await uploadObject(uploadParams)
 
       if (!uploadResponse) {
-        _utilities.response.error(new Error('Something was wrong uploading the file'))
+        return _utilities.response.error('Something was wrong uploading the file')
       }
 
-      return _utilities.response.success(uploadResponse)
+      const payload = dependencies.isJsonString(req.body.payload || '') ? JSON.parse(req.body.payload) : {}
+      const entityResponse = await _controllers[req.body.route][req.body.handler]({
+        ...payload,
+        ...{
+          filename: uploadResponse.key,
+          uri: uploadResponse.Location
+        }
+      })
+
+      return entityResponse
     } catch (error) {
-      return _utilities.response.error(error)
+      return _utilities.response.error(error.message ? error.message : error)
     }
   }
 
@@ -106,8 +123,6 @@ function uploadController (dependencies) {
 
   const bulk = async (req, res) => {
     try {
-      const file = req.file
-
       if (!req || !req.file) {
         return _utilities.response.error('Add a file')
       }
@@ -120,6 +135,7 @@ function uploadController (dependencies) {
         return _utilities.response.error('Given path to handle your bulk request is not available')
       }
 
+      const file = req.file
       const fileTransformed = await bulkFileHandler(file)
 
       if (!fileTransformed || !fileTransformed.rows || !fileTransformed.rows.length) {
