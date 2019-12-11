@@ -44,12 +44,16 @@ class StorageManager {
   }
 
   async spacesConfig () {
-    const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)
-    this._s3 = new this._aws.S3({
-      endpoint: spacesEndpoint,
-      accessKeyId: this._spacesManager.getCredentials().accessKeyId,
-      secretAccessKey: this._spacesManager.getCredentials().secretAccessKey
-    })
+    try {
+      const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)
+      this._s3 = new this._aws.S3({
+        endpoint: spacesEndpoint,
+        accessKeyId: this._spacesManager.getCredentials().accessKeyId,
+        secretAccessKey: this._spacesManager.getCredentials().secretAccessKey
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

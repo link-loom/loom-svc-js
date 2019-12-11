@@ -8,41 +8,46 @@ class ServerManager {
   }
 
   async loadServer () {
-    this.registerSettings()
+    try {
+      this.registerSettings()
 
-    this.registerConsole()
+      this.registerConsole()
 
-    this.registerAuth()
+      this.registerAuth()
 
-    this.registerDal()
+      this.registerDal()
 
-    await this.registerDatabase()
+      await this.registerDatabase()
 
-    await this.registerStorage()
+      await this.registerStorage()
 
-    this.socketSetup()
+      this.socketSetup()
 
-    await this.registerGeolocator()
+      await this.registerGeolocator()
 
-    this.registerLocale()
+      this.registerLocale()
 
-    this.registerModels()
+      this.registerModels()
 
-    this.registerControllers()
+      this.registerControllers()
 
-    this.registerSocket()
+      this.registerSocket()
 
-    this.registerFunctions()
+      this.registerFunctions()
 
-    this.registerApi()
+      this.registerApi()
 
-    this.registerFrontend()
+      this.registerFrontend()
 
-    this._console.success('Server manager loaded')
+      this._console.success('Server manager loaded')
 
-    this.registerServer()
+      this.registerServer()
 
-    return this._settings.dependencies.get()
+      return this._settings.dependencies.get()
+    } catch (error) {
+      console.log(error)
+      process.exit()
+    }
   }
 
   registerModels () {
