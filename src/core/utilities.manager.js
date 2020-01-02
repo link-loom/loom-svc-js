@@ -157,7 +157,7 @@ class UtilitiesManager {
   }
 
   getParameters (data) {
-    if (!data) { return null }
+    if (!data) { return {} }
 
     if (!this.isEmpty(data.query)) {
       return data.query
@@ -166,7 +166,7 @@ class UtilitiesManager {
     } else if (!this.isEmpty(data.params)) {
       return data.params
     } else {
-      return null
+      return {}
     }
   }
 
