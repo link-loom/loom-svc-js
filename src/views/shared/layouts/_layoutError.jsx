@@ -7,6 +7,12 @@ const Footer = require('../footer/_footerError')
 
 class Layout extends React.Component {
   render () {
+    const vueServices = []
+
+    for (const [index, value] of this.props.data.services.entries()) {
+      vueServices.push(<script type="text/javascript" key={index} src={'/private/vue/' + value}></script>)
+    }
+    
     return (
       <html lang="en">
 
