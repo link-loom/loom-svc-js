@@ -896,12 +896,14 @@ h4, .h4 {
 }
 
 .auth .login-half-bg {
-  background: url("/img/auth/login-bg.webp");
+  background: url("/img/auth/login-bg.jpg");
+  background-image: -webkit-image-set(url('/img/auth/login-bg.webp')1x);
   background-size: cover;
 }
 
 .auth .register-half-bg {
   background: url("/private/dashboard/images/auth/register-bg.jpg");
+  background-image: -webkit-image-set(url('/img/auth/register-bg.webp')1x);
   background-size: cover;
 }
 
