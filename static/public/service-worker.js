@@ -1,6 +1,6 @@
 /* global self, caches, fetch, Response
 */
-const CACHE = 'chatbots-cache'
+const CACHE = 'miretail-cache'
 const precacheFiles = [
   /* Add an array of files to precache for your app */
 ]
@@ -16,6 +16,7 @@ const networkFirstPaths = [
 const avoidCachingPaths = [
   /* Add an array of regex of paths that shouldn't be cached */
   // Example: /\/api\/.*/
+  /\/api\/.*/
 ]
 
 function pathComparer (requestUrl, pathRegEx) {
@@ -100,15 +101,14 @@ self.addEventListener('activate', function (event) {
 
 // If any fetch fails, it will look for the request in the cache and serve it from there first
 self.addEventListener('fetch', function (event) {
-  if (event.request.url.includes('localhost')) return
-  if (event.request.method !== 'GET') return
-  if (event.request.url.includes('/api') && navigator.onLine) return
-  if (event.request.url.includes('v-') && navigator.onLine) return
-  if (event.request.url.includes('s-') && navigator.onLine) return
-  if (event.request.url.includes('m-') && navigator.onLine) return
-  if (event.request.url.includes('c-') && navigator.onLine) return
-
-  if (comparePaths(event.request.url, networkFirstPaths)) {
+  if ((event.request.url.includes('localhost')) ||
+    (event.request.method !== 'GET') ||
+    (event.request.url.includes('/api') && navigator.onLine) ||
+    (event.request.url.includes('v-') && navigator.onLine) ||
+    (event.request.url.includes('s-') && navigator.onLine) ||
+    (event.request.url.includes('m-') && navigator.onLine) ||
+    (event.request.url.includes('c-') && navigator.onLine) ||
+    comparePaths(event.request.url, networkFirstPaths)) {
     networkFirstFetch(event)
   } else {
     cacheFirstFetch(event)
