@@ -24,7 +24,7 @@
         "FORM_CITY_LABEL": "Ciudad del negocio",
         "FORM_COUNTRY_LABEL": "Pais del negocio",
         "FORM_NEXT_BUTTON": "Siguiente",
-        "FORM_ACTION_BUTTON": "Comience a vender con Mi Retail"
+        "FORM_ACTION_BUTTON": "Comience a vender con %BEAT%"
       },
       "profile": {},
       "overview": {
@@ -42,8 +42,8 @@
         "PLAN_PAYMENT_DATE_COMPOSED": "Tu siguiente factura es por $ {{vueBind.model.plan.price}} en {{vueBind.model.plan.next_payment}}.",
         "PLAN_PAYMENT_MANAGE_BUTTON": "Administrar mi plan",
         "SIGNOUT_TITLE_LABEL": "Cierra sesión en todas partes",
-        "SIGNOUT_DESCRIPTION_LABEL": "Cierra sesión donde quiera que tengas Mi Retail abierto, incluyendo la web, el celular, tu computadora de escritorio o cualquier otro dispositivo.",
-        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Importante: Esto no incluye dispositivos y apps de socios, como VCA apps and Amazon Alexa devices, smart watches. Para obtener más información sobre cómo cerrar tu sesión (o desvincular tu cuenta) de Mi Retail en un dispositivo fabricado por uno de nuestros socios, consulta el manual del fabricante del dispositivo.",
+        "SIGNOUT_DESCRIPTION_LABEL": "Cierra sesión donde quiera que tengas %BEAT% abierto, incluyendo la web, el celular, tu computadora de escritorio o cualquier otro dispositivo.",
+        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Importante: Esto no incluye dispositivos y apps de socios, como VCA apps and Amazon Alexa devices, smart watches. Para obtener más información sobre cómo cerrar tu sesión (o desvincular tu cuenta) de %BEAT% en un dispositivo fabricado por uno de nuestros socios, consulta el manual del fabricante del dispositivo.",
         "SIGNOUT_ACTION_BUTTON": "Cierra sesión en todas partes",
         "LANGUAGE_TITLE_LABEL": "Configuración de lenguaje",
         "LANGUAGE_DESCRIPTION_LABEL": "Esta configuración cambiará el lenguaje de toda tu sesión en este dispositivo.",
@@ -101,7 +101,7 @@
     },
     "dashboard": {
       "index": {
-        "MAIN_TITLE_LABEL": "Inicia tu retail exitoso con Mi Retail",
+        "MAIN_TITLE_LABEL": "Inicia tu retail exitoso con %BEAT%",
         "MAIN_DESCRIPTION_LABEL": "Conoce los conceptos básicos en tres maneras fáciles.",
         "SALE_TITLE_LABEL": "Has una venta",
         "SALE_DESCRIPTION_LABEL": "Explora la sección Vender y aprende a realizar tu primer venta en segundos.",
@@ -112,7 +112,7 @@
         "CUSTOMER_TITLE": "Agregar un cliente",
         "CUSTOMER_DESCRIPTION": "Comienza una base de clientes para hacer crecer tu negocio o simplemente cargue clientes existentes.",
         "CUSTOMER_ACTION_BUTTON": "Agregar un cliente",
-        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de Mi Retail, consulta la",
+        "FOOTER_HELP_LABEL": "Para obtener ayuda con la configuración de %BEAT%, consulta la",
         "FOOTER_GUIDE_LINK": "Guía de inicio."
       }
     },

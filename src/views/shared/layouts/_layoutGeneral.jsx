@@ -37,7 +37,7 @@ class Layout extends React.Component {
                 <div className="ath-banner-cell">
                   <img width="48" src="/img/favicon.svg" alt="PWA Installer icon" className="ath-prompt-logo" />
                 </div>
-                <p className="w-100">Do you want install Mi Retail?</p>
+                <p className="w-100">Do you want install %BEAT%?</p>
               </div>
               <div className="d-flex align-items-center justify-content-end col-6">
                 <button className="btn btn-notnow btn-outline-light btn-fw mx-2">Not Now</button>

@@ -42,8 +42,8 @@
         "PLAN_PAYMENT_DATE_COMPOSED": "Your next bill is for $ {{vueBind.model.plan.price}} on {{vueBind.model.plan.next_payment}}.",
         "PLAN_PAYMENT_MANAGE_BUTTON": "Manage my plan",
         "SIGNOUT_TITLE_LABEL": "Sign out everywhere",
-        "SIGNOUT_DESCRIPTION_LABEL": "Sign out wherever you have Mi Retail open, including the web, mobile, desktop or any other devices.",
-        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Note: This doesn't include partner apps and devices, such as VCA apps and Amazon Alexa devices, smart watches. For more information about logging out (or unlinking) Mi Retail from a partner device, check the device's manufacturer guide.",
+        "SIGNOUT_DESCRIPTION_LABEL": "Sign out wherever you have %BEAT% open, including the web, mobile, desktop or any other devices.",
+        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Note: This doesn't include partner apps and devices, such as VCA apps and Amazon Alexa devices, smart watches. For more information about logging out (or unlinking) %BEAT% from a partner device, check the device's manufacturer guide.",
         "SIGNOUT_ACTION_BUTTON": "Sign out everywhere",
         "LANGUAGE_TITLE_LABEL": "Language setup",
         "LANGUAGE_DESCRIPTION_LABEL": "This setting will change the language of your entire session on this device.",
@@ -101,7 +101,7 @@
     },
     "dashboard": {
       "index": {
-        "MAIN_TITLE_LABEL": "Start your retail success with Mi Retail",
+        "MAIN_TITLE_LABEL": "Start your retail success with %BEAT%",
         "MAIN_DESCRIPTION_LABEL": "Get to know the basics in three easy ways",
         "SALE_TITLE_LABEL": "Make a sale",
         "SALE_DESCRIPTION_LABEL": "Explore the Sell screen, and learn how to make your first sale in seconds.",
@@ -112,7 +112,7 @@
         "CUSTOMER_TITLE": "Add a customer",
         "CUSTOMER_DESCRIPTION": "Start a customer base to grow repeat business or simply upload existing customers.",
         "CUSTOMER_ACTION_BUTTON": "Add a customer",
-        "FOOTER_HELP_LABEL": "For help with setting up Mi Retail, check out the",
+        "FOOTER_HELP_LABEL": "For help with setting up %BEAT%, check out the",
         "FOOTER_GUIDE_LINK": "Getting started guide."
       }
     },
