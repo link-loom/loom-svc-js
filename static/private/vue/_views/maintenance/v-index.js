@@ -41,7 +41,7 @@ window.app = new Vue({
   methods: {
     async initializeView () {
       if (window.location.queryString) {
-        if (window.location.origin.includes('localhost') && window.location.queryString.code === '500') {
+        if (!window.location.origin.includes('localhost') && window.location.queryString.code === '500') {
           this.vueBind.model.message = ''
           this.vueBind.model.code = '503'
           this.vueBind.model.error = 'Something was wrong'
@@ -50,7 +50,7 @@ window.app = new Vue({
         }
 
         this.vueBind.model.message = window.location.queryString.message || ''
-        this.vueBind.model.code = window.location.queryString.code || ''
+        this.vueBind.model.code = window.location.queryString.code || '404'
         this.vueBind.model.error = window.location.queryString.error || ''
       }
 

@@ -1,14 +1,12 @@
 function maintenance (dependencies) {
-  // const _controllers = dependencies.controllers
   const _utilities = dependencies.utilities
 
   const index = (req, res) => {
-    req.route.name = 'maintenance'
-    req.route.handler = 'index'
+    req.route = { ...req.route, ...{ name: 'maintenance', handler: 'index' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 

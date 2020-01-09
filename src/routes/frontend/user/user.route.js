@@ -10,7 +10,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
@@ -44,7 +44,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
@@ -77,7 +77,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
@@ -111,7 +111,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
@@ -144,7 +144,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
@@ -177,7 +177,7 @@ function route (dependencies) {
     }
 
     if (!locale) {
-      res.redirect('/maintenance?error=lang-not-found')
+      res.redirect('/maintenance?error=lang-not-found&code=501&message=Language%20localization%20not%20implemented%20and%20page%20is%20not%20accesible')
       return
     }
 
