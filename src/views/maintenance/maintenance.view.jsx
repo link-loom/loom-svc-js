@@ -1,34 +1,71 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Layout = require('../shared/layouts/_layoutError');
-const Footer = require('../shared/footer/_footerError');
 
-class Index extends React.Component {
+const LayoutHead = require('../head/_headError')
+
+class Layout extends React.Component {
   render () {
+    const vueServices = []
+
+    for (const [index, value] of this.props.data.services.entries()) {
+      vueServices.push(<script type="text/javascript" key={index} src={'/vue/' + value}></script>)
+    }
+
     return (
-      <Layout {...this.props}>
-        <div className="col-lg-7 mx-auto text-white">
-          <div className="row align-items-center d-flex flex-row">
-            <div className="col-lg-6 text-lg-right pr-lg-4">
-              <h1 className="display-1 mb-0">{this.props.data.locale.MAIN_TITLE_LABEL}</h1>
+      <html lang="en">
+
+        <LayoutHead {...this.props} />
+
+        <body className="sidebar-fixed">
+
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" className="blur-svg">
+            <defs>
+              <filter id="blur-filter">
+                <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+
+          <section id="vue-app" className="h-100">
+            <div className="container-fluid page-body-wrapper full-page-wrapper">
+
+              <div className="content-wrapper d-flex align-items-center text-center error-page bg-primary">
+                <div className="row flex-grow">
+                  {/* Start Content */}
+                  {this.props.children}
+                  {/* End Content */}
+                </div>
+              </div>
             </div>
-            <div className="col-lg-6 error-page-divider text-lg-left pl-lg-4">
-              <h2>{this.props.data.locale.MAIN_SUBTITLE}</h2>
-              <h3 className="font-weight-light">{this.props.data.locale.MAIN_MESSAGE_LABEL}</h3>
-              <pre className="error-message">{'{{vueBind.model.message}}'}</pre>
-            </div>
-          </div>
-          <div className="row mt-5">
-            <div className="col-12 text-center mt-xl-2">
-              <a className="text-white font-weight-medium" href="/">{this.props.data.locale.MAIN_BACK_LINK}</a>
-            </div>
-          </div>
-          
-          <Footer {...this.props} />
-        </div>
-      </Layout>
+
+          </section>
+
+
+          <script src="/jquery/jquery.slim.min.js"></script>
+          <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+          <script src="/js/scripts.js"></script>
+
+          <script type="text/javascript" src="/vue/_mixins/m-popup.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-b64.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-format.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-time.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-auth.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-find.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-localization.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-loader.js"></script>
+          <script type="text/javascript" src="/vue/_mixins/m-parameters.js"></script>
+
+          <script type="text/javascript" src="/vue/_components/c-selectable.js"></script>
+          <script type="text/javascript" src="/vue/_components/c-wizard.js"></script>
+          {vueServices}
+          <script type="text/javascript" {...{ 'src': this.props.vue ? `/vue/${this.props.vue}` : '' }}></script>
+
+        </body>
+
+      </html>
     );
   }
 }
 
-module.exports = Index;
+module.exports = Layout;
