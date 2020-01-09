@@ -3,18 +3,18 @@
     ========================================================================== */
 var queryString = {}
 try {
-  let query = window.location.search.split('?')[1]
-  let vars = query.split('&')
+  const query = window.location.search.split('?')[1]
+  const vars = query.split('&')
   for (let i = 0; i < vars.length; i++) {
-    let pair = vars[i].split('=')
-    let key = decodeURIComponent(pair[0])
-    let value = decodeURIComponent(pair[1])
+    const pair = vars[i].split('=')
+    const key = decodeURIComponent(pair[0])
+    const value = decodeURIComponent(pair[1])
     // If first entry with this name
     if (typeof queryString[key] === 'undefined') {
       queryString[key] = decodeURIComponent(value)
       // If second entry with this name
     } else if (typeof queryString[key] === 'string') {
-      let arr = [queryString[key], decodeURIComponent(value)]
+      const arr = [queryString[key], decodeURIComponent(value)]
       queryString[key] = arr
       // If third or later entry with this name
     } else {
