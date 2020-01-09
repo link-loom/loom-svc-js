@@ -3,6 +3,7 @@ const PropTypes = require('prop-types');
 
 class Footer extends React.Component {
   render () {
+    const date = new Date()
     return (
 
       <footer className="row mt-5">
