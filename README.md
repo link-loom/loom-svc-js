@@ -97,6 +97,10 @@ List views	\dv
 Show function SQL code	\df+ __function
 Pretty-format	\x
 
+## Remove SSL redirection on stages
+
+> https://www.anhsblog.com/make-chrome-stop-redirect-from-http-to-https/#.XpAGD6FoeMo
+
 ## Documentation
 
 For all docs you need go to Wiki in this project.
