@@ -36,43 +36,47 @@ class LocalizationManager {
   }
 
   international (req, res) {
-    if (!req.params.lang) {
-      if (!req.params) { req.params = {} }
-      if (!req.lookup) { req.lookup = { country: { iso_code: '' } } }
-      req.params = { lang: req.lookup.country.iso_code.toLocaleLowerCase() || 'us' }
+    try {
+      if (!req.params.lang) {
+        if (!req.params) { req.params = {} }
+        if (!req.lookup) { req.lookup = { country: { iso_code: '' } } }
+        req.params = { lang: req.lookup.country.iso_code.toLocaleLowerCase() || 'us' }
 
-      if (!req.cookie || !req.cookie.lang) {
-        res.cookie('lang', req.lookup.country.iso_code.toLocaleLowerCase() || 'us', {
-          expires: new Date(Date.now() + 9999999),
-          httpOnly: false,
-          path: '/'
-        })
+        if (!req.cookie || !req.cookie.lang) {
+          res.cookie('lang', req.lookup.country.iso_code.toLocaleLowerCase() || 'us', {
+            expires: new Date(Date.now() + 9999999),
+            httpOnly: false,
+            path: '/'
+          })
+        }
       }
-    }
 
-    let lang = req.lookup.country.iso_code.toLocaleLowerCase() || 'us'
-    let locales = {}
-    let locale = {}
-    let components = {}
-    if (req.params && req.params.lang) {
-      lang = req.params.lang.toLocaleLowerCase()
-    }
+      let lang = req.lookup.country.iso_code.toLocaleLowerCase() || 'us'
+      let locales = {}
+      let locale = {}
+      let components = {}
+      if (req.params && req.params.lang) {
+        lang = req.params.lang.toLocaleLowerCase()
+      }
 
-    if (!req.route.name || !req.route.handler) {
+      if (!req.route.name || !req.route.handler) {
+        return null
+      }
+
+      locale = this._locales[lang]
+      if (!locale) {
+        locale = this._locales.us
+      }
+
+      locales = (locale.dictionary[req.route.name][req.route.handler])
+      components = (locale.dictionary.shared) || {}
+
+      if (!locales) { return null }
+
+      return { ...locales, ...components }
+    } catch (error) {
       return null
     }
-
-    locale = this._locales[lang]
-    if (!locale) {
-      locale = this._locales.us
-    }
-
-    locales = (locale.dictionary[req.route.name][req.route.handler])
-    components = (locale.dictionary.shared) || {}
-
-    if (!locales) { return null }
-
-    return { ...locales, ...components }
   }
 }
 
