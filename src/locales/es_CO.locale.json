@@ -233,6 +233,13 @@
       },
       "getting-started": {}
     },
+    "template": {
+      "some-page": {
+        "PAGE_TITLE": "Mi página",
+        "MAIN_TITLE_LABEL": "Mi título de página",
+        "MAIN_DESCRIPTION_LABEL": "Mi descripción"
+      }
+    },
     "shared": {
       "FOOTER_COPYRIGHT_APENDIXA": "Beat™ is una marca registrada usada bajo licencia. ",
       "FOOTER_COPYRIGHT_APENDIX_B_LINK": "VCA Ventures",

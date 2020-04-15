@@ -220,6 +220,13 @@
       },
       "getting-started": {}
     },
+    "template": {
+      "some-page": {
+        "PAGE_TITLE": "My page title",
+        "MAIN_TITLE_LABEL": "My page header title",
+        "MAIN_DESCRIPTION_LABEL": "My description"
+      }
+    },
     "shared": {
       "FOOTER_COPYRIGHT_APENDIXA": "Beat™ is a trademark used under license. ",
       "FOOTER_COPYRIGHT_APENDIX_B_LINK": "VCA Ventures",
