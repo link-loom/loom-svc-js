@@ -3,8 +3,7 @@ function home (dependencies) {
   const _utilities = dependencies.utilities
 
   const index = (req, res) => {
-    req.route.name = 'home'
-    req.route.handler = 'index'
+    req.route = { ...req.route, ...{ name: 'home', handler: 'index' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
