@@ -23,7 +23,7 @@ class NavigationHeader extends React.Component {
                   <a className="dropdown-item" href="https://miretail.com.co" target="_blank">Mi Retail</a>
                   <a className="dropdown-item" href="https://gobot.site" target="_blank">Go Bot</a>
                   <a className="dropdown-item" href="https://intelagroiot.com" target="_blank">Intelsense</a>
-                  <div class="dropdown-divider"></div>
+                  <div className="dropdown-divider"></div>
                   <a className="dropdown-item" href="https://github.com/thEpisode/Linux-Shellcode-Generator" target="_blank">Linux Shellcode Generator</a>
                   <a className="dropdown-item" href="https://github.com/virtualcapitalofamerica/secret-sharing.js" target="_blank">secret-sharing.js</a>
                   <a className="dropdown-item" href="https://github.com/bioverflow/cracker-trap" target="_blank">cracker-trap</a>
