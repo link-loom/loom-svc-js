@@ -12,8 +12,8 @@ class Index extends React.Component {
           <div className="container">
             <div className="row no-gutters slider-text align-items-center justify-content-center">
               <div className="col-md-9 text-center">
-                <h1 className="mb-3 bread">%BEAT%</h1>
-                <p className="breadcrumbs"><span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>
+                <h1 className="mb-3 bread">{this.props.data.locale.MAIN_TITLE_LABEL}</h1>
+                <p className="breadcrumbs"><span><a href="https://github.com/thEpisode/beat/wiki">{this.props.data.locale.MAIN_DESCRIPTION_LABEL}</a></span></p>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@ class Index extends React.Component {
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-md-10 text-center">
-                <h2>Server framework for your Node.js projects made with Express, Firebase and ReactDOM.</h2>
+                <h2>{this.props.data.locale.SECOND_DESCRIPTION_LABEL}</h2>
               </div>
             </div>
           </div>

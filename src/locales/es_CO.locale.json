@@ -119,23 +119,9 @@
     "home": {
       "index": {
         "PAGE_TITLE": "Inicio",
-        "MAIN_TITLE_LABEL": "Vista general de la cuenta",
-        "MAIN_DESCRIPTION_LABEL": "",
-        "PROFILE_TITLE_LABEL": "Perfil",
-        "PROFILE_EMAIL_LABEL": "Correo electrónico",
-        "PROFILE_DNI_LABEL": "DNI",
-        "PROFILE_NAME_LABEL": "Nombre",
-        "PROFILE_EDIT_BUTTON": "Editar perfil",
-        "PLAN_TITLE_LABEL": "Tu plan",
-        "PLAN_DESCRIPTION_LABEL": "Descripción",
-        "PLAN_DESCRIPTION_LEARNMORE_BUTTON": "Conocer más",
-        "PLAN_PAYMENT_LABEL": "Pagos",
-        "PLAN_PAYMENT_DATE_COMPOSED": "Tu siguiente factura es por $ {{vueBind.model.plan.price}} en {{vueBind.model.plan.next_payment}}.",
-        "PLAN_PAYMENT_MANAGE_BUTTON": "Administrar mi plan",
-        "SIGNOUT_TITLE_LABEL": "Cierra sesión en todas partes",
-        "SIGNOUT_DESCRIPTION_LABEL": "Cierra sesión donde quiera que tengas Go Bot abierto, incluyendo la web, el celular, tu computadora de escritorio o cualquier otro dispositivo.",
-        "SIGNOUT_DESCRIPTION_BLOCKQUOTE": "Importante: Esto no incluye dispositivos y apps de socios, como VCA apps and Amazon Alexa devices, smart watches. Para obtener más información sobre cómo cerrar tu sesión (o desvincular tu cuenta) de Go Bot en un dispositivo fabricado por uno de nuestros socios, consulta el manual del fabricante del dispositivo.",
-        "SIGNOUT_ACTION_BUTTON": "Cierra sesión en todas partes"
+        "MAIN_TITLE_LABEL": "%BEAT%",
+        "MAIN_DESCRIPTION_LABEL": "Documentación",
+        "SECOND_DESCRIPTION_LABEL":"Server framework para tus proyectos Node.js, hecho con Express, Firebase y ReactDOM."
       }
     },
     "maintenance": {
