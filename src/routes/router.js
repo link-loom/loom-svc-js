@@ -15,8 +15,8 @@ const router = {
     { httpRoute: '/locale/get-locale/', route: '/routes/api/locale/locale.route', handler: 'getLocale', method: 'GET', protected: false },
     // Notification
     { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'get', method: 'GET', protected: false },
-    { httpRoute: '/notification/create', route: '/routes/api/notification/notification.route', handler: 'create', method: 'POST', protected: false },
-    { httpRoute: '/notification/update', route: '/routes/api/notification/notification.route', handler: 'update', method: 'PUT', protected: false },
+    { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'create', method: 'POST', protected: false },
+    { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'update', method: 'PATCH', protected: false },
     // User
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'create', method: 'POST', protected: false },

@@ -1,34 +1,28 @@
-
 // eslint-disable-next-line no-unused-vars
-var notificationService = {
+var userService = {
   data: {
     services: {
-      notification: {}
+      user: {}
     }
   },
   mounted () {
-    this.services.notification = {
-      getByParameters: this.$_getByParameters_notification,
-      update: this.$_update_notification,
-      create: this.$_create_notification
+    this.services.user = {
+      getByParameters: this.$_getByParameters_user,
+      update: this.$_update_user,
+      create: this.$_create_user
     }
   },
   methods: {
-    async $_getByParameters_notification (parameters, query) {
+    async $_getByParameters_user (data) {
       try {
-        let q = ''
-        if (!parameters) {
+        if (!data) {
           return null
         }
 
-        if (query) {
-          q = `&q=${query}`
-        }
-
-        const params = this.objectToQueryString(parameters)
+        const parameters = this.objectToQueryString(data)
 
         const result = await this.$http
-          .get(`/api/notification${params}${q}`,
+          .get(`/api/user${parameters}`,
             {
               headers: {
                 'x-access-token': window.context.token
@@ -38,17 +32,21 @@ var notificationService = {
         return result.body
       } catch (error) {
         console.error(error)
-        return error.body
+        if (error.body) {
+          return { message: `${error.status} ${error.statusText}: ${error.body}` }
+        } else {
+          return error
+        }
       }
     },
-    async $_create_notification (data) {
+    async $_create_user (data) {
       try {
         if (!data) {
           return null
         }
 
         const result = await this.$http
-          .post('/api/notification/',
+          .post('/api/user/',
             data,
             {
               headers: {
@@ -59,17 +57,21 @@ var notificationService = {
         return result.body
       } catch (error) {
         console.error(error)
-        return error.body
+        if (error.body) {
+          return { message: `${error.status} ${error.statusText}: ${error.body}` }
+        } else {
+          return error
+        }
       }
     },
-    async $_update_notification (data) {
+    async $_update_user (data) {
       try {
         if (!data) {
           return null
         }
 
         const result = await this.$http
-          .patch('/api/notification/',
+          .patch('/api/user/',
             data,
             {
               headers: {
@@ -80,7 +82,11 @@ var notificationService = {
         return result.body
       } catch (error) {
         console.error(error)
-        return error.body
+        if (error.body) {
+          return { message: `${error.status} ${error.statusText}: ${error.body}` }
+        } else {
+          return error
+        }
       }
     }
   }

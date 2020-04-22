@@ -11,7 +11,7 @@ function home (dependencies) {
       return
     }
 
-    res.render('index/index.view.jsx', {
+    res.render('home/index.view.jsx', {
       title: 'Home',
       data: {
         locale,
@@ -20,7 +20,7 @@ function home (dependencies) {
           '_services/user/s-user.js'
         ]
       },
-      vue: '_views/home/v-home.js'
+      vue: '_views/home/v-index.js'
     })
   }
 

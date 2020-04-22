@@ -101,6 +101,7 @@
     },
     "dashboard": {
       "index": {
+        "PAGE_TITLE": "Home",
         "MAIN_TITLE_LABEL": "Start your retail success with %BEAT%",
         "MAIN_DESCRIPTION_LABEL": "Get to know the basics in three easy ways",
         "SALE_TITLE_LABEL": "Make a sale",

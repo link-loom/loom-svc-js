@@ -7,10 +7,10 @@ class Index extends React.Component {
 
     return (
       <Layout {...this.props}>
-        <section className="hero-wrap js-fullheight">
+        <section className="d-flex align-items-center hero-wrap">
           <div className="overlay"></div>
           <div className="container">
-            <div className="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+            <div className="row no-gutters slider-text align-items-center justify-content-center">
               <div className="col-md-9 text-center">
                 <h1 className="mb-3 bread">%BEAT%</h1>
                 <p className="breadcrumbs"><span><a href="https://github.com/thEpisode/beat/wiki">Documentation</a></span></p>

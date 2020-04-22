@@ -118,6 +118,7 @@
     },
     "home": {
       "index": {
+        "PAGE_TITLE": "Inicio",
         "MAIN_TITLE_LABEL": "Vista general de la cuenta",
         "MAIN_DESCRIPTION_LABEL": "",
         "PROFILE_TITLE_LABEL": "Perfil",
