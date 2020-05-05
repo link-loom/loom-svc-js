@@ -41,7 +41,7 @@
     "firebase-admin": "^8.10.0",
     "helmet": "^3.21.2",
     "html-to-text": "^5.1.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "latest",
     "maxmind": "^4.0.0",
     "moment": "^2.24.0",
