@@ -46,9 +46,9 @@ ${xmlContents}
   }
 
   return {
-    robots: robots,
-    sitemapMaster: sitemapMaster,
-    sitemapLatest: sitemapLatest
+    robots,
+    sitemapMaster,
+    sitemapLatest
   }
 }
 
