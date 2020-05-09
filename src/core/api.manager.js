@@ -7,6 +7,7 @@ class ApiManager {
     this._auth = dependencies.auth
     this._storage = dependencies.storage
     this._apiRoutes = this._express.Router()
+    this._path = dependencies.path
 
     this.createAPIEndpoints()
 
@@ -14,12 +15,12 @@ class ApiManager {
   }
 
   createAPIEndpoints () {
-    const router = require(`${this._dependencies.root}/src/routes/router`)
+    const router = require(this._path.join(this._dependencies.root, 'src', 'routes', 'router'))
 
     // build each api routes
     router.api.map((component) => {
       try {
-        const componentController = require(`${this._dependencies.root}/src${component.route}`)(this._dependencies)
+        const componentController = require(this._path.join(this._dependencies.root, `src${component.route}`))(this._dependencies)
         switch (component.method.toLocaleUpperCase()) {
           case 'GET':
             if (component.protected) {
