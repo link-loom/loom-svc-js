@@ -134,7 +134,7 @@ class ServerManager {
     const { FunctionsManager } = require('./functions.manager')
     const _functionsManager = new FunctionsManager(this._settings.dependencies.get())
 
-    this._settings.dependencies.core.add(_functionsManager, 'functions')
+    this._settings.dependencies.core.add(_functionsManager.functions, 'functions')
   }
 
   socketSetup () {

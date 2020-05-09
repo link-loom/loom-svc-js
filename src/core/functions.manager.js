@@ -72,6 +72,10 @@ class FunctionsManager {
       }
     })
   }
+
+  get functions () {
+    return this._functions
+  }
 }
 
 module.exports = { FunctionsManager }
