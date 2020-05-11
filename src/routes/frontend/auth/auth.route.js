@@ -4,8 +4,7 @@ function auth (dependencies) {
   const _auth = dependencies.auth
 
   const login = (req, res) => {
-    req.route.name = 'auth'
-    req.route.handler = 'login'
+    req.route = { ...req.route, ...{ name: 'auth', handler: 'login' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
@@ -30,8 +29,7 @@ function auth (dependencies) {
   }
 
   const signup = (req, res) => {
-    req.route.name = 'auth'
-    req.route.handler = 'signup'
+    req.route = { ...req.route, ...{ name: 'auth', handler: 'signup' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
@@ -58,8 +56,7 @@ function auth (dependencies) {
   }
 
   const confirmAccount = async (req, res) => {
-    req.route.name = 'auth'
-    req.route.handler = 'confirmAccount'
+    req.route = { ...req.route, ...{ name: 'auth', handler: 'confirmAccount' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
@@ -81,8 +78,7 @@ function auth (dependencies) {
   }
 
   const validateEmail = async (req, res) => {
-    req.route.name = 'auth'
-    req.route.handler = 'validateEmail'
+    req.route = { ...req.route, ...{ name: 'auth', handler: 'validateEmail' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {

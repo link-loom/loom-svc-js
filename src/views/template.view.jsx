@@ -12,8 +12,8 @@ class Index extends React.Component {
             <div className="card">
               <div className="card-body">
                 <div className="container pt-2">
-                  <h4 className="card-title">{this.props.title}</h4>
-                  <p className="card-description">{this.props.description}</p>
+                  <h4 className="card-title">{this.props.data.locale.MAIN_TITLE_LABEL}</h4>
+                  <p className="card-description">{this.props.data.locale.MAIN_DESCRIPTION_LABEL}</p>
                   <button className="btn btn-primary mr-2">[Call to action]</button>
                 </div>
               </div>

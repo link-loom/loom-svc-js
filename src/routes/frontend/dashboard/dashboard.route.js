@@ -1,7 +1,6 @@
 function dashboard (dependencies) {
   const index = (req, res) => {
-    req.route.name = 'dashboard'
-    req.route.handler = 'index'
+    req.route = { ...req.route, ...{ name: 'dashboard', handler: 'index' } }
     req.lookup = dependencies.geolocator.getLookup(req)
     const locale = dependencies.locale.international(req, res)
     if (!locale) {
@@ -10,7 +9,6 @@ function dashboard (dependencies) {
     }
 
     res.render('dashboard/index.view.jsx', {
-      title: 'dashboard',
       data: {
         locale,
         services: [
