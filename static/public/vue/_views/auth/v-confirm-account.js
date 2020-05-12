@@ -18,9 +18,6 @@ window.app = new Vue({
       model: {
         email: ''
       },
-      paths: {
-        resendNotification: window.context.origin + '/api/resend-email-validation'
-      },
       visibility: {},
       style: {}
     }
@@ -43,18 +40,6 @@ window.app = new Vue({
 
       this.vueBind.model.email = window.location.queryString.email
     },
-    /* resendNotification: function (next) {
-      this.$http.post(
-        this.vueBind.paths.resendNotification,
-        { to: this.vueBind.model.email },
-        { emulateJSON: true })
-        .then(result => {
-          next(result.body);
-        }, error => {
-          console.error(error);
-          next(error.body);
-        });
-    }, */
     async sendEmailAgainOnClick (event) {
       if (event) { event.preventDefault() }
 
