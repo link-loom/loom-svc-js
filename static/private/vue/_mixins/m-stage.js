@@ -12,6 +12,7 @@ var stage = {
       }
 
       window.context.origin = backendUriResponse.result
+      this.initializeView()
     },
     async getBackendUri () {
       try {

@@ -92,8 +92,6 @@ window.app = new Vue({
         token: this.$cookies.get('user_session')
       }
     }
-
-    this.initializeView()
   },
   methods: {
     async initializeView () {
