@@ -21,7 +21,7 @@ var authService = {
         }
 
         const result = await this.$http
-          .post('/api/login/',
+          .post(window.context.origin + '/api/login/',
             data,
             {
               emulateJSON: true,
@@ -42,7 +42,7 @@ var authService = {
         }
 
         const result = await this.$http
-          .get('/api/logout/',
+          .get(window.context.origin + '/api/logout/',
             data,
             {
               emulateJSON: true,
@@ -64,7 +64,7 @@ var authService = {
         }
 
         const result = await this.$http
-          .get('/api/validate-email',
+          .get(window.context.origin + '/api/validate-email',
             data,
             {
               emulateJSON: true,
@@ -86,7 +86,7 @@ var authService = {
         }
 
         const result = await this.$http
-          .post('/api/resend-email-validation',
+          .post(window.context.origin + '/api/resend-email-validation',
             data,
             {
               emulateJSON: true,

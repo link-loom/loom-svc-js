@@ -15,7 +15,7 @@ var localeService = {
   methods: {
     async $_getAllIDDCountries_locale (data) {
       try {
-        const result = await this.$http.get('/api/locale/get-idd-countries/', {
+        const result = await this.$http.get(window.context.origin + '/api/locale/get-idd-countries/', {
           headers: {
             'x-access-token': window.context.token
           }
@@ -49,7 +49,7 @@ var localeService = {
     async $_getAll_locale (data) {
       try {
         const result = await this.$http
-          .get('/api/locale/', {
+          .get(window.context.origin + '/api/locale/', {
             headers: {
               'x-access-token': window.context.token
             }

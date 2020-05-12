@@ -48,7 +48,7 @@ var notificationService = {
         }
 
         const result = await this.$http
-          .post('/api/notification/',
+          .post(window.context.origin + '/api/notification/',
             data,
             {
               headers: {
@@ -69,7 +69,7 @@ var notificationService = {
         }
 
         const result = await this.$http
-          .patch('/api/notification/',
+          .patch(window.context.origin + '/api/notification/',
             data,
             {
               headers: {

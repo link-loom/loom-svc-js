@@ -26,7 +26,7 @@ var uploadService = {
         formData.append('payload', JSON.stringify(data.payload || {}))
 
         const result = await this.$http
-          .post('/api/upload/file',
+          .post(window.context.origin + '/api/upload/file',
             formData,
             {
               headers: {
@@ -53,7 +53,7 @@ var uploadService = {
         formData.append('handler', data.handler)
 
         const result = await this.$http
-          .post('/api/upload/bulk',
+          .post(window.context.origin + '/api/upload/bulk',
             formData,
             {
               headers: {

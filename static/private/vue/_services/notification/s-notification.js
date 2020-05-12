@@ -18,7 +18,7 @@ var notificationService = {
     async $_getAll_notification (data) {
       try {
         const result = await this.$http
-          .get('/api/notification/', {
+          .get(window.context.origin + '/api/notification/', {
             headers: {
               'x-access-token': window.context.token
             }
@@ -64,7 +64,7 @@ var notificationService = {
         }
 
         const result = await this.$http
-          .post('/api/notification/create/',
+          .post(window.context.origin + '/api/notification/create/',
             data,
             {
               headers: {
@@ -85,7 +85,7 @@ var notificationService = {
         }
 
         const result = await this.$http
-          .put('/api/notification/update/',
+          .put(window.context.origin + '/api/notification/update/',
             data,
             {
               headers: {

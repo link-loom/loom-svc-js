@@ -17,7 +17,7 @@ var entityService = {
     async $_getAll_entity (data) {
       try {
         const result = await this.$http
-          .get('/api/entity/',
+          .get(window.context.origin + '/api/entity/',
             {
               headers: {
                 'x-access-token': window.context.token
@@ -59,7 +59,7 @@ var entityService = {
         }
 
         const result = await this.$http
-          .post('/api/entity/',
+          .post(window.context.origin + '/api/entity/',
             data,
             {
               headers: {
@@ -80,7 +80,7 @@ var entityService = {
         }
 
         const result = await this.$http
-          .put('/api/entity/',
+          .put(window.context.origin + '/api/entity/',
             data,
             {
               headers: {

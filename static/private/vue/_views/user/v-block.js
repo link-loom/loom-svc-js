@@ -103,7 +103,7 @@ window.app = new Vue({
         this.vueBind.model.userDetail.status = { id: 4, name: 'blocked', title: 'Blocked' }
 
         const result = await this.$http
-          .post('/api/user/update/',
+          .post(window.context.origin + '/api/user/update/',
             this.vueBind.model.userDetail,
             {
               headers: {

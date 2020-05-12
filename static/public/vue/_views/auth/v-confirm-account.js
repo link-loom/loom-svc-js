@@ -19,7 +19,7 @@ window.app = new Vue({
         email: ''
       },
       paths: {
-        resendNotification: '/api/resend-email-validation'
+        resendNotification: window.context.origin + '/api/resend-email-validation'
       },
       visibility: {},
       style: {}

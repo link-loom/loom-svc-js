@@ -46,7 +46,7 @@ var userService = {
         }
 
         const result = await this.$http
-          .post('/api/user/',
+          .post(window.context.origin + '/api/user/',
             data,
             {
               headers: {
@@ -71,7 +71,7 @@ var userService = {
         }
 
         const result = await this.$http
-          .patch('/api/user/',
+          .patch(window.context.origin + '/api/user/',
             data,
             {
               headers: {

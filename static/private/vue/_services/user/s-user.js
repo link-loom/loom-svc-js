@@ -17,7 +17,7 @@ var userService = {
     async $_getAll_user (data) {
       try {
         const result = await this.$http
-          .get('/api/user/',
+          .get(window.context.origin + '/api/user/',
             {
               headers: {
                 'x-access-token': window.context.token
@@ -59,7 +59,7 @@ var userService = {
         }
 
         const result = await this.$http
-          .post('/api/user/create/',
+          .post(window.context.origin + '/api/user/create/',
             data,
             {
               headers: {
@@ -80,7 +80,7 @@ var userService = {
         }
 
         const result = await this.$http
-          .put('/api/user/update/',
+          .put(window.context.origin + '/api/user/update/',
             data,
             {
               headers: {
