@@ -7,29 +7,12 @@ var entityService = {
   },
   mounted () {
     this.services.entity = {
-      getAll: this.$_getAll_entity,
       getByParameters: this.$_getByParameters_entity,
       update: this.$_update_entity,
       create: this.$_create_entity
     }
   },
   methods: {
-    async $_getAll_entity (data) {
-      try {
-        const result = await this.$http
-          .get(window.context.origin + '/api/entity/',
-            {
-              headers: {
-                'x-access-token': window.context.token
-              }
-            })
-
-        return result.body
-      } catch (error) {
-        console.error(error)
-        return error.body
-      }
-    },
     async $_getByParameters_entity (data) {
       try {
         if (!data) {
