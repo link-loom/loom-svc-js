@@ -1,7 +1,8 @@
-/* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters authService */
+/* global Vue, stage, popup, b64, format, time, auth, find, localization, loader, parameters authService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
+    stage,
     popup,
     b64,
     format,

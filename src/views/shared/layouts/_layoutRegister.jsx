@@ -63,6 +63,7 @@ class Layout extends React.Component {
 
           <script type="text/javascript" src="/private/js/scripts.js"></script>
 
+          <script type="text/javascript" src="/private/vue/_mixins/m-stage.js"></script>
           <script type="text/javascript" src="/private/vue/_mixins/m-parameters.js"></script>
           <script type="text/javascript" src="/private/vue/_mixins/m-popup.js"></script>
           <script type="text/javascript" src="/private/vue/_mixins/m-b64.js"></script>

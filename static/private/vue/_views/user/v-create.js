@@ -1,8 +1,9 @@
-/* global Vue, popup, b64, format, time, auth, find, localization, loader, parameters
+/* global Vue, stage, popup, b64, format, time, auth, find, localization, loader, parameters
    notificationService, roleService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
+    stage,
     popup,
     b64,
     format,
@@ -40,8 +41,11 @@ window.app = new Vue({
   },
   mounted () {
     window.context = {
-      identity: this.$cookies.get('user_identity'),
-      token: this.$cookies.get('user_session')
+      ...window.context,
+      ...{
+        identity: this.$cookies.get('user_identity'),
+        token: this.$cookies.get('user_session')
+      }
     }
 
     this.initializeView()

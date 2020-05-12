@@ -5,6 +5,7 @@
   "SERVER_NAME": "%BEAT% server #1",
   "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
   "FRONTEND_URI": "http://localhost:3500",
+  "BACKEND_URI": "http://localhost:3500",
   "TOKEN_EXPIRE": 24,
   "USE_DATABASE": false,
   "USE_STORAGE": true,
