@@ -2,7 +2,7 @@
 Vue.component('upload', {
   template: `
   <div class="custom-file">
-    <input ref="uploadFile" id="file" type="file" class="form-control custom-file-input" lang="es"
+    <input ref="uploadFile" v-bind:id="id" type="file" class="form-control custom-file-input" lang="es"
       v-on:change="fileInputOnChange" />
     <label class="custom-file-label" htmlFor="upload-image">{{imagePath}}</label>
   </div>`,
@@ -15,7 +15,9 @@ Vue.component('upload', {
   mixins: [
     popup
   ],
-  props: [],
+  props: [
+    'id'
+  ],
   mounted () {
     this.initializeComponent()
   },
