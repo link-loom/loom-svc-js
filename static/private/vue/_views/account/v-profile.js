@@ -62,7 +62,7 @@ window.app = new Vue({
       return this.vueBind.model.user
     },
     async getAllNotifications () {
-      const notificationsResponse = await this.services.notification.getAllLastByReceiver({
+      const notificationsResponse = await this.services.notification.getByParameters({
         receiver: this.vueBind.model.user.id || window.context.identity || ''
       })
 
