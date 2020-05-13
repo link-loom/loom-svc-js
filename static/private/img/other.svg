@@ -1,0 +1,24 @@
+<svg version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"  viewBox="0 0 65 65" enable-background="new 0 0 65 65" xml:space="preserve">
+    <g id="Layer_1">
+        <circle fill="#EAF2F9" stroke="#5F7887" stroke-miterlimit="10" cx="32.5" cy="32.5" r="22"></circle>
+        <g>
+            <g>
+                <path fill="#FFFFFF" stroke="#5F7887" stroke-miterlimit="10" d="M32.5,39.5c-2,0-2-1.287-2-2v-4c0-0.444,0.14-2.446,3.5-3
+				c2.589-0.946,2.5-3.204,2.5-3.5c0-1.061-0.823-3.5-3.5-3.5c-0.856,0-2.973,0.381-4,2.5c-0.218,0.623-1.063,2-2.5,2
+				c-0.587,0-2-0.682-2-2.5c0-4.307,5.5-6.486,8.671-6.486c2.288,0,7.329,2.188,7.329,7.986c0,2.145-0.608,6.199-6,7.5v3
+				C34.5,38.212,34.5,39.5,32.5,39.5z"></path>
+            </g>
+        </g>
+        <circle fill="#FFFFFF" stroke="#5F7887" stroke-miterlimit="10" cx="32.5" cy="44.5" r="2"></circle>
+    </g>
+    <g id="Shopping_Store_Cart">
+    </g>
+    <g id="Star_Black_Fivepointed_Shape">
+    </g>
+    <g id="Favourite_Symbol">
+    </g>
+    <g id="Star">
+    </g>
+</svg>

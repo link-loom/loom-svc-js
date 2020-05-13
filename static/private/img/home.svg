@@ -1,0 +1,51 @@
+<svg version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"  viewBox="0 0 65 65" enable-background="new 0 0 65 65" xml:space="preserve">
+    <g id="Layer_1">
+        <g>
+            <g>
+                <polygon fill="#FFFFFF" points="17.604,58.5 8.5,43.777 17.717,37.279 15.606,29.718 29.277,29.718 27.167,37.279 36.384,43.777 
+				27.278,58.5 			"></polygon>
+                <path fill="#5F7886" d="M28.618,30.218l-1.838,6.587l-0.19,0.68l0.577,0.407l8.544,6.023L27,58h-4.558h-4.558L9.173,43.914
+				l8.544-6.023l0.577-0.407l-0.19-0.68l-1.838-6.587h6.176H28.618 M29.935,29.218h-7.493h-7.493l2.192,7.855L7.827,43.64l9.5,15.36
+				h5.115h5.115l9.5-15.36l-9.314-6.566L29.935,29.218L29.935,29.218z"></path>
+            </g>
+            <line fill="none" stroke="#5F7886" stroke-miterlimit="10" x1="17.141" y1="37.5" x2="27.743" y2="37.5"></line>
+            <g>
+                <polygon fill="#E9F1F8" points="4.556,32.5 7.323,6.5 36.677,6.5 39.444,32.5 			"></polygon>
+                <path fill="#5F7886" d="M36.227,7l2.661,25H5.112L7.773,7H36.227 M37.126,6H6.874L4,33h36L37.126,6L37.126,6z"></path>
+            </g>
+            <line fill="none" stroke="#B2C1CA" stroke-miterlimit="10" x1="18.576" y1="7" x2="18.576" y2="31.99"></line>
+            <line fill="none" stroke="#B2C1CA" stroke-miterlimit="10" x1="10.845" y1="7" x2="9.225" y2="31.99"></line>
+            <line fill="none" stroke="#B2C1CA" stroke-miterlimit="10" x1="26.307" y1="7" x2="26.307" y2="31.99"></line>
+            <line fill="none" stroke="#B2C1CA" stroke-miterlimit="10" x1="34.038" y1="7" x2="35.659" y2="31.99"></line>
+            <g>
+                <path fill="#E9F1F8" d="M45.086,58.5l-1.549-2.984c-2.676-4.117-2.704-9.401-0.097-13.504l1.873-2.945l-1.584-7.505h8.604
+				l-1.583,7.505l1.872,2.945c2.608,4.103,2.58,9.386-0.071,13.461L50.978,58.5H45.086z"></path>
+                <g>
+                    <path fill="#5F7886" d="M51.717,32.061l-1.414,6.703l-0.084,0.399l0.219,0.344l1.763,2.773c2.503,3.938,2.476,9.01-0.069,12.92
+					l-0.027,0.041l-0.023,0.044L50.674,58h-2.642H45.39l-1.408-2.715l-0.023-0.044L43.932,55.2
+					c-2.545-3.911-2.572-8.983-0.069-12.921l1.763-2.773l0.219-0.344l-0.084-0.399l-1.414-6.703h3.685H51.717 M52.95,31.061h-4.918
+					h-4.918l1.668,7.909l-1.763,2.773c-2.72,4.279-2.691,9.753,0.075,14.003L44.782,59h3.25h3.25l1.688-3.254
+					c2.766-4.25,2.795-9.723,0.075-14.002l-1.763-2.773L52.95,31.061L52.95,31.061z"></path>
+                </g>
+            </g>
+            <g>
+                <rect x="33.5" y="17.5" fill="#A4D399" width="29" height="18"></rect>
+                <path fill="#0E9B49" d="M62,18v17H34V18H62 M63,17H33v19h30V17L63,17z"></path>
+            </g>
+            <line fill="none" stroke="#0E9B49" stroke-miterlimit="10" x1="60.5" y1="36" x2="60.5" y2="41"></line>
+            <line fill="none" stroke="#0E9B49" stroke-miterlimit="10" x1="60.5" y1="42" x2="60.5" y2="43"></line>
+            <line fill="none" stroke="#5F7886" stroke-miterlimit="10" x1="46" y1="38.5" x2="51" y2="38.5"></line>
+            <line fill="none" stroke="#5F7886" stroke-miterlimit="10" x1="36" y1="45.5" x2="9" y2="45.5"></line>
+        </g>
+    </g>
+    <g id="Shopping_Store_Cart">
+    </g>
+    <g id="Star_Black_Fivepointed_Shape">
+    </g>
+    <g id="Favourite_Symbol">
+    </g>
+    <g id="Star">
+    </g>
+</svg>
