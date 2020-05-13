@@ -1026,7 +1026,7 @@ h4, .h4 {
   width: calc(100% - 220px);
 }
 
-.main-panel-external {
+.main-panel-external, .main-panel-wide {
   width: calc(100%);
 }
 

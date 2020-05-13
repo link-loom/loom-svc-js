@@ -12,7 +12,7 @@ class Layout extends React.Component {
     for (const [index, value] of this.props.data.services.entries()) {
       vueServices.push(<script type="text/javascript" key={index} src={'/private/vue/' + value}></script>)
     }
-    
+
     return (
       <html lang="en">
 
@@ -24,7 +24,13 @@ class Layout extends React.Component {
             <TopNavigation {...this.props} />
 
             {/* Start Content */}
-            {this.props.children}
+            <div className="container-fluid page-body-wrapper">
+              <div className="main-panel main-panel-wide">
+                <div className="content-wrapper">
+                  {this.props.children}
+                </div>
+              </div>
+            </div>
             {/* End Content */}
 
             <Footer {...this.props} />
