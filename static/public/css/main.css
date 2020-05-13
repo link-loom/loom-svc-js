@@ -535,7 +535,7 @@ h4, .h4 {
 .ftco-navbar-light {
   background: transparent !important;
   position: absolute;
-  top: 10px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 3;
