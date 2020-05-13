@@ -193,7 +193,7 @@ function userController (dependencies) {
       const serverUri = dependencies.config.FRONTEND_URI + dependencies.config.MAIL.VALIDATION_PATH
       const emailTokenKey = _auth.encoder.base64.encode('token')
       const emailLinkToken = _auth.encoder.base64.encode(_auth.crypto.cypherObject(_controllers.backend.getKey(), { email: data.email }))
-      data.confirmEmailLink = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`
+      data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`
       data.password = _auth.hash.stringToHash(data.password || '')
 
       const entity = new _models.User(data, dependencies)
