@@ -7,8 +7,8 @@ class Index extends React.Component {
     return (
       <Layout {...this.props}>
 
-        <div className="row">
-          <div className="col-12 col-md-11 col-lg-9 grid-margin mx-auto d-block p-0">
+        <div className="d-flex">
+          <div className="col-12 col-md-11 col-lg-9 grid-margin mx-auto my-5 py-5 d-block p-0">
             <div className="card">
               <div className="p-md-4 pt-3">
                 <div className="container pt-2">

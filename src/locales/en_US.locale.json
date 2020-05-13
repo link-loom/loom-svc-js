@@ -101,10 +101,20 @@
     },
     "dashboard": {
       "index": {
-        "PAGE_TITLE": "Home",
-        "MAIN_TITLE_LABEL": "%BEAT%",
-        "MAIN_DESCRIPTION_LABEL": "Documentation",
-        "SECOND_DESCRIPTION_LABEL": "Server framework for your Node.js projects made with Express, Firebase and ReactDOM."
+        "PAGE_TITLE": "Dashboard",
+        "MAIN_TITLE_LABEL": "Welcome to %BEAT%",
+        "MAIN_DESCRIPTION_LABEL": "Get to know the basics in three easy ways",
+        "SALE_TITLE_LABEL": "Make a sale",
+        "SALE_DESCRIPTION_LABEL": "Explore the Sell screen, and learn how to make your first sale in seconds.",
+        "SALE_ACTION_BUTTON": "Make a sale",
+        "PRODUCT_TITLE": "Add a product",
+        "PRODUCT_DESCRIPTION": "Manage your products easily, whether you want to add one or import one thousand.",
+        "PRODUCT_ACTION_BUTTON": "Add a product",
+        "CUSTOMER_TITLE": "Loyalty a customer",
+        "CUSTOMER_DESCRIPTION": "Start a customer base to grow repeat business or simply upload existing customers.",
+        "CUSTOMER_ACTION_BUTTON": "Add a customer",
+        "FOOTER_HELP_LABEL": "For help with setting up Mi Retail, check out the",
+        "FOOTER_GUIDE_LINK": "Getting started guide."
       }
     },
     "home": {

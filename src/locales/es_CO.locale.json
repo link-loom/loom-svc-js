@@ -101,7 +101,8 @@
     },
     "dashboard": {
       "index": {
-        "MAIN_TITLE_LABEL": "Inicia tu retail exitoso con %BEAT%",
+        "PAGE_TITLE": "Dashboard",
+        "MAIN_TITLE_LABEL": "Bienvenido a %BEAT%",
         "MAIN_DESCRIPTION_LABEL": "Conoce los conceptos básicos en tres maneras fáciles.",
         "SALE_TITLE_LABEL": "Has una venta",
         "SALE_DESCRIPTION_LABEL": "Explora la sección Vender y aprende a realizar tu primer venta en segundos.",
