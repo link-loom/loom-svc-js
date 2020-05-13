@@ -34,7 +34,7 @@ var localeService = {
         }
 
         const result = await this.$http
-          .get(`/api/locale/get-locale?name=${data.name}&handler=${data.handler}&lang=${data.lang}`, {
+          .get(`${window.context.origin}/api/locale/get-locale?name=${data.name}&handler=${data.handler}&lang=${data.lang}`, {
             headers: {
               'x-access-token': window.context.token
             }

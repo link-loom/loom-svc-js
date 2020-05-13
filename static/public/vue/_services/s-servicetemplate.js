@@ -22,7 +22,7 @@ var entityService = {
         const parameters = this.objectToQueryString(data)
 
         const result = await this.$http
-          .get(`/api/entity${parameters}`,
+          .get(`${window.context.origin}/api/entity${parameters}`,
             {
               headers: {
                 'x-access-token': window.context.token

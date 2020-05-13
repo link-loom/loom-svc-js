@@ -44,7 +44,7 @@ var notificationService = {
         const params = this.objectToQueryString(parameters)
 
         const result = await this.$http
-          .get(`/api/notification${params}${q}`,
+          .get(`${window.context.origin}/api/notification${params}${q}`,
             {
               headers: {
                 'x-access-token': window.context.token

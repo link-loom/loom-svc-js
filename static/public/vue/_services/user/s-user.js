@@ -22,7 +22,7 @@ var userService = {
         const parameters = this.objectToQueryString(data)
 
         const result = await this.$http
-          .get(`/api/user${parameters}`,
+          .get(`${window.context.origin}/api/user${parameters}`,
             {
               headers: {
                 'x-access-token': window.context.token
