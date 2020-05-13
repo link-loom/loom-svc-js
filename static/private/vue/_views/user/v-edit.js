@@ -91,15 +91,6 @@ window.app = new Vue({
         this.vueBind.model.notifications = entityResponse.result
       }
     },
-    async getRoles () {
-      const rolesResponse = await this.services.role.getAll()
-
-      if (!rolesResponse || !rolesResponse.success) {
-        return
-      }
-
-      this.vueBind.model.roles = rolesResponse.result
-    },
     async getSelectedUser () {
       if (!window.location.queryString || !window.location.queryString.id) {
         this.showError({ message: 'Please return and select an user to use this action' })

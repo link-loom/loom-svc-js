@@ -52,8 +52,6 @@ window.app = new Vue({
       await this.getUser()
       this.getAllNotifications()
 
-      await this.getRoles()
-
       this.checkIssuesMessages()
     },
     async checkIssuesMessages () {
@@ -62,15 +60,6 @@ window.app = new Vue({
       }
 
       this.showIconPopup(this.issues[window.location.queryString.issue])
-    },
-    async getRoles () {
-      const rolesResponse = await this.services.role.getAll()
-
-      if (!rolesResponse || !rolesResponse.success) {
-        return
-      }
-
-      this.vueBind.model.roles = rolesResponse.result
     },
     async getUser () {
       const userData = this.$cookies.get('user_data')
