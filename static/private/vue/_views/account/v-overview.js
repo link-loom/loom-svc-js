@@ -62,7 +62,7 @@ window.app = new Vue({
         return
       }
 
-      const userResponse = await this.services.user.getByIdentity({ identity: window.context.identity })
+      const userResponse = await this.services.user.getByParameters({ identity: window.context.identity })
 
       if (!userResponse || !userResponse.success) {
         this.showDefaultError(userResponse)
