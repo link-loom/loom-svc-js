@@ -1,10 +1,11 @@
 /* global Vue */
 Vue.component('selectable', {
-  template: `<section class="typeahead-container d-flex flex-column">
-              <input
+  template: `<section class="typeahead-container d-flex flex-column flex-grow-1">
+              <input class="search-input form-control flex-fill" name="q" type="search" autoComplete="off"
                 v-model="typeahead"
-                v-bind:id="uid" v-bind:class="uid" class="search-input form-control flex-fill" name="q"
-                type="search" autoComplete="off" :placeholder="placeholder" />
+                v-bind:id="uid" 
+                v-bind:class="uid"
+                :placeholder="placeholder" />
                 <section
                   v-if="typeahead"
                   class="typeahead-results-container position-relative">
@@ -36,7 +37,7 @@ Vue.component('selectable', {
   },
   watch: {
     typeahead: function (newData, oldData) {
-      this.typeaheadOnChange(newData)
+      this.typeaheadOnChange()
     }
   },
   methods: {
@@ -51,60 +52,86 @@ Vue.component('selectable', {
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.key.toLocaleLowerCase() === 'dead'
     },
     setupKeyboardEvents () {
-      document.onkeydown = (evt) => {
-        // Catch Delete
-        if (evt.keyCode === 8) {
-          const newValue = this.typeahead.slice(0, -1)
-          this.typeahead = newValue
-        }
-      }
-      document.onkeypress = (evt) => {
-        // Catch Space and prevent scroll down
-        for (const selectable of this.avoidselectablelist) {
-          if (!document.activeElement.classList.contains(selectable)) {
-            if (evt.keyCode === 32) {
-              return false
-            }
-          }
-        }
-      }
-      document.onkeyup = (evt) => {
+      const keyUp = (evt) => {
         evt = evt || window.event
 
         // Catch all characters, numbers and symbols
-        if (evt.keyCode >= 48) {
+        if (evt.keyCode >= 48 && evt.keyCode !== 229) {
           // Prevent repeated character
-          if (this.avoidselectablelist && this.avoidselectablelist.length > 0) {
-            for (const selectable of this.avoidselectablelist) {
-              if ((!document.activeElement.classList.contains(this.uid) &&
-                !document.activeElement.classList.contains(selectable)) &&
-                !this.keystrokeWithModified(evt)) {
-                this.typeahead += evt.key
-              }
-            }
-          } else {
-            if ((!document.activeElement.classList.contains(this.uid)) &&
+          if (evt.isMobile) {
+            this.typeahead = document.querySelector('#' + this.uid).value
+            this.typeaheadOnChange()
+            return
+          }
+
+          if (!this.avoidselectablelist || this.avoidselectablelist.length <= 0) {
+            if (!document.activeElement.classList.contains(this.uid) &&
               !this.keystrokeWithModified(evt)) {
               this.typeahead += evt.key
             }
+            return
+          }
+
+          let canType = true
+          for (const selectable of this.avoidselectablelist) {
+            if ((document.activeElement.classList.contains(this.uid) ||
+              document.activeElement.classList.contains(selectable)) ||
+              this.keystrokeWithModified(evt)) {
+              canType = false
+              break
+            }
+          }
+          if (canType) {
+            this.typeahead += evt.key
           }
         }
 
+        let canIterate = true
         for (const selectable of this.avoidselectablelist) {
-          if (!document.activeElement.classList.contains(selectable)) {
+          if (!document.activeElement.classList.value.includes(selectable)) {
             switch (evt.keyCode) {
               case 13: // Catch Enter
-                this.searchTypeaheadValue(this.typeahead, true)
+                this.searchTypeaheadValue(this.typeahead.trim() || document.querySelector('#' + this.uid).value, true)
+                canIterate = false
                 break
               case 32: // Catch Space
-                this.typeahead += ' '
-                break
+                if (!evt.isMobile) {
+                  this.typeahead += ' '
+                  canIterate = false
+                  break
+                }
             }
+          }
 
-            this.keyboardKeyUp(evt)
+          if (!canIterate) {
+            break
+          }
+        }
+
+        this.keyboardKeyUp(evt)
+      }
+
+      document.querySelector('#' + this.uid).addEventListener('input', (evt) => {
+        if ((navigator.browser.android || navigator.browser.iphone || navigator.browser.ipad) &&
+          (document.activeElement.id && document.activeElement.id === this.uid) &&
+          (!evt.keyCode || !evt.key)) {
+          evt.keyCode = evt.keyCode || document.querySelector('#' + this.uid).value.substr(-1).charCodeAt(0)
+          evt.key = evt.key || document.querySelector('#' + this.uid).value.substr(-1)
+          evt.isMobile = true
+
+          keyUp(evt)
+        }
+      })
+
+      document.onkeypress = (evt) => {
+        // Catch Space and prevent scroll down
+        for (const selectable of this.avoidselectablelist) {
+          if (!document.activeElement.classList.contains(selectable) && evt.keyCode === 32) {
+            return false
           }
         }
       }
+      document.onkeyup = keyUp
     },
     keyboardKeyUp (evt) {
       this.$emit('keyboard-keyup', evt)
@@ -129,10 +156,10 @@ Vue.component('selectable', {
         )
       })
     },
-    typeaheadOnChange (event) {
-      this.searchTypeaheadValue(event, false)
+    typeaheadOnChange () {
+      this.searchTypeaheadValue(false)
     },
-    searchTypeaheadValue (val, enter) {
+    searchTypeaheadValue (enter) {
       this.typeaheadResults = []
 
       if (!this.filters || this.filters.length <= 0) {
@@ -141,7 +168,7 @@ Vue.component('selectable', {
 
       // Find by code
       if (enter) {
-        const product = this.findObjectByMultipleKeySearching(val, this.filters, this.list)
+        const product = this.findObjectByMultipleKeySearching(this.typeahead, this.filters, this.list)
 
         if (product) {
           document.querySelector('.' + this.uid).value = ''
@@ -150,7 +177,7 @@ Vue.component('selectable', {
           this.$emit('item-selected', product)
         }
       } else {
-        const itemsFound = this.filterObjectByMultipleKeySearching(val, this.filters, this.list)
+        const itemsFound = this.filterObjectByMultipleKeySearching(this.typeahead, this.filters, this.list)
         if (itemsFound) {
           this.typeaheadResults = this.typeaheadResults.concat(itemsFound)
         }

@@ -1,4 +1,4 @@
-/* global Vue, stage, popup, b64, format, time, auth, find, localization, loader, parameters
+/* global Vue, stage, popup, b64, format, time, auth, find, localization, loader
 */
 Vue.component('wizard', {
   mixins: [
@@ -10,7 +10,6 @@ Vue.component('wizard', {
     auth,
     find,
     localization,
-    parameters,
     loader
   ],
   template: `
