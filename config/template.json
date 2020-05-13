@@ -80,6 +80,14 @@
       "path": "/node_modules/@fortawesome/fontawesome-free-webfonts/"
     },
     {
+      "route": "/datatables",
+      "path": "/node_modules/datatables.net/js/"
+    },
+    {
+      "route": "/datatables-bs4",
+      "path": "/node_modules/datatables.net-bs4/"
+    },
+    {
       "route": "/material-design-font",
       "path": "/node_modules/@mdi/font/"
     },

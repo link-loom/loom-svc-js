@@ -42,7 +42,7 @@ window.app = new Vue({
       this.getUser()
       this.getAllNotifications()
 
-      await this.getSelectedUser()
+      await this.getSelectedEntity()
 
       this.hideLoader()
     },
@@ -115,7 +115,7 @@ window.app = new Vue({
         return error.body
       }
     },
-    async getSelectedUser () {
+    async getSelectedEntity () {
       if (!window.location.queryString || !window.location.queryString.id) {
         this.showError({ message: 'Please return and select an user to use this action' })
         return

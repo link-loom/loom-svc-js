@@ -1,5 +1,5 @@
 /* global Vue, stage, popup, b64, format, time, auth, find, localization, loader, parameters
-   notificationService, userService, roleService */
+   notificationService, userService */
 window.app = new Vue({
   el: '#vue-app',
   mixins: [
@@ -14,8 +14,7 @@ window.app = new Vue({
     loader,
     parameters,
     notificationService,
-    userService,
-    roleService],
+    userService],
   data: {
     vueBind: {
       model: {
@@ -48,8 +47,7 @@ window.app = new Vue({
       this.getAllNotifications()
 
       await this.getUser()
-      await this.getSelectedUser()
-      await this.getRoles()
+      await this.getSelectedEntity()
 
       this.hideLoader()
 
@@ -91,7 +89,7 @@ window.app = new Vue({
         this.vueBind.model.notifications = entityResponse.result
       }
     },
-    async getSelectedUser () {
+    async getSelectedEntity () {
       if (!window.location.queryString || !window.location.queryString.id) {
         this.showError({ message: 'Please return and select an user to use this action' })
         return

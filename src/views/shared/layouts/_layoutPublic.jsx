@@ -58,6 +58,8 @@ class Layout extends React.Component {
           <script type="text/javascript" src="/popperjs/umd/popper.min.js"></script>
           <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
           <script type="text/javascript" src="/sweetalert2/sweetalert2.min.js"></script>
+          <script type="text/javascript" src="/datatables/jquery.dataTables.js"></script>
+          <script type="text/javascript" src="/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
           <script type="text/javascript" src="/vue/_mixins/m-stage.js"></script>
           <script type="text/javascript" src="/vue/_mixins/m-popup.js"></script>

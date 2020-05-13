@@ -60,6 +60,7 @@ class Head extends React.Component {
         <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.min.css"></link>
+        <link rel="stylesheet" href="/datatables-bs4/css/dataTables.bootstrap4.css"></link>
         <link rel="stylesheet" href="css/icomoon.css"></link>
 
       </head>
