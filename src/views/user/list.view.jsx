@@ -7,6 +7,22 @@ class Index extends React.Component {
     return (
       <Layout {...this.props}>
 
+        {/* Empty data */}
+        <div className="row"
+          v-if="(!vueBind.model.entities || !vueBind.model.entities.length)">
+          <div className="col-12 col-xl-8 col-lg-10 grid-margin mx-auto d-block">
+            <div className="card shadow">
+              <div className="card-body">
+                <div className="container pt-2 text-center">
+                  <h3 className="text-center">{this.props.data.locale.EMPTYDATA_MESSAGE_LABEL}</h3>
+                  <img src="/private/img/empty-content.svg" alt="empty content" className="img d-block mx-auto img-fluid img-m" />
+                  <a className="btn btn-primary text-wrap" href="/user/create">{this.props.data.locale.EMPTYDATA_ACTION_BUTTON}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="row">
           <div className="col-12 grid-margin mx-auto d-block">
             <div className="card">

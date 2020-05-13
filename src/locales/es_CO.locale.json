@@ -217,7 +217,9 @@
         "TABLE_LOGIN_TH": "Último acceso",
         "TABLE_STATUS_TH": "Estado",
         "TABLE_ACTIONS_TH": "Opciones",
-        "MAIN_BULK_LABEL": "Carga masiva"
+        "MAIN_BULK_LABEL": "Carga masiva",
+        "EMPTYDATA_MESSAGE_LABEL": "No existen datos, crea un usuario.",
+        "EMPTYDATA_ACTION_BUTTON": "Click aquí para crear un usuario"
       },
       "getting-started": {}
     },

@@ -15,3 +15,11 @@
   white-space: -o-pre-wrap;
   word-wrap: break-word;
 }
+
+.text-wrap {
+  white-space: normal;
+}
+
+.img-m {
+  max-height: 250px;
+}

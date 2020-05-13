@@ -8,22 +8,36 @@ var popup = {
       data.message = data.message || 'We are very apologize with this situation but we are trying to complete this action. You can contact us if this message persists'
       data.type = data.type || 'info'
       data.icon = data.icon || '/img/support.svg'
+      data.showCancelButton = data.showCancelButton || false
+      data.cancelButtonClass = data.cancelButtonClass || 'btn-light'
+      data.confirmButtonClass = data.confirmButtonClass || 'btn-primary'
+      data.confirmButtonText = data.confirmButtonText || 'Close'
+      data.cancelButtonText = data.cancelButtonText || 'Cancel'
 
       // eslint-disable-next-line
       return new Promise(async (resolve, reject) => {
         document.querySelector('#vue-app').classList.add('blur')
         window.setTimeout(_ => {
+          const cancelButton = document.querySelector('.btn-cancelpopup')
           document.querySelector('.swal2-popup').classList.add('swal2-popup-compose')
           document.querySelector('.swal2-header').classList.add('swal2-header-compose')
           document.querySelector('#swal2-content').classList.add('text-left')
-          document.querySelector('.btn-closepopup').addEventListener('click', e => {
-            window.Swal.close()
+          document.querySelector('.btn-confirmpopup').addEventListener('click', _ => {
+            window.Swal.getConfirmButton().click()
             document.querySelector('#vue-app').classList.remove('blur')
-            resolve()
+            resolve({ value: true })
           })
+
+          if (cancelButton) {
+            cancelButton.addEventListener('click', _ => {
+              window.Swal.getCancelButton().click()
+              document.querySelector('#vue-app').classList.remove('blur')
+              resolve({ value: false })
+            })
+          }
         }, 1)
 
-        await window.Swal.fire({
+        const response = await window.Swal.fire({
           showConfirmButton: false,
           showCloseButton: true,
           html: `<div class="d-flex app-popup-layout">
@@ -33,9 +47,10 @@ var popup = {
                   <div class="col-9 col-xs-12 app-popup-content">
                     <div class="app-popup-confirm x-hidden-focus">
                       <div class="app-popup-confirm-content">
-                        <h2 class="card-title">${data.title}</h2>
+                        <h2 class="card-title display-3">${data.title}</h2>
                         <p class="lead mb-5">${data.message}</p>
-                        <button class="btn btn-closepopup btn-primary">Close</button>
+                        <button class="btn btn-confirmpopup ${data.confirmButtonClass}">${data.confirmButtonText}</button>
+                        ${data.showCancelButton ? `<button class="btn btn-cancelpopup ${data.cancelButtonClass}">${data.cancelButtonText}</button>` : ''}
                       </div>
                     </div>
                   </div>
@@ -43,7 +58,7 @@ var popup = {
         })
 
         document.querySelector('#vue-app').classList.remove('blur')
-        resolve()
+        resolve(response)
       })
     },
     async showPopup (data) {
@@ -56,17 +71,27 @@ var popup = {
         data.title = data.title || 'Unknown message'
         data.message = data.message || 'We are very apologize with this situation but we are trying to complete this action. You can contact us if this message persists'
         data.code = data.code || '0000'
+        data.showCancelButton = data.showCancelButton || false
+        data.cancelButtonClass = data.cancelButtonClass || 'btn-outline-secondary'
+        data.confirmButtonClass = data.confirmButtonClass || 'btn-default'
+        data.confirmButtonText = data.confirmButtonText || 'Eliminar'
+        data.cancelButtonText = data.cancelButtonText || 'Cancelar'
 
-        await window.Swal.fire({
+        const response = await window.Swal.fire({
           showCloseButton: true,
           type: data.type,
           title: data.title,
           text: data.message,
+          showCancelButton: data.showCancelButton,
+          cancelButtonClass: data.cancelButtonClass,
+          confirmButtonClass: data.confirmButtonClass,
+          confirmButtonText: data.confirmButtonText,
+          cancelButtonText: data.cancelButtonText,
           footer: `<a href="/issues#${data.code}">Why do I have this message?</a>`
         })
 
         document.querySelector('#vue-app').classList.remove('blur')
-        resolve()
+        resolve(response)
       })
     },
     showDefaultError (data) {
@@ -103,13 +128,12 @@ var popup = {
     },
     showSuccess (data) {
       if (!data) { data = {} }
-
       // eslint-disable-next-line
       return new Promise(async (resolve, reject) => {
         document.querySelector('#vue-app').classList.add('blur')
-        window.Swal.fire({
+        await window.Swal.fire({
           type: 'success',
-          title: data.title || 'Perfect!',
+          title: data.title || 'Awesome!',
           text: data.message || '',
           confirmButtonClass: 'btn-success',
           confirmButtonText: 'Continue',

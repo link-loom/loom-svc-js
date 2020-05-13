@@ -118,15 +118,17 @@ window.app = new Vue({
         return
       }
 
-      await window.Swal.fire({
+      const popupResponse = await this.showIconPopup({
         title: 'User created!',
-        text: 'We have confirmed the creation of the user, can now authenticate and work.',
+        message: 'We have confirmed the creation of the user, can now authenticate and work.',
         type: 'success',
         confirmButtonClass: 'btn-success',
         confirmButtonText: 'Continuar'
       })
 
-      window.location.reload()
+      if (popupResponse && popupResponse.value) {
+        window.location.assign('/user/list/')
+      }
     },
     returnOnClick (event) {
       if (event) { event.preventDefault() }

@@ -217,7 +217,9 @@
         "TABLE_LOGIN_TH": "Last login",
         "TABLE_STATUS_TH": "Status",
         "TABLE_ACTIONS_TH": "Actions",
-        "MAIN_BULK_LABEL": "Bulk upload"
+        "MAIN_BULK_LABEL": "Bulk upload",
+        "EMPTYDATA_MESSAGE_LABEL": "At the moment there is no users, create a new one.",
+        "EMPTYDATA_ACTION_BUTTON": "Click here to create an user"
       },
       "getting-started": {}
     },
