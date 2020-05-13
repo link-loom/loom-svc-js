@@ -80,6 +80,9 @@ class Layout extends React.Component {
 
           <script type="text/javascript" src="/private/vue/_components/c-selectable.js"></script>
           <script type="text/javascript" src="/private/vue/_components/c-wizard.js"></script>
+          <script type="text/javascript" src="/private/vue/_components/c-barcode.js"></script>
+          <script type="text/javascript" src="/private/vue/_components/c-upload.js"></script>
+          <script type="text/javascript" src="/private/vue/_components/c-sidepanel.js"></script>
           {vueServices}
           <script type="text/javascript" {...{ 'src': this.props.vue ? `/private/vue/${this.props.vue}` : '' }}></script>
 
