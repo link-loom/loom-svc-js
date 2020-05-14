@@ -101,6 +101,10 @@ Pretty-format	\x
 
 > https://www.anhsblog.com/make-chrome-stop-redirect-from-http-to-https/#.XpAGD6FoeMo
 
+## Create empty file CMD Kudu
+
+copy nul "default.json"
+
 ## Documentation
 
 For all docs you need go to Wiki in this project.
