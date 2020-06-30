@@ -1,5 +1,5 @@
 class ServerManager {
-  constructor (args) {
+  constructor(args) {
     const { SettingsManager } = require('./settings.manager')
     const { ConsoleManager } = require('./console.manager')
 
@@ -42,6 +42,8 @@ class ServerManager {
       this._console.success('Server manager loaded')
 
       this.registerServer()
+
+      this.executeStartupFunctions()
 
       return this._settings.dependencies.get()
     } catch (error) {
@@ -165,6 +167,13 @@ class ServerManager {
     } else {
       this._console.error('Failed to find a port for this app, please setup on PORT environment variable or default config file')
       process.exit(0)
+    }
+  }
+
+  executeStartupFunctions () {
+    const functions = this._settings.dependencies.core.get().functions.startup
+    for (const _function in functions) {
+      functions[_function].run()
     }
   }
 

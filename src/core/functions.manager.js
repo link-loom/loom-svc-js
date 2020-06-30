@@ -6,11 +6,13 @@ class FunctionsManager {
     this._bucket = require(`${dependencies.root}/src/functions/bucket`)
     this._functions = {
       cached: {},
-      timed: {}
+      timed: {},
+      startup: {}
     }
 
     this.createCached()
     this.createTimed()
+    this.createStartup()
 
     this._console.success('Functions manager loaded')
   }
@@ -66,6 +68,26 @@ class FunctionsManager {
             )
           }, seconds)
         }
+      } catch (error) {
+        this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
+        this._console.error(error)
+      }
+    })
+  }
+
+  createStartup () {
+    // build each api routes
+    this._bucket.startup.map((component) => {
+      try {
+        this._console.success(`Initializing ${component.name} function`)
+
+        /* Setup config */
+        const _functionName = component.route.split('/')[component.route.split('/').length - 1]
+        const name = _functionName.split('.')[0]
+        const pathname = `${this._dependencies.root}/src${component.route}`
+
+        /* Setup namespace */
+        this._functions.startup[name] = require(pathname)(this._dependencies)
       } catch (error) {
         this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
         this._console.error(error)
