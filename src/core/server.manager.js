@@ -1,5 +1,5 @@
 class ServerManager {
-  constructor(args) {
+  constructor (args) {
     const { SettingsManager } = require('./settings.manager')
     const { ConsoleManager } = require('./console.manager')
 

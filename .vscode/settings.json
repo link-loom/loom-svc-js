@@ -7,5 +7,6 @@
   "explorer.confirmDragAndDrop": false,
   "extensions.ignoreRecommendations": false,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "javascript.format.insertSpaceAfterConstructor": true
 }
