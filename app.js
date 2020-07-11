@@ -1,20 +1,12 @@
 /**
- * Main start
- *
- * To read documentation go to https://github.com/thepisode/beat/wiki
+ * Boiler Plate Node.js App
+ * v0.1.0
  */
 
-const { ServerManager } = require('./src/core/server.manager')
-const server = new ServerManager({ root: __dirname })
-
-const main = async () => {
-  const dependencies = await server.loadServer()
-
+const server = require('./src/core/server')({ root: __dirname })
+server.start((dependencies) => {
   // Launching server
-  dependencies.console.info(`http://localhost:${dependencies.config.SERVER_PORT}/`, 'Server')
-  dependencies.console.info(`http://localhost:${dependencies.config.SERVER_PORT}/api/`, 'Server')
+  dependencies.console.info(`http://localhost:${dependencies.config.SERVER_PORT}`, 'Server')
   dependencies.console.info(`${dependencies.config.SERVER_NAME} v${dependencies.config.SERVER_VERSION}`, 'Server')
   dependencies.console.log(' ------------------------------------')
-}
-
-main()
+})
