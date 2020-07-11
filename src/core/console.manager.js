@@ -13,7 +13,7 @@ class ConsoleManager {
     console.log(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)
   }
 
-  error (body, ignoreStack = false) {
+  error (body) {
     console.log(` ${this._colors.red('Error')}: ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
   }
 
