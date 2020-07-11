@@ -3,7 +3,6 @@ class ConsoleManager {
     this._dependencies = dependencies
     this._colors = dependencies.colors
     this._serverName = dependencies.config.SERVER_NAME
-    this._stack = []
   }
 
   code (body) {
@@ -16,10 +15,6 @@ class ConsoleManager {
 
   error (body, ignoreStack = false) {
     console.log(` ${this._colors.red('Error')}: ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
-
-    if (!ignoreStack && (body && body.stack)) {
-      console.log(` ${this._colors.red('Stacktrace')}: \n${body.stack}`)
-    }
   }
 
   info (body, title) {
@@ -32,18 +27,6 @@ class ConsoleManager {
 
   success (body, title) {
     console.log(` ${this._colors.green(`${title || this._serverName}:`)} ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
-  }
-}
-
-ConsoleManager.stack = {
-  push: (data) => {
-    this._stack.push(data)
-  },
-  flush: () => {
-    this._stack = []
-  },
-  fetch: () => {
-    return this._stack
   }
 }
 
