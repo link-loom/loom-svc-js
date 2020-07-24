@@ -37,26 +37,17 @@ class LocalizationManager {
 
   international (req, res) {
     try {
-      if (!req.params.lang) {
-        if (!req.params) { req.params = {} }
-        if (!req.lookup) { req.lookup = { country: { iso_code: '' } } }
-        req.params = { lang: req.lookup.country.iso_code.toLocaleLowerCase() || 'us' }
-
-        if (!req.cookie || !req.cookie.lang) {
-          res.cookie('lang', req.lookup.country.iso_code.toLocaleLowerCase() || 'us', {
-            expires: new Date(Date.now() + 9999999),
-            httpOnly: false,
-            path: '/'
-          })
-        }
-      }
-
-      let lang = req.lookup.country.iso_code.toLocaleLowerCase() || 'us'
+      let lang = 'us'
       let locales = {}
       let locale = {}
       let components = {}
-      if (req.params && req.params.lang) {
-        lang = req.params.lang.toLocaleLowerCase()
+
+      if (req.params.lang) {
+        lang = req.params.lang.toLocaleLowerCase() || 'us'
+      } else if (req.cookies.lang) {
+        lang = req.cookies.lang.toLocaleLowerCase() || 'us'
+      } else if (req.lookup.country.iso_code) {
+        lang = req.lookup.country.iso_code.toLocaleLowerCase() || 'us'
       }
 
       if (!req.route.name || !req.route.handler) {
@@ -72,6 +63,12 @@ class LocalizationManager {
       components = (locale.dictionary.shared) || {}
 
       if (!locales) { return null }
+
+      res.cookie('lang', locale.country_iso_code.toLocaleLowerCase() || 'us', {
+        expires: new Date(Date.now() + 9999999),
+        httpOnly: false,
+        path: '/'
+      })
 
       return { ...locales, ...components }
     } catch (error) {
