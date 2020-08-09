@@ -15,7 +15,8 @@ function authController (dependencies) {
     const entity = new _models.User(user, dependencies)
     const sanitizedUser = entity.get
     const token = await _auth.token.create(sanitizedUser, {
-      identity: user.dni || user.phone || user.email
+      identity: user.dni || user.phone || user.email,
+      session_time: Math.round(dependencies.config.TOKEN_EXPIRE / 24)
     })
 
     return _utilities.response.success(token)
