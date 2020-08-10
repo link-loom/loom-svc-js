@@ -159,15 +159,19 @@ class UtilitiesManager {
   getParameters (data) {
     if (!data) { return {} }
 
+    let params = {}
+
     if (!this.isEmpty(data.query)) {
-      return data.query
-    } else if (!this.isEmpty(data.body)) {
-      return data.body
-    } else if (!this.isEmpty(data.params)) {
-      return data.params
-    } else {
-      return {}
+      params = {...params, ...data.query}
     }
+    if (!this.isEmpty(data.body)) {
+      params = {...params, ...data.body}
+    }
+    if (!this.isEmpty(data.params)) {
+      params = {...params, ...data.params}
+    }
+
+    return params
   }
 
   get objectIsEmpty () {
