@@ -23,7 +23,7 @@ class GeolocatorManager {
     }
 
     if (!this._maxmind.validate(ip)) {
-      return null
+      ip = '8.8.8.8'
     }
 
     return this._lookup.get(ip)
