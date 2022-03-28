@@ -23,10 +23,6 @@ class ServerManager {
 
       this.socketSetup()
 
-      await this.registerGeolocator()
-
-      this.registerLocale()
-
       this.registerModels()
 
       this.registerControllers()
@@ -36,8 +32,6 @@ class ServerManager {
       this.registerFunctions()
 
       this.registerApi()
-
-      this.registerFrontend()
 
       this._console.success('Server manager loaded')
 
@@ -64,22 +58,6 @@ class ServerManager {
     const _dalManager = new DalManager(this._settings.dependencies.get())
 
     this._settings.dependencies.core.add(_dalManager, 'dal')
-  }
-
-  async registerGeolocator () {
-    const { GeolocatorManager } = require('./geolocator.manager')
-    const _geolocatorManager = new GeolocatorManager(this._settings.dependencies.get())
-
-    await _geolocatorManager.loadDatabases()
-
-    this._settings.dependencies.core.add(_geolocatorManager, 'geolocator')
-  }
-
-  registerLocale () {
-    const { LocalizationManager } = require('./localization.manager')
-    const _localizationManager = new LocalizationManager(this._settings.dependencies.get())
-
-    this._settings.dependencies.core.add(_localizationManager, 'locale')
   }
 
   registerSettings () {
@@ -125,13 +103,6 @@ class ServerManager {
     this._settings.dependencies.core.add(_apiManager, 'apiManager')
   }
 
-  registerFrontend () {
-    const { FrontendManager } = require('./frontend.manager')
-    const _frontendManager = new FrontendManager(this._settings.dependencies.get())
-
-    this._settings.dependencies.core.add(_frontendManager, 'frontendManager')
-  }
-
   registerFunctions () {
     const { FunctionsManager } = require('./functions.manager')
     const _functionsManager = new FunctionsManager(this._settings.dependencies.get())
@@ -142,9 +113,6 @@ class ServerManager {
   socketSetup () {
     // Listening and setup socket
     const socket = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {})
-    socket.origins((origin, callback) => {
-      callback(null, true)
-    })
     this._settings.dependencies.core.add(socket, 'socket')
 
     const { SocketManager } = require('./socket.manager')

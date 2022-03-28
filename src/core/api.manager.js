@@ -30,7 +30,7 @@ class ApiManager {
             }
             break
           case 'POST':
-            if (component.isUpload) {
+            if (component.isUpload && this._storage) {
               this._apiRoutes.post(component.httpRoute, this._storage.single('file'), componentController[component.handler])
               break
             }
