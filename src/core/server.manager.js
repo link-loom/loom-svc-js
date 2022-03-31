@@ -21,6 +21,8 @@ class ServerManager {
 
       await this.registerStorage()
 
+      await this.registerPushNotifications()
+
       this.socketSetup()
 
       this.registerModels()
@@ -87,6 +89,14 @@ class ServerManager {
     const _storageManager = new StorageManager(this._settings.dependencies.get())
 
     return _storageManager.loadStorage()
+  }
+
+  async registerPushNotifications () {
+    const { PushManager } = require('./push.manager')
+    const _pushManager = new PushManager(this._settings.dependencies.get())
+    await _pushManager.loadPushNotifications()
+
+    this._settings.dependencies.core.add(_pushManager.push, 'pushNotificationManager')
   }
 
   registerControllers () {

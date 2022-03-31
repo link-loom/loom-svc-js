@@ -7,6 +7,8 @@ function notificationController (dependencies) {
   const _nodemailer = dependencies.nodemailer
   const _unfluff = dependencies.unfluff
   const _models = dependencies.models
+  const _controllers = dependencies.controllers
+  const _pushNotification = dependencies.pushNotificationManager
 
   const get = async () => {
     try {
@@ -50,13 +52,13 @@ function notificationController (dependencies) {
 
   const getAllByReceiver = async (data) => {
     try {
-      if (!data || !data.receiver) {
+      if (!data || !data.receiverUserId) {
         return _utilities.response.error('Please provide a receiver')
       }
 
       // Get values from reference as snapshot
       const docRef = _db.collection('notifications')
-        .where('receiver', '==', `${data.receiver}`)
+        .where('receiver_user_id', '==', `${data.receiverUserId}`)
       const docRaw = await docRef.get()
       // Cast Firebase object into an arry of users
       const entityResponse = _firebase.cast.array(docRaw)
@@ -90,58 +92,24 @@ function notificationController (dependencies) {
     }
   }
 
-  const getAllGroupedByFoldersAndByReceiver = async (data) => {
-    try {
-      const notificationsResponse = await getAllByReceiver(data)
-
-      if (!_utilities.response.isValid(notificationsResponse)) {
-        return notificationsResponse
-      }
-
-      const notifications = _utilities.response.clean(notificationsResponse.result) || []
-      const notificationFolders = JSON.parse(JSON.stringify(_models.Notification.folders))
-
-      // Filtering notifications by folders
-      for (const notificationCategoryKey in notificationFolders) {
-        if (Object.prototype.hasOwnProperty.call(notificationFolders, notificationCategoryKey)) {
-          const notificationCategory = notificationFolders[notificationCategoryKey]
-          notificationCategory.notifications = []
-
-          notificationCategory.notifications = notifications.filter(notification => {
-            if (notification.folder) {
-              return notification.folder.name.toLocaleLowerCase() === notificationCategory.name.toLocaleLowerCase()
-            }
-
-            return false
-          })
-        }
-      }
-
-      return _utilities.response.success(notificationFolders)
-    } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
-    }
-  }
-
   const create = async (data) => {
     try {
       if (!data) {
         return _utilities.response.error('Data provided not match with any registered user')
       }
       if (!data.notification_type) { data.notification_type = _models.Notification.notification_types.stored }
-      if (data.notification_type === _models.Notification.notification_types.allBasics) {
+      if (data.notification_type === _models.Notification.notification_types.allBasics.name) {
         await sendStored(data)
         await sendPush(data)
         await sendEmail(data)
       } else {
-        if (data.notification_type === _models.Notification.notification_types.stored) {
+        if (data.notification_type === _models.Notification.notification_types.stored.name) {
           await sendStored(data)
         }
-        if (data.notification_type === _models.Notification.notification_types.push) {
+        if (data.notification_type === _models.Notification.notification_types.push.name) {
           await sendPush(data)
         }
-        if (data.notification_type === _models.Notification.notification_types.email) {
+        if (data.notification_type === _models.Notification.notification_types.email.name) {
           await sendEmail(data)
         }
       }
@@ -208,7 +176,119 @@ function notificationController (dependencies) {
   }
 
   const sendPush = async (data) => {
+    try {
+      switch (data.push_type) {
+        case 'all_push_token':
+          return sendPushToAllTokenDevicesAsync(data)
+        case 'all_push_topic':
+          return sendPushToTopicAsync(data)
+        case 'single_push_token':
+          return sendSingleDeviceAsync(data)
+        default:
+          data.topic = 'everybody'
+          return sendPushToTopicAsync(data)
+      }
+    } catch (error) {
+      _console.error(error)
+      return _utilities.response.error()
+    }
+  }
 
+  const sendSingleDeviceAsync = async (data) => {
+    const result = await _controllers.device.getByIdentity(data)
+    if (!_utilities.response.isValid(result)) {
+      return result
+    }
+
+    data.device = result.response
+    return sendPushToTokenDeviceAsync(data)
+  }
+
+  const sendPushToAllTokenDevicesAsync = async (data) => {
+    const response = await _controllers.device.getAll()
+
+    if (!_utilities.response.isValid(response)) {
+      return response
+    }
+
+    for (const device of response.result) {
+      data.device = device
+      sendPushToTokenDeviceAsync(data)
+    }
+
+    return _utilities.response.success(response)
+  }
+
+  const sendPushToTopicAsync = async (data) => {
+    return _pushNotification.send({
+      notification: {
+        title: data.subject,
+        body: data.message
+      },
+      android: {
+        notification: {
+          icon: data.icon || '',
+          color: data.color || '',
+          imageUrl: data.image,
+          clickAction: data.android_intent
+        }
+      },
+      apns: {
+        notification: {
+        },
+        payload: {
+          aps: data.payload,
+          clickAction: data.aps_intent
+        },
+        fcm_options: {
+          image: data.image
+        }
+      },
+      webpush: {
+        headers: {
+          image: data.image
+        },
+        data: {
+          clickAction: data.webpush_action
+        }
+      },
+      topic: data.topic
+    })
+  }
+
+  const sendPushToTokenDeviceAsync = async (data) => {
+    return _pushNotification.send({
+      notification: {
+        title: data.subject,
+        body: data.message
+      },
+      android: {
+        notification: {
+          icon: data.icon || '',
+          color: data.color || '#000000',
+          imageUrl: data.image || '',
+          clickAction: data.android_intent || ''
+        }
+      },
+      apns: {
+        payload: {
+          aps: data.payload || {},
+          clickAction: data.aps_intent || ''
+        },
+        fcm_options: {
+          image: data.image || ''
+        }
+      },
+      webpush: {
+        headers: {
+          image: data.image || ''
+        },
+        data: {
+          clickAction: data.webpush_action || '#'
+        }
+      },
+      token: data.device.push_token || ''
+    })
   }
 
   const sendEmail = async (data) => {
@@ -267,7 +347,7 @@ function notificationController (dependencies) {
   }
 
   const readFileAsync = async (path) => {
-    const promise = await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       fs.readFile(path, 'utf8', function (err, emailTemplate) {
         if (err) {
           _console.log(err)
@@ -276,14 +356,11 @@ function notificationController (dependencies) {
           resolve(emailTemplate)
         }
       })
-    })
-      .catch(err => { throw err })
-
-    return promise
+    }).catch(err => { throw err })
   }
 
   const sendEmailAsync = async (transporter, mailOptions) => {
-    const promise = await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           _console.log(error)
@@ -292,10 +369,7 @@ function notificationController (dependencies) {
           resolve(info)
         }
       })
-    })
-      .catch(err => { throw err })
-
-    return promise
+    }).catch(err => { throw err })
   }
 
   return {
@@ -305,7 +379,6 @@ function notificationController (dependencies) {
     update,
     getAllByReceiver,
     getAllLastByReceiver,
-    getAllGroupedByFoldersAndByReceiver,
     status: _models.Notification.statuses,
     role_type: _models.Notification.role_types,
     notification_type: _models.Notification.notification_types,

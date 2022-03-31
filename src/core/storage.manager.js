@@ -18,6 +18,10 @@ class StorageManager {
     this._dependencies.storage = this._storage || {}
     this._console.success('Storage manager loaded')
 
+    if (!this._dependencies.config.USE_STORAGE) {
+      return
+    }
+
     switch (this._dependencies.config.STORAGE_NAME) {
       case 'spaces':
         this._spacesManager.setSettings(this._dependencies.config.DIGITALOCEAN.SPACES)
@@ -32,7 +36,7 @@ class StorageManager {
         break
     }
 
-    this._console.success('Storage manager loaded')
+    this._console.success(`${this._dependencies.config.STORAGE_NAME} storage loaded`)
   }
 
   async storageConfig () {

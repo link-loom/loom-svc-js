@@ -11,9 +11,7 @@
   "USE_STORAGE": true,
   "DATABASE_NAME": "firebase",
   "STORAGE_NAME": "spaces",
-  "GEOIP_DATABASE": {
-    "PATH": "/databases/GeoLite2-City.mmdb"
-  },
+  "PUSH_NAME": "firebase",
   "FIREBASE_ADMIN": {
     "type": "service_account",
     "project_id": "xxxx",
