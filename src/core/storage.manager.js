@@ -9,28 +9,29 @@ class StorageManager {
     this._spacesManager = new SpacesManager(dependencies)
     this._storage = {}
     this._s3 = {}
+    this._stg = {}
   }
 
   async loadStorage () {
-    if (!this._dependencies.config.USE_STORAGE) {
-      this._console.info('Storage is not configured')
-      return
-    }
+    await this.storageConfig()
+
+    this._dependencies.storage = this._storage || {}
+    this._console.success('Storage manager loaded')
 
     switch (this._dependencies.config.STORAGE_NAME) {
       case 'spaces':
         this._spacesManager.setSettings(this._dependencies.config.DIGITALOCEAN.SPACES)
         this._dependencies.settings.dependencies.core.add(this._spacesManager, 'spacesManager')
+        this._dependencies.s3 = this._s3
         await this.spacesConfig()
+        break
+      case 'firebase':
+        await this.firebaseConfig()
         break
       default:
         break
     }
 
-    await this.storageConfig()
-
-    this._dependencies.storage = this._storage || {}
-    this._dependencies.s3 = this._s3
     this._console.success('Storage manager loaded')
   }
 
@@ -54,6 +55,18 @@ class StorageManager {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  async firebaseConfig () {
+    try {
+      this._stg = this._dependencies.firebase.storage()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  get storage () {
+    return this._stg
   }
 }
 
