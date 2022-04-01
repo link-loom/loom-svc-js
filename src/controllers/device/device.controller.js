@@ -3,7 +3,6 @@ function deviceController (dependencies) {
   const _console = dependencies.console
   const _firebase = dependencies.firebaseManager
   const _utilities = dependencies.utilities
-  const _controllers = dependencies.controllers
   const _models = dependencies.models
 
   const get = async () => {
