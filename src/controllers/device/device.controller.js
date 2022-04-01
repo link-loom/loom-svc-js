@@ -146,18 +146,6 @@ function deviceController (dependencies) {
         return _utilities.response.error()
       }
 
-      // Send a confirmation email
-      if (data.is_account_activated) {
-        _controllers.notification.create({
-          to: data.email,
-          notification_type: _controllers.notification.notification_type.email,
-          email: {
-            template: _controllers.notification.email_template.confirmEmail,
-            mainActionLink: data.confirmEmailLink
-          }
-        })
-      }
-
       return _utilities.response.success(entity.sanitized)
     } catch (error) {
       _console.error(error)
