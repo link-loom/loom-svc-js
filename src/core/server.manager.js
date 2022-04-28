@@ -4,7 +4,7 @@ class ServerManager {
     const { ConsoleManager } = require('./console.manager')
 
     this._settings = new SettingsManager(args)
-    this._console = new ConsoleManager(this.settings.dependencies.core.get())
+    this._console = new ConsoleManager(this._settings.dependencies.core.get())
   }
 
   async loadServer () {
