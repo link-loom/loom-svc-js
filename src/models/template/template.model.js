@@ -12,7 +12,7 @@ class TemplateModel extends baseModel {
     /* const { name, level } = args */
     const timestamp = (new Date()).getTime() + ''
 
-    /* Base */
+    /* Base Properties */
     this.last_modification = { value: timestamp, type: dependencies.dal.types.timestamp }
     this.id = { value: args.id, type: dependencies.dal.types.bigserial, isPK: true }
     this.date_creation = { value: timestamp, type: dependencies.dal.types.timestamp }

@@ -3,23 +3,24 @@ function route (dependencies) {
   const _controllers = dependencies.controllers
 
   const get = async (req, res) => {
-    let result = {}
+    const deviceController = new _controllers.DeviceController(dependencies)
     const params = _utilities.request.getParameters(req)
     const { id, deviceId, fingerprint, identity } = params
+    let response = {}
 
     if (id) {
-      result = await _controllers.device.getById(params)
+      response = await deviceController.getById(params)
     } else if (deviceId) {
-      result = await _controllers.device.getByUserId(params)
+      response = await deviceController.getByUserId(params)
     } else if (fingerprint) {
-      result = await _controllers.device.getByFingerprint(params)
+      response = await deviceController.getByFingerprint(params)
     } else if (identity) {
-      result = await _controllers.device.getByIdentity(params)
+      response = await deviceController.getByIdentity(params)
     } else {
-      result = await _controllers.device.getAll(params)
+      response = await deviceController.getAll(params)
     }
 
-    res.json(result)
+    res.json(response)
   }
 
   /**
@@ -28,10 +29,13 @@ function route (dependencies) {
    * route to show message (POST http://<<URL>>/api/device/create)
    */
   const create = async (req, res) => {
+    const deviceController = new _controllers.DeviceController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.device.create(params)
+    let response = {}
 
-    res.json(result)
+    response = await deviceController.create(params)
+
+    res.json(response)
   }
 
   /**
@@ -40,10 +44,13 @@ function route (dependencies) {
      * route to show message (POST http://<<URL>>/api/device/update)
      */
   const update = async (req, res) => {
+    const deviceController = new _controllers.DeviceController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.device.update(params)
+    let response = {}
 
-    res.json(result)
+    response = await deviceController.update(params)
+
+    res.json(response)
   }
 
   return {

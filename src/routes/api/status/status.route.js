@@ -8,10 +8,13 @@ function status (dependencies) {
      * route to show message (GET http://<<URL>>/api/status)
      */
   const get = async (req, res) => {
+    const statusController = new _controllers.StatusController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.status.get(params)
+    let response = {}
 
-    res.json(result)
+    response = await statusController.get(params)
+
+    res.json(response)
   }
 
   return {

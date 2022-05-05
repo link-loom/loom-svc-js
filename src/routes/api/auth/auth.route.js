@@ -8,31 +8,43 @@ function authRoute (dependencies) {
      * route to show message (POST http://<<URL>>/api/login/:id)
      */
   const login = async (req, res) => {
+    const authController = new _controllers.AuthController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.auth.login(params)
+    let response = {}
 
-    res.json(result)
+    response = await authController.login(params)
+
+    res.json(response)
   }
 
   const logout = async (req, res) => {
+    const authController = new _controllers.AuthController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.auth.logout(params)
+    let response = {}
 
-    res.json(result)
+    response = await authController.logout(params)
+
+    res.json(response)
   }
 
   const validateEmail = async (req, res) => {
+    const authController = new _controllers.AuthController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.auth.validateEmail(params)
+    let response = {}
 
-    res.json(result)
+    response = await authController.validateEmail(params)
+
+    res.json(response)
   }
 
   const validateAccountChatbot = async (req, res) => {
+    const authController = new _controllers.AuthController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.auth.validateAccountChatbot(params)
+    let response = {}
 
-    res.json(result)
+    response = await authController.validateAccountChatbot(params)
+
+    res.json(response)
   }
 
   return {

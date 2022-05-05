@@ -1,14 +1,28 @@
-function backendController (dependencies) {
-  const _auth = dependencies.auth
-  const _key = _auth.crypto.generatePrivateKey(dependencies.config.BACKEND_SECRET)
+class BackendController {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._firebase = dependencies.firebaseManager
+    this._controllers = this._dependencies.controllers
 
-  const getKey = () => {
-    return _key
+    /* Custom Properties */
+    this._auth = this._dependencies.auth
+
+    /* Assigments */
+    this._key = this._auth.crypto.generatePrivateKey(dependencies.config.BACKEND_SECRET)
   }
 
-  return {
-    getKey
+  get key () {
+    return this._key
+  }
+
+  get status () {
+    return this._models.Backend.statuses
   }
 }
 
-module.exports = backendController
+module.exports = BackendController

@@ -1,194 +1,198 @@
-function deviceController (dependencies) {
-  const _db = dependencies.db
-  const _console = dependencies.console
-  const _firebase = dependencies.firebaseManager
-  const _utilities = dependencies.utilities
-  const _models = dependencies.models
+class DeviceController {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._firebase = dependencies.firebaseManager
+    this._controllers = this._dependencies.controllers
 
-  const get = async () => {
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+  }
+
+  async get () {
     try {
       // Get values from reference as snapshot
-      const docRef = _db.collection('devices')
+      const docRef = this._db.collection('devices')
       const docRaw = await docRef.get()
       // Cast Firebase object into an arry of devices
-      const entityResponse = _firebase.cast.array(docRaw)
-      const entityCleaned = _utilities.response.clean(entityResponse)
+      const entityResponse = this._firebase.cast.array(docRaw)
+      const entityCleaned = this._utilities.response.clean(entityResponse)
 
-      return _utilities.response.success(entityCleaned)
+      return this._utilities.response.success(entityCleaned)
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const getById = async (data) => {
+  async getById (data) {
     try {
       if (!data || !data.id) {
-        return _utilities.response.error('Please provide an id')
+        return this._utilities.response.error('Please provide an id')
       }
 
       // Get values from reference as snapshot
-      const docRef = _db.collection('devices').doc(`${data.id}`)
+      const docRef = this._db.collection('devices').doc(`${data.id}`)
       const docRaw = await docRef.get()
       // Cast Firebase object into an arry of devices
-      const entityResponse = _firebase.cast.object(docRaw)
+      const entityResponse = this._firebase.cast.object(docRaw)
 
       // Check if exist any data
       if (!docRaw || !docRaw.exists || !entityResponse) {
-        return _utilities.response.error('No device found')
+        return this._utilities.response.error('No device found')
       }
 
-      return _utilities.response.success(_utilities.response.clean(entityResponse))
+      return this._utilities.response.success(this._utilities.response.clean(entityResponse))
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const getByDeviceId = async (data) => {
+  async getByDeviceId (data) {
     try {
       if (!data || !data.deviceId) {
-        return _utilities.response.error('Please provide a deviceid')
+        return this._utilities.response.error('Please provide a deviceid')
       }
 
       // Get values from reference as snapshot
-      const docRef = _db.collection('devices')
+      const docRef = this._db.collection('devices')
         .where('device_id', '==', `${data.deviceId}`)
       const docRaw = await docRef.get()
       // Cast Firebase object into an arry of devices
-      const entityResponse = _firebase.cast.array(docRaw)
+      const entityResponse = this._firebase.cast.array(docRaw)
 
       // Check if exist any data
       if (!docRaw || !entityResponse || entityResponse.data.length <= 0) {
-        return _utilities.response.error('No device found')
+        return this._utilities.response.error('No device found')
       }
 
-      return _utilities.response.success(entityResponse.data[0])
+      return this._utilities.response.success(entityResponse.data[0])
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const getByFingerprint = async (data) => {
+  async getByFingerprint (data) {
     try {
       if (!data || !data.fingerprint) {
-        return _utilities.response.error('Please provide a fingerprint')
+        return this._utilities.response.error('Please provide a fingerprint')
       }
 
       // Get values from reference as snapshot
-      const docRef = _db.collection('devices')
+      const docRef = this._db.collection('devices')
         .where('fingerprint', '==', `${data.fingerprint}`)
       const docRaw = await docRef.get()
       // Cast Firebase object into an arry of devices
-      const entityResponse = _firebase.cast.array(docRaw)
+      const entityResponse = this._firebase.cast.array(docRaw)
 
       // Check if exist any data
       if (!docRaw || !entityResponse || entityResponse.data.length <= 0) {
-        return _utilities.response.error('No device found')
+        return this._utilities.response.error('No device found')
       }
 
-      return _utilities.response.success(entityResponse.data[0])
+      return this._utilities.response.success(entityResponse.data[0])
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const getByIdentity = async (data) => {
+  async getByIdentity (data) {
     try {
       if (!data || !data.identity) {
-        return _utilities.response.error('Please provide a phone number, dni or email')
+        return this._utilities.response.error('Please provide a phone number, dni or email')
       }
 
-      let userResult = await getByDeviceId({ device: data.identity })
-      if (_utilities.response.isValid(userResult)) {
+      let userResult = await this.getByDeviceId({ device: data.identity })
+      if (this._utilities.response.isValid(userResult)) {
         return userResult
       }
 
-      userResult = await getByFingerprint({ fingerprint: data.identity })
-      if (_utilities.response.isValid(userResult)) {
+      userResult = await this.getByFingerprint({ fingerprint: data.identity })
+      if (this._utilities.response.isValid(userResult)) {
         return userResult
       }
 
-      userResult = await getById({ id: data.identity })
-      if (_utilities.response.isValid(userResult)) {
+      userResult = await this.getById({ id: data.identity })
+      if (this._utilities.response.isValid(userResult)) {
         return userResult
       }
 
-      return _utilities.response.error('Device not found')
+      return this._utilities.response.error('Device not found')
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const create = async (data) => {
+  async create (data) {
     try {
       if (!data || !data.fingerprint) {
-        return _utilities.response.error('Please provide minimum data')
+        return this._utilities.response.error('Please provide minimum data')
       }
 
-      const deviceResponse = await getByFingerprint(data)
-      if (_utilities.response.isValid(deviceResponse)) {
-        return _utilities.response.error('Provided device is already registered')
+      const deviceResponse = await this.getByFingerprint(data)
+      if (this._utilities.response.isValid(deviceResponse)) {
+        return this._utilities.response.error('Provided device is already registered')
       }
 
-      data.id = _utilities.idGenerator(15, 'devi-')
-      const docRef = _db.collection('devices').doc(data.id)
+      data.id = this._utilities.idGenerator(15, 'devi-')
+      const docRef = this._db.collection('devices').doc(data.id)
 
-      const entity = new _models.Device(data, dependencies)
+      const entity = new this._models.Device(data, this._dependencies)
       const docResponse = await docRef.set(entity.get)
 
       if (!docResponse) {
-        _console.error(docResponse)
-        return _utilities.response.error()
+        this._console.error(docResponse)
+        return this._utilities.response.error()
       }
 
-      return _utilities.response.success(entity.sanitized)
+      return this._utilities.response.success(entity.sanitized)
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  const update = async (data) => {
+  async update (data) {
     try {
       if (!data || !data.fingerprint) {
-        return _utilities.response.error('Please provide an fingerprint')
+        return this._utilities.response.error('Please provide an fingerprint')
       }
-      const entityResponse = await getByFingerprint(data)
+      const entityResponse = await this.getByFingerprint(data)
 
-      if (!_utilities.response.isValid(entityResponse)) {
+      if (!this._utilities.response.isValid(entityResponse)) {
         return entityResponse
       }
 
-      const docRef = _db.collection('devices').doc(entityResponse.result.id)
-      const entity = new _models.Device({ ...entityResponse.result, ...data }, dependencies)
+      const docRef = this._db.collection('devices').doc(entityResponse.result.id)
+      const entity = new this._models.Device({ ...entityResponse.result, ...data }, this._dependencies)
       const docResponse = await docRef.update(entity.get)
 
       if (!docResponse) {
-        _console.error(docResponse)
-        return _utilities.response.error()
+        this._console.error(docResponse)
+        return this._utilities.response.error()
       }
 
-      return _utilities.response.success(data)
+      return this._utilities.response.success(data)
     } catch (error) {
-      _console.error(error)
-      return _utilities.response.error()
+      this._console.error(error)
+      return this._utilities.response.error()
     }
   }
 
-  return {
-    getAll: get,
-    getById,
-    getByDeviceId,
-    getByFingerprint,
-    getByIdentity,
-    create,
-    update,
-    status: _models.Device.statuses
+  get status () {
+    return this._models.Device.statuses
   }
 }
 
-module.exports = deviceController
+module.exports = DeviceController

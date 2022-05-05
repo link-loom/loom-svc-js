@@ -9,10 +9,13 @@ function route (dependencies) {
      * route to show message (GET http://<<URL>>/api/services/backend-uri)
      */
   const getBackendUri = async (req, res) => {
+    const servicesController = new _controllers.ServicesController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.services.getBackendUri(params)
+    let response = {}
 
-    res.json(result)
+    response = await servicesController.getBackendUri(params)
+
+    res.json(response)
   }
 
   return {

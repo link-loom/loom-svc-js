@@ -1,40 +1,49 @@
-function socketController (dependencies) {
-  const _eventBus = dependencies.eventBus
-  const _console = dependencies.console
-  const _socket = dependencies.socket
-  const _utilities = dependencies.utilities
-  const _controllers = dependencies.controllers
+class SocketController {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._firebase = dependencies.firebaseManager
+    this._controllers = this._dependencies.controllers
 
-  const _stackeholders = {
-    node: { name: 'node' },
-    admin: { name: 'admin' },
-    client: { name: 'client' }
+    /* Custom Properties */
+    this._eventBus = dependencies.eventBus
+    this._socket = dependencies.socket
+
+    /* Assigments */
+    this._stackeholders = {
+      node: { name: 'node' },
+      admin: { name: 'admin' },
+      client: { name: 'client' }
+    }
+
+    // This event is executed when socket is connected to node
+    this._eventBus.on('initialize-event-engine', () => {
+      this.initialize()
+    })
   }
 
-  // This event is executed when socket is connected to node
-  _eventBus.on('initialize-event-engine', () => {
-    initialize()
-  })
-
-  const initialize = async () => {
-    await eventEngine()
+  async initialize () {
+    await this.eventListening()
   }
 
-  // Implement a selection for event
-  const eventEngine = async () => {
-    _eventBus.on('node-event', payload => { channelHandler({ payload, stackeholder: _stackeholders.node }) })
+  async eventListening () {
+    this._eventBus.on('node-event', payload => { this.channelHandler({ payload, stackeholder: this._stackeholders.node }) })
 
-    _eventBus.on('admin-event', payload => { channelHandler({ payload, stackeholder: _stackeholders.admin }) })
+    this._eventBus.on('admin-event', payload => { this.channelHandler({ payload, stackeholder: this._stackeholders.admin }) })
 
-    _eventBus.on('client-event', payload => { channelHandler({ payload, stackeholder: _stackeholders.client }) })
+    this._eventBus.on('client-event', payload => { this.channelHandler({ payload, stackeholder: this._stackeholders.client }) })
   }
 
-  const getSocketById = ({ socketId }) => {
+  getSocketById ({ socketId }) {
     let socket = null
 
-    for (const [key] of Object.entries(_socket.sockets.connected)) {
+    for (const [key] of Object.entries(this._socket.sockets.connected)) {
       if (key === socketId) {
-        socket = _socket.sockets.connected[key]
+        socket = this._socket.sockets.connected[key]
         break
       }
     }
@@ -42,11 +51,11 @@ function socketController (dependencies) {
     return socket
   }
 
-  const getFirstSocketByNativeId = () => {
+  getFirstSocketByNativeId () {
     let nativeSocket = null
 
-    for (const [key] of Object.entries(_socket.sockets.connected)) {
-      const client = _socket.sockets.connected[key]
+    for (const [key] of Object.entries(this._socket.sockets.connected)) {
+      const client = this._socket.sockets.connected[key]
       if (client.nativeId) {
         nativeSocket = client
         break
@@ -56,32 +65,32 @@ function socketController (dependencies) {
     return nativeSocket
   }
 
-  const registerNode = (data) => {
+  registerNode (data) {
     if (!data || !data.context || !data.context.sender || !data.context.sender.socketId || !data.context.nativeId) {
       return
     }
 
-    const socket = getSocketById({
+    const socket = this.getSocketById({
       socketId: data.context.sender.socketId
     })
 
     socket.nativeId = data.context.nativeId
   }
 
-  const responseSuccess = async (data) => {
+  async responseSuccess (data) {
     if (!data || !data.context || !data.context || !data.context.receiver) {
       return
     }
 
-    _socket.emit('reversebytes.beat.api', data)
+    this._socket.emit('reversebytes.beat.api', data)
   }
 
-  const botRequest = async (data) => {
+  async botRequest (data) {
     if (!data || !data.values || !data.context) {
       return
     }
 
-    const socket = getFirstSocketByNativeId()
+    const socket = this.getFirstSocketByNativeId()
 
     data.context.receiver = {
       socketId: socket.id,
@@ -90,17 +99,17 @@ function socketController (dependencies) {
     socket.emit('reversebytes.beat.api', data)
   }
 
-  const getAllNodes = (data) => {
+  getAllNodes (data) {
     const nodes = []
 
-    for (var key in _socket.sockets.connected) {
-      const client = _socket.sockets.connected[key]
+    for (var key in this._socket.sockets.connected) {
+      const client = this._socket.sockets.connected[key]
 
       if (client.nativeId) {
         nodes.push({
           nativeId: client.nativeId,
           socketId: client.id,
-          status: client.status || _controllers.job.status.stopped
+          status: client.status || {}
         })
       }
     }
@@ -109,37 +118,37 @@ function socketController (dependencies) {
     data.context.receiver = data.context.sender
     data.command = `${data.command.split('#request')[0]}#response`
 
-    directActionHandler(data)
+    this.directActionHandler(data)
   }
 
-  const nodeActionHandler = async (payload) => {
+  async nodeActionHandler (payload) {
     switch (payload.command) {
       case 'qr-bot#response':
       case 'create-bot#response':
       case 'qr-changed#response':
       case 'app-loaded#response':
-        responseSuccess(payload)
+        this.responseSuccess(payload)
         break
       case 'register-node#request':
-        registerNode(payload)
+        this.registerNode(payload)
         break
       default:
         break
     }
   }
 
-  const clientActionHandler = async (payload) => {
+  async clientActionHandler (payload) {
     switch (payload.command) {
       case 'create-bot#request':
       case 'qr-bot#request':
-        botRequest(payload)
+        this.botRequest(payload)
         break
       default:
         break
     }
   }
 
-  const directActionHandler = async (data, type) => {
+  async directActionHandler (data, type) {
     if (!data || !data.context || !data.context.sender || !data.context.sender.socketId) {
       return
     }
@@ -148,113 +157,112 @@ function socketController (dependencies) {
       return
     }
 
-    const socket = getSocketById({
+    const socket = this.getSocketById({
       socketId: data.context.sender.socketId
     })
 
     socket.emit(type, data)
   }
 
-  const gatewayMessageHandler = async (payload) => {
+  async gatewayMessageHandler (payload) {
     switch (payload.command) {
       case 'getAllNodes#request':
-        getAllNodes(payload)
+        this.getAllNodes(payload)
         break
       case 'getCurrentJob#response':
       case 'stopCurrentJob#response':
       case 'restartCurrentJob#response':
       case 'scriptFinished#request':
-        responseSuccess(payload)
+        this.responseSuccess(payload)
         break
       default:
         break
     }
   }
 
-  const channelHandler = ({ payload, stakeholder }) => {
+  channelHandler ({ payload, stakeholder }) {
     if (!payload || !payload.context) {
-      _console.error('Event is empty')
-      return _utilities.response.error('Please provide a context')
+      this._console.error('Event is empty')
+      return this._utilities.response.error('Please provide a context')
     }
 
     switch (payload.context.channel.toLocaleLowerCase().trim()) {
       case 'ws':
-        webSocketHandler({ payload, stakeholder })
+        this.webSocketHandler({ payload, stakeholder })
         break
       case 'api':
-        apiHandler(payload, stakeholder)
+        this.apiHandler(payload, stakeholder)
         break
       default:
         break
     }
   }
 
-  const webSocketHandler = ({ payload, stakeholder }) => {
+  webSocketHandler ({ payload, stakeholder }) {
     switch (stakeholder.name.toLocaleLowerCase().trim()) {
-      case _stackeholders.node.name.toLocaleLowerCase().trim():
-        onNodeEvent(payload)
+      case this._stackeholders.node.name.toLocaleLowerCase().trim():
+        this.onNodeEvent(payload)
         break
-      case _stackeholders.admin.name.toLocaleLowerCase().trim():
-        onAdminEvent(payload)
+      case this._stackeholders.admin.name.toLocaleLowerCase().trim():
+        this.onAdminEvent(payload)
         break
-      case _stackeholders.client.name.toLocaleLowerCase().trim():
-        onClientEvent(payload)
+      case this._stackeholders.client.name.toLocaleLowerCase().trim():
+        this.onClientEvent(payload)
         break
       default:
         break
     }
   }
 
-  const apiHandler = ({ payload, stakeholder }) => {
-    return _utilities.response.success(payload)
+  apiHandler ({ payload, stakeholder }) {
+    return this._utilities.response.success(payload)
   }
 
-  const onNodeEvent = async (payload) => {
+  async onNodeEvent (payload) {
     switch (payload.context.type.toLocaleLowerCase()) {
       case 'direct-action':
-        directActionHandler(payload, 'reversebytes.beat.api#node-response')
+        this.directActionHandler(payload, 'reversebytes.beat.api#node-response')
         break
       case 'gateway-message':
-        nodeActionHandler(payload)
+        this.nodeActionHandler(payload)
         break
       case 'bot-action':
-        nodeActionHandler(payload)
+        this.nodeActionHandler(payload)
         break
       default:
         break
     }
   }
 
-  const onAdminEvent = async (payload) => {
+  async onAdminEvent (payload) {
     switch (payload.context.type.toLocaleLowerCase()) {
       case 'direct-message':
-        directActionHandler(payload, 'reversebytes.beat.api#admin-request')
+        this.directActionHandler(payload, 'reversebytes.beat.api#admin-request')
         break
       case 'gateway-message':
-        gatewayMessageHandler(payload)
+        this.gatewayMessageHandler(payload)
         break
       default:
         break
     }
   }
 
-  const onClientEvent = async (payload) => {
+  async onClientEvent (payload) {
     switch (payload.context.type) {
       case 'direct-message':
-        directActionHandler(payload, 'reversebytes.beat.api#admin-request')
+        this.directActionHandler(payload, 'reversebytes.beat.api#admin-request')
         break
       case 'client-action':
-        clientActionHandler(payload)
+        this.clientActionHandler(payload)
         break
       default:
         break
     }
   }
 
-  return {
-    initialize,
-    eventListening: eventEngine
+  get status () {
+    return this._models.Socket.statuses
   }
 }
 
-module.exports = socketController
+module.exports = SocketController

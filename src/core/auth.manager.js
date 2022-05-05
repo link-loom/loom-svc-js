@@ -113,18 +113,18 @@ class AuthManager {
   }
 
   async validateApi (req, res, next) {
-    const _controllers = this._dependencies.controllers
-    // check header or url parameters or post parameters for token
-    const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
-
-    // exist token
-    if (!encryptedToken) {
-      // if there is no token return an error
-      return res.status(403).json(this._utilities.response.error('No token provided.'))
-    }
-
     try {
-      const decipherToken = this.decipherObject(_controllers.backend.getKey(), encryptedToken)
+      const _controllers = this._dependencies.controllers
+      // check header or url parameters or post parameters for token
+      const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
+
+      // exist token
+      if (!encryptedToken) {
+        // if there is no token return an error
+        return res.status(403).json(this._utilities.response.error('No token provided.'))
+      }
+
+      const decipherToken = this.decipherObject(_controllers.backend.key, encryptedToken)
 
       if (!decipherToken || !decipherToken.token) {
         return res.status(403).json(this._utilities.response.error('Malformed token. Try with a valid token'))

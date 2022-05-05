@@ -3,27 +3,28 @@ function route (dependencies) {
   const _controllers = dependencies.controllers
 
   const get = async (req, res) => {
-    let result = {}
+    const userController = new _controllers.UserController(dependencies)
     const params = _utilities.request.getParameters(req)
     const { id, dni, phone, identity, email, businessId } = params
+    let response = {}
 
     if (id) {
-      result = await _controllers.user.getById(params)
+      response = await userController.getById(params)
     } else if (dni) {
-      result = await _controllers.user.getByDni(params)
+      response = await userController.getByDni(params)
     } else if (phone) {
-      result = await _controllers.user.getByPhone(params)
+      response = await userController.getByPhone(params)
     } else if (identity) {
-      result = await _controllers.user.getByIdentity(params)
+      response = await userController.getByIdentity(params)
     } else if (email) {
-      result = await _controllers.user.getByEmail(params)
+      response = await userController.getByEmail(params)
     } else if (businessId) {
-      result = await _controllers.user.getAllByBusinessId(params)
+      response = await userController.getAllByBusinessId(params)
     } else {
-      result = await _controllers.user.getAll(params)
+      response = await userController.getAll(params)
     }
 
-    res.json(result)
+    res.json(response)
   }
 
   /**
@@ -32,10 +33,13 @@ function route (dependencies) {
    * route to show message (POST http://<<URL>>/api/user/create)
    */
   const create = async (req, res) => {
+    const userController = new _controllers.UserController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.user.create(params)
+    let response = {}
 
-    res.json(result)
+    response = await userController.create(params)
+
+    res.json(response)
   }
 
   /**
@@ -44,10 +48,13 @@ function route (dependencies) {
      * route to show message (POST http://<<URL>>/api/user/update)
      */
   const update = async (req, res) => {
+    const userController = new _controllers.UserController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.user.update(params)
+    let response = {}
 
-    res.json(result)
+    response = await userController.update(params)
+
+    res.json(response)
   }
 
   return {

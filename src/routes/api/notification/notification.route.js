@@ -3,25 +3,26 @@ function route (dependencies) {
   const _controllers = dependencies.controllers
 
   const get = async (req, res) => {
-    let result = {}
+    const notificationController = new _controllers.NotificationController(dependencies)
     const params = _utilities.request.getParameters(req)
     const { id, businessId, receiver, q } = params
+    let response = {}
 
     if (id) {
-      result = await _controllers.notification.getById(params)
+      response = await notificationController.getById(params)
     } else if (receiver) {
-      result = await _controllers.notification.getAllByReceiver(params)
+      response = await notificationController.getAllByReceiver(params)
     } else if (businessId) {
-      result = await _controllers.notification.getByBusinessId(params)
+      response = await notificationController.getByBusinessId(params)
     } else if (receiver && q.toLocaleLowerCase().includes('folder')) {
-      result = await _controllers.notification.getAllGroupedByFoldersAndByReceiver(params)
+      response = await notificationController.getAllGroupedByFoldersAndByReceiver(params)
     } else if (receiver && q.toLocaleLowerCase().includes('last')) {
-      result = await _controllers.notification.getAllLastByReceiver(params)
+      response = await notificationController.getAllLastByReceiver(params)
     } else {
-      result = await _controllers.notification.getAll(params)
+      response = await notificationController.getAll(params)
     }
 
-    res.json(result)
+    res.json(response)
   }
 
   /**
@@ -30,10 +31,13 @@ function route (dependencies) {
    * route to show message (POST http://<<URL>>/api/notification/create)
    */
   const create = async (req, res) => {
+    const notificationController = new _controllers.NotificationController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.notification.create(params)
+    let response = {}
 
-    res.json(result)
+    response = await notificationController.create(params)
+
+    res.json(response)
   }
 
   /**
@@ -42,10 +46,13 @@ function route (dependencies) {
      * route to show message (POST http://<<URL>>/api/notification/update)
      */
   const update = async (req, res) => {
+    const notificationController = new _controllers.NotificationController(dependencies)
     const params = _utilities.request.getParameters(req)
-    const result = await _controllers.notification.update(params)
+    let response = {}
 
-    res.json(result)
+    response = await notificationController.update(params)
+
+    res.json(response)
   }
 
   return {

@@ -1,14 +1,28 @@
-function servicesController (dependencies) {
-  const _utilities = dependencies.utilities
-  const _config = dependencies.config
+class ServicesController {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._firebase = dependencies.firebaseManager
+    this._controllers = this._dependencies.controllers
 
-  const getBackendUri = async (data) => {
-    return _utilities.response.success(_config.BACKEND_URI || '/')
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  return {
-    getBackendUri
+  async getBackendUri () {
+    return this._utilities.response.success(this._config.BACKEND_URI || '/')
+  }
+
+  get status () {
+    return this._models.Services.statuses
   }
 }
 
-module.exports = servicesController
+module.exports = ServicesController

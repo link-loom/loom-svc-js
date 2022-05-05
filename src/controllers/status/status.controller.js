@@ -1,13 +1,28 @@
-function statusController (dependencies) {
-  const _utilities = dependencies.utilities
+class StatusController {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._firebase = dependencies.firebaseManager
+    this._controllers = this._dependencies.controllers
 
-  const get = async (data) => {
-    return _utilities.response.success('API is online')
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  return {
-    get
+  async get () {
+    return this._utilities.response.success('API is online')
+  }
+
+  get status () {
+    return this._models.Status.statuses
   }
 }
 
-module.exports = statusController
+module.exports = StatusController

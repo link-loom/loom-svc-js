@@ -100,7 +100,7 @@ class ApiManager {
     this._app.use('/', this._apiRoutes)
 
     // Something else route response a 404 error
-    this._apiRoutes.get('*', function (req, res) {
+    this._apiRoutes.get('*', (_req, res) => {
       res.status(404).send('This API is not fully armed and operational... Try another valid route.')
     })
   }
