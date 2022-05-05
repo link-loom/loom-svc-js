@@ -9,7 +9,6 @@ class TemplateModel extends baseModel {
     super(dependencies)
     this.dependencies = dependencies
 
-    /* const { name, level } = args */
     const timestamp = (new Date()).getTime() + ''
 
     /* Base Properties */
