@@ -1,6 +1,6 @@
-const baseModel = require('../base/base.model')
+const BaseModel = require('../base/base.model')
 
-class NotificationModel extends baseModel {
+class NotificationModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args to build this entity')
