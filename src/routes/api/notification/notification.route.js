@@ -1,10 +1,25 @@
-function route (dependencies) {
-  const _utilities = dependencies.utilities
-  const _controllers = dependencies.controllers
+class NotificationRoute {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._controllers = this._dependencies.controllers
 
-  const get = async (req, res) => {
-    const notificationController = new _controllers.NotificationController(dependencies)
-    const params = _utilities.request.getParameters(req)
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+  }
+
+  /**
+   * Route to get status entity (GET http://<<URL>>/communication/notification)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async get (req, res) {
+    const notificationController = new this._controllers.NotificationController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     const { id, businessId, receiver, q } = params
     let response = {}
 
@@ -26,13 +41,13 @@ function route (dependencies) {
   }
 
   /**
-   * Create
-   *
-   * route to show message (POST http://<<URL>>/api/notification/create)
+   * Route to get status entity (GET http://<<URL>>/communication/notification)
+   * @param {*} req Express request
+   * @param {*} res Express response
    */
-  const create = async (req, res) => {
-    const notificationController = new _controllers.NotificationController(dependencies)
-    const params = _utilities.request.getParameters(req)
+  async create (req, res) {
+    const notificationController = new this._controllers.NotificationController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await notificationController.create(params)
@@ -41,25 +56,19 @@ function route (dependencies) {
   }
 
   /**
-     * Update
-     *
-     * route to show message (POST http://<<URL>>/api/notification/update)
-     */
-  const update = async (req, res) => {
-    const notificationController = new _controllers.NotificationController(dependencies)
-    const params = _utilities.request.getParameters(req)
+   * Route to get status entity (GET http://<<URL>>/communication/notification)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async update (req, res) {
+    const notificationController = new this._controllers.NotificationController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await notificationController.update(params)
 
     res.json(response)
   }
-
-  return {
-    get,
-    create,
-    update
-  }
 }
 
-module.exports = route
+module.exports = NotificationRoute

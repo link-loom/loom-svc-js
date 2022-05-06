@@ -1,26 +1,31 @@
+class ServicesRoute {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._controllers = this._dependencies.controllers
 
-function route (dependencies) {
-  const _controllers = dependencies.controllers
-  const _utilities = dependencies.utilities
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+  }
 
   /**
-     * Get Backend parameters URI
-     *
-     * route to show message (GET http://<<URL>>/api/services/backend-uri)
-     */
-  const getBackendUri = async (req, res) => {
-    const servicesController = new _controllers.ServicesController(dependencies)
-    const params = _utilities.request.getParameters(req)
+   * Route to get status entity (GET http://<<URL>>/services/backend-uri)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async getBackendUri (req, res) {
+    const servicesController = new this._controllers.ServicesController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await servicesController.getBackendUri(params)
 
     res.json(response)
   }
-
-  return {
-    getBackendUri
-  }
 }
 
-module.exports = route
+module.exports = ServicesRoute

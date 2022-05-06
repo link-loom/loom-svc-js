@@ -21,7 +21,7 @@ class DeviceModel extends BaseModel {
     /* Custom fields */
     this.user_id = { value: args.user_id, type: dependencies.dal.types.string }
     this.push_token = { value: args.push_token, type: dependencies.dal.types.string }
-    this.fingerprint = { value: args.password, type: dependencies.dal.types.string }
+    this.fingerprint = { value: args.fingerprint, type: dependencies.dal.types.string }
     this.operating_system_name = { value: args.operating_system_name, type: dependencies.dal.types.string }
     this.operating_system_version = { value: args.operating_system_version, type: dependencies.dal.types.string }
   }

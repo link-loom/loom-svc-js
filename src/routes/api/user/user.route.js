@@ -1,10 +1,25 @@
-function route (dependencies) {
-  const _utilities = dependencies.utilities
-  const _controllers = dependencies.controllers
+class UserRoute {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._controllers = this._dependencies.controllers
 
-  const get = async (req, res) => {
-    const userController = new _controllers.UserController(dependencies)
-    const params = _utilities.request.getParameters(req)
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+  }
+
+  /**
+   * Route to get status entity (GET http://<<URL>>/identity/user)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async get (req, res) {
+    const userController = new this._controllers.UserController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     const { id, dni, phone, identity, email, businessId } = params
     let response = {}
 
@@ -21,20 +36,20 @@ function route (dependencies) {
     } else if (businessId) {
       response = await userController.getAllByBusinessId(params)
     } else {
-      response = await userController.getAll(params)
+      response = await userController.get(params)
     }
 
     res.json(response)
   }
 
   /**
-   * Create user
-   *
-   * route to show message (POST http://<<URL>>/api/user/create)
+   * Route to get status entity (GET http://<<URL>>/identity/user)
+   * @param {*} req Express request
+   * @param {*} res Express response
    */
-  const create = async (req, res) => {
-    const userController = new _controllers.UserController(dependencies)
-    const params = _utilities.request.getParameters(req)
+  async create (req, res) {
+    const userController = new this._controllers.UserController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await userController.create(params)
@@ -43,25 +58,19 @@ function route (dependencies) {
   }
 
   /**
-     * Update
-     *
-     * route to show message (POST http://<<URL>>/api/user/update)
-     */
-  const update = async (req, res) => {
-    const userController = new _controllers.UserController(dependencies)
-    const params = _utilities.request.getParameters(req)
+   * Route to get status entity (GET http://<<URL>>/identity/user)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async update (req, res) {
+    const userController = new this._controllers.UserController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await userController.update(params)
 
     res.json(response)
   }
-
-  return {
-    get,
-    create,
-    update
-  }
 }
 
-module.exports = route
+module.exports = UserRoute

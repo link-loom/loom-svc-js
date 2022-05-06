@@ -217,7 +217,7 @@ class NotificationController {
 
   async sendPushToAllTokenDevicesAsync (data) {
     const deviceController = new this._controllers.DeviceController(this._dependencies)
-    const response = await deviceController.getAll()
+    const response = await deviceController.get()
 
     if (!this._utilities.response.isValid(response)) {
       return response

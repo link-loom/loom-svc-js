@@ -1,10 +1,25 @@
-function route (dependencies) {
-  const _utilities = dependencies.utilities
-  const _controllers = dependencies.controllers
+class DeviceRoute {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._controllers = this._dependencies.controllers
 
-  const get = async (req, res) => {
-    const deviceController = new _controllers.DeviceController(dependencies)
-    const params = _utilities.request.getParameters(req)
+    /* Custom Properties */
+    /* this._myPrivateProperty = 'Some value' */
+
+    /* Assigments */
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+  }
+
+  /**
+   * Route to get status entity (GET http://<<URL>>/identity/device)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async get (req, res) {
+    const deviceController = new this._controllers.DeviceController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     const { id, deviceId, fingerprint, identity } = params
     let response = {}
 
@@ -17,20 +32,20 @@ function route (dependencies) {
     } else if (identity) {
       response = await deviceController.getByIdentity(params)
     } else {
-      response = await deviceController.getAll(params)
+      response = await deviceController.get(params)
     }
 
     res.json(response)
   }
 
   /**
-   * Create device
-   *
-   * route to show message (POST http://<<URL>>/api/device/create)
+   * Route to get status entity (GET http://<<URL>>/identity/device)
+   * @param {*} req Express request
+   * @param {*} res Express response
    */
-  const create = async (req, res) => {
-    const deviceController = new _controllers.DeviceController(dependencies)
-    const params = _utilities.request.getParameters(req)
+  async create (req, res) {
+    const deviceController = new this._controllers.DeviceController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await deviceController.create(params)
@@ -39,25 +54,19 @@ function route (dependencies) {
   }
 
   /**
-     * Update
-     *
-     * route to show message (POST http://<<URL>>/api/device/update)
-     */
-  const update = async (req, res) => {
-    const deviceController = new _controllers.DeviceController(dependencies)
-    const params = _utilities.request.getParameters(req)
+   * Route to get status entity (GET http://<<URL>>/identity/device)
+   * @param {*} req Express request
+   * @param {*} res Express response
+   */
+  async update (req, res) {
+    const deviceController = new this._controllers.DeviceController(this._dependencies)
+    const params = this._utilities.request.getParameters(req)
     let response = {}
 
     response = await deviceController.update(params)
 
     res.json(response)
   }
-
-  return {
-    get,
-    create,
-    update
-  }
 }
 
-module.exports = route
+module.exports = DeviceRoute

@@ -10,7 +10,7 @@ class ServicesController {
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
-    /* this._myPrivateProperty = 'Some value' */
+    this._config = this._dependencies.config
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */

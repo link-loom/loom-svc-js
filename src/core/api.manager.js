@@ -14,48 +14,48 @@ class ApiManager {
     this._console.success('API manager loaded')
   }
 
-  buildGetEndpoints (controller, domain, endpoint) {
+  buildGetEndpoints (route, domain, endpoint) {
     if (endpoint.protected) {
-      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, controller[endpoint.handler])
+      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
-      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, controller[endpoint.handler])
+      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
     }
   }
 
-  buildPostEndpoints (controller, domain, endpoint) {
+  buildPostEndpoints (route, domain, endpoint) {
     if (endpoint.isUpload && this._storage) {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._storage.single('file'), controller[endpoint.handler])
+      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._storage.single('file'), (req, res) => route[endpoint.handler](req, res))
       return
     }
 
     if (endpoint.protected) {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, controller[endpoint.handler])
+      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, controller[endpoint.handler])
+      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
     }
   }
 
-  buildPutEndpoints (controller, domain, endpoint) {
+  buildPutEndpoints (route, domain, endpoint) {
     if (endpoint.protected) {
-      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, controller[endpoint.handler])
+      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
-      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, controller[endpoint.handler])
+      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
     }
   }
 
-  buildPatchEnpoints (controller, domain, endpoint) {
+  buildPatchEnpoints (route, domain, endpoint) {
     if (endpoint.protected) {
-      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, controller[endpoint.handler])
+      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
-      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, controller[endpoint.handler])
+      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
     }
   }
 
-  buildDeleteEndpoints (controller, domain, endpoint) {
+  buildDeleteEndpoints (route, domain, endpoint) {
     if (endpoint.protected) {
-      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, controller[endpoint.handler])
+      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
-      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, controller[endpoint.handler])
+      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
     }
   }
 
@@ -69,22 +69,22 @@ class ApiManager {
 
         domain.map((endpoint) => {
           try {
-            const controller = require(this._path.join(this._dependencies.root, `src/${endpoint.route}`))(this._dependencies)
+            const Route = require(this._path.join(this._dependencies.root, `src/${endpoint.route}`))
             switch (endpoint.method.toLocaleUpperCase()) {
               case 'GET':
-                this.buildGetEndpoints(controller, domainName, endpoint)
+                this.buildGetEndpoints(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'POST':
-                this.buildPostEndpoints(controller, domainName, endpoint)
+                this.buildPostEndpoints(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'PUT':
-                this.buildPutEndpoints(controller, domainName, endpoint)
+                this.buildPutEndpoints(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'PATCH':
-                this.buildPatchEnpoints(controller, domainName, endpoint)
+                this.buildPatchEnpoints(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'DELETE':
-                this.buildDeleteEndpoints(controller, domainName, endpoint)
+                this.buildDeleteEndpoints(new Route(this._dependencies), domainName, endpoint)
                 break
               default:
                 break
