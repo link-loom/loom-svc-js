@@ -11,9 +11,32 @@ class BackendController {
 
     /* Custom Properties */
     this._auth = this._dependencies.auth
+    this._request = this._dependencies.request
 
     /* Assigments */
     this._key = this._auth.crypto.generatePrivateKey(dependencies.config.BACKEND_SECRET)
+  }
+
+  async request (data) {
+    if (!data || !data.url || typeof data.url !== 'string' || data.url.length <= 0) {
+      return null
+    }
+
+    try {
+      return await this.executeRequest(data)
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+
+  executeRequest ({ url, method, body, headers }) {
+    return this._request({
+      url,
+      method,
+      data: body || {},
+      headers
+    })
   }
 
   get key () {

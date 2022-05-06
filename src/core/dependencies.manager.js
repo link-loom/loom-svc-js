@@ -35,7 +35,7 @@ class DependenciesManager {
       helmet: require('helmet'),
       maxmind: require('maxmind'),
       bcrypt: require('bcryptjs'),
-      request: require('request'),
+      request: require('axios'),
       jwt: require('jsonwebtoken'),
       colors: require('colors/safe'),
       compress: require('compression'),
