@@ -1,8 +1,7 @@
+const { SettingsManager } = require('./settings.manager')
+const { ConsoleManager } = require('./console.manager')
 class ServerManager {
   constructor (args) {
-    const { SettingsManager } = require('./settings.manager')
-    const { ConsoleManager } = require('./console.manager')
-
     this._settings = new SettingsManager(args)
     this._console = new ConsoleManager(this._settings.dependencies.core.get())
   }
