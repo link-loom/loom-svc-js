@@ -67,7 +67,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "./node_modules/.bin/standard",
-    "standard-fix": "./node_modules/.bin/standard --fix"
+    "test": "standard",
+    "standard-fix": "standard --fix"
   }
 }
