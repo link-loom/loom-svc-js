@@ -9,12 +9,12 @@ class ApiManager {
     this._apiRoutes = this._express.Router()
     this._path = dependencies.path
 
-    this.createAPIEndpoints()
+    this.createEndpoints()
 
     this._console.success('API manager loaded')
   }
 
-  buildGetEndpoints (route, domain, endpoint) {
+  handleGetMethod (route, domain, endpoint) {
     if (endpoint.protected) {
       this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
@@ -22,7 +22,7 @@ class ApiManager {
     }
   }
 
-  buildPostEndpoints (route, domain, endpoint) {
+  handlePostMethod (route, domain, endpoint) {
     if (endpoint.isUpload && this._storage) {
       this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._storage.single('file'), (req, res) => route[endpoint.handler](req, res))
       return
@@ -35,7 +35,7 @@ class ApiManager {
     }
   }
 
-  buildPutEndpoints (route, domain, endpoint) {
+  handlePutMethod (route, domain, endpoint) {
     if (endpoint.protected) {
       this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
@@ -43,7 +43,7 @@ class ApiManager {
     }
   }
 
-  buildPatchEnpoints (route, domain, endpoint) {
+  handlePatchMethod (route, domain, endpoint) {
     if (endpoint.protected) {
       this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
@@ -51,7 +51,7 @@ class ApiManager {
     }
   }
 
-  buildDeleteEndpoints (route, domain, endpoint) {
+  handleDeleteMethod (route, domain, endpoint) {
     if (endpoint.protected) {
       this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
     } else {
@@ -59,7 +59,7 @@ class ApiManager {
     }
   }
 
-  createAPIEndpoints () {
+  createEndpoints () {
     const router = require(this._path.join(this._dependencies.root, 'src', 'routes', 'router'))
 
     // build each api routes
@@ -72,19 +72,19 @@ class ApiManager {
             const Route = require(this._path.join(this._dependencies.root, `src/${endpoint.route}`))
             switch (endpoint.method.toLocaleUpperCase()) {
               case 'GET':
-                this.buildGetEndpoints(new Route(this._dependencies), domainName, endpoint)
+                this.handleGetMethod(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'POST':
-                this.buildPostEndpoints(new Route(this._dependencies), domainName, endpoint)
+                this.handlePostMethod(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'PUT':
-                this.buildPutEndpoints(new Route(this._dependencies), domainName, endpoint)
+                this.handlePutMethod(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'PATCH':
-                this.buildPatchEnpoints(new Route(this._dependencies), domainName, endpoint)
+                this.handlePatchMethod(new Route(this._dependencies), domainName, endpoint)
                 break
               case 'DELETE':
-                this.buildDeleteEndpoints(new Route(this._dependencies), domainName, endpoint)
+                this.handleDeleteMethod(new Route(this._dependencies), domainName, endpoint)
                 break
               default:
                 break
