@@ -14,19 +14,22 @@ class ConsoleManager {
   }
 
   error (body) {
-    console.log(` ${this._colors.red('Error')}: ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    console.log(` ${this._colors.red('Error')}:`, body)
   }
 
   info (body, title) {
-    console.log(` ${this._colors.cyan(`${title || this._serverName}:`)} ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    title = (title || this._serverName) + ': '
+    console.log(` ${this._colors.cyan(title)}`, body)
   }
 
   warning (body, title) {
-    console.log(` ${this._colors.yellow(`${title || this._serverName}:`)} ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    title = (title || this._serverName) + ': '
+    console.log(` ${this._colors.yellow(title)}`, body)
   }
 
   success (body, title) {
-    console.log(` ${this._colors.green(`${title || this._serverName}:`)} ${(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)}`)
+    title = (title || this._serverName) + ': '
+    console.log(` ${this._colors.green(title)}`, body)
   }
 }
 
