@@ -25,7 +25,7 @@
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-dn31i%40xxxx.iam.gserviceaccount.com"
   },
   "FIREBASE": {
-    "apiKey": "AIzaSyA5HkZeMu0EYpmFmqVgKtdusS6uwDdRhnY",
+    "apiKey": "AIzaSyA5HkZeMu0EYpmFmqVgKtdusdfsS6uwDdRhnY",
     "authDomain": "xxxx.firebaseapp.com",
     "databaseURL": "https://xxxx.firebaseio.com",
     "projectId": "xxxx",
