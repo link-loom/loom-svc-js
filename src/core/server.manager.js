@@ -133,8 +133,10 @@ class ServerManager {
   registerSocket () {
     // Initialize socket when controllers are initialized
     const dependencies = this._settings.dependencies.get()
+    const eventBus = dependencies.eventBus
     const socketController = new dependencies.controllers.SocketController(dependencies)
-    socketController.initialize()
+    this._settings.dependencies.core.add(socketController, 'socketControllerSingleton')
+    eventBus.emit('initialize-event-engine')
   }
 
   registerServer () {
