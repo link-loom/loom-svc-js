@@ -1,19 +1,24 @@
 class SocketController {
   constructor (dependencies) {
-    this._eventBus = dependencies.eventBus
+    /* Base Properties */
+    this._dependencies = dependencies
     this._console = dependencies.console
-    this._socket = dependencies.socket
     this._utilities = dependencies.utilities
     this._controllers = dependencies.controllers
 
+    /* Custom Properties */
+    this._socket = dependencies.socket
+    this._eventBus = dependencies.eventBus
+
+    /* Assigments */
     this._stakeholders = {
       node: { name: 'node' },
       server: { name: 'server' },
       client: { name: 'client' }
     }
 
-    // This event is executed when socket is connected to node
     this._eventBus.on('initialize-event-engine', () => {
+      // This event is executed when socket is connected to node
       this.initialize()
     })
   }
