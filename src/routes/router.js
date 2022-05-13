@@ -30,6 +30,12 @@ const router = {
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'update', method: 'PATCH', protected: false }
+  ],
+  example:[
+    // Template
+    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'create', method: 'POST', protected: false },
+    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'update', method: 'PATCH', protected: false }
   ]
 }
 
