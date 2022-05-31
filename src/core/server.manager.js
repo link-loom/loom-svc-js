@@ -121,11 +121,16 @@ class ServerManager {
 
   socketSetup () {
     // Listening and setup socket
-    const socket = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {})
+    const socket = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {
+      cors: {
+        origin: '*'
+      }
+    })
     this._settings.dependencies.core.add(socket, 'socket')
 
     const { SocketManager } = require('./socket.manager')
     const _socketManager = new SocketManager(this._settings.dependencies.get())
+    _socketManager.loadSocketEvents()
 
     return _socketManager
   }
