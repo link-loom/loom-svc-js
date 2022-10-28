@@ -18,17 +18,17 @@ class TemplateRoute {
    * @param {*} res Express response
    */
   async get (req, res) {
-    const templateController = new this._controllers.TemplateController(this._dependencies)
+    const entityController = new this._controllers.TemplateController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
     const { id, PROPERTY } = params
     let response = {}
 
     if (id) {
-      response = await templateController.getById(params)
+      response = await entityController.getById(params)
     } else if (PROPERTY) {
-      response = await templateController.getByPROPERTY(params)
+      response = await entityController.getByPROPERTY(params)
     } else {
-      response = await templateController.get(params)
+      response = await entityController.get(params)
     }
 
     res.json(response)
@@ -40,11 +40,11 @@ class TemplateRoute {
    * @param {*} res Express response
    */
   async create (req, res) {
-    const templateController = new this._controllers.TemplateController(this._dependencies)
+    const entityController = new this._controllers.TemplateController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
     let response = {}
 
-    response = await templateController.create(params)
+    response = await entityController.create(params)
 
     res.json(response)
   }
@@ -55,11 +55,11 @@ class TemplateRoute {
    * @param {*} res Express response
    */
   async update (req, res) {
-    const templateController = new this._controllers.TemplateController(this._dependencies)
+    const entityController = new this._controllers.TemplateController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
     let response = {}
 
-    response = await templateController.update(params)
+    response = await entityController.update(params)
 
     res.json(response)
   }

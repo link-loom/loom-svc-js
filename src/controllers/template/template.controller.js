@@ -58,7 +58,7 @@ class TemplateController {
 
   async getByPROPERTY (data) {
     try {
-      if (!data || !data.deviceId) {
+      if (!data || !data.PROPERTY) {
         return this._utilities.response.error('Please provide a PROPERTY')
       }
 

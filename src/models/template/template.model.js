@@ -45,7 +45,7 @@ class TemplateModel extends BaseModel {
 TemplateModel.statuses = {
   inactive: { id: 1, name: 'inactive', title: 'Inactive' },
   active: { id: 2, name: 'active', title: 'Active' },
-  deleted: { id: 3, name: 'deleted', title: 'Deleted' }
+  deleted: { id: 999, name: 'deleted', title: 'Deleted' }
 }
 
 module.exports = TemplateModel
