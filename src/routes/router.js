@@ -33,9 +33,9 @@ const router = {
   ],
   example:[
     // Template
-    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'get', method: 'GET', protected: false },
-    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'create', method: 'POST', protected: false },
-    { httpRoute: '/template/', route: '/routes/api/template/template.route', handler: 'update', method: 'PATCH', protected: false }
+    { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'create', method: 'POST', protected: false },
+    { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'update', method: 'PATCH', protected: false }
   ]
 }
 
