@@ -6,6 +6,10 @@ class PushManager {
   }
 
   async loadPushNotifications () {
+    if (!this._dependencies.config.USE_PUSH) {
+      return
+    }
+
     switch (this._dependencies.config.PUSH_NAME) {
       case 'firebase':
         await this.firebaseConfig()

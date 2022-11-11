@@ -9,6 +9,7 @@
   "TOKEN_EXPIRE": 24,
   "USE_DATABASE": false,
   "USE_STORAGE": true,
+  "USE_PUSH": false,
   "DATABASE_NAME": "firebase",
   "STORAGE_NAME": "spaces",
   "PUSH_NAME": "firebase",
