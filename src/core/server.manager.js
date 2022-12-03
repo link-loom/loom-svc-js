@@ -22,17 +22,15 @@ class ServerManager {
 
       await this.registerPushNotifications()
 
-      this.socketSetup()
-
       this.registerModels()
 
       this.registerControllers()
 
-      this.registerSocket()
-
       this.registerFunctions()
 
       this.registerApi()
+
+      this.webSocketSetup()
 
       this._console.success('Server manager loaded')
 
@@ -119,29 +117,22 @@ class ServerManager {
     this._settings.dependencies.core.add(_functionsManager.functions, 'functions')
   }
 
-  socketSetup () {
+  webSocketSetup () {
     // Listening and setup socket
-    const socket = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {
+    const webSocketServer = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {
       cors: {
         origin: '*'
       }
     })
-    this._settings.dependencies.core.add(socket, 'socket')
+    this._settings.dependencies.core.add(webSocketServer, 'websocketServer')
 
-    const { SocketManager } = require('./socket.manager')
-    const _socketManager = new SocketManager(this._settings.dependencies.get())
-    _socketManager.loadSocketEvents()
+    const WebSocketManager = require('./websocket.manager')
+    const webSocketManager = new WebSocketManager(this._settings.dependencies.get())
+    webSocketManager.setup()
 
-    return _socketManager
-  }
+    this._settings.dependencies.core.add(webSocketManager, 'socketManager')
 
-  registerSocket () {
-    // Initialize socket when controllers are initialized
-    const dependencies = this._settings.dependencies.get()
-    const eventBus = dependencies.eventBus
-    const socketController = new dependencies.controllers.SocketController(dependencies)
-    this._settings.dependencies.core.add(socketController, 'socketControllerSingleton')
-    eventBus.emit('initialize-event-engine')
+    return webSocketManager
   }
 
   registerServer () {

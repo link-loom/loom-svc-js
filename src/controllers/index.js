@@ -3,7 +3,6 @@ const BackendController = require('./backend/backend.controller')
 const DeviceController = require('./device/device.controller')
 const NotificationController = require('./notification/notification.controller')
 const ServicesController = require('./services/services.controller')
-const SocketController = require('./socket/socket.Controller')
 const StatusController = require('./status/status.controller')
 const TemplateController = require('./_template/_template.controller')
 const UploadController = require('./upload/upload.controller')
@@ -16,7 +15,6 @@ module.exports = {
   DeviceController,
   NotificationController,
   ServicesController,
-  SocketController,
   StatusController,
   TemplateController,
   UploadController,
