@@ -1,7 +1,7 @@
 {
   "JWT_SECRET": "NodeJSIsCool",
   "SERVER_PORT": "3500",
-  "SERVER_VERSION": "4.0.0",
+  "SERVER_VERSION": "5.0.1",
   "SERVER_NAME": "%BEAT% server #1",
   "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
   "FRONTEND_URI": "http://localhost:3500",
