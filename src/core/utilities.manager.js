@@ -1,3 +1,5 @@
+const EventUtil = require('./utils/event.util')
+
 class UtilitiesManager {
   constructor (dependencies) {
     this._dependencies = dependencies
@@ -217,6 +219,10 @@ class UtilitiesManager {
         findObject: this.findObject.bind(this)
       }
     }
+  }
+
+  get event () {
+    return this._eventUtil
   }
 }
 
