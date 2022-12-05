@@ -3,6 +3,8 @@ class UtilitiesManager {
     this._dependencies = dependencies
     this._console = dependencies.console
     this._crypto = dependencies.crypto
+
+    this._eventUtil = new EventUtil(dependencies)
   }
 
   /// Find an object dynamically by dot style

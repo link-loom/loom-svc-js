@@ -14,7 +14,7 @@ class DependenciesManager {
     const express = expressModule()
     const httpServer = http.createServer(express)
     const socketModule = require('socket.io')
-    const eventBus = new events.EventEmitter()
+    const websocketClientModule = require('socket.io-client')
     const multerModule = require('multer')
 
     this._dependencies = {
@@ -22,9 +22,10 @@ class DependenciesManager {
       http,
       multerModule,
       express,
-      eventBus,
+      events,
       httpServer,
       socketModule,
+      websocketClientModule,
       expressModule,
       cors: require('cors'),
       path: require('path'),

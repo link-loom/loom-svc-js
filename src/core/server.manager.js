@@ -30,7 +30,9 @@ class ServerManager {
 
       this.registerApi()
 
-      this.webSocketSetup()
+      this.#eventBrokerSetup()
+
+      this.#eventProducerSetup()
 
       this._console.success('Server manager loaded')
 
@@ -117,7 +119,7 @@ class ServerManager {
     this._settings.dependencies.core.add(_functionsManager.functions, 'functions')
   }
 
-  webSocketSetup () {
+  #eventBrokerSetup () {
     // Listening and setup socket
     const webSocketServer = this._settings.dependencies.get().socketModule(this._settings.dependencies.get().httpServer, {
       cors: {
@@ -126,13 +128,21 @@ class ServerManager {
     })
     this._settings.dependencies.core.add(webSocketServer, 'websocketServer')
 
-    const WebSocketManager = require('./websocket.manager')
-    const webSocketManager = new WebSocketManager(this._settings.dependencies.get())
-    webSocketManager.setup()
+    const EventBrokerManager = require('./eventSystem/broker.manager')
+    const eventBrokerManager = new EventBrokerManager(this._settings.dependencies.get())
+    eventBrokerManager.setup()
 
-    this._settings.dependencies.core.add(webSocketManager, 'socketManager')
+    this._settings.dependencies.core.add(eventBrokerManager, 'brokerManager')
 
-    return webSocketManager
+    return eventBrokerManager
+  }
+
+  #eventProducerSetup () {
+    const EventProducerManager = require('./eventSystem/producer.manager')
+    const eventProducerManager = new EventProducerManager(this._settings.dependencies.get())
+    eventProducerManager.setup()
+
+    this._settings.dependencies.core.add(eventProducerManager, 'producerManager')
   }
 
   registerServer () {
