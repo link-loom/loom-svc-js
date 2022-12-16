@@ -61,6 +61,8 @@ class ServerManager {
   #setupDependencies () {
     this._dependencies = new DependenciesManager(this._args)
     this._dependencies.setup()
+
+    this._dependencies.core.add(this._dependencies, 'dependenciesManager')
   }
 
   #setupUtilities () {

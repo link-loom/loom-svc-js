@@ -1,13 +1,13 @@
-const functions = {
-  cached: [
-    { name: 'saveConcurrentData', route: '/functions/cached/exampleCached.function', storage: 'RAM', expire: 'never' }
+const definition = {
+  cache: [
+    { name: 'cacheTemplate', route: '/functions/cache/_template/_template.function', storage: 'RAM', expire: 'never' }
   ],
   timed: [
-    { name: 'runEvery24H', route: '/functions/timed/exampleTimed.function', startAt: '23:59:59', intervalTime: '24', intervalMeasure: 'hours' }
+    { name: 'timedTemplate', route: '/functions/timed/_template/_template.function', startAt: '23:59:59', intervalTime: '24', intervalMeasure: 'hours' }
   ],
   startup: [
-    { name: 'telemetry', route: '/functions/startup/telemetry.function' }
+    { name: 'startupTemplate', route: '/functions/startup/_template/_template.function', executionType: 'onServerLoaded' }
   ]
 }
 
-module.exports = functions
+module.exports = definition

@@ -7,12 +7,12 @@ class DatabaseManager {
     /* Custom Properties */
     this._firebase = dependencies.firebase
     this._pg = dependencies.pg
+
+    /* Assigments */
+    this._namespace = '[Server]::[Database]::[Manager]'
     this._firebaseManager = {}
     this._postgresqlManager = {}
     this._db = {}
-
-    /* Assigments */
-    this._namespace = '[Server]::[Database]::[Manager]'    
   }
 
   setup () {
@@ -38,12 +38,12 @@ class DatabaseManager {
     switch (this._dependencies.config.SETTINGS.DATABASE_NAME) {
       case 'firebase':
         this._firebaseManager.setup()
-        this._dependencies.settings.dependencies.core.add(this._firebaseManager, 'firebaseManager')
+        this._dependencies.dependenciesManager.core.add(this._firebaseManager, 'firebaseManager')
         await this.firebaseConfig()
         break
       case 'postgresql':
         this._postgresqlManager.setup()
-        this._dependencies.settings.dependencies.core.add(this._postgresqlManager, 'postgresqlManager')
+        this._dependencies.dependenciesManager.core.add(this._postgresqlManager, 'postgresqlManager')
         await this.postgresqlConfig()
         break
       default:

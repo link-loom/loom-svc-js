@@ -58,7 +58,7 @@ class StorageManager {
 
       const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)
 
-      this._dependencies.settings.dependencies.core.add(this._spacesManager, 'spacesManager')
+      this._dependencies.dependenciesManager.core.add(this._spacesManager, 'spacesManager')
       this._dependencies.s3 = this._s3
 
       this._s3 = new this._aws.S3({

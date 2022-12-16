@@ -14,7 +14,7 @@ class DalManager {
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    this._dal = require(`${dependencies.root}/src/dal/queryConstructor.dal`)
+    this._dal = require(`${this._dependencies.root}/src/dal/queryConstructor.dal`)
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
