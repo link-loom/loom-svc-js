@@ -24,7 +24,7 @@ class Function {
 
     this._data = _data
 
-    _console.success('status are setted succesfully')
+    this._console.success('cache data set succesfully')
   }
 }
 
