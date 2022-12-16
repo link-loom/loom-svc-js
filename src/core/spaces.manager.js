@@ -1,13 +1,22 @@
 class SpacesManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
+
+    /* Assigments */
+    this._namespace = '[Server]::[Spaces]::[Manager]'
     this._credentials = ''
   }
 
-  setSettings (credentials) {
+  setup (credentials) {
+    this._console.success('Loading', { namespace: this._namespace })
+
     this.setCredentials(credentials)
-    this._console.success('Spaces manager loaded')
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   getCredentials () {

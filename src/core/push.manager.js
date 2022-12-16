@@ -1,16 +1,25 @@
 class PushManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
+
+    /* Assigments */
+    this._namespace = '[Server]::[Push]::[Manager]'
     this._push = {}
   }
 
-  async loadPushNotifications () {
-    if (!this._dependencies.config.USE_PUSH) {
+  async setup () {
+    this._console.success('Loading', { namespace: this._namespace })
+
+    if (!this._dependencies.config.SETTINGS.USE_PUSH) {
+      this._console.info('Manager is disabled', { namespace: this._namespace })
       return
     }
 
-    switch (this._dependencies.config.PUSH_NAME) {
+    switch (this._dependencies.config.SETTINGS.PUSH_NAME) {
       case 'firebase':
         await this.firebaseConfig()
         break
@@ -18,7 +27,7 @@ class PushManager {
         break
     }
 
-    this._console.success('Push notification manager loaded')
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   async firebaseConfig () {

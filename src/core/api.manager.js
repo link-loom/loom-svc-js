@@ -1,17 +1,27 @@
 class ApiManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
     this._app = dependencies.express
     this._express = dependencies.expressModule
     this._auth = dependencies.auth
     this._storage = dependencies.storage
+
+    /* Assigments */
+    this._namespace = '[Server]::[API]::[Manager]'
     this._apiRoutes = this._express.Router()
     this._path = dependencies.path
+  }
 
-    this.createEndpoints()
+  setup () {
+    this._console.success('Loading', { namespace: this._namespace })
 
-    this._console.success('API manager loaded')
+    this.#createEndpoints()
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   handleGetMethod (route, domain, endpoint) {
@@ -59,7 +69,7 @@ class ApiManager {
     }
   }
 
-  createEndpoints () {
+  #createEndpoints () {
     const router = require(this._path.join(this._dependencies.root, 'src', 'routes', 'router'))
 
     // build each api routes

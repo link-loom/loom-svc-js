@@ -1,35 +1,74 @@
 class ConsoleManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
+
+    /* Custom Properties */
     this._colors = dependencies.colors
-    this._serverName = dependencies.config.SERVER_NAME
+
+    /* Assigments */
+    this._namespace = '[Server]::[Console]::[Manager]'
   }
 
-  code (body) {
-    console.log(this._colors.grey(' > ') + (this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body))
+  setup () {
+    this.success('Loading', { namespace: this._namespace })
+
+    this.success('Loaded', { namespace: this._namespace })
   }
 
-  log (body) {
-    console.log(this._dependencies.isJsonString(body) === true ? JSON.stringify(body) : body)
+  code (body, args = {}) {
+    const { title, namespace } = args
+
+    if (typeof body === 'string') {
+      console.log(this._colors.grey(' > ') + (body.isJson() === true ? JSON.stringify(body) : body))
+      return
+    }
+
+    if (title) {
+      console.log(this._colors.grey((title || namespace || '') + ' > '), body)
+    } else {
+      console.log(this._colors.grey(' > '), body)
+    }
+
   }
 
-  error (body) {
-    console.log(` ${this._colors.red('Error')}:`, body)
+  log (body, args = {}) {
+    const { title, namespace } = args
+
+    if (typeof body === 'string') {
+      console.log(body.isJson() === true ? JSON.stringify(body) : body)
+      return
+    }
+
+    if (title) {
+      console.log((title || namespace || ''), body)
+    } else {
+      console.log(body)
+    }
   }
 
-  info (body, title) {
-    title = (title || this._serverName) + ':'
-    console.log(` ${this._colors.cyan(title)}`, body)
+  error (body, args = {}) {
+    const { title, namespace } = args
+
+    console.log(` ${this._colors.red(`${(title || namespace || '')}[ERROR]`)}: `, body)
   }
 
-  warning (body, title) {
-    title = (title || this._serverName) + ':'
-    console.log(` ${this._colors.yellow(title)}`, body)
+  info (body, args = {}) {
+    const { title, namespace } = args
+
+    console.log(` ${this._colors.cyan((title || namespace || ''))}: `, body)
   }
 
-  success (body, title) {
-    title = (title || this._serverName) + ':'
-    console.log(` ${this._colors.green(title)}`, body)
+  warning (body, args = {}) {
+    const { title, namespace } = args
+
+    console.log(` ${this._colors.yellow((title || namespace || ''))}: `, body)
+  }
+
+  success (body, args = {}) {
+    const { title, namespace } = args
+
+    console.log(` ${this._colors.green((title || namespace || ''))}: `, body)
   }
 }
 

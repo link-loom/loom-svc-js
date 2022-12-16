@@ -1,17 +1,26 @@
 class FirebaseManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
 
+    /* Custom Properties */
+
+    /* Assigments */
+    this._namespace = '[Server]::[Auth]::[Manager]'
     this._firebaseAdminCredentials = ''
     this._firebaseCredentials = ''
     this._firebaseURL = ''
   }
 
-  setSettings () {
+  setup () {
+    this._console.success('Loading', { namespace: this._namespace })
+
     this.setFirebaseAdminCredentials(this._dependencies.config.FIREBASE_ADMIN)
     this.setFirebaseCredentials(this._dependencies.config.FIREBASE)
     this.setFirebaseURL(this._dependencies.config.FIREBASE.databaseURL)
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   getFirebaseCredentials () {

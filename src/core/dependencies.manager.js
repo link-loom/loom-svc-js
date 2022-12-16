@@ -1,12 +1,22 @@
 class DependenciesManager {
   constructor (args) {
+    /* Base Properties */
     this._args = args
+
+    /* Custom Properties */
     this._dependencies = {}
 
+    /* Assigments */
+    this._namespace = '[Server]::[Dependencies]::[Manager]'  
+  }
+
+  setup () {
     this.loadDependencies()
   }
 
   loadDependencies () {
+    console.log(` ${this._namespace}: Loading`)
+
     const root = this._args.root
     const http = require('http')
     const events = require('events')
@@ -45,21 +55,24 @@ class DependenciesManager {
       exceljs: require('exceljs')
     }
 
-    this.importCustomDependencies()
+    this.#importCustomDependencies()
 
-    console.log(` ${this._dependencies.colors.green(`${this._dependencies.config.SERVER_NAME}:`)} Dependencies manager loaded`)
+    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded`)
   }
 
-  importCustomDependencies () {
+  #importCustomDependencies () {
     const dependencies = this._dependencies.config.CUSTOM_DEPENDENCIES
 
     if (!dependencies || !dependencies.length) {
       return
     }
 
+    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loading custom dependencies`)
     dependencies.map(customDependency => {
+      console.log(` ${this._dependencies.colors.cyan(this._namespace)}: Loading ${customDependency.name} dependency`)
       this._dependencies[customDependency.name] = require(customDependency.package)
     })
+    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded custom dependencies`)
   }
 
   getDependencies () {

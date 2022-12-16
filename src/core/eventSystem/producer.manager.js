@@ -1,30 +1,36 @@
 class EventProducerManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = this._dependencies.console
+
+    /* Custom Properties */
     this._path = this._dependencies.path
     this._config = this._dependencies.config
     this._websocketServer = this._dependencies.websocketServer
     this._websocketClientModule = this._dependencies.websocketClientModule
+
+    /* Assigments */
+    this._namespace = '[Server]::[Event System]::[Producer]'
     this._eventSystemDefinition = {}
     this._producer = {}
   }
 
   setup () {
-    if (!this._config.USE_PRODUCER_EVENTS) {
-      this._console.info('Event System::[Producer] manager is disabled')
-      return
-    }
-
-    this._eventSystemDefinition = require(`${this._dependencies.root}/src/events/index`)
+    this._console.success('Loading', { namespace: this._namespace })
 
     this.#connectToServer()
 
-    this._console.success('Event System::[Producer] manager loaded')
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   async #connectToServer () {
-    this._producer = this._websocketClientModule.connect(this._config.EVENT_PRODUCER_SERVER_URI, {
+    if (!this._config.SETTINGS.USE_PRODUCER_ROLE) {
+      this._console.info('Manager is disabled', { namespace: this._namespace })
+      return
+    }
+
+    this._producer = this._websocketClientModule.connect(this._config.SERVICES.BROKER.URI, {
       reconnect: true
     })
 
@@ -33,25 +39,27 @@ class EventProducerManager {
 
   #loadProducerEvents () {
     this._producer.on('connect', (data) => {
-      this._console.success(`Event System::[Producer] connected to broker at ${this._config.EVENT_PRODUCER_SERVER_URI}`)
-      this._console.success(`Event System::[Producer] id: ${this.id}`)
+      this._console.success(`connected to broker at ${this._config.SERVICES.BROKER.URI}`, { namespace: this._namespace })
+      this._console.success(`id: ${this.id}`, { namespace: this._namespace })
     })
 
     this.#createEvents({ socket: this._producer })
 
     this._producer.on('disconnect', () => {
-      this._console.success(`Event System::[Producer] disconnected ${socket.id}`)
+      this._console.success(`disconnected from producer`, { namespace: this._namespace })
     })
   }
 
   #createEvents ({ socket }) {
+    this._eventSystemDefinition = require(`${this._dependencies.root}/src/events/index`)
+
     // build each api routes
     this._eventSystemDefinition.producer.events.map((eventDefinition) => {
       try {
-        this._console.success(`Event System::[Producer]Initializing ${eventDefinition.name} event`)
+        this._console.info(`Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
 
         /* Initialize event in websocket provider */
-        socket.on(eventDefinition.name, (data) => {
+        socket.on(eventDefinition.name + eventDefinition.command, (data) => {
           if (!data) {
             data = {}
           }
@@ -59,8 +67,8 @@ class EventProducerManager {
           this.#executeEvent({ eventSettings: eventDefinition, data, socket })
         })
       } catch (error) {
-        this._console.error(`Event System::[Producer] Component failed: ${JSON.stringify(eventDefinition)}`, true)
-        this._console.error(error)
+        this._console.error(`Component failed: ${JSON.stringify(eventDefinition)}`, true, { namespace: this._namespace })
+        this._console.error(error, { namespace: this._namespace })
       }
     })
   }

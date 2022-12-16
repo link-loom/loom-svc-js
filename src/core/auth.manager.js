@@ -1,12 +1,24 @@
 class AuthManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
     this._bcrypt = dependencies.bcrypt
     this._jwt = dependencies.jwt
     this._utilities = dependencies.utilities
     this._aesjs = dependencies.aesjs
     this._crypto = dependencies.crypto
+
+    /* Assigments */
+    this._namespace = '[Server]::[Auth]::[Manager]'
+  }
+
+  setup () {
+    this._console.success('Loading', { namespace: this._namespace })
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   generatePrivateKey (seed) {
@@ -89,8 +101,8 @@ class AuthManager {
         return null
       }
 
-      const token = this._jwt.sign(data, this._dependencies.config.JWT_SECRET, {
-        expiresIn: this._dependencies.config.TOKEN_EXPIRE * 3600
+      const token = this._jwt.sign(data, this._dependencies.config.SERVER.SECRET, {
+        expiresIn: this._dependencies.config.SECURITY.JWT_TOKEN_LIFETIME_HOURS * 3600
       })
 
       return { userId: data.userId, auth: true, token, payload }
@@ -102,7 +114,7 @@ class AuthManager {
 
   validateToken (token) {
     return new Promise((resolve, reject) => {
-      this._jwt.verify(token, this._dependencies.config.JWT_SECRET, (err, decoded) => {
+      this._jwt.verify(token, this._dependencies.config.SERVER.SECRET, (err, decoded) => {
         if (err) {
           return reject(err)
         } else {

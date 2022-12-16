@@ -1,32 +1,41 @@
 class EventBrokerManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = this._dependencies.console
+
+    /* Custom Properties */
     this._path = this._dependencies.path
     this._config = this._dependencies.config
     this._websocketServer = this._dependencies.websocketServer
     this._websocketClientModule = this._dependencies.websocketClientModule
+
+    /* Assigments */
+    this._namespace = '[Server]::[Event System]::[Broker]'
     this._eventSystemDefinition = {}
   }
 
   setup () {
-    if (!this._config.USE_BROKER_EVENTS) {
-      this._console.info('Event System::[Broker] manager is disabled')
+    this._console.success('Loading', { namespace: this._namespace })
+
+    this.#loadEvents()
+
+    this._console.success('Loaded', { namespace: this._namespace })
+  }
+
+  #loadEvents () {
+
+    if (!this._config.SETTINGS.USE_BROKER_ROLE) {
+      this._console.info('Manager is disabled', { namespace: this._namespace })
       return
     }
 
     this._eventSystemDefinition = require(`${this._dependencies.root}/src/events/index`)
 
-    this.#loadBrokerEvents()
-
-    this._console.success('Event System::[Broker] Broker manager loaded')
-  }
-
-  #loadBrokerEvents () {
     this._websocketServer.on('connection', (socket) => {
       this.#loadSocketEvents(socket)
 
-      this._console.success(`Event System::[Broker] Producer connected ${socket.id}`)
+      this._console.success(`Producer connected ${socket.id}`, { namespace: this._namespace })
     })
   }
 
@@ -35,12 +44,12 @@ class EventBrokerManager {
     this.#createEvents({ socket })
 
     socket.on('disconnect', () => {
-      this._console.success(`Event System::[Broker] Producer disconnected ${socket.id}`)
+      this._console.success(`Producer disconnected ${socket.id}`, { namespace: this._namespace })
     })
   }
 
   #subscribeTopics ({ socket }) {
-    this._console.success(`Event System::[Broker] Initializing topics to ${socket.id}`)
+    this._console.success(`Initializing topics to ${socket.id}`, { namespace: this._namespace })
 
     socket.join(this._eventSystemDefinition.broker.topics.map(topic => topic.name))
   }
@@ -49,7 +58,7 @@ class EventBrokerManager {
     // build each api routes
     this._eventSystemDefinition.broker.events.map((eventDefinition) => {
       try {
-        this._console.success(`Event System::[Broker] Initializing ${eventDefinition.name} event`)
+        this._console.success(`Initializing ${eventDefinition.name} event`, { namespace: this._namespace })
 
         /* Initialize event in websocket provider */
         socket.on(eventDefinition.name, (data) => {
@@ -60,7 +69,7 @@ class EventBrokerManager {
           this.#executeEvent({ eventSettings: eventDefinition, data, socket })
         })
       } catch (error) {
-        this._console.error(`Event System::[Broker] Component failed: ${JSON.stringify(eventDefinition)}`, true)
+        this._console.error(`Component failed: ${JSON.stringify(eventDefinition)}`, true, { namespace: this._namespace })
         this._console.error(error)
       }
     })

@@ -1,65 +1,84 @@
 {
-  "JWT_SECRET": "NodeJSIsCool",
-  "SERVER_PORT": "3500",
-  "SERVER_VERSION": "5.0.1",
-  "SERVER_NAME": "%BEAT% server #1",
-  "BACKEND_SECRET": "zih9cVFnC0J0otOAFXrj",
-  "FRONTEND_URI": "http://localhost:3500",
-  "BACKEND_URI": "http://localhost:3500",
-  "EVENT_PRODUCER_SERVER_URI":"http://localhost:3501",
-  "TOKEN_EXPIRE": 24,
-  "USE_DATABASE": false,
-  "USE_STORAGE": true,
-  "USE_PUSH": false,
-  "USE_PRODUCER_EVENTS": false,
-  "USE_BROKER_EVENTS": true,
-  "DATABASE_NAME": "firebase",
-  "STORAGE_NAME": "spaces",
-  "PUSH_NAME": "firebase",
+  "FRAMEWORK": {
+    "NAME": "Beat",
+    "VERSION": "5.1.0"
+  },
+  "SERVER": {
+    "PORT": "3603",
+    "VERSION": "1.0.0",
+    "NAME": "%BEAT%",
+    "ID": "xxxx__your_id",
+    "SECRET": "xxxx__your_secret"
+  },
+  "SERVICES": {
+    "FRONTEND": {
+      "URI": "http://localhost:3500"
+    },
+    "BACKEND": {
+      "SECRET": "zih9cVFnC0J0otOAFXrj",
+      "URI": "http://localhost:3500"
+    },
+    "BROKER": {
+      "URI": "http://localhost:3602"
+    }
+  },
+  "SECURITY": {
+    "JWT_TOKEN_LIFETIME_HOURS": 24
+  },
+  "SETTINGS": {
+    "USE_DATABASE": false,
+    "USE_STORAGE": false,
+    "USE_PUSH": false,
+    "USE_PRODUCER_ROLE": true,
+    "USE_BROKER_ROLE": false,
+    "DATABASE_NAME": "firebase",
+    "STORAGE_NAME": "spaces",
+    "PUSH_NAME": "firebase"
+  },
   "FIREBASE_ADMIN": {
-    "type": "service_account",
-    "project_id": "xxxx",
-    "private_key_id": "27756dd1fba76427899afa2380a26ccc3c42bf2b",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nxxxx\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-dn31i@xxxx.iam.gserviceaccount.com",
-    "client_id": "105079062454853884302",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-dn31i%40xxxx.iam.gserviceaccount.com"
+    "type": "xxxx__your_config",
+    "project_id": "xxxx__your_config",
+    "private_key_id": "xxxx__your_config",
+    "private_key": "xxxx__your_configx",
+    "client_email": "xxxx__your_config",
+    "client_id": "xxxx__your_config",
+    "auth_uri": "xxxx__your_config",
+    "token_uri": "xxxx__your_config",
+    "auth_provider_x509_cert_url": "xxxx__your_config",
+    "client_x509_cert_url": "xxxx__your_config"
   },
   "FIREBASE": {
-    "apiKey": "AIzaSyA5HkZeMu0EYpmFmqVgKtdusdfsS6uwDdRhnY",
-    "authDomain": "xxxx.firebaseapp.com",
-    "databaseURL": "https://xxxx.firebaseio.com",
-    "projectId": "xxxx",
-    "storageBucket": "xxxx.appspot.com",
-    "messagingSenderId": "992690359753",
-    "appId": "1:992690359753:web:2a6f1941aec4871b6f2c18"
+    "apiKey": "xxxx__your_config",
+    "authDomain": "xxxx__your_config",
+    "databaseURL": "xxxx__your_config",
+    "projectId": "xxxx__your_config",
+    "storageBucket": "xxxx__your_config",
+    "messagingSenderId": "xxxx__your_config",
+    "appId": "xxxx__your_config"
   },
   "POSTGRESQL": {
-    "user": "user",
-    "host": "127.0.0.1",
-    "database": "databasename",
-    "password": "pass",
+    "user": "xxxx__your_config",
+    "host": "xxxx__your_config",
+    "database": "xxxx__your_config",
+    "password": "xxxx__your_config",
     "port": 5432,
-    "default_namespace": "chatbotsdb_test2"
+    "default_namespace": "xxxx__your_config"
   },
   "MAIL": {
     "VALIDATION_PATH": "/validate-email",
-    "FROM": "\"Beat\" support@virtualcapitalofamerica.com",
-    "USER": "xxxx@virtualcapitalofamerica.com",
-    "PASSWORD": "xxxxx",
+    "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",
+    "USER": "xxxx__your_config@xxxx__your_config.com",
+    "PASSWORD": "xxxx__your_config",
     "SECURE": true,
-    "HOST": "smtp.gmail.com",
+    "HOST": "xxxx__your_config",
     "PORT": 465
   },
   "DIGITALOCEAN": {
     "SPACES": {
-      "accessKeyId": "YOUR_ACCESS_KEY_ID",
-      "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
-      "endpoint": "xxxx.digitaloceanspaces.com",
-      "bucket": "xxxx"
+      "accessKeyId": "xxxx__your_config",
+      "secretAccessKey": "xxxx__your_config",
+      "endpoint": "xxxx__your_config",
+      "bucket": "xxxx__your_config"
     }
   },
   "CUSTOM_DEPENDENCIES": [

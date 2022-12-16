@@ -1,32 +1,34 @@
 class StorageManager {
   constructor (dependencies) {
-    const { SpacesManager } = require(`${dependencies.root}/src/core/spaces.manager`)
-
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
     this._aws = dependencies.aws
     this._multer = dependencies.multerModule
-    this._spacesManager = new SpacesManager(dependencies)
+
+    /* Assigments */
+    this._namespace = '[Server]::[Storage]::[Manager]'
     this._storage = {}
     this._s3 = {}
     this._stg = {}
   }
 
-  async loadStorage () {
+  async setup () {
+    this._console.success('Loading', { namespace: this._namespace })
+
     await this.storageConfig()
 
     this._dependencies.storage = this._storage || {}
-    this._console.success('Storage manager loaded')
 
-    if (!this._dependencies.config.USE_STORAGE) {
+    if (!this._dependencies.config.SETTINGS.USE_STORAGE) {
+      this._console.info('Manager is disabled', { namespace: this._namespace })
       return
     }
 
-    switch (this._dependencies.config.STORAGE_NAME) {
+    switch (this._dependencies.config.SETTINGS.STORAGE_NAME) {
       case 'spaces':
-        this._spacesManager.setSettings(this._dependencies.config.DIGITALOCEAN.SPACES)
-        this._dependencies.settings.dependencies.core.add(this._spacesManager, 'spacesManager')
-        this._dependencies.s3 = this._s3
         await this.spacesConfig()
         break
       case 'firebase':
@@ -36,7 +38,7 @@ class StorageManager {
         break
     }
 
-    this._console.success(`${this._dependencies.config.STORAGE_NAME} storage loaded`)
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   async storageConfig () {
@@ -50,7 +52,15 @@ class StorageManager {
 
   async spacesConfig () {
     try {
+      const { SpacesManager } = require(`${dependencies.root}/src/core/spaces.manager`)
+      this._spacesManager = new SpacesManager(dependencies)
+      this._spacesManager.setup(this._dependencies.config.DIGITALOCEAN.SPACES)
+
       const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)
+
+      this._dependencies.settings.dependencies.core.add(this._spacesManager, 'spacesManager')
+      this._dependencies.s3 = this._s3
+
       this._s3 = new this._aws.S3({
         endpoint: spacesEndpoint,
         accessKeyId: this._spacesManager.getCredentials().accessKeyId,

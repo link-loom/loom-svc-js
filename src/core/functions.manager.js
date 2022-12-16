@@ -1,98 +1,125 @@
 class FunctionsManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
-    this._moment = dependencies.moment
-    this._bucket = require(`${dependencies.root}/src/functions/bucket`)
+
+    /* Custom Properties */
+    this._moment = this._dependencies.moment
+    this._path = this._dependencies.path
+
+    /* Assigments */
+    this._namespace = '[Server]::[Functions]'
+    this._bucket = require(this._path.join(this._dependencies.root, 'src/functions/bucket'))
     this._functions = {
-      cached: {},
+      cache: {},
       timed: {},
       startup: {}
     }
 
-    this.createCached()
-    this.createTimed()
-    this.createStartup()
+    this._console.success('Loading', { namespace: this._namespace })
 
-    this._console.success('Functions manager loaded')
+    this.#createCache()
+    this.#createTimed()
+    this.#createStartup()
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  createCached () {
-    // build each api routes
-    this._bucket.cached.map((component) => {
+  #createCache () {
+    this._console.info('Initializing Cache Functions', { namespace: this._namespace })
+
+    // build all cache functions
+    this._bucket.cache.map((functionDefinition) => {
       try {
-        this._console.success(`Initializing ${component.name} function`)
+        this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
 
         /* Setup config */
-        const _functionName = component.route.split('/')[component.route.split('/').length - 1]
-        const name = _functionName.split('.')[0]
-        const pathname = `${this._dependencies.root}/src${component.route}`
+        const functionName = functionDefinition.name
+        const pathname = this._path.join(this._dependencies.root, 'src', functionDefinition.route)
+        const Function = require(pathname)
 
         /* Setup namespace */
-        this._functions.cached[name] = require(pathname)(this._dependencies)
+        this._functions.cache[functionName] = new Function(this._dependencies)
       } catch (error) {
-        this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
-        this._console.error(error)
+        this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
+        this._console.log(error)
       }
     })
   }
 
-  createTimed () {
-    // build each api routes
-    this._bucket.timed.map((component) => {
+  #createTimed () {
+    this._console.info('Initializing Timed Functions', { namespace: this._namespace })
+
+    // build each timed routes
+    this._bucket.timed.map((functionDefinition) => {
       try {
-        const _function = require(`${this._dependencies.root}/src${component.route}`)(this._dependencies)
-        const seconds = this._moment(`${component.startAt}`, 'hh:mm:ss').diff(this._moment(), 'milliseconds') > 0
+        this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
+
+        /* Setup config */
+        const pathname = this._path.join(this._dependencies.root, 'src', functionDefinition.route)
+        const functionName = functionDefinition.name
+        const Function = require(pathname)
+        const seconds = this._moment(`${functionDefinition.startAt}`, 'hh:mm:ss').diff(this._moment(), 'milliseconds') > 0
           /* Add the next ticket if has time remaining */
-          ? this._moment(`${component.startAt}`, 'hh:mm:ss')
+          ? this._moment(`${functionDefinition.startAt}`, 'hh:mm:ss')
             .diff(this._moment(), 'milliseconds')
           /* Add necesary time to next ticket */
-          : this._moment(`${component.startAt}`, 'HH:mm:ss')
-            .add(this._moment.duration(+`${component.intervalTime}`, `${component.intervalMeasure}`), `${component.intervalMeasure}`)
+          : this._moment(`${functionDefinition.startAt}`, 'HH:mm:ss')
+            .add(this._moment.duration(+`${functionDefinition.intervalTime}`, `${functionDefinition.intervalMeasure}`), `${functionDefinition.intervalMeasure}`)
             .diff(this._moment(), 'milliseconds')
 
-        this._console.success(`Initializing ${component.name} function`)
-
         /* Including in dependencies */
-        this._functions.timed[component.name] = _function
+        this._functions.timed[functionName] = new Function(this._dependencies)
 
         if (seconds > 0) {
           setTimeout(() => {
-            /* Execute at first tick */
-            _function[component.name]()
-
             /* Setup next ticks */
             setInterval(
-              _function[component.name],
-              this._moment.duration(+`${component.intervalTime}`, `${component.intervalMeasure}`).as('milliseconds')
+              _function.run,
+              this._moment.duration(+`${functionDefinition.intervalTime}`, `${functionDefinition.intervalMeasure}`).as('milliseconds')
             )
           }, seconds)
         }
       } catch (error) {
-        this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
-        this._console.error(error)
+        this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
+        this._console.log(error)
       }
     })
   }
 
-  createStartup () {
-    // build each api routes
-    this._bucket.startup.map((component) => {
+  #createStartup () {
+    this._console.info('Initializing Startup Functions', { namespace: this._namespace })
+
+    // build each startup routes
+    this._bucket.startup.map((functionDefinition) => {
       try {
-        this._console.success(`Initializing ${component.name} function`)
+        this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
 
         /* Setup config */
-        const _functionName = component.route.split('/')[component.route.split('/').length - 1]
-        const name = _functionName.split('.')[0]
-        const pathname = `${this._dependencies.root}/src${component.route}`
+        const pathname = this._path.join(this._dependencies.root, 'src', functionDefinition.route)
+        const functionName = functionDefinition.name
+        const Function = require(pathname)
 
         /* Setup namespace */
-        this._functions.startup[name] = require(pathname)(this._dependencies)
+        this._functions.startup[functionName] = new Function(this._dependencies)
+
+        this.#executeStartupFunction(functionDefinition)
       } catch (error) {
-        this._console.error(`Component failed: ${JSON.stringify(component)}`, true)
-        this._console.error(error)
+        this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
+        this._console.log(error)
       }
     })
+  }
+
+  #executeStartupFunction (definition) {
+    if (definition.executionMode === 'atTime') {
+      this._functions.startup[definition.name].run()
+    } else {
+      this._dependencies.eventBus.bus.on('server::loaded', () => {
+        this._functions.startup[definition.name].run()
+      })
+    }
   }
 
   get functions () {

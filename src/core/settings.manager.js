@@ -1,31 +1,21 @@
 class SettingsManager {
-  constructor (args) {
-    this._args = args
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
 
-    this.loadSettings()
+    /* Custom Properties */
+
+    /* Assigments */
+    this._namespace = '[Server]::[Settings]::[Manager]'
   }
 
-  loadSettings () {
-    this.globalDependencies()
-    this.languageExtensions()
-    this.setupMiddlewares()
-  }
+  setup () {
+    console.log(` ${this._dependencies.colors.green(`${this._namespace}:`)} Loading`)
 
-  globalDependencies () {
-    const { DependenciesManager } = require('./dependencies.manager')
-    const { UtilitiesManager } = require('./utilities.manager')
-    this._dependencies = new DependenciesManager(this._args)
-    this._utilities = new UtilitiesManager(this._dependencies.core.get())
+    this.#loadLanguageExtensions()
+    this.#setupServerMiddlewares()
 
-    this._dependencies.core.add(this._utilities, 'utilities')
-    this._dependencies.core.add((str) => {
-      try {
-        JSON.parse(str)
-      } catch (e) {
-        return false
-      }
-      return true
-    }, 'isJsonString')
+    console.log(` ${this._dependencies.colors.green(`${this._namespace}:`)} Loaded`)
   }
 
   stringIndexOfExtension () {
@@ -37,6 +27,23 @@ class SettingsManager {
       value: function (regex, startpos) {
         const indexOf = this.substring(startpos || 0).search(regex)
         return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf
+      }
+    })
+  }
+
+  isJsonStringExtension () {
+    // eslint-disable-next-line no-extend-native
+    Object.defineProperty(String.prototype, 'isJson', {
+      writable: false,
+      enumerable: true,
+      configurable: false,
+      value: function () {
+        try {
+          JSON.parse(this)
+        } catch (e) {
+          return false
+        }
+        return true
       }
     })
   }
@@ -200,7 +207,7 @@ class SettingsManager {
     })
   }
 
-  languageExtensions () {
+  #loadLanguageExtensions () {
     if (!('asyncForEach' in Array.prototype)) {
       this.forEachExtension()
     }
@@ -211,6 +218,11 @@ class SettingsManager {
 
     if (!('findIndex' in Array.prototype)) {
       this.arrayFindIndexExtension()
+    }
+
+
+    if ((!('isJson' in String.prototype))) {
+      this.isJsonStringExtension()
     }
 
     if (!('capitalize' in String.prototype)) {
@@ -233,26 +245,22 @@ class SettingsManager {
       this.stringReplaceAllExtension()
     }
 
-    console.log(` ${this._dependencies.core.get().colors.green(`${this._dependencies.core.get().config.SERVER_NAME}:`)} Language extended`)
+    console.log(` ${this._dependencies.colors.green(`${this._namespace}:`)} Language extended`)
   }
 
-  setupMiddlewares () {
+  #setupServerMiddlewares () {
     // Security
-    this._dependencies.core.get().express.use(this._dependencies.core.get().helmet())
-    this._dependencies.core.get().express.disable('x-powered-by')
-    this._dependencies.core.get().express.use(this._dependencies.core.get().compress())
+    this._dependencies.express.use(this._dependencies.helmet())
+    this._dependencies.express.disable('x-powered-by')
+    this._dependencies.express.use(this._dependencies.compress())
 
     // use body parser so we can get info from POST and/or URL parameters
-    this._dependencies.core.get().express.use(this._dependencies.core.get().bodyParser.urlencoded({ extended: true })) // support encoded bodies
-    this._dependencies.core.get().express.use(this._dependencies.core.get().bodyParser.json()) // support json encoded bodies
-    this._dependencies.core.get().express.use(this._dependencies.core.get().cors())
-    this._dependencies.core.get().express.use(this._dependencies.core.get().cookieParser())
+    this._dependencies.express.use(this._dependencies.bodyParser.urlencoded({ extended: true })) // support encoded bodies
+    this._dependencies.express.use(this._dependencies.bodyParser.json()) // support json encoded bodies
+    this._dependencies.express.use(this._dependencies.cors())
+    this._dependencies.express.use(this._dependencies.cookieParser())
 
-    console.log(` ${this._dependencies.core.get().colors.green(`${this._dependencies.core.get().config.SERVER_NAME}:`)} Configured middlewares`)
-  }
-
-  get dependencies () {
-    return this._dependencies
+    console.log(` ${this._dependencies.colors.green(`${this._namespace}:`)} Configured middlewares`)
   }
 }
 

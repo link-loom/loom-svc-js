@@ -2,11 +2,22 @@ const EventUtil = require('./utils/event.util')
 
 class UtilitiesManager {
   constructor (dependencies) {
+    /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+
+    /* Custom Properties */
     this._crypto = dependencies.crypto
 
+    /* Assigments */
+    this._namespace = '[Server]::[Utilities]::[Manager]'
     this._eventUtil = new EventUtil(dependencies)
+  }
+
+  setup () {
+    this._console.success('Loading', { namespace: this._namespace })
+
+    this._console.success('Loaded', { namespace: this._namespace })
   }
 
   /// Find an object dynamically by dot style
