@@ -10,6 +10,7 @@ class Function {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this._namespace = '[Function]::[Timed]::[_Template]'
   }
 
   run () {
@@ -24,7 +25,7 @@ class Function {
       const statusResponse = await statusController.get()
 
       if (_utilities.response.isValid(statusResponse)) {
-        this._console.log(statusResponse)
+        this._console.log(statusResponse, { namespace: this._namespace })
       }
     } catch (error) {
       _console.error(error)
