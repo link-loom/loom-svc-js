@@ -10,6 +10,7 @@ class Function {
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
+    this._namespace = '[Function]::[Cache]::[_Template]'
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
@@ -24,7 +25,7 @@ class Function {
 
     this._data = _data
 
-    this._console.success('cache data set succesfully')
+    this._console.success('cache data set succesfully', { namespace: this._namespace })
   }
 }
 
