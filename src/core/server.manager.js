@@ -163,7 +163,7 @@ class ServerManager {
     const { FunctionsManager } = require('./functions.manager')
     const _functionsManager = new FunctionsManager(this._dependencies.core.get())
 
-    this._dependencies.core.add(_functionsManager.functions, 'functions')
+    this._dependencies.core.add(_functionsManager, 'functionsManager')
   }
 
   #setupEventBroker () {
