@@ -76,7 +76,7 @@ class FunctionsManager {
           setTimeout(() => {
             /* Setup next ticks */
             setInterval(
-              _function.run,
+              this._functions.timed[functionName].run,
               this._moment.duration(+`${functionDefinition.intervalTime}`, `${functionDefinition.intervalMeasure}`).as('milliseconds')
             )
           }, seconds)
