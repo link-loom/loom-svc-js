@@ -4,7 +4,7 @@
 <head>
   <title>WS Tests</title>
 </head>
-<script src="http://localhost:3500/socket.io/socket.io.js"></script>
+<script src="http://localhost:3603/socket.io/socket.io.js"></script>
 
 <body>
   <h1>WS Tests</h1>
@@ -15,7 +15,7 @@
     <button class="client-btn">Send Client Event</button>
   </section>
   <script>
-    const serverUri = "http://localhost:3500/";
+    const serverUri = "http://localhost:3602/";
     const socket = io(serverUri);
     const serverPayload = {
       context: {
@@ -64,39 +64,39 @@
       chatbotPayload.context.socket.id = socket.id
       clientPayload.context.socket.id = socket.id
 
-      socket.emit('reversebytes.beat.server', serverPayload);
-      socket.emit('reversebytes.beat.chatbot', chatbotPayload);
-      socket.emit('reversebytes.beat.client', clientPayload);
+      socket.emit('reversebytes.beat.server' + serverPayload.command, serverPayload);
+      socket.emit('reversebytes.beat.chatbot' + chatbotPayload.command, chatbotPayload);
+      socket.emit('reversebytes.beat.client' + clientPayload.command, clientPayload);
     });
 
-    socket.on('reversebytes.beat.server', (data) => {
+    socket.on('reversebytes.beat.server#response', (data) => {
       console.log('reversebytes.beat.server: ', data)
     });
 
-    socket.on('reversebytes.beat.chatbot', (data) => {
+    socket.on('reversebytes.beat.chatbot#response', (data) => {
       console.log('reversebytes.beat.chatbot: ', data)
     });
 
-    socket.on('reversebytes.beat.client', (data) => {
+    socket.on('reversebytes.beat.client#response', (data) => {
       console.log('reversebytes.beat.client: ', data)
     });
 
     document.querySelector('.server-btn').onclick = (event) => {
       if (event) { event.preventDefault(); }
 
-      socket.emit('reversebytes.beat.server', serverPayload);
+      socket.emit('reversebytes.beat.server' + serverPayload.command, serverPayload);
     }
 
     document.querySelector('.chatbot-btn').onclick = (event) => {
       if (event) { event.preventDefault(); }
 
-      socket.emit('reversebytes.beat.chatbot', chatbotPayload);
+      socket.emit('reversebytes.beat.chatbot' + chatbotPayload.command, chatbotPayload);
     }
 
     document.querySelector('.client-btn').onclick = (event) => {
       if (event) { event.preventDefault(); }
 
-      socket.emit('reversebytes.beat.client', clientPayload);
+      socket.emit('reversebytes.beat.client' + clientPayload.command, clientPayload);
     }
   </script>
 </body>
