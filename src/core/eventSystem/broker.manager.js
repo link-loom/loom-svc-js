@@ -24,7 +24,6 @@ class EventBrokerManager {
   }
 
   #loadEvents () {
-
     if (!this._config.SETTINGS.USE_BROKER_ROLE) {
       this._console.info('Manager is disabled', { namespace: this._namespace })
       return
