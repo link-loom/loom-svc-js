@@ -20,16 +20,11 @@ class ConsoleManager {
     const { title, namespace } = args
 
     if (typeof body === 'string') {
-      console.log(this._colors.grey(' > ') + (body.isJson() === true ? JSON.stringify(body) : body))
+      console.log('>' + (body.isJson() === true ? JSON.stringify(body) : body))
       return
     }
 
-    if (title) {
-      console.log(this._colors.grey((title || namespace || '') + ' > '), body)
-    } else {
-      console.log(this._colors.grey(' > '), body)
-    }
-
+    console.log((title || namespace || '') + ' > ', body)
   }
 
   log (body, args = {}) {
