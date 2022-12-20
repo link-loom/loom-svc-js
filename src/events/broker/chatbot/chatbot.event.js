@@ -20,9 +20,9 @@ class Event {
    */
   async execute ({ settings, payload }) {
     console.log(settings.name, payload)
-    
+
     payload.command = '#response'
-    this._utilities.event.broker.emit({
+    this._utilities.event.broker.topic.emit({
       websocketServer: this._websocketServer,
       socket: this._socket,
       settings,

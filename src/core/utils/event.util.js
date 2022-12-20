@@ -13,7 +13,11 @@ class EventUtil {
     }
 
     for (const topic of payload.context.topics) {
-      websocketServer.to(topic).emit(settings.name, payload)
+      console.log(`${settings.name + payload.command}[${topic}]`)
+
+      if (websocketServer) {
+        websocketServer.to(topic).emit(settings.name + payload.command, payload)
+      }
     }
   }
 

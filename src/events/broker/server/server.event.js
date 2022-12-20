@@ -21,8 +21,11 @@ class Event {
   async execute ({ settings, payload }) {
     console.log(settings.name, payload)
 
+    // Change request to response
     payload.command = '#response'
-    this._utilities.event.broker.emit({
+    settings.name = settings.name.split('#')[0] + '#response'
+
+    this._utilities.event.broker.socket.emit({
       websocketServer: this._websocketServer,
       socket: this._socket,
       settings,
