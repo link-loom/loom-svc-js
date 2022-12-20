@@ -58,10 +58,10 @@ class EventBrokerManager {
     // build each api routes
     this._eventSystemDefinition.broker.events.map((eventDefinition) => {
       try {
-        this._console.success(`Initializing ${eventDefinition.name} event`, { namespace: this._namespace })
+        this._console.success(`Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
 
         /* Initialize event in websocket provider */
-        socket.on(eventDefinition.name, (data) => {
+        socket.on(eventDefinition.name + eventDefinition.command, (data) => {
           if (!data) {
             data = {}
           }
