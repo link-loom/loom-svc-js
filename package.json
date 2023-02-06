@@ -27,7 +27,7 @@
     "body-parser": "latest",
     "colors": "latest",
     "compression": "^1.7.2",
-    "config": "^1.30.0",
+    "config": "^1.31.0",
     "cookie-parser": "^1.4.3",
     "cors": "latest",
     "exceljs": "^3.3.1",
