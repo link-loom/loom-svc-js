@@ -200,7 +200,7 @@ class UserController {
       const timestamp = (new Date()).getTime() + ''
       const docRef = this._db.collection('users').doc(data.id)
       const timestampKey = this._auth.encoder.base64.encode('timestamp')
-      const serverUri = this._dependencies.config.FRONTEND_URI + this._dependencies.config.MAIL.VALIDATION_PATH
+      const serverUri = this._dependencies.config.SERVICES.FRONTEND.URI + this._dependencies.config.MAIL.VALIDATION_PATH
       const emailTokenKey = this._auth.encoder.base64.encode('token')
       const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._backendController.key, { email: data.email }))
       data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`

@@ -37,6 +37,7 @@ class DependenciesManager {
       socketModule,
       websocketClientModule,
       expressModule,
+      aesjs: require('aes-js'),
       cors: require('cors'),
       path: require('path'),
       moment: require('moment'),
