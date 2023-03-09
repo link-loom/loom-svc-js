@@ -1,6 +1,6 @@
 const DataSource = require('./../base/data-source')
 
-class FirebaseDataSource extends DataSource {
+class PostgreSQLDataSource extends DataSource {
   constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity')
@@ -19,14 +19,13 @@ class FirebaseDataSource extends DataSource {
   }
 
   async setup () {
-    // Setup the driver/client
     this._db.driver.initializeApp({
       credential: this._db.driver.credential.cert(this._databaseConnectionObj)
     })
 
     // Create a client and create a new connection
     this._db.client = this._db.driver.firestore()
-    this._db.client.settings(this._databaseSettings)
+    this._db.client.settings({ timestampsInSnapshots: true })
   }
 
   async create ({ tableName, entity } = {}) {
@@ -157,4 +156,4 @@ class FirebaseDataSource extends DataSource {
   }
 }
 
-module.exports = FirebaseDataSource
+module.exports = PostgreSQLDataSource

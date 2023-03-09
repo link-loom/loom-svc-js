@@ -1,6 +1,6 @@
 const DataSource = require('./../base/data-source')
 
-class FirebaseDataSource extends DataSource {
+class MongoDBDataSource extends DataSource {
   constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity')
@@ -14,19 +14,19 @@ class FirebaseDataSource extends DataSource {
     this._db = this._dependencies.db
 
     /* Custom Properties */
-    this._databaseConnectionObj = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE.CONNECTION_OBJ || {}
-    this._databaseSettings = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE.SETTINGS || {}
+    this._databaseConnectionObj = this._dependencies.config.DATASOURCE_CONFIGS.MONGODB.CONNECTION_OBJ || {}
+    this._databaseSettings = this._dependencies.config.DATASOURCE_CONFIGS.MONGODB.SETTINGS || {}
   }
 
   async setup () {
     // Setup the driver/client
-    this._db.driver.initializeApp({
-      credential: this._db.driver.credential.cert(this._databaseConnectionObj)
-    })
+    const settings = this._databaseSettings
+    settings.serverApi = this._db.driver.ServerApiVersion.v1
 
     // Create a client and create a new connection
-    this._db.client = this._db.driver.firestore()
-    this._db.client.settings(this._databaseSettings)
+    this.internaClient = new this._db.driver(this._databaseConnectionObj, settings)
+    const connection = await internaClient.connect()
+    this._db.client = connection.db(this._databaseSettings.dbName)
   }
 
   async create ({ tableName, entity } = {}) {
@@ -157,4 +157,4 @@ class FirebaseDataSource extends DataSource {
   }
 }
 
-module.exports = FirebaseDataSource
+module.exports = MongoDBDataSource

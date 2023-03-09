@@ -35,34 +35,43 @@
     "STORAGE_NAME": "spaces",
     "PUSH_NAME": "firebase"
   },
-  "FIREBASE_ADMIN": {
-    "type": "xxxx__your_config",
-    "project_id": "xxxx__your_config",
-    "private_key_id": "xxxx__your_config",
-    "private_key": "xxxx__your_configx",
-    "client_email": "xxxx__your_config",
-    "client_id": "xxxx__your_config",
-    "auth_uri": "xxxx__your_config",
-    "token_uri": "xxxx__your_config",
-    "auth_provider_x509_cert_url": "xxxx__your_config",
-    "client_x509_cert_url": "xxxx__your_config"
-  },
-  "FIREBASE": {
-    "apiKey": "xxxx__your_config",
-    "authDomain": "xxxx__your_config",
-    "databaseURL": "xxxx__your_config",
-    "projectId": "xxxx__your_config",
-    "storageBucket": "xxxx__your_config",
-    "messagingSenderId": "xxxx__your_config",
-    "appId": "xxxx__your_config"
-  },
-  "POSTGRESQL": {
-    "user": "xxxx__your_config",
-    "host": "xxxx__your_config",
-    "database": "xxxx__your_config",
-    "password": "xxxx__your_config",
-    "port": 5432,
-    "default_namespace": "xxxx__your_config"
+  "DATASOURCE_CONFIGS": {
+    "FIRESTORE": {
+      "CONNECTION_OBJ": {
+        "type": "xxxx__your_config",
+        "project_id": "xxxx__your_config",
+        "private_key_id": "xxxx__your_config",
+        "private_key": "xxxx__your_configx",
+        "client_email": "xxxx__your_config",
+        "client_id": "xxxx__your_config",
+        "auth_uri": "xxxx__your_config",
+        "token_uri": "xxxx__your_config",
+        "auth_provider_x509_cert_url": "xxxx__your_config",
+        "client_x509_cert_url": "xxxx__your_config"
+      },
+      "SETTINGS": {
+        "timestampsInSnapshots": true
+      }
+    },
+    "POSTGRESQL": {
+      "CONNECTION_OBJ": {
+        "user": "xxxx__your_config",
+        "host": "xxxx__your_config",
+        "database": "xxxx__your_config",
+        "password": "xxxx__your_config",
+        "port": 5432,
+        "default_namespace": "xxxx__your_config"
+      },
+      "SETTINGS": {}
+    },
+    "MONGODB": {
+      "CONNECTION_OBJ": "xxxx__your_config",
+      "SETTINGS": {
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true,
+        "dbName": "xxxx__your_config"
+      }
+    }
   },
   "MAIL": {
     "VALIDATION_PATH": "/validate-email",
