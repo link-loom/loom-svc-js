@@ -52,7 +52,6 @@ class DependenciesManager {
       nodemailer: require('nodemailer'),
       bodyParser: require('body-parser'),
       cookieParser: require('cookie-parser'),
-      firebase: require('firebase-admin'),
       exceljs: require('exceljs')
     }
 

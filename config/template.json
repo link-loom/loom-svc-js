@@ -85,6 +85,10 @@
     {
       "name": "socketClient",
       "package": "socket.io-client"
+    },
+    {
+      "name": "firebase",
+      "package": "firebase-admin"
     }
   ]
 }

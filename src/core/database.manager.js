@@ -1,73 +1,79 @@
 class DatabaseManager {
-  constructor (dependencies) {
+  constructor ({dependencies, dependencyInjector}) {
     /* Base Properties */
+    this._dependencyInjector = dependencyInjector
     this._dependencies = dependencies
     this._console = dependencies.console
 
     /* Custom Properties */
-    this._firebase = dependencies.firebase
-    this._pg = dependencies.pg
+    this._datasources = []
+    this._currentDataSourceName = ''
+    this._currentDataSourceConfig = {}
 
     /* Assigments */
     this._namespace = '[Server]::[Database]::[Manager]'
-    this._firebaseManager = {}
-    this._postgresqlManager = {}
-    this._db = {}
+    this._db = {
+      transaction: {},
+      driver: {},
+      client: {}
+    }
   }
 
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    const { FirebaseManager } = require(`${this._dependencies.root}/src/core/firebase.manager`)
-    const { PostgresqlManager } = require(`${this._dependencies.root}/src/core/postgresql.manager`)
-
-    this._firebaseManager = new FirebaseManager(this._dependencies)
-    this._postgresqlManager = new PostgresqlManager(this._dependencies)
-
-    this.loadDatabase()
+    this.#loadDataSources()
+    this.#getCurrentDataSource()
+    this.#setupSelectedDataSource()
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  async loadDatabase () {
-    if (!this._dependencies.config.SETTINGS.USE_DATABASE) {
-      this._console.info('Database is disabled', { namespace: this._namespace })
-      return
+  #loadDataSources () {
+    try {
+      this._datasources = require(`${this._dependencies.root}/src/data-sources/index`)
+    } catch (error) {
+      this._console.error(error, { namespace: this._namespace })
     }
-
-    switch (this._dependencies.config.SETTINGS.DATABASE_NAME) {
-      case 'firebase':
-        this._firebaseManager.setup()
-        this._dependencies.dependenciesManager.core.add(this._firebaseManager, 'firebaseManager')
-        await this.firebaseConfig()
-        break
-      case 'postgresql':
-        this._postgresqlManager.setup()
-        this._dependencies.dependenciesManager.core.add(this._postgresqlManager, 'postgresqlManager')
-        await this.postgresqlConfig()
-        break
-      default:
-        break
-    }
-
-    this._dependencies.db = this._db || {}
-    this._console.success('Database manager loaded')
   }
 
-  async postgresqlConfig () {
-    const pool = new this._pg.Pool(this._postgresqlManager.getCredentials())
-    this._db = pool
+  #getCurrentDataSource () {
+    try {
+      if (!this._dependencies.config.SETTINGS.USE_DATABASE) {
+        this._console.info('Database is disabled', { namespace: this._namespace })
+        return
+      }
+
+      this._currentDataSourceName = this._dependencies.config.SETTINGS.DATABASE_NAME || ''
+      this._currentDataSourceConfig = this._datasources.find(dataSource => dataSource.name === this._currentDataSourceName)
+
+      this._console.success(`Current Data Source: ${this._currentDataSourceName}`, { namespace: this._namespace })
+    } catch (error) {
+      this._console.error(error, { namespace: this._namespace })
+    }
   }
 
-  async firebaseConfig () {
-    this._firebase.initializeApp({
-      credential: this._firebase.credential.cert(this._firebaseManager.getFirebaseAdminCredentials()),
-      databaseURL: this._firebaseManager.getFirebaseURL()
-    })
+  #setupSelectedDataSource () {
+    try {
+      const DataSource = require(`${this._dependencies.root}/src/data-sources/${this._currentDataSourceConfig.path}`)
 
-    const settings = { timestampsInSnapshots: true }
-    this._db = this._firebase.firestore()
-    this._db.settings(settings)
+      this._db.driver = this._dependencies[this._currentDataSourceConfig.customDependencyName]
+
+      // Add current datasource as db to dependency injection
+      this._dependencyInjector.core.add(this._db, 'db')
+
+      this._db.transaction = new DataSource(this._dependencies)
+
+      this._db.transaction.setup()
+
+      this._console.success('Database manager loaded', { namespace: this._namespace })
+    } catch (error) {
+      this._console.error(error, { namespace: this._namespace })
+    }
+  }
+
+  get dataSource () {
+    return this._db
   }
 }
 

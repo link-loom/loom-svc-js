@@ -122,8 +122,13 @@ class ServerManager {
 
   #setupDatabase () {
     const { DatabaseManager } = require('./database.manager')
-    const databaseManager = new DatabaseManager(this._dependencies.core.get())
+    const databaseManager = new DatabaseManager({
+      dependencies: this._dependencies.core.get(),
+      dependencyInjector: this._dependencies
+    })
     databaseManager.setup()
+
+    this._dependencies.core.add(databaseManager, 'databaseManager')
 
     return databaseManager
   }

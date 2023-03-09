@@ -62,10 +62,6 @@ class UtilitiesManager {
     }
   }
 
-  badRequestView (_req, res, payload) {
-    res.render('maintenance/maintenance.view.jsx', payload)
-  }
-
   cleanObjectData (rawObj) {
     if (rawObj && rawObj.formatted) {
       return rawObj.formatted
@@ -209,7 +205,6 @@ class UtilitiesManager {
     return {
       success: this.throwSuccess.bind(this),
       error: this.throwError.bind(this),
-      badRequestView: this.badRequestView.bind(this),
       isValid: this.propertyIsValid.bind(this),
       clean: this.cleanObjectData.bind(this)
     }
