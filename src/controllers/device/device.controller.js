@@ -15,24 +15,6 @@ class DeviceController {
     /* Assigments */
   }
 
-  async getByFilters (data) {
-    try {
-      if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
-      }
-
-      const transactionResponse = this._db.transaction.getByFilters({
-        tableName: this._tableName,
-        filters
-      })
-
-      return this._utilities.response.success(transactionResponse)
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
   async create (data) {
     try {
       if (!data || !data.fingerprint) {
@@ -98,6 +80,92 @@ class DeviceController {
       }
 
       return this._utilities.response.success(entity.get)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByFilters (data) {
+    try {
+      if (!data || !data.filters) {
+        return this._utilities.response.error('Please provide at least one filter')
+      }
+
+      const transactionResponse = await this._db.transaction.getByFilters({
+        tableName: this._tableName,
+        filters: data.filters
+      })
+
+      return this._utilities.response.success(transactionResponse)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getById (data) {
+    try {
+      if (!data || !data.query) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'id', operator: '==', value: data.query }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByUserId (data) {
+    try {
+      if (!data || !data.query) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'user_id', operator: '==', value: data.query }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByFingerprint (data) {
+    try {
+      if (!data || !data.query) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'fingerprint', operator: '==', value: data.query }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByIdentity (data) {
+    try {
+      if (!data || !data.query) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'identity', operator: '==', value: data.query }
+        ]
+      })
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

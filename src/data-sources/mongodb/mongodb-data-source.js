@@ -83,14 +83,42 @@ class MongoDBDataSource extends DataSource {
         return superResponse
       }
 
+      const transformedFilters = this.#transformFilters(filters)
       const collection = this._db.client.collection(tableName)
-      const entityResponse = await collection.find(filters || {}).toArray()
+      let entityResponse = {}
+
+      entityResponse = await collection.find(transformedFilters || {}).toArray()
 
       return entityResponse || []
     } catch (error) {
       this._console.error(error)
 
       return []
+    }
+  }
+
+  #transformFilters (filters) {
+    try {
+      const transformedFilters = {}
+
+      if (filters && filters.length > 0) {
+        transformedFilters['$and'] = []
+      }
+
+      for (const filter of filters) {
+        if (filter.key) {
+          collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
+          transformedFilters['$and'].push({
+            [filter.key]: value
+          })
+        }
+      }
+
+      return transformedFilters
+    } catch (error) {
+      this._console.error(error)
+
+      return {}
     }
   }
 

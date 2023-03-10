@@ -23,7 +23,7 @@ const router = {
   ],
   identity: [
     // Device
-    { httpRoute: '/device/', route: '/routes/api/device/device.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/device/:queryselector', route: '/routes/api/device/device.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/device/', route: '/routes/api/device/device.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/device/', route: '/routes/api/device/device.route', handler: 'update', method: 'PATCH', protected: false },
     // User

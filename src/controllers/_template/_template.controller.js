@@ -22,9 +22,9 @@ class TemplateController {
         return this._utilities.response.error('Please provide at least one filter')
       }
 
-      const transactionResponse = this._db.transaction.getByFilters({
+      const transactionResponse = await this._db.transaction.getByFilters({
         tableName: this._tableName,
-        filters
+        filters: data.filters
       })
 
       return this._utilities.response.success(transactionResponse)
@@ -39,7 +39,7 @@ class TemplateController {
       if (!data || !data.PROPERTY) {
         return this._utilities.response.error('Please provide PROPERTY')
       }
-      
+
       data.id = this._utilities.idGenerator(15, 'id_prefix-')
 
       const entity = new this._models.Template(data, this._dependencies)

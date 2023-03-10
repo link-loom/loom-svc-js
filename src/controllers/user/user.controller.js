@@ -16,24 +16,6 @@ class UserController {
     this._backendController = new this._controllers.BackendController(this._dependencies)
   }
 
-  async getByFilters (data) {
-    try {
-      if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
-      }
-
-      const response = this._db.transaction.getByFilters({
-        tableName: this._tableName,
-        filters
-      })
-
-      return this._utilities.response.success(response)
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
   async create (data) {
     try {
       if (!data || !data.phone) {
@@ -127,6 +109,24 @@ class UserController {
         mainActionLink: data.confirmEmailLink
       }
     })
+  }
+
+  async getByFilters (data) {
+    try {
+      if (!data || !data.filters) {
+        return this._utilities.response.error('Please provide at least one filter')
+      }
+
+      const response = this._db.transaction.getByFilters({
+        tableName: this._tableName,
+        filters
+      })
+
+      return this._utilities.response.success(response)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   get status () {

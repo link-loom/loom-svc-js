@@ -105,20 +105,10 @@ class FirebaseDataSource extends DataSource {
         return superResponse
       }
 
-      let query = this._db.client.collection(tableName)
+      let collection = this._db.client.collection(tableName)
+      collection = this.#transformFilters(collection, filters)
 
-      for (const filter of filters) {
-        if (filter.key) {
-          query = query.where(filter.key || '', filter.operator || '==', filter.value || '')
-        }
-      }
-
-      // Get values from reference as snapshot
-      /* const snapshot = await this._db.collection(tableName)
-        .where(key, operator || '==', value)
-        .get() */
-
-      const snapshop = await query.get()
+      const snapshot = await collection.get()
 
       // Cast Firebase object into an arry of devices
       const entityResponse = this.#castArraySnapshot(snapshot)
@@ -129,6 +119,26 @@ class FirebaseDataSource extends DataSource {
 
       return []
     }
+  }
+
+  #transformFilters (collection, filters) {
+    try {
+      // Get values from reference as snapshot
+      /* const snapshot = await this._db.collection(tableName)
+        .where(key, operator || '==', value)
+        .get() */
+      for (const filter of filters) {
+        if (filter.key) {
+          collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
+        }
+
+        return collection
+      }
+    } catch (error) {
+      this._console.error(error)
+      return collection
+    }
+
   }
 
   /**

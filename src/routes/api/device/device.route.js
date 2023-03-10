@@ -20,19 +20,24 @@ class DeviceRoute {
   async get (req, res) {
     const deviceController = new this._controllers.DeviceController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
-    const { id, deviceId, fingerprint, identity } = params
     let response = {}
 
-    if (id) {
-      response = await deviceController.getById(params)
-    } else if (deviceId) {
-      response = await deviceController.getByUserId(params)
-    } else if (fingerprint) {
-      response = await deviceController.getByFingerprint(params)
-    } else if (identity) {
-      response = await deviceController.getByIdentity(params)
-    } else {
-      response = await deviceController.get(params)
+    switch (params.queryselector) {
+      case 'id':
+        response = await deviceController.getById(params)
+        break
+      case 'user-id':
+        response = await deviceController.getByUserId(params)
+        break
+      case 'fingerprint':
+        response = await deviceController.getByFingerprint(params)
+        break
+      case 'identity':
+        response = await deviceController.getByIdentity(params)
+        break
+      default:
+        response = await deviceController.getByFilters(params)
+        break
     }
 
     res.json(response)
