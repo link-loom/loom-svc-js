@@ -45,11 +45,11 @@ class MongoDBDataSource extends DataSource {
         this._utilities.response.error()
       }
 
-      return documentResponse
+      return documentResponse || {}
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return null
     }
   }
 
@@ -67,11 +67,11 @@ class MongoDBDataSource extends DataSource {
 
       const entityResponse = await collection.updateOne(query, contract)
 
-      return entityResponse
+      return entityResponse || {}
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return null
     }
   }
 
@@ -84,13 +84,13 @@ class MongoDBDataSource extends DataSource {
       }
 
       const collection = this._db.client.collection(tableName)
-      const entityResponse = await collection.find(filters).toArray()
+      const entityResponse = await collection.find(filters || {}).toArray()
 
-      return entityResponse
+      return entityResponse || []
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return []
     }
   }
 

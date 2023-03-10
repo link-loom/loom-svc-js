@@ -45,11 +45,11 @@ class FirebaseDataSource extends DataSource {
         this._utilities.response.error()
       }
 
-      return entity
+      return entity || {}
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return null
     }
   }
 
@@ -89,11 +89,11 @@ class FirebaseDataSource extends DataSource {
         this._utilities.response.error()
       }
 
-      return entity
+      return entity || {}
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return null
     }
   }
 
@@ -123,11 +123,11 @@ class FirebaseDataSource extends DataSource {
       // Cast Firebase object into an arry of devices
       const entityResponse = this.#castArraySnapshot(snapshot)
 
-      return entityResponse.data
+      return entityResponse.data || []
     } catch (error) {
       this._console.error(error)
 
-      this._utilities.response.error()
+      return []
     }
   }
 

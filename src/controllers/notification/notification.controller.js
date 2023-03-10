@@ -8,7 +8,6 @@ class NotificationController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._firebase = dependencies.firebaseManager
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -17,85 +16,21 @@ class NotificationController {
     this._pushNotification = dependencies.pushNotificationManager
 
     /* Assigments */
-    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this._tableName = 'notifications'
   }
 
-  async get () {
+  async getByFilters (data) {
     try {
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('notifications')
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = this._firebase.cast.array(docRaw)
-      const entityCleaned = this._utilities.response.clean(entityResponse)
-
-      return this._utilities.response.success(entityCleaned.data)
-    } catch (error) {
-      this.this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
-  async getById (data) {
-    try {
-      if (!data || !data.id) {
-        return this._utilities.response.error('Please provide an id')
+      if (!data || !data.filters) {
+        return this._utilities.response.error('Please provide at least one filter')
       }
 
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('notifications').doc(`${data.id}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = this._firebase.cast.object(docRaw)
+      const response = this._db.transaction.getByFilters({
+        tableName: this._tableName,
+        filters
+      })
 
-      // Check if exist any data
-      if (!docRaw || !docRaw.exists || !entityResponse) {
-        return this._utilities.response.error('No notification found')
-      }
-
-      return this._utilities.response.success(this._utilities.response.clean(entityResponse))
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
-  async getAllByReceiver (data) {
-    try {
-      if (!data || !data.receiverUserId) {
-        return this._utilities.response.error('Please provide a receiver')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('notifications')
-        .where('receiver_user_id', '==', `${data.receiverUserId}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of users
-      const entityResponse = this._firebase.cast.array(docRaw)
-
-      return this._utilities.response.success(entityResponse.data)
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
-  async getAllLastByReceiver (data) {
-    try {
-      const notificationsResponse = await this.getAllByReceiver(data)
-
-      if (!this._utilities.response.isValid(notificationsResponse)) {
-        return notificationsResponse
-      }
-
-      const notifications = this._utilities.response.clean(notificationsResponse.result) || []
-
-      if (notifications.length > 5) {
-        const result = notifications.split(notifications.length - 5, notifications.length)
-        return this._utilities.response.success(result)
-      }
-
-      return this._utilities.response.success(notifications)
+      return this._utilities.response.success(response)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -107,22 +42,19 @@ class NotificationController {
       if (!data) {
         return this._utilities.response.error('Data provided not match with any registered user')
       }
+
       if (!data.notification_type) { data.notification_type = this._models.Notification.notification_types.stored }
-      if (data.notification_type === this._models.Notification.notification_types.allBasics.name) {
+
+      if (data.notification_type === this._models.Notification.notification_types.stored.name) {
         await this.sendStored(data)
-        await this.sendPush(data)
-        await this.sendEmail(data)
-      } else {
-        if (data.notification_type === this._models.Notification.notification_types.stored.name) {
-          await this.sendStored(data)
-        }
-        if (data.notification_type === this._models.Notification.notification_types.push.name) {
-          await this.sendPush(data)
-        }
-        if (data.notification_type === this._models.Notification.notification_types.email.name) {
-          await this.sendEmail(data)
-        }
       }
+      if (data.notification_type === this._models.Notification.notification_types.push.name) {
+        await this.sendPush(data)
+      }
+      if (data.notification_type === this._models.Notification.notification_types.email.name) {
+        await this.sendEmail(data)
+      }
+      
       return this._utilities.response.success()
     } catch (error) {
       this._console.error(error)
@@ -141,16 +73,18 @@ class NotificationController {
         return entityResponse
       }
 
-      const docRef = this._db.collection('notifications').doc(data.id)
       const entity = new this._models.Notification({ ...entityResponse.result, ...data }, this._dependencies)
-      const docResponse = await docRef.update(entity.get)
+      const transactionResponse = await this._db.transaction.update({
+        tableName: this._tableName,
+        entity: entity.get
+      })
 
-      if (!docResponse) {
-        this._console.error(docResponse)
+      if (!transactionResponse) {
+        this._console.error(transactionResponse)
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(data)
+      return this._utilities.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -169,12 +103,14 @@ class NotificationController {
       const messageResume = this._unfluff.fromString((data.message.substring(0, 50) || ''))
       data.message_resume = messageResume
 
-      const docRef = this._db.collection('notifications').doc(data.id)
       const entity = new this._models.Notification(data, this.dependencies)
-      const docResponse = await docRef.set(entity.get)
+      const entityResponse = await this._db.transaction.create({
+        tableName: this._tableName,
+        entity: entity.get
+      })
 
-      if (!docResponse) {
-        this._console.error(docResponse)
+      if (!entityResponse) {
+        this._console.error(entityResponse)
         return this._utilities.response.error()
       }
 
