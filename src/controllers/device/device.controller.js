@@ -10,9 +10,9 @@ class DeviceController {
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
+    this._tableName = 'devices'
 
     /* Assigments */
-    this._tableName = 'devices'
   }
 
   async getByFilters (data) {

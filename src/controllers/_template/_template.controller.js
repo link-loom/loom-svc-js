@@ -6,70 +6,28 @@ class TemplateController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._firebase = dependencies.firebaseManager
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
+    this._tableName = 'MY_TABLE'
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async get () {
+  async getByFilters (data) {
     try {
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('TABLE')
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of TABLE
-      const entityResponse = this._firebase.cast.array(docRaw)
-      const entityCleaned = this._utilities.response.clean(entityResponse)
-
-      return this._utilities.response.success(entityCleaned)
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
-  async getById (data) {
-    try {
-      if (!data || !data.id) {
-        return this._utilities.response.error('Please provide an id')
+      if (!data || !data.filters) {
+        return this._utilities.response.error('Please provide at least one filter')
       }
 
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('TABLE').doc(`${data.id}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of TABLE
-      const entityResponse = this._firebase.cast.object(docRaw)
+      const transactionResponse = this._db.transaction.getByFilters({
+        tableName: this._tableName,
+        filters
+      })
 
-      // Check if exist any data
-      if (!docRaw || !docRaw.exists || !entityResponse) {
-        return this._utilities.response.error('No TABLE found')
-      }
-
-      return this._utilities.response.success(this._utilities.response.clean(entityResponse))
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.response.error()
-    }
-  }
-
-  async getByPROPERTY (data) {
-    try {
-      if (!data || !data.PROPERTY) {
-        return this._utilities.response.error('Please provide a PROPERTY')
-      }
-
-      // Get values from reference as snapshot
-      const docRef = this._db.collection('TABLE')
-        .where('PROPERTY', '==', `${data.PROPERTY}`)
-      const docRaw = await docRef.get()
-      // Cast Firebase object into an arry of devices
-      const entityResponse = this._firebase.cast.array(docRaw)
-
-      return this._utilities.response.success(entityResponse.data)
+      return this._utilities.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -79,26 +37,23 @@ class TemplateController {
   async create (data) {
     try {
       if (!data || !data.PROPERTY) {
-        return this._utilities.response.error('Please provide minimum data')
+        return this._utilities.response.error('Please provide PROPERTY')
       }
-
-      const entityResponse = await this.getByPROPERTY(data)
-      if (this._utilities.response.isValid(entityResponse)) {
-        return this._utilities.response.error('Provided device is already registered')
-      }
-
-      data.id = this._utilities.idGenerator(15, 'PROPERTY-')
-      const docRef = this._db.collection('TABLE').doc(data.id)
+      
+      data.id = this._utilities.idGenerator(15, 'id_prefix-')
 
       const entity = new this._models.Template(data, this._dependencies)
-      const docResponse = await docRef.set(entity.get)
+      const transactionResponse = await this._db.transaction.create({
+        tableName: this._tableName,
+        entity: entity.get
+      })
 
-      if (!docResponse) {
-        this._console.error(docResponse)
+      if (!transactionResponse) {
+        this._console.error(transactionResponse)
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(entity.sanitized)
+      return this._utilities.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -108,24 +63,21 @@ class TemplateController {
   async update (data) {
     try {
       if (!data || !data.PROPERTY) {
-        return this._utilities.response.error('Please provide an PROPERTY')
-      }
-      const entityResponse = await this.getByPROPERTY(data)
-
-      if (!this._utilities.response.isValid(entityResponse)) {
-        return entityResponse
+        return this._utilities.response.error('Please provide PROPERTY')
       }
 
-      const docRef = this._db.collection('TABLE').doc(entityResponse.result.id)
       const entity = new this._models.Template({ ...entityResponse.result, ...data }, this._dependencies)
-      const docResponse = await docRef.update(entity.get)
+      const transactionResponse = await this._db.transaction.update({
+        tableName: this._tableName,
+        entity: entity.get
+      })
 
-      if (!docResponse) {
-        this._console.error(docResponse)
+      if (!transactionResponse) {
+        this._console.error(transactionResponse)
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(data)
+      return this._utilities.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

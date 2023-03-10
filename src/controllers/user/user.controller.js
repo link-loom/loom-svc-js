@@ -9,10 +9,10 @@ class UserController {
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
+    this._tableName = 'users'
     this._auth = this._dependencies.auth
 
     /* Assigments */
-    this._tableName = 'users'
     this._backendController = new this._controllers.BackendController(this._dependencies)
   }
 

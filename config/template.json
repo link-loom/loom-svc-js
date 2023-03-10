@@ -53,17 +53,6 @@
         "timestampsInSnapshots": true
       }
     },
-    "POSTGRESQL": {
-      "CONNECTION_OBJ": {
-        "user": "xxxx__your_config",
-        "host": "xxxx__your_config",
-        "database": "xxxx__your_config",
-        "password": "xxxx__your_config",
-        "port": 5432,
-        "default_namespace": "xxxx__your_config"
-      },
-      "SETTINGS": {}
-    },
     "MONGODB": {
       "CONNECTION_OBJ": "xxxx__your_config",
       "SETTINGS": {

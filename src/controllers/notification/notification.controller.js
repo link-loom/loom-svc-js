@@ -11,12 +11,12 @@ class NotificationController {
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
+    this._tableName = 'notifications'
     this._nodemailer = dependencies.nodemailer
     this._unfluff = dependencies.unfluff
     this._pushNotification = dependencies.pushNotificationManager
 
     /* Assigments */
-    this._tableName = 'notifications'
   }
 
   async getByFilters (data) {

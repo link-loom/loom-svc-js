@@ -7,7 +7,6 @@ const StatusController = require('./status/status.controller')
 const TemplateController = require('./_template/_template.controller')
 const UploadController = require('./upload/upload.controller')
 const UserController = require('./user/user.controller')
-const UserPGController = require('./userPG/userPG.controller')
 
 module.exports = {
   AuthController,
@@ -18,6 +17,5 @@ module.exports = {
   StatusController,
   TemplateController,
   UploadController,
-  UserController,
-  UserPGController
+  UserController
 }
