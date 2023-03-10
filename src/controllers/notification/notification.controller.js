@@ -51,16 +51,10 @@ class NotificationController {
       if (!data || !data.id) {
         return this._utilities.response.error('Please provide an id')
       }
-      const entityResponse = await this.getById(data)
-
-      if (!this._utilities.response.isValid(entityResponse)) {
-        return entityResponse
-      }
-
-      const entity = new this._models.Notification({ ...entityResponse.result, ...data }, this._dependencies)
+      
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
-        entity: entity.get
+        entity: data
       })
 
       if (!transactionResponse) {
@@ -68,7 +62,7 @@ class NotificationController {
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -82,23 +76,20 @@ class NotificationController {
         return this._utilities.response.error('Please provide at minimum a message and a receiver')
       }
 
-      data.id = this._utilities.idGenerator(20, 'not-')
-
-      const messageResume = this._unfluff.fromString((data.message.substring(0, 50) || ''))
-      data.message_resume = messageResume
+      this.#formatCreateEntity(data)
 
       const entity = new this._models.Notification(data, this.dependencies)
-      const entityResponse = await this._db.transaction.create({
+      const transactionResponse = await this._db.transaction.create({
         tableName: this._tableName,
         entity: entity.get
       })
 
-      if (!entityResponse) {
-        this._console.error(entityResponse)
+      if (!transactionResponse) {
+        this._console.error(transactionResponse)
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(entity.sanitized)
+      return this._utilities.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -262,6 +253,13 @@ class NotificationController {
       this._console.error(error)
       return this._utilities.response.error()
     }
+  }
+
+  #formatCreateEntity (data) {
+    const messageResume = this._unfluff.fromString((data.message.substring(0, 50) || ''))
+
+    data.id = this._utilities.idGenerator(20, 'not-')
+    data.message_resume = messageResume
   }
 
   get status () {

@@ -23,9 +23,9 @@ class UserController {
       }
 
       const entityResponse = await this.getByFilters({
-        filters: {
-          phone: data.phone
-        }
+        filters: [
+          { key: 'phone', operator: '==', value: data.phone }
+        ]
       })
 
       if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
@@ -62,16 +62,10 @@ class UserController {
       if (!data || !data.identity) {
         return this._utilities.response.error('Please provide an identity')
       }
-      const entityResponse = await this.getByIdentity(data)
-
-      if (!this._utilities.response.isValid(entityResponse)) {
-        return entityResponse
-      }
-
-      const entity = new this._models.User({ ...entityResponse.result, ...data }, this._dependencies)
+      
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
-        entity: entity.get
+        entity: data
       })
 
       if (!transactionResponse) {
@@ -79,7 +73,7 @@ class UserController {
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

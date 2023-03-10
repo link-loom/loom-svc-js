@@ -22,16 +22,16 @@ class DeviceController {
       }
 
       const entityResponse = await this.getByFilters({
-        filters: {
-          fingerprint: data.fingerprint
-        }
+        filters: [
+          { key: 'fingerprint', operator: '==', value: data.fingerprint }
+        ]
       })
 
       if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
         return this._utilities.response.error('Provided device is already registered')
       }
-
-      data.id = this._utilities.idGenerator(15, 'devi-')
+      
+      this.#formatCreateEntity(data)
 
       const entity = new this._models.Device(data, this._dependencies)
       const transactionResponse = await this._db.transaction.create({
@@ -53,25 +53,13 @@ class DeviceController {
 
   async update (data) {
     try {
-      if (!data || !data.fingerprint) {
-        return this._utilities.response.error('Please provide an fingerprint')
+      if (!data || !data.id) {
+        return this._utilities.response.error('Please provide an id')
       }
 
-      const entityResponse = await this.getByFilters({
-        filters: {
-          fingerprint: data.fingerprint
-        }
-      })
-
-      if (!this._utilities.response.isValid(entityResponse)) {
-        return entityResponse
-      }
-
-
-      const entity = new this._models.Device({ ...entityResponse.result, ...data }, this._dependencies)
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
-        entity: entity.get
+        entity: data
       })
 
       if (!transactionResponse) {
@@ -79,7 +67,7 @@ class DeviceController {
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -170,6 +158,10 @@ class DeviceController {
       this._console.error(error)
       return this._utilities.response.error()
     }
+  }
+
+  #formatCreateEntity (data) {
+    data.id = this._utilities.idGenerator(15, 'device-')
   }
 
   get status () {

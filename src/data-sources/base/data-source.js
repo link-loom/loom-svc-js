@@ -8,25 +8,25 @@ class DataSource {
 
   async create ({ tableName, entity } = {}) {
     if (!tableName) {
-      this._utilities.response.error('Valid table name')
+      return this._utilities.response.error('Valid table name')
     }
 
     if (!entity) {
-      this._utilities.response.error('Provide an entity')
+      return this._utilities.response.error('Provide an entity')
     }
 
-    this._utilities.response.success({
+    return this._utilities.response.success({
       id: this._utilities.idGenerator(15, 'usr-')
     })
   }
 
   async update ({ tableName, entity } = {}) {
     if (!tableName) {
-      this._utilities.response.error('Valid table name')
+      return this._utilities.response.error('Valid table name')
     }
 
     if (!entity) {
-      this._utilities.response.error('Provide an entity')
+      return this._utilities.response.error('Provide an entity')
     }
 
     return this._utilities.response.success('Valid table name')
@@ -34,7 +34,7 @@ class DataSource {
 
   async getByFilters ({ tableName } = {}) {
     if (!tableName) {
-      this._utilities.response.error('Valid table name')
+      return this._utilities.response.error('Valid table name')
     }
 
     return this._utilities.response.success()

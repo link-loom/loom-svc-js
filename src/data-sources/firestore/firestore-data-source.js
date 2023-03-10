@@ -32,7 +32,7 @@ class FirebaseDataSource extends DataSource {
 
   async create ({ tableName, entity } = {}) {
     try {
-      const superResponse = await super.create()
+      const superResponse = await super.create({ tableName, entity })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse
@@ -42,7 +42,9 @@ class FirebaseDataSource extends DataSource {
       const documentResponse = await document.set(entity)
 
       if (!documentResponse) {
-        this._utilities.response.error()
+        this._console.error(error)
+
+        return null
       }
 
       return entity || {}
@@ -53,9 +55,9 @@ class FirebaseDataSource extends DataSource {
     }
   }
 
-  async update ({ tableName, entity, currentEntity }) {
+  async update ({ tableName, entity }) {
     try {
-      const superResponse = await super.getByFilters()
+      const superResponse = await super.update({ tableName, entity })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse
@@ -71,11 +73,11 @@ class FirebaseDataSource extends DataSource {
         }]
       })
 
-      if (!entityResponse) {
-        return entityResponse
+      if (!entityResponse || !entityResponse.length) {
+        return this._utilities.response.error('Item not found')
       }
 
-      currentEntity = entityResponse.result[0]
+      const currentEntity = entityResponse[0]
 
       // "Merging" the new data with the old data
       entity = { ...currentEntity, ...entity }
@@ -84,9 +86,9 @@ class FirebaseDataSource extends DataSource {
       const documentResponse = await document.update(entity)
 
       if (!documentResponse) {
-        console.error(documentResponse)
+        this._console.error(documentResponse)
 
-        this._utilities.response.error()
+        return null
       }
 
       return entity || {}
@@ -99,7 +101,7 @@ class FirebaseDataSource extends DataSource {
 
   async getByFilters ({ tableName, filters }) {
     try {
-      const superResponse = await super.getByFilters()
+      const superResponse = await super.getByFilters({ tableName, filters })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse

@@ -17,7 +17,7 @@ const router = {
   ],
   communication: [
     // Notification
-    { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/notification/:queryselector', route: '/routes/api/notification/notification.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/notification/', route: '/routes/api/notification/notification.route', handler: 'update', method: 'PATCH', protected: false }
   ],
@@ -27,13 +27,13 @@ const router = {
     { httpRoute: '/device/', route: '/routes/api/device/device.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/device/', route: '/routes/api/device/device.route', handler: 'update', method: 'PATCH', protected: false },
     // User
-    { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/user/:queryselector', route: '/routes/api/user/user.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/user/', route: '/routes/api/user/user.route', handler: 'update', method: 'PATCH', protected: false }
   ],
   example:[
     // Template
-    { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/template/:queryselector', route: '/routes/api/_template/_template.route', handler: 'get', method: 'GET', protected: false },
     { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'create', method: 'POST', protected: false },
     { httpRoute: '/template/', route: '/routes/api/_template/_template.route', handler: 'update', method: 'PATCH', protected: false }
   ]
