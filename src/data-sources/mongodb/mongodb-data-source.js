@@ -25,8 +25,8 @@ class MongoDBDataSource extends DataSource {
     settings.serverApi = this._db.driver.ServerApiVersion.v1
 
     // Create a client and create a new connection
-    this.internaClient = new this._db.driver(this._databaseConnectionObj, settings)
-    const connection = await internaClient.connect()
+    this.internaClient = new this._db.driver.MongoClient(this._databaseConnectionObj, settings)
+    const connection = await this.internaClient.connect()
     this._db.client = connection.db(this._databaseSettings.dbName)
   }
 

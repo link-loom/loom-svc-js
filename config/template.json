@@ -87,6 +87,10 @@
     {
       "name": "firebase",
       "package": "firebase-admin"
+    },
+    {
+      "name": "mongodb",
+      "package": "mongodb"
     }
   ]
 }
