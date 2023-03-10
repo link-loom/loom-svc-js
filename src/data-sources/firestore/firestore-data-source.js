@@ -10,6 +10,7 @@ class FirebaseDataSource extends DataSource {
 
     /* Base Properties */
     this._dependencies = dependencies
+    this._console = this._dependencies.console
     this._utilities = this._dependencies.utilities
     this._db = this._dependencies.db
 
@@ -41,20 +42,18 @@ class FirebaseDataSource extends DataSource {
       const documentResponse = await document.set(entity)
 
       if (!documentResponse) {
-        console.log(documentResponse)
-
         this._utilities.response.error()
       }
 
       return entity
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }
   }
 
-  async update ({ tableName, newEntity, oldEntity }) {
+  async update ({ tableName, entity, currentEntity }) {
     try {
       const superResponse = await super.getByFilters()
 
@@ -68,7 +67,7 @@ class FirebaseDataSource extends DataSource {
         filters: [{
           key: 'id',
           operator: '==',
-          value: newEntity.id
+          value: entity.id
         }]
       })
 
@@ -76,13 +75,13 @@ class FirebaseDataSource extends DataSource {
         return entityResponse
       }
 
-      oldEntity = entityResponse.result[0]
+      currentEntity = entityResponse.result[0]
 
       // "Merging" the new data with the old data
-      newEntity = { ...oldEntity, ...newEntity }
+      entity = { ...currentEntity, ...entity }
 
-      const document = this._db.client.collection(tableName).doc(oldEntity.id)
-      const documentResponse = await document.update(newEntity)
+      const document = this._db.client.collection(tableName).doc(currentEntity.id)
+      const documentResponse = await document.update(entity)
 
       if (!documentResponse) {
         console.error(documentResponse)
@@ -90,9 +89,9 @@ class FirebaseDataSource extends DataSource {
         this._utilities.response.error()
       }
 
-      return newEntity
+      return entity
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }
@@ -126,7 +125,7 @@ class FirebaseDataSource extends DataSource {
 
       return entityResponse.data
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }

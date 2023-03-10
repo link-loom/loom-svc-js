@@ -10,6 +10,7 @@ class MongoDBDataSource extends DataSource {
 
     /* Base Properties */
     this._dependencies = dependencies
+    this._console = this._dependencies.console
     this._utilities = this._dependencies.utilities
     this._db = this._dependencies.db
 
@@ -31,68 +32,44 @@ class MongoDBDataSource extends DataSource {
 
   async create ({ tableName, entity } = {}) {
     try {
-      const superResponse = await super.create()
+      const superResponse = await super.create({ tableName, entity })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse
       }
 
-      const document = this._db.client.collection(tableName).doc(entity.id)
-      const documentResponse = await document.set(entity)
+      const collection = this._db.client.collection(tableName)
+      const documentResponse = collection.insertOne(entity)
 
       if (!documentResponse) {
-        console.log(documentResponse)
-
         this._utilities.response.error()
       }
 
-      return entity
+      return documentResponse
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }
   }
 
-  async update ({ tableName, newEntity, oldEntity }) {
+  async update ({ tableName, entity } = {}) {
     try {
-      const superResponse = await super.getByFilters()
+      const superResponse = await super.update({ tableName, entity })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse
       }
 
-      // Getting the original entity
-      const entityResponse = await this.getByFilters({
-        tableName,
-        filters: [{
-          key: 'id',
-          operator: '==',
-          value: newEntity.id
-        }]
-      })
+      const query = { id: entity.id }
+      const contract = { $set: entity }
+      const collection = this._db.client.collection(tableName)
 
-      if (!entityResponse) {
-        return entityResponse
-      }
+      const entityResponse = await collection.updateOne(query, contract)
 
-      oldEntity = entityResponse.result[0]
-
-      // "Merging" the new data with the old data
-      newEntity = { ...oldEntity, ...newEntity }
-
-      const document = this._db.client.collection(tableName).doc(oldEntity.id)
-      const documentResponse = await document.update(newEntity)
-
-      if (!documentResponse) {
-        console.error(documentResponse)
-
-        this._utilities.response.error()
-      }
-
-      return newEntity
+      return entityResponse
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }
@@ -106,55 +83,17 @@ class MongoDBDataSource extends DataSource {
         return superResponse
       }
 
-      let query = this._db.client.collection(tableName)
+      const collection = this._db.client.collection(tableName)
+      const entityResponse = await collection.find(filters).toArray()
 
-      for (const filter of filters) {
-        if (filter.key) {
-          query = query.where(filter.key || '', filter.operator || '==', filter.value || '')
-        }
-      }
-
-      // Get values from reference as snapshot
-      /* const snapshot = await this._db.collection(tableName)
-        .where(key, operator || '==', value)
-        .get() */
-
-      const snapshop = await query.get()
-
-      // Cast Firebase object into an arry of devices
-      const entityResponse = this.#castArraySnapshot(snapshot)
-
-      return entityResponse.data
+      return entityResponse
     } catch (error) {
-      console.log(error)
+      this._console.error(error)
 
       this._utilities.response.error()
     }
   }
 
-  /**
-     * Cast a Firebase snapshot into an array
-     * @param {any} snapshot is the snapshop returned by database
-     * @returns an array of objects
-     */
-  #castArraySnapshot (snapshot) {
-    if (snapshot) {
-      const arr = []
-      const obj = {}
-
-      snapshot.docs.forEach(childSnapshot => {
-        const item = childSnapshot.data()
-        arr.push(item)
-      })
-
-      obj.raw = snapshot
-      obj.data = arr
-
-      return obj
-    } else {
-      return null
-    }
-  }
 }
 
 module.exports = MongoDBDataSource
