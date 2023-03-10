@@ -213,6 +213,57 @@ class NotificationController {
     }
   }
 
+  async getById (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByReceiverUserId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'receiver_user_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByBusinessId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'business_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
   get status () {
     return this._models.Notification.statuses
   }

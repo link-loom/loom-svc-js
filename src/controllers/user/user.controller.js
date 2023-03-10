@@ -129,6 +129,91 @@ class UserController {
     }
   }
 
+  async getById (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByNationalId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'national_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByPhone (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'phone', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByEmail (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'email', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
+  async getByBusinessId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.response.error('Please provide query to search')
+      }
+
+      return this.getByFilters({
+        filters: [
+          { key: 'business_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
+  }
+
   get status () {
     return this._models.User.statuses
   }

@@ -106,13 +106,13 @@ class DeviceController {
 
   async getById (data) {
     try {
-      if (!data || !data.query) {
+      if (!data || !data.search) {
         return this._utilities.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
         filters: [
-          { key: 'id', operator: '==', value: data.query }
+          { key: 'id', operator: '==', value: data.search }
         ]
       })
     } catch (error) {
@@ -123,13 +123,13 @@ class DeviceController {
 
   async getByUserId (data) {
     try {
-      if (!data || !data.query) {
+      if (!data || !data.search) {
         return this._utilities.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
         filters: [
-          { key: 'user_id', operator: '==', value: data.query }
+          { key: 'user_id', operator: '==', value: data.search }
         ]
       })
     } catch (error) {
@@ -140,13 +140,13 @@ class DeviceController {
 
   async getByFingerprint (data) {
     try {
-      if (!data || !data.query) {
+      if (!data || !data.search) {
         return this._utilities.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
         filters: [
-          { key: 'fingerprint', operator: '==', value: data.query }
+          { key: 'fingerprint', operator: '==', value: data.search }
         ]
       })
     } catch (error) {
@@ -157,13 +157,13 @@ class DeviceController {
 
   async getByIdentity (data) {
     try {
-      if (!data || !data.query) {
+      if (!data || !data.search) {
         return this._utilities.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
         filters: [
-          { key: 'identity', operator: '==', value: data.query }
+          { key: 'identity', operator: '==', value: data.search }
         ]
       })
     } catch (error) {

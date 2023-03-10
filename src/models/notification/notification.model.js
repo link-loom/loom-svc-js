@@ -22,7 +22,7 @@ class NotificationModel extends BaseModel {
     this.date = { value: timestamp, type: dependencies.dal.types.timestamp }
     this.sender = { value: args.sender, type: dependencies.dal.types.string }
     this.message = { value: args.message, type: dependencies.dal.types.string }
-    this.receiver = { value: args.receiver, type: dependencies.dal.types.string }
+    this.receiver_user_id = { value: args.receiver_user_id, type: dependencies.dal.types.string }
     this.subject = { value: args.subject, type: dependencies.dal.types.string }
     this.message_resume = { value: args.message_resume, type: dependencies.dal.types.string }
     this.business_id = { value: args.business_id, type: dependencies.dal.types.string }
@@ -36,7 +36,7 @@ class NotificationModel extends BaseModel {
       status: this.status.value || this.status.type.default,
       date: this.date.value || this.date.type.default,
       message: this.message.value || this.message.type.default,
-      receiver: this.receiver.value || this.receiver.type.default,
+      receiver_user_id: this.receiver_user_id.value || this.receiver_user_id.type.default,
       subject: this.subject.value || this.subject.type.default,
       message_resume: this.message_resume.value || this.message_resume.type.default,
       sender: this.sender.value || this.sender.type.default,

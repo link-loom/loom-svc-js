@@ -18,23 +18,23 @@ class NotificationRoute {
    * @param {*} res Express response
    */
   async get (req, res) {
-    const notificationController = new this._controllers.NotificationController(this._dependencies)
+    const entityController = new this._controllers.NotificationController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
-    const { id, businessId, receiver, q } = params
     let response = {}
 
-    if (id) {
-      response = await notificationController.getById(params)
-    } else if (receiver) {
-      response = await notificationController.getAllByReceiver(params)
-    } else if (businessId) {
-      response = await notificationController.getByBusinessId(params)
-    } else if (receiver && q.toLocaleLowerCase().includes('folder')) {
-      response = await notificationController.getAllGroupedByFoldersAndByReceiver(params)
-    } else if (receiver && q.toLocaleLowerCase().includes('last')) {
-      response = await notificationController.getAllLastByReceiver(params)
-    } else {
-      response = await notificationController.getAll(params)
+    switch (params.queryselector) {
+      case 'id':
+        response = await entityController.getById(params)
+        break
+      case 'receiver':
+        response = await entityController.getByReceiverUserId(params)
+        break
+      case 'business-id':
+        response = await entityController.getByBusinessId(params)
+        break
+      default:
+        response = this._utilities.response.error('Provide a valid slug to query')
+        break
     }
 
     res.json(response)

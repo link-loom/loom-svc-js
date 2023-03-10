@@ -18,25 +18,25 @@ class DeviceRoute {
    * @param {*} res Express response
    */
   async get (req, res) {
-    const deviceController = new this._controllers.DeviceController(this._dependencies)
+    const entityController = new this._controllers.DeviceController(this._dependencies)
     const params = this._utilities.request.getParameters(req)
     let response = {}
 
     switch (params.queryselector) {
       case 'id':
-        response = await deviceController.getById(params)
+        response = await entityController.getById(params)
         break
       case 'user-id':
-        response = await deviceController.getByUserId(params)
+        response = await entityController.getByUserId(params)
         break
       case 'fingerprint':
-        response = await deviceController.getByFingerprint(params)
+        response = await entityController.getByFingerprint(params)
         break
       case 'identity':
-        response = await deviceController.getByIdentity(params)
+        response = await entityController.getByIdentity(params)
         break
       default:
-        response = await deviceController.getByFilters(params)
+        response = this._utilities.response.error('Provide a valid slug to query')
         break
     }
 
