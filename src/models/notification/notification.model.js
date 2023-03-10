@@ -76,11 +76,10 @@ NotificationModel.statuses = {
   ignored: { id: 4, name: 'ignored', title: 'Ignored' }
 }
 
-NotificationModel.notification_types = {
+NotificationModel.channels = {
   stored: { id: 1, name: 'stored', title: 'Stored' },
   push: { id: 2, name: 'push', title: 'Push' },
-  email: { id: 3, name: 'email', title: 'Email' },
-  allBasics: { id: 9999, name: 'allBasics', title: 'All basics' }
+  email: { id: 3, name: 'email', title: 'Email' }
 }
 
 NotificationModel.email_templates = {

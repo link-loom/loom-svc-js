@@ -116,11 +116,12 @@ class UserController {
     data.password = this._auth.hash.stringToHash(data.password || '')
   }
 
-  #sendConfirmationNotification (data) {
+  async #sendConfirmationNotification (data) {
     const notificationController = new this._controllers.NotificationController(this._dependencies)
-    notificationController.create({
+
+    await notificationController.create({
       to: data.email,
-      notification_type: notificationController.notificationType.email,
+      channels: [notificationController.channels.email.name],
       email: {
         template: notificationController.emailTemplate.confirmEmail,
         mainActionLink: data.confirmEmailLink

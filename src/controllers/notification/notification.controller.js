@@ -43,18 +43,20 @@ class NotificationController {
         return this._utilities.response.error('Data provided not match with any registered user')
       }
 
-      if (!data.notification_type) { data.notification_type = this._models.Notification.notification_types.stored }
+      if (!data.channels) { data.channels = this._models.Notification.channels.stored }
 
-      if (data.notification_type === this._models.Notification.notification_types.stored.name) {
-        await this.sendStored(data)
+      if (data.channels.includes(this._models.Notification.channels.stored.name)) {
+        await this.#channelStored(data)
       }
-      if (data.notification_type === this._models.Notification.notification_types.push.name) {
-        await this.sendPush(data)
+
+      if (data.channels.includes(this._models.Notification.channels.push.name)) {
+        await this.#channelEventBus(data)
       }
-      if (data.notification_type === this._models.Notification.notification_types.email.name) {
-        await this.sendEmail(data)
+
+      if (data.channels.includes(this._models.Notification.channels.email.name)) {
+        await this.#channelEmail(data)
       }
-      
+
       return this._utilities.response.success()
     } catch (error) {
       this._console.error(error)
@@ -91,7 +93,7 @@ class NotificationController {
     }
   }
 
-  async sendStored (data) {
+  async #channelStored (data) {
     try {
       if (!data || !data.message || !data.receiver) {
         this._console.error('message or receiver not providen')
@@ -121,125 +123,16 @@ class NotificationController {
     }
   }
 
-  async sendPush (data) {
+  async #channelEventBus (data) {
     try {
-      switch (data.push_type) {
-        case 'all_push_token':
-          return this.sendPushToAllTokenDevicesAsync(data)
-        case 'all_push_topic':
-          return this.sendPushToTopicAsync(data)
-        case 'single_push_token':
-          return this.sendSingleDeviceAsync(data)
-        default:
-          data.topic = 'everybody'
-          return this.sendPushToTopicAsync(data)
-      }
+      /* TODO: Implement the communication with event bus */
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
     }
   }
 
-  async sendSingleDeviceAsync (data) {
-    const deviceController = new this._controllers.DeviceController(this._dependencies)
-    const result = await deviceController.getByIdentity(data)
-    if (!this._utilities.response.isValid(result)) {
-      return result
-    }
-
-    data.device = result.response
-    return this.sendPushToTokenDeviceAsync(data)
-  }
-
-  async sendPushToAllTokenDevicesAsync (data) {
-    const deviceController = new this._controllers.DeviceController(this._dependencies)
-    const response = await deviceController.get()
-
-    if (!this._utilities.response.isValid(response)) {
-      return response
-    }
-
-    for (const device of response.result) {
-      data.device = device
-      this.sendPushToTokenDeviceAsync(data)
-    }
-
-    return this._utilities.response.success(response)
-  }
-
-  async sendPushToTopicAsync (data) {
-    return this._pushNotification.send({
-      notification: {
-        title: data.subject,
-        body: data.message
-      },
-      android: {
-        notification: {
-          icon: data.icon || '',
-          color: data.color || '',
-          imageUrl: data.image,
-          clickAction: data.android_intent
-        }
-      },
-      apns: {
-        notification: {
-        },
-        payload: {
-          aps: data.payload,
-          clickAction: data.aps_intent
-        },
-        fcm_options: {
-          image: data.image
-        }
-      },
-      webpush: {
-        headers: {
-          image: data.image
-        },
-        data: {
-          clickAction: data.webpush_action
-        }
-      },
-      topic: data.topic
-    })
-  }
-
-  async sendPushToTokenDeviceAsync (data) {
-    return this._pushNotification.send({
-      notification: {
-        title: data.subject,
-        body: data.message
-      },
-      android: {
-        notification: {
-          icon: data.icon || '',
-          color: data.color || '#000000',
-          imageUrl: data.image || '',
-          clickAction: data.android_intent || ''
-        }
-      },
-      apns: {
-        payload: {
-          aps: data.payload || {},
-          clickAction: data.aps_intent || ''
-        },
-        fcm_options: {
-          image: data.image || ''
-        }
-      },
-      webpush: {
-        headers: {
-          image: data.image || ''
-        },
-        data: {
-          clickAction: data.webpush_action || '#'
-        }
-      },
-      token: data.device.push_token || ''
-    })
-  }
-
-  async sendEmail (data) {
+  async #channelEmail (data) {
     try {
       let emailPath = this.dependencies.root
       let emailtemplate = ''
@@ -328,8 +221,8 @@ class NotificationController {
     return this._models.Notification.role_types
   }
 
-  get notificationType () {
-    return this._models.Notification.notification_types
+  get channels () {
+    return this._models.Notification.channels
   }
 
   get emailTemplate () {
