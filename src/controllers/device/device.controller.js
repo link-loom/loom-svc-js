@@ -67,7 +67,7 @@ class DeviceController {
         return this._utilities.response.error()
       }
 
-      return this._utilities.response.success(transactionResponse)
+      return this._utilities.response.success(data)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

@@ -20,14 +20,19 @@ class MongoDBDataSource extends DataSource {
   }
 
   async setup () {
-    // Setup the driver/client
-    const settings = this._databaseSettings
-    settings.serverApi = this._db.driver.ServerApiVersion.v1
+    try {
+      // Setup the driver/client
+      const settings = this._databaseSettings
+      settings.serverApi = this._db.driver.ServerApiVersion.v1
 
-    // Create a client and create a new connection
-    this.internaClient = new this._db.driver.MongoClient(this._databaseConnectionObj, settings)
-    const connection = await this.internaClient.connect()
-    this._db.client = connection.db(this._databaseSettings.dbName)
+      // Create a client and create a new connection
+      this.mongoClient = new this._db.driver.MongoClient(this._databaseConnectionObj, settings)
+      this._db.client = await this.mongoClient.connect()
+    } catch (error) {
+      this._console.error(error)
+
+      return null
+    }
   }
 
   async create ({ tableName, entity } = {}) {
@@ -38,7 +43,7 @@ class MongoDBDataSource extends DataSource {
         return superResponse
       }
 
-      const collection = this._db.client.collection(tableName)
+      const collection = this._db.client.db(this._databaseSettings.dbName).collection(tableName)
       const documentResponse = collection.insertOne(entity)
 
       if (!documentResponse) {
@@ -63,11 +68,11 @@ class MongoDBDataSource extends DataSource {
 
       const query = { id: entity.id }
       const contract = { $set: entity }
-      const collection = this._db.client.collection(tableName)
+      const collection = this._db.client.db(this._databaseSettings.dbName).collection(tableName)
 
-      const entityResponse = await collection.updateOne(query, contract)
+      const documentResponse = await collection.updateOne(query, contract)
 
-      return entityResponse || {}
+      return documentResponse || {}
     } catch (error) {
       this._console.error(error)
 
@@ -77,14 +82,14 @@ class MongoDBDataSource extends DataSource {
 
   async getByFilters ({ tableName, filters }) {
     try {
-      const superResponse = await super.getByFilters()
+      const superResponse = await super.getByFilters({ tableName, filters })
 
       if (!this._utilities.response.isValid(superResponse)) {
         return superResponse
       }
 
       const transformedFilters = this.#transformFilters(filters)
-      const collection = this._db.client.collection(tableName)
+      const collection = this._db.client.db(this._databaseSettings.dbName).collection(tableName)
       let entityResponse = {}
 
       entityResponse = await collection.find(transformedFilters || {}).toArray()
@@ -101,17 +106,19 @@ class MongoDBDataSource extends DataSource {
     try {
       const transformedFilters = {}
 
-      if (filters && filters.length > 0) {
+      if (filters && filters.length > 1) {
         transformedFilters['$and'] = []
-      }
 
-      for (const filter of filters) {
-        if (filter.key) {
-          collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
-          transformedFilters['$and'].push({
-            [filter.key]: value
-          })
+        for (const filter of filters) {
+          if (filter.key) {
+            transformedFilters['$and'].push({
+              [filter.key]: filter.value
+            })
+          }
         }
+      } else if (filters && filters.length === 1) {
+        const filter = filters[0]
+        transformedFilters[filter.key] = filter.value
       }
 
       return transformedFilters
