@@ -1,4 +1,4 @@
-const DataSource = require('./../base/data-source')
+const DataSource = require('../base/data-source')
 
 class FirebaseDataSource extends DataSource {
   constructor (dependencies) {
@@ -15,17 +15,22 @@ class FirebaseDataSource extends DataSource {
     this._db = this._dependencies.db
 
     /* Custom Properties */
-    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.YOUR_CONFIG
+    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE
     this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {}
     this._databaseSettings = this._dataSourceConfig.SETTINGS || {}
   }
 
   async setup () {
-    // Setup the driver/client
-    /* TODO: Setup all configurations of your database provider */
+    try {
+      // Setup the driver/client
+      /* TODO: Implement all database provider configurations */
 
-    // Create a client and create a new connection
-    this._db.client = {/* TODO: Save your client connected here */}
+      // Create a client and create a new connection
+      this._db.client = {/* TODO: Save your databse connected client*/ }
+    } catch (error) {
+      this._console.error(error)
+    }
+
   }
 
   async create ({ tableName, entity } = {}) {
@@ -36,14 +41,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse
       }
 
-      const document = this._db.client.collection(tableName).doc(entity.id)
-      const documentResponse = await document.set(entity)
-
-      if (!documentResponse) {
-        this._console.error(error)
-
-        return null
-      }
+      /* TODO: Create your own data insertion using this._db.client */
 
       return entity || {}
     } catch (error) {
@@ -61,33 +59,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse
       }
 
-      // Getting the original entity
-      const entityResponse = await this.getByFilters({
-        tableName,
-        filters: [{
-          key: 'id',
-          operator: '==',
-          value: entity.id
-        }]
-      })
-
-      if (!entityResponse || !entityResponse.length) {
-        return this._utilities.response.error('Item not found')
-      }
-
-      const currentEntity = entityResponse[0]
-
-      // "Merging" the new data with the old data
-      entity = { ...currentEntity, ...entity }
-
-      const document = this._db.client.collection(tableName).doc(currentEntity.id)
-      const documentResponse = await document.update(entity)
-
-      if (!documentResponse) {
-        this._console.error(documentResponse)
-
-        return null
-      }
+      /* TODO: Create your own data update using this._db.client */
 
       return entity || {}
     } catch (error) {
@@ -105,15 +77,11 @@ class FirebaseDataSource extends DataSource {
         return superResponse
       }
 
-      let collection = this._db.client.collection(tableName)
-      collection = this.#transformFilters(collection, filters)
+      const transformedFilters = this.#transformFilters(filters)
 
-      const snapshot = await collection.get()
+      /* TODO: Create your own data get using this._db.client */
 
-      // Cast Firebase object into an arry of devices
-      const entityResponse = this.#castArraySnapshot(snapshot)
-
-      return entityResponse.data || []
+      return []
     } catch (error) {
       this._console.error(error)
 
@@ -123,13 +91,11 @@ class FirebaseDataSource extends DataSource {
 
   #transformFilters (collection, filters) {
     try {
-      for (const filter of filters) {
-        if (filter.key) {
-          collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
-        }
+      const transformedFilters = {} // [] it depends of your database provider
 
-        return collection
-      }
+      /* TODO: Implement all transformations you need to be consistent between your database providers */
+
+      return transformedFilters
     } catch (error) {
       this._console.error(error)
       return collection

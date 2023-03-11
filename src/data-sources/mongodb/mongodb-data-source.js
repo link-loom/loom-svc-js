@@ -31,8 +31,6 @@ class MongoDBDataSource extends DataSource {
       this._db.client = await this.mongoClient.connect()
     } catch (error) {
       this._console.error(error)
-
-      return null
     }
   }
 
