@@ -15,8 +15,9 @@ class FirebaseDataSource extends DataSource {
     this._db = this._dependencies.db
 
     /* Custom Properties */
-    this._databaseConnectionObj = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE.CONNECTION_OBJ || {}
-    this._databaseSettings = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE.SETTINGS || {}
+    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.MONGODB
+    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {}
+    this._databaseSettings = this._dataSourceConfig.SETTINGS || {}
   }
 
   async setup () {
@@ -125,10 +126,6 @@ class FirebaseDataSource extends DataSource {
 
   #transformFilters (collection, filters) {
     try {
-      // Get values from reference as snapshot
-      /* const snapshot = await this._db.collection(tableName)
-        .where(key, operator || '==', value)
-        .get() */
       for (const filter of filters) {
         if (filter.key) {
           collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
