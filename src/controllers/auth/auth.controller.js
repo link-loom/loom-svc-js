@@ -27,7 +27,7 @@ class AuthController {
     const entity = new this._models.User(user, this._dependencies)
     const sanitizedUser = entity.get
     const token = await this._auth.token.create(sanitizedUser, {
-      identity: user.dni || user.phone || user.email,
+      identity: user.national_id || user.phone || user.email,
       session_time: Math.round(this._dependencies.config.TOKEN_EXPIRE / 24)
     })
 

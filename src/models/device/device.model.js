@@ -1,5 +1,32 @@
 const BaseModel = require('../base/base.model')
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Device:
+ *       type: object
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: The user's username.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The user's email.
+ *         password:
+ *           type: string
+ *           description: The user's password.
+ *           minLength: 6
+ *       example:
+ *         username: johnDoe
+ *         email: johndoe@example.com
+ *         password: secret123
+ */
 class DeviceModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {

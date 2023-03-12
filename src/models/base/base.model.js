@@ -1,3 +1,33 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Response:
+ *       type: object
+ *       required:
+ *         - status
+ *         - success
+ *         - message
+ *         - result
+ *       properties:
+ *         status:
+ *           type: number
+ *           description: Is the HTTP status code
+ *         success:
+ *           type: boolean
+ *           description: Define if response was failed or success
+ *         message:
+ *           type: string
+ *           description: The server error message
+ *         result:
+ *           type: object
+ *           description: Is the result object as DTO
+ *       example:
+ *         status: 500
+ *         success: false
+ *         message: Something was wrong while you make this action
+ *         result: {}
+ */
 class ModelBase {
   constructor (dependencies) {
     if (!dependencies) {

@@ -15,9 +15,59 @@ class UserRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/identity/user)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /user/{queryselector}:
+   *   get:
+   *     summary: Get an user by query selector.
+   *     description: Returns the user information that matches the query selector an search specified in the route.
+   *     tags:
+   *       - Usuarios
+   *     parameters:
+   *       - in: path
+   *         name: queryselector
+   *         description: ID del usuario a buscar.
+   *         required: true
+   *         schema:
+   *           enum:
+   *              - id
+   *              - national-id
+   *              - phone
+   *              - email
+   *              - business
+   *       - in: query
+   *         name: search
+   *         description: Keyword to search for users.
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/User'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async get ({ params }) {
     try {

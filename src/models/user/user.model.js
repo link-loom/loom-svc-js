@@ -1,5 +1,32 @@
 const BaseModel = require('../base/base.model')
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: The user's username.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The user's email.
+ *         password:
+ *           type: string
+ *           description: The user's password.
+ *           minLength: 6
+ *       example:
+ *         username: johnDoe
+ *         email: johndoe@example.com
+ *         password: secret123
+ */
 class UserModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
@@ -19,7 +46,7 @@ class UserModel extends BaseModel {
     this.status = { value: args.status || UserModel.statuses.active, type: dependencies.dal.types.object }
 
     /* Custom fields */
-    this.dni = { value: args.dni, type: dependencies.dal.types.string }
+    this.national_id = { value: args.national_id, type: dependencies.dal.types.string }
     this.email = { value: args.email, type: dependencies.dal.types.string }
     this.phone = { value: args.phone, type: dependencies.dal.types.string }
     this.password = { value: args.password, type: dependencies.dal.types.string }
@@ -41,7 +68,7 @@ class UserModel extends BaseModel {
     return {
       id: this.id.value || this.id.type.default,
       status: this.status.value || this.status.type.default,
-      dni: this.dni.value || this.dni.type.default,
+      national_id: this.national_id.value || this.national_id.type.default,
       email: this.email.value || this.email.type.default,
       phone: this.phone.value || this.phone.type.default,
       firstname: this.firstname.value || this.firstname.type.default,
@@ -63,7 +90,7 @@ class UserModel extends BaseModel {
       last_modification: this.last_modification.value || this.last_modification.type.default,
       last_user_modification: this.last_user_modification.value || this.last_user_modification.type.default,
       status: this.status.value || this.status.type.default,
-      dni: this.dni.value || this.dni.type.default,
+      national_id: this.national_id.value || this.national_id.type.default,
       email: this.email.value || this.email.type.default,
       phone: this.phone.value || this.phone.type.default,
       firstname: this.firstname.value || this.firstname.type.default,

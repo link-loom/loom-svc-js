@@ -7,7 +7,7 @@ class DependenciesManager {
     this._dependencies = {}
 
     /* Assigments */
-    this._namespace = '[Server]::[Dependencies]::[Manager]'  
+    this._namespace = '[Server]::[Dependencies]::[Manager]'
   }
 
   setup () {
@@ -52,7 +52,9 @@ class DependenciesManager {
       nodemailer: require('nodemailer'),
       bodyParser: require('body-parser'),
       cookieParser: require('cookie-parser'),
-      exceljs: require('exceljs')
+      exceljs: require('exceljs'),
+      swaggerJsdoc: require('swagger-jsdoc'),
+      swaggerUi: require('swagger-ui-express')
     }
 
     this.#importCustomDependencies()

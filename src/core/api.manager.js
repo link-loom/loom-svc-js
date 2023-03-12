@@ -6,10 +6,12 @@ class ApiManager {
     this._utilities = dependencies.utilities
 
     /* Custom Properties */
+    this._config = dependencies.config
+    this._auth = dependencies.auth
     this._app = dependencies.express
     this._express = dependencies.expressModule
-    this._auth = dependencies.auth
-    this._storage = dependencies.storage
+    this._swaggerJsdoc = dependencies.swaggerJsdoc
+    this._swaggerUi = dependencies.swaggerUi
 
     /* Assigments */
     this._namespace = '[Server]::[API]::[Manager]'
@@ -20,7 +22,7 @@ class ApiManager {
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    this.#createEndpoints()
+    this.#buildRoutes()
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
@@ -30,24 +32,25 @@ class ApiManager {
       this._apiRoutes[endpoint.method.toLocaleLowerCase()](
         `/${domain}${endpoint.httpRoute}`,
         this._auth.middleware.validateApi,
-        (req, res) => this.#handleRoute({ route, endpoint, req, res })
+        (req, res) => this.#handleRoute({ route, domain, endpoint, req, res })
       )
     } else {
       this._apiRoutes[endpoint.method.toLocaleLowerCase()](
         `/${domain}${endpoint.httpRoute}`,
-        (req, res) => this.#handleRoute({ route, endpoint, req, res })
+        (req, res) => this.#handleRoute({ route, domain, endpoint, req, res })
       )
     }
   }
 
-  async #handleRoute ({ route, endpoint, req, res }) {
+  async #handleRoute ({ route, domain, endpoint, req, res }) {
     const params = this._utilities.request.getParameters(req)
+
     const serviceResponse = await route[endpoint.handler]({ params, req, res })
 
     res.status(serviceResponse.status).json(serviceResponse)
   }
 
-  #createEndpoints () {
+  #buildApiEndpoints () {
     const router = require(this._path.join(this._dependencies.root, 'src', 'routes', 'router'))
 
     // Iterate over domain inside router file and try to build all API Rest routes
@@ -71,8 +74,41 @@ class ApiManager {
       }
     }
 
-    // apply the routes to our application with the prefix /api
+    // All API Rest endpoints are part of the root
     this._app.use('/', this._apiRoutes)
+  }
+
+  #buildDocs () {
+    const options = {
+      definition: {
+        openapi: '3.0.0',
+        info: {
+          title: this._config.SERVER.NAME,
+          version: this._config.SERVER.VERSION,
+        },
+        servers: [
+          {
+            url: `http://localhost:${this._config.SERVER.PORT}`,
+            description: this._config.SERVER.ID
+          }
+        ]
+      },
+      apis: ['src/routes/api/**/*.route.js', 'src/models/**/*.js'],
+    };
+
+    const specs = this._swaggerJsdoc(options);
+
+    this._app.use('/open-api.playground', this._swaggerUi.serve, this._swaggerUi.setup(specs))
+    this._app.get('/open-api.json', (_, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(specs);
+    })
+  }
+
+  #buildRoutes () {
+    this.#buildDocs()
+
+    this.#buildApiEndpoints()
 
     // Something else route response a 404 error
     this._apiRoutes.get('*', (_req, res) => {
