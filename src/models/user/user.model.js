@@ -3,29 +3,65 @@ const BaseModel = require('../base/base.model')
 /**
  * @swagger
  * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - username
- *         - email
- *         - password
- *       properties:
- *         username:
- *           type: string
- *           description: The user's username.
- *         email:
- *           type: string
- *           format: email
- *           description: The user's email.
- *         password:
- *           type: string
- *           description: The user's password.
- *           minLength: 6
- *       example:
- *         username: johnDoe
- *         email: johndoe@example.com
- *         password: secret123
+ *    schemas:
+ *      User:
+ *        type: object
+ *        required:
+ *          - phone
+ *        properties:
+ *          national_id:
+ *            type: string
+ *            description: The user's national_id.
+ *          email:
+ *            type: string
+ *            description: The user's email.
+ *          phone:
+ *            type: string
+ *            description: The user's phone.
+ *          password:
+ *            type: string
+ *            description: The user's password.
+ *          firstname:
+ *            type: string
+ *            description: The user's firstname.
+ *          lastname:
+ *            type: string
+ *            description: The user's lastname.
+ *          role:
+ *            type: string
+ *            description: The user's role.
+ *          last_login:
+ *            type: string
+ *            description: The user's last_login.
+ *          vca_account:
+ *            type: string
+ *            description: The user's vca_account.
+ *          link_email_activation:
+ *            type: string
+ *            description: The user's link_email_activation.
+ *          accept_terms:
+ *            type: string
+ *            description: The user's accept_terms.
+ *          is_account_actived:
+ *            type: string
+ *            description: The user's is_account_actived.
+ *          business_id:
+ *            type: string
+ *            description: The user's business_id.
+ *        example:
+ *            national_id: 1023925418
+ *            email: jhon.doe@company.com
+ *            phone: 573103494807
+ *            password: secret123
+ *            firstname: jhon
+ *            lastname: doe
+ *            role: { id: 3, name: 'employee', title: 'Employee' }
+ *            last_login: 1678660540978
+ *            vca_account: 1678660540978
+ *            link_email_activation: https://....
+ *            accept_terms: true
+ *            is_account_actived: true
+ *            business_id: biz-12345
  */
 class UserModel extends BaseModel {
   constructor (args, dependencies) {
@@ -54,8 +90,6 @@ class UserModel extends BaseModel {
     this.lastname = { value: args.lastname, type: dependencies.dal.types.string }
     this.role = { value: args.role || UserModel.roles.business, type: dependencies.dal.types.string }
     this.last_login = { value: args.last_login, type: dependencies.dal.types.string }
-    this.last_time_on_app = { value: args.last_time_on_app, type: dependencies.dal.types.string }
-    this.is_vca_completed = { value: args.is_vca_completed, type: dependencies.dal.types.boolean }
     this.vca_account = { value: args.vca_account, type: dependencies.dal.types.string }
     this.link_email_activation = { value: args.link_email_activation, type: dependencies.dal.types.string }
     this.accept_terms = { value: args.accept_terms, type: dependencies.dal.types.boolean }
@@ -75,7 +109,6 @@ class UserModel extends BaseModel {
       lastname: this.lastname.value || this.lastname.type.default,
       role: this.role.value || this.role.type.default,
       is_account_actived: this.is_account_actived.value || this.is_account_actived.type.default,
-      is_vca_completed: this.is_vca_completed.value || this.is_vca_completed.type.default,
       vca_account: this.vca_account.value || this.vca_account.type.default,
       link_email_activation: this.link_email_activation.value || this.link_email_activation.type.default,
       accept_terms: this.accept_terms.value || this.accept_terms.type.default,
@@ -97,7 +130,6 @@ class UserModel extends BaseModel {
       lastname: this.lastname.value || this.lastname.type.default,
       role: this.role.value || this.role.type.default,
       is_account_actived: this.is_account_actived.value || this.is_account_actived.type.default,
-      is_vca_completed: this.is_vca_completed.value || this.is_vca_completed.type.default,
       vca_account: this.vca_account.value || this.vca_account.type.default,
       link_email_activation: this.link_email_activation.value || this.link_email_activation.type.default,
       accept_terms: this.accept_terms.value || this.accept_terms.type.default,
@@ -117,6 +149,7 @@ UserModel.statuses = {
 UserModel.roles = {
   business: { id: 1, name: 'business', title: 'Business' },
   auditor: { id: 2, name: 'auditor', title: 'Auditor' },
+  employee: { id: 3, name: 'employee', title: 'Employee' },
   admin: { id: 9999, name: 'admin', title: 'Admin' }
 }
 

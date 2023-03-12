@@ -15,9 +15,59 @@ class NotificationRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/communication/notification)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /communication/notification/{queryselector}:
+   *   get:
+   *     summary: Get an user by query selector.
+   *     description: Returns the user information that matches the query selector an search specified in the route.
+   *     tags:
+   *       - Notification
+   *     parameters:
+   *       - in: path
+   *         name: queryselector
+   *         description: Is the filter available for this query
+   *         required: true
+   *         schema:
+   *           enum:
+   *              - id
+   *              - national-id
+   *              - phone
+   *              - email
+   *              - business
+   *       - in: query
+   *         name: search
+   *         description: Keyword to search for entities.
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/User'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async get ({ params }) {
     try {
@@ -47,9 +97,48 @@ class NotificationRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/communication/notification)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /communication/notification/:
+   *   post:
+   *      summary: Create a new notification.
+   *      description: Returns the created notification with data provided.
+   *      tags:
+   *       - Notification
+   *      requestBody:
+   *        description: Notification object to be created.
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/Notification'
+   *      responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/Device'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async create ({ params }) {
     try {
@@ -63,9 +152,48 @@ class NotificationRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/communication/notification)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /communication/notification/:
+   *   patch:
+   *      summary: Update an existing notification.
+   *      description: Updates the data of an existing notification with the data provided.
+   *      tags:
+   *       - Notification
+   *      requestBody:
+   *        description: Notification object to be created.
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/Notification'
+   *      responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/Notification'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async update ({ params }) {
     try {

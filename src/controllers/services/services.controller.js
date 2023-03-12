@@ -17,7 +17,9 @@ class ServicesController {
   }
 
   async getBackendUri () {
-    return this._utilities.response.success(this._config.BACKEND_URI || '/')
+    return this._utilities.response.success({
+      uri: this._config.BACKEND_URI || '/'
+    })
   }
 
   get status () {

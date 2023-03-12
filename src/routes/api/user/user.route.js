@@ -21,11 +21,11 @@ class UserRoute {
    *     summary: Get an user by query selector.
    *     description: Returns the user information that matches the query selector an search specified in the route.
    *     tags:
-   *       - Usuarios
+   *       - User
    *     parameters:
    *       - in: path
    *         name: queryselector
-   *         description: ID del usuario a buscar.
+   *         description: Is the filter available for this query
    *         required: true
    *         schema:
    *           enum:
@@ -36,7 +36,7 @@ class UserRoute {
    *              - business
    *       - in: query
    *         name: search
-   *         description: Keyword to search for users.
+   *         description: Keyword to search for entities.
    *         required: true
    *         schema:
    *           type: string
@@ -103,9 +103,48 @@ class UserRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/identity/user)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /user/:
+   *   post:
+   *      summary: Create a new user.
+   *      description: Returns the created user with data provided.
+   *      tags:
+   *       - User
+   *      requestBody:
+   *        description: User object to be created.
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/User'
+   *      responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/User'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async create ({ params }) {
     try {
@@ -119,9 +158,48 @@ class UserRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/identity/user)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /user/:
+   *   patch:
+   *      summary: Update an existing user.
+   *      description: Updates the data of an existing user with the data provided.
+   *      tags:
+   *       - User
+   *      requestBody:
+   *        description: User object to be created.
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/User'
+   *      responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result:
+   *                     $ref: '#/components/schemas/User'
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async update ({ params }) {
     try {

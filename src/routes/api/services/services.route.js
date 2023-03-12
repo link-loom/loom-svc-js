@@ -15,9 +15,40 @@ class ServicesRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/services/backend-uri)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /system/services/backend-uri:
+   *   get:
+   *     summary: Return the backend URI.
+   *     description: Returns the user information that matches the query selector an search specified in the route.
+   *     tags:
+   *       - System
+   *     responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result: { uri: 'https://...'}
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async getBackendUri ({ params }) {
     try {

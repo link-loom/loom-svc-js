@@ -1,5 +1,50 @@
 const BaseModel = require('../base/base.model')
 
+/**
+ * @swagger
+ * components:
+ *    schemas:
+ *      Notification:
+ *        type: object
+ *        required:
+ *          - sender_user_id
+ *          - message
+ *          - receiver_user_id
+ *        properties:
+ *          date:
+ *            type: string
+ *            description: Notification's date.
+ *          sender_user_id:
+ *            type: string
+ *            description: Notification's sender_user_id.
+ *          message:
+ *            type: string
+ *            description: Notification's message.
+ *          receiver_user_id:
+ *            type: string
+ *            description: Notification's receiver_user_id.
+ *          subject:
+ *            type: string
+ *            description: Notification's subject.
+ *          message_resume:
+ *            type: string
+ *            description: Notification's message_resume.
+ *          business_id:
+ *            type: string
+ *            description: Notification's business_id.
+ *          folder:
+ *            type: object
+ *            description: Notification's folder.
+ *        example:
+ *          date: "1678660540978"
+ *          sender_user_id: "usr-12345"
+ *          message: "Hello world! I'm from space"
+ *          receiver_user_id: "usr-67890"
+ *          subject: "Hello"
+ *          message_resume: "Hello world! ..."
+ *          business_id: "biz-1234"
+ *          folder: { id: 1, name: 'inbox', title: 'SIDE_INBOX_OPTION', icon: 'mdi-email-outline' }
+ */
 class NotificationModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
@@ -20,7 +65,7 @@ class NotificationModel extends BaseModel {
 
     /* Custom fields */
     this.date = { value: timestamp, type: dependencies.dal.types.timestamp }
-    this.sender = { value: args.sender, type: dependencies.dal.types.string }
+    this.sender_user_id = { value: args.sender_user_id, type: dependencies.dal.types.string }
     this.message = { value: args.message, type: dependencies.dal.types.string }
     this.receiver_user_id = { value: args.receiver_user_id, type: dependencies.dal.types.string }
     this.subject = { value: args.subject, type: dependencies.dal.types.string }
@@ -39,7 +84,7 @@ class NotificationModel extends BaseModel {
       receiver_user_id: this.receiver_user_id.value || this.receiver_user_id.type.default,
       subject: this.subject.value || this.subject.type.default,
       message_resume: this.message_resume.value || this.message_resume.type.default,
-      sender: this.sender.value || this.sender.type.default,
+      sender_user_id: this.sender_user_id.value || this.sender_user_id.type.default,
       folder: this.folder.value || this.folder.type.default
     }
   }
@@ -56,7 +101,7 @@ class NotificationModel extends BaseModel {
       receiver: this.receiver.value || this.receiver.type.default,
       subject: this.subject.value || this.subject.type.default,
       message_resume: this.message_resume.value || this.message_resume.type.default,
-      sender: this.sender.value || this.sender.type.default,
+      sender_user_id: this.sender_user_id.value || this.sender_user_id.type.default,
       folder: this.folder.value || this.folder.type.default
     }
   }

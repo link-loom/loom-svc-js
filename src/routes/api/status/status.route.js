@@ -15,9 +15,40 @@ class StatusRoute {
   }
 
   /**
-   * Route to get status entity (GET http://<<URL>>/system/status)
-   * @param {*} req Express request
-   * @param {*} res Express response
+   * @swagger
+   * /system/status:
+   *   get:
+   *     summary: Get server status.
+   *     description: Returns if server is operative and online, this is useful to implement server checkers.
+   *     tags:
+   *       - System
+   *     responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Operation completed successfully
+   *                   result: Server is online
+   *       500:
+   *         description: Something was wrong while you make this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something was wrong while you make this action
+   *                   result: null
    */
   async get ({ params }) {
     try {

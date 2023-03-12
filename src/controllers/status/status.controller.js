@@ -17,7 +17,7 @@ class StatusController {
   }
 
   async get () {
-    return this._utilities.response.success('API is online')
+    return this._utilities.response.success('Server is online')
   }
 
   get status () {

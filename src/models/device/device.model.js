@@ -5,27 +5,28 @@ const BaseModel = require('../base/base.model')
  * components:
  *   schemas:
  *     Device:
- *       type: object
- *       required:
- *         - username
- *         - email
- *         - password
- *       properties:
- *         username:
+ *      type: object
+ *      required:
+ *        - user_id
+ *        - fingerprint
+ *      properties:
+ *        user_id:
  *           type: string
- *           description: The user's username.
- *         email:
+ *           description: Device's user_id.
+ *        fingerprint:
  *           type: string
- *           format: email
- *           description: The user's email.
- *         password:
+ *           description: Device's fingerprint.
+ *        operating_system_name:
  *           type: string
- *           description: The user's password.
- *           minLength: 6
- *       example:
- *         username: johnDoe
- *         email: johndoe@example.com
- *         password: secret123
+ *           description: Device's operating_system_name.
+ *        operating_system_version:
+ *           type: string
+ *           description: Device's operating_system_version.
+ *      example:
+ *        user_id: usr-12345
+ *        fingerprint: 1678660540978
+ *        operating_system_name: windows
+ *        operating_system_version: 11
  */
 class DeviceModel extends BaseModel {
   constructor (args, dependencies) {
@@ -47,7 +48,6 @@ class DeviceModel extends BaseModel {
 
     /* Custom fields */
     this.user_id = { value: args.user_id, type: dependencies.dal.types.string }
-    this.push_token = { value: args.push_token, type: dependencies.dal.types.string }
     this.fingerprint = { value: args.fingerprint, type: dependencies.dal.types.string }
     this.operating_system_name = { value: args.operating_system_name, type: dependencies.dal.types.string }
     this.operating_system_version = { value: args.operating_system_version, type: dependencies.dal.types.string }
@@ -59,7 +59,6 @@ class DeviceModel extends BaseModel {
       id: this.id.value || this.id.type.default,
       status: this.status.value || this.status.type.default,
       user_id: this.user_id.value || this.user_id.type.default,
-      push_token: this.push_token.value || this.push_token.type.default,
       fingerprint: this.fingerprint.value || this.fingerprint.type.default,
       operating_system_name: this.operating_system_name.value || this.operating_system_name.type.default,
       operating_system_version: this.operating_system_version.value || this.operating_system_version.type.default
@@ -74,7 +73,6 @@ class DeviceModel extends BaseModel {
       last_user_modification: this.last_user_modification.value || this.last_user_modification.type.default,
       status: this.status.value || this.status.type.default,
       user_id: this.user_id.value || this.user_id.type.default,
-      push_token: this.push_token.value || this.push_token.type.default,
       fingerprint: this.fingerprint.value || this.fingerprint.type.default,
       operating_system_name: this.operating_system_name.value || this.operating_system_name.type.default,
       operating_system_version: this.operating_system_version.value || this.operating_system_version.type.default

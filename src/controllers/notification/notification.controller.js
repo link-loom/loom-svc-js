@@ -71,7 +71,7 @@ class NotificationController {
 
   async #channelStored (data) {
     try {
-      if (!data || !data.message || !data.receiver) {
+      if (!data || !data.message || !data.receiver_user_id) {
         this._console.error('message or receiver not providen')
         return this._utilities.response.error('Please provide at minimum a message and a receiver')
       }

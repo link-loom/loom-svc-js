@@ -1,5 +1,20 @@
 const BaseModel = require('../base/base.model')
 
+/**
+ * @swagger
+ * components:
+ *    schemas:
+ *    Template:
+ *      type: object
+ *      required:
+ *        - name
+ *      properties:
+ *        name:
+ *          type: string
+ *          description: Template model name.
+ *      example:
+ *        name: my property name
+ */
 class TemplateModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
