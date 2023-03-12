@@ -3,6 +3,7 @@ class NotificationRoute {
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
+    this._console = this._dependencies.console
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -10,6 +11,7 @@ class NotificationRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this.EntityController = this._controllers.NotificationController
   }
 
   /**
@@ -17,27 +19,31 @@ class NotificationRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async get (req, res) {
-    const entityController = new this._controllers.NotificationController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async get ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
+      let response = {}
 
-    switch (params.queryselector) {
-      case 'id':
-        response = await entityController.getById(params)
-        break
-      case 'receiver':
-        response = await entityController.getByReceiverUserId(params)
-        break
-      case 'business-id':
-        response = await entityController.getByBusinessId(params)
-        break
-      default:
-        response = this._utilities.response.error('Provide a valid slug to query')
-        break
+      switch (params.queryselector) {
+        case 'id':
+          response = await entityController.getById(params)
+          break
+        case 'receiver':
+          response = await entityController.getByReceiverUserId(params)
+          break
+        case 'business-id':
+          response = await entityController.getByBusinessId(params)
+          break
+        default:
+          response = this._utilities.response.error('Provide a valid slug to query')
+          break
+      }
+
+      return response
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
     }
-
-    res.json(response)
   }
 
   /**
@@ -45,14 +51,15 @@ class NotificationRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async create (req, res) {
-    const notificationController = new this._controllers.NotificationController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async create ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await notificationController.create(params)
-
-    res.json(response)
+      return entityController.create(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -60,14 +67,15 @@ class NotificationRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async update (req, res) {
-    const notificationController = new this._controllers.NotificationController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async update ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await notificationController.update(params)
-
-    res.json(response)
+      return entityController.update(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 }
 

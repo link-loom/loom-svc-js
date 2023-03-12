@@ -3,6 +3,7 @@ class AuthRoute {
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
+    this._console = this._dependencies.console
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -10,6 +11,7 @@ class AuthRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this.EntityController = this._controllers.AuthController
   }
 
   /**
@@ -17,14 +19,15 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async login (req, res) {
-    const authController = new this._controllers.AuthController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async login ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await authController.login(params)
-
-    res.json(response)
+      return entityController.login(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -32,14 +35,15 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async logout (req, res) {
-    const authController = new this._controllers.AuthController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async logout ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await authController.logout(params)
-
-    res.json(response)
+      return entityController.logout(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -47,14 +51,15 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async validateEmail (req, res) {
-    const authController = new this._controllers.AuthController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async validateEmail ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await authController.validateEmail(params)
-
-    res.json(response)
+      return entityController.validateEmail(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -62,14 +67,15 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async validateAccountChatbot (req, res) {
-    const authController = new this._controllers.AuthController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async validateAccountChatbot ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await authController.validateAccountChatbot(params)
-
-    res.json(response)
+      return entityController.validateAccountChatbot(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 }
 

@@ -2,7 +2,7 @@
   "name": "beat",
   "title": "Beat",
   "description": "Server framework to create fast and lightweight projects",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "homepage": "https://reversebytes.wordpress.com",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
@@ -41,7 +41,9 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.7.3",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "standard": "^17.0.0"

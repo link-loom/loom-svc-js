@@ -46,16 +46,27 @@ class UtilitiesManager {
     return isValid
   }
 
-  throwError (message) {
+  throwError (message, { status }) {
     if (message) {
-      return { success: false, message: message, result: null }
+      return {
+        status: status || 500,
+        success: false,
+        message: message,
+        result: null
+      }
     }
 
-    return { success: false, message: 'Something was wrong while you make this action', result: null }
+    return {
+      status: status || 500,
+      success: false,
+      message: 'Something was wrong while you make this action',
+      result: null
+    }
   }
 
-  throwSuccess (data, message) {
+  throwSuccess (data, message, { status } = {}) {
     return {
+      status: status || 200,
       success: true,
       message: message || 'Operation completed successfully',
       result: data || {}

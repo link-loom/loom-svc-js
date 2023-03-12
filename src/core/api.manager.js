@@ -3,6 +3,7 @@ class ApiManager {
     /* Base Properties */
     this._dependencies = dependencies
     this._console = dependencies.console
+    this._utilities = dependencies.utilities
 
     /* Custom Properties */
     this._app = dependencies.express
@@ -24,55 +25,32 @@ class ApiManager {
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  handleGetMethod (route, domain, endpoint) {
+  #handleHttpMethod ({ route, domain, endpoint }) {
     if (endpoint.protected) {
-      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
+      this._apiRoutes[endpoint.method.toLocaleLowerCase()](
+        `/${domain}${endpoint.httpRoute}`,
+        this._auth.middleware.validateApi,
+        (req, res) => this.#handleRoute({ route, endpoint, req, res })
+      )
     } else {
-      this._apiRoutes.get(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
+      this._apiRoutes[endpoint.method.toLocaleLowerCase()](
+        `/${domain}${endpoint.httpRoute}`,
+        (req, res) => this.#handleRoute({ route, endpoint, req, res })
+      )
     }
   }
 
-  handlePostMethod (route, domain, endpoint) {
-    if (endpoint.isUpload && this._storage) {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._storage.single('file'), (req, res) => route[endpoint.handler](req, res))
-      return
-    }
+  async #handleRoute ({ route, endpoint, req, res }) {
+    const params = this._utilities.request.getParameters(req)
+    const serviceResponse = await route[endpoint.handler]({ params, req, res })
 
-    if (endpoint.protected) {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
-    } else {
-      this._apiRoutes.post(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
-    }
-  }
-
-  handlePutMethod (route, domain, endpoint) {
-    if (endpoint.protected) {
-      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
-    } else {
-      this._apiRoutes.put(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
-    }
-  }
-
-  handlePatchMethod (route, domain, endpoint) {
-    if (endpoint.protected) {
-      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
-    } else {
-      this._apiRoutes.patch(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
-    }
-  }
-
-  handleDeleteMethod (route, domain, endpoint) {
-    if (endpoint.protected) {
-      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, this._auth.middleware.validateApi, (req, res) => route[endpoint.handler](req, res))
-    } else {
-      this._apiRoutes.delete(`/${domain}${endpoint.httpRoute}`, (req, res) => route[endpoint.handler](req, res))
-    }
+    res.status(serviceResponse.status).json(serviceResponse)
   }
 
   #createEndpoints () {
     const router = require(this._path.join(this._dependencies.root, 'src', 'routes', 'router'))
 
-    // build each api routes
+    // Iterate over domain inside router file and try to build all API Rest routes
     for (const domainName in router) {
       if (Object.hasOwnProperty.call(router, domainName)) {
         const domain = router[domainName]
@@ -80,25 +58,12 @@ class ApiManager {
         domain.map((endpoint) => {
           try {
             const Route = require(this._path.join(this._dependencies.root, `src/${endpoint.route}`))
-            switch (endpoint.method.toLocaleUpperCase()) {
-              case 'GET':
-                this.handleGetMethod(new Route(this._dependencies), domainName, endpoint)
-                break
-              case 'POST':
-                this.handlePostMethod(new Route(this._dependencies), domainName, endpoint)
-                break
-              case 'PUT':
-                this.handlePutMethod(new Route(this._dependencies), domainName, endpoint)
-                break
-              case 'PATCH':
-                this.handlePatchMethod(new Route(this._dependencies), domainName, endpoint)
-                break
-              case 'DELETE':
-                this.handleDeleteMethod(new Route(this._dependencies), domainName, endpoint)
-                break
-              default:
-                break
-            }
+
+            this.#handleHttpMethod({
+              route: new Route(this._dependencies),
+              domain: domainName,
+              endpoint: endpoint
+            })
           } catch (error) {
             this._console.error(`Endpoint failed: ${JSON.stringify(endpoint)}`, true)
           }

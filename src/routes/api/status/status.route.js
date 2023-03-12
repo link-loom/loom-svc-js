@@ -3,6 +3,7 @@ class StatusRoute {
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
+    this._console = this._dependencies.console
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -10,6 +11,7 @@ class StatusRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this.EntityController = this._controllers.StatusController
   }
 
   /**
@@ -17,14 +19,15 @@ class StatusRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async get (req, res) {
-    const statusController = new this._controllers.StatusController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async get ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await statusController.get(params)
-
-    res.json(response)
+      return entityController.get(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 }
 

@@ -3,6 +3,7 @@ class UploadRoute {
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
+    this._console = this._dependencies.console
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -10,6 +11,7 @@ class UploadRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this.EntityController = this._controllers.UploadController
   }
 
   /**
@@ -17,13 +19,15 @@ class UploadRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async upload (req, res) {
-    const uploadController = new this._controllers.UploadController(this._dependencies)
-    let response = {}
+  async upload ({ params, req, res }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await uploadController.uploadFile(req, res)
-
-    res.json(response)
+      return entityController.uploadFile(req, res)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -31,16 +35,13 @@ class UploadRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async bulk (req, res) {
+  async bulk ({ params, req, res }) {
     try {
-      const uploadController = new this._controllers.UploadController(this._dependencies)
-      let response = {}
+      const entityController = new this.EntityController(this._dependencies)
 
-      response = await uploadController.bulk(req, res)
-
-      res.json(response)
+      return entityController.bulk(req, res)
     } catch (error) {
-      res.json(this._utilities.response.error(error.message))
+      return this._utilities.response.error(error.message)
     }
   }
 }

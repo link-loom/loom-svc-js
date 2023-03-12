@@ -3,6 +3,7 @@ class DeviceRoute {
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
+    this._console = this._dependencies.console
     this._controllers = this._dependencies.controllers
 
     /* Custom Properties */
@@ -10,6 +11,7 @@ class DeviceRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this.EntityController = this._controllers.DeviceController
   }
 
   /**
@@ -17,30 +19,34 @@ class DeviceRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async get (req, res) {
-    const entityController = new this._controllers.DeviceController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async get ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
+      let response = {}
 
-    switch (params.queryselector) {
-      case 'id':
-        response = await entityController.getById(params)
-        break
-      case 'user-id':
-        response = await entityController.getByUserId(params)
-        break
-      case 'fingerprint':
-        response = await entityController.getByFingerprint(params)
-        break
-      case 'identity':
-        response = await entityController.getByIdentity(params)
-        break
-      default:
-        response = this._utilities.response.error('Provide a valid slug to query')
-        break
+      switch (params.queryselector) {
+        case 'id':
+          response = await entityController.getById(params)
+          break
+        case 'user-id':
+          response = await entityController.getByUserId(params)
+          break
+        case 'fingerprint':
+          response = await entityController.getByFingerprint(params)
+          break
+        case 'identity':
+          response = await entityController.getByIdentity(params)
+          break
+        default:
+          response = this._utilities.response.error('Provide a valid slug to query')
+          break
+      }
+
+      return response
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
     }
-
-    res.json(response)
   }
 
   /**
@@ -48,14 +54,15 @@ class DeviceRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async create (req, res) {
-    const deviceController = new this._controllers.DeviceController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async create ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await deviceController.create(params)
-
-    res.json(response)
+      return entityController.create(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 
   /**
@@ -63,14 +70,15 @@ class DeviceRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async update (req, res) {
-    const deviceController = new this._controllers.DeviceController(this._dependencies)
-    const params = this._utilities.request.getParameters(req)
-    let response = {}
+  async update ({ params }) {
+    try {
+      const entityController = new this.EntityController(this._dependencies)
 
-    response = await deviceController.update(params)
-
-    res.json(response)
+      return entityController.update(params)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.response.error()
+    }
   }
 }
 
