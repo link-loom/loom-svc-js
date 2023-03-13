@@ -4,28 +4,25 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-# Beat - %BEAT%
+# Beat
 
-Server framework for your Node.js projects made with [Express](https://expressjs.com/), [Firebase](https://firebase.google.com/) and [ReactDOM](https://reactjs.org/docs/react-dom.html) to server rendering.
+Another Node.js Server framework to create microservices or huge monoliths.
 
 ## Features
 
-* No styling at all, this is a completely bare containing only the essential things you need
-* A solid MVC architecture implementation
+* Open Api specification.
 * Cron functions to execute code in intervals
 * Cached functions to save concurrent data, you can upgrade to Redis.
-* CLI tool to quicly create new views and API routes.
-* ReactDOM to server rendering views with Express.js
-* Vue.js to implement in client side
-* Strong validations to prevent code-vulnerabilities
-* Authentication middlewares
-* Cookies management
-* Tons of utilities to cypher data, search, handle responses, generate automatic IDs and so on
-* Own logs management to handle errors or queue messages
-* Possibility to change SQL engine
-* Easy-code to newbies devs
-* Isolated core code to be upgraded more easily
-* It's flexible, implement any architecture, database or change every thing you need.
+* CLI tool to quickly create new views and API routes.
+* Authentication middlewares.
+* Cookies management.
+* Tons of utilities to cypher data, search, handle responses, generate automatic IDs and so on.
+* Own logs management to handle errors or queue messages.
+* Multiple database engine handle, only you need to write your datasource.
+* Isolated core code to be upgraded more easily.
+* API Rest routes handling.
+* Entity models specification.
+* Event-driven architecture to communicate another services or frontend clients.
 
 ## Create project
 
@@ -48,27 +45,39 @@ Step 1. Install the npm dependencies
 npm install
 ```
 
-## Create new frontend view
+## Configure your environment variables
+
+1. Go to ./config folder
+2. Copy template.json file
+3. Change new file name to default.json
+4. Change all configurations you need
+
+## Run
 
 ```shell
-beat-cli new-view
+npm run
 ```
 
-## Create new API controllers
-
-```shell
-beat-cli new-api
-```
-
-Are you not decided? select an option what you want and follow instructions.
-
-```shell
-beat-cli new
-```
 
 ## Documentation
 
+### Service docs
+
+#### Playground
+
+Navigate to:
+
+> http://localhost:[YOUR_PORT]/open-api.playground
+
+#### Open Api
+
+> http://localhost:[YOUR_PORT]/open-api.json
+
+#### Framework docs
+
 For all docs you need go to Wiki in this project.
+
+> https://github.com/thEpisode/beat/wiki
 
 ## License
 
