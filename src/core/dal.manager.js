@@ -93,36 +93,6 @@ class DalManager {
       }
     }
   }
-
-  queryBuilder ({
-    path = '',
-    query = '',
-    namespace = '',
-    table = '',
-    properties = '',
-    values = '',
-    condition = '',
-    payload = ''
-  }) {
-    if (!path || !query) {
-      return {
-        success: false,
-        message: 'Include a path and query to continue'
-      }
-    }
-
-    let _query = this._dal[path][query]
-
-    _query = _query
-      .replace('{{NAMESPACE}}', namespace)
-      .replace('{{TABLE}}', table)
-      .replace('{{PROPERTIES}}', properties)
-      .replace('{{VALUES}}', values)
-      .replace('{{CONDITION}}', condition)
-      .replace('{{PAYLOAD}}', payload)
-
-    return _query
-  }
 }
 
 DalManager.statuses = {
