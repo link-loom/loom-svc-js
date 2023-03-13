@@ -67,11 +67,15 @@ npm run
 
 Navigate to:
 
-> http://localhost:[YOUR_PORT]/open-api.playground
+> http://localhost:3601/open-api.playground
+
+**Warning:** If you change your default port, you need to change in the previous route
 
 #### Open Api
 
-> http://localhost:[YOUR_PORT]/open-api.json
+> http://localhost:3601/open-api.json
+
+**Warning:** If you change your default port, you need to change in the previous route
 
 #### Framework docs
 

@@ -4,7 +4,7 @@
     "VERSION": "5.1.4"
   },
   "SERVER": {
-    "PORT": "3603",
+    "PORT": "3601",
     "VERSION": "1.0.0",
     "NAME": "%BEAT%",
     "ID": "xxxx__your_id",
