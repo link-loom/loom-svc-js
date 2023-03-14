@@ -33,9 +33,9 @@ const BaseModel = require('../base/base.model')
  *          last_login:
  *            type: string
  *            description: The user's last_login.
- *          vca_account:
+ *          veripass_id:
  *            type: string
- *            description: The user's vca_account.
+ *            description: The user's veripass_id.
  *          link_email_activation:
  *            type: string
  *            description: The user's link_email_activation.
@@ -57,7 +57,7 @@ const BaseModel = require('../base/base.model')
  *            lastname: doe
  *            role: { id: 3, name: 'employee', title: 'Employee' }
  *            last_login: 1678660540978
- *            vca_account: 1678660540978
+ *            veripass_id: 1678660540978
  *            link_email_activation: https://....
  *            accept_terms: true
  *            is_account_actived: true
@@ -90,7 +90,7 @@ class UserModel extends BaseModel {
     this.lastname = { value: args.lastname, type: dependencies.dal.types.string }
     this.role = { value: args.role || UserModel.roles.business, type: dependencies.dal.types.string }
     this.last_login = { value: args.last_login, type: dependencies.dal.types.string }
-    this.vca_account = { value: args.vca_account, type: dependencies.dal.types.string }
+    this.veripass_id = { value: args.veripass_id, type: dependencies.dal.types.string }
     this.link_email_activation = { value: args.link_email_activation, type: dependencies.dal.types.string }
     this.accept_terms = { value: args.accept_terms, type: dependencies.dal.types.boolean }
     this.is_account_actived = { value: args.is_account_actived, type: dependencies.dal.types.boolean }
@@ -109,7 +109,7 @@ class UserModel extends BaseModel {
       lastname: this.lastname.value || this.lastname.type.default,
       role: this.role.value || this.role.type.default,
       is_account_actived: this.is_account_actived.value || this.is_account_actived.type.default,
-      vca_account: this.vca_account.value || this.vca_account.type.default,
+      veripass_id: this.veripass_id.value || this.veripass_id.type.default,
       link_email_activation: this.link_email_activation.value || this.link_email_activation.type.default,
       accept_terms: this.accept_terms.value || this.accept_terms.type.default,
       business_id: this.business_id.value || this.business_id.type.default
@@ -130,7 +130,7 @@ class UserModel extends BaseModel {
       lastname: this.lastname.value || this.lastname.type.default,
       role: this.role.value || this.role.type.default,
       is_account_actived: this.is_account_actived.value || this.is_account_actived.type.default,
-      vca_account: this.vca_account.value || this.vca_account.type.default,
+      veripass_id: this.veripass_id.value || this.veripass_id.type.default,
       link_email_activation: this.link_email_activation.value || this.link_email_activation.type.default,
       accept_terms: this.accept_terms.value || this.accept_terms.type.default,
       password: this.password.value || this.password.type.default,
