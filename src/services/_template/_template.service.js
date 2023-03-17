@@ -1,4 +1,4 @@
-class TemplateController {
+class TemplateService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -6,7 +6,7 @@ class TemplateController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
@@ -89,4 +89,4 @@ class TemplateController {
   }
 }
 
-module.exports = TemplateController
+module.exports = TemplateService

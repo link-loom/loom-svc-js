@@ -1,4 +1,4 @@
-class DeviceController {
+class DeviceService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -6,7 +6,7 @@ class DeviceController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
@@ -169,4 +169,4 @@ class DeviceController {
   }
 }
 
-module.exports = DeviceController
+module.exports = DeviceService

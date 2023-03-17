@@ -35,7 +35,7 @@ class ServerManager {
 
       this.#setupModels()
 
-      this.#setupControllers()
+      this.#setupServicess()
 
       this.#setupFunctions()
 
@@ -148,12 +148,12 @@ class ServerManager {
     this._dependencies.core.add(pushManager.push, 'pushNotificationManager')
   }
 
-  #setupControllers () {
-    const { ControllerManager } = require('./controller.manager')
-    const controllersManager = new ControllerManager(this._dependencies.core.get())
-    controllersManager.setup()
+  #setupServicess () {
+    const { ServicesManager } = require('./service.manager')
+    const manager = new ServicesManager(this._dependencies.core.get())
+    manager.setup()
 
-    this._dependencies.core.add(controllersManager.controllers, 'controllers')
+    this._dependencies.core.add(manager.services, 'services')
   }
 
   #setupApi () {

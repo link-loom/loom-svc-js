@@ -1,4 +1,4 @@
-class UserController {
+class UserService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -6,14 +6,14 @@ class UserController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     this._tableName = 'users'
     this._auth = this._dependencies.auth
 
     /* Assigments */
-    this._backendController = new this._controllers.BackendController(this._dependencies)
+    this._backendService = new this._services.BackendService(this._dependencies)
   }
 
   async create (data) {
@@ -85,7 +85,7 @@ class UserController {
     const timestampKey = this._auth.encoder.base64.encode('timestamp')
     const serverUri = this._dependencies.config.SERVICES.FRONTEND.URI + this._dependencies.config.MAIL.VALIDATION_PATH
     const emailTokenKey = this._auth.encoder.base64.encode('token')
-    const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._backendController.key, { email: data.email }))
+    const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._backendService.key, { email: data.email }))
 
     data.id = this._utilities.idGenerator(15, 'usr-')
     data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`
@@ -93,13 +93,13 @@ class UserController {
   }
 
   async #sendConfirmationNotification (data) {
-    const notificationController = new this._controllers.NotificationController(this._dependencies)
+    const notificationService = new this._services.NotificationService(this._dependencies)
 
-    await notificationController.create({
+    await notificationService.create({
       to: data.email,
-      channels: [notificationController.channels.email.name],
+      channels: [notificationService.channels.email.name],
       email: {
-        template: notificationController.emailTemplate.confirmEmail,
+        template: notificationService.emailTemplate.confirmEmail,
         mainActionLink: data.confirmEmailLink
       }
     })
@@ -217,4 +217,4 @@ class UserController {
   }
 }
 
-module.exports = UserController
+module.exports = UserService

@@ -4,14 +4,14 @@ class UploadRoute {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityController = this._controllers.UploadController
+    this.EntityService = this._services.UploadService
   }
 
   /**
@@ -21,9 +21,9 @@ class UploadRoute {
    */
   async upload ({ params, req, res }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.uploadFile(req, res)
+      return entityService.uploadFile(req, res)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -37,9 +37,9 @@ class UploadRoute {
    */
   async bulk ({ params, req, res }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.bulk(req, res)
+      return entityService.bulk(req, res)
     } catch (error) {
       return this._utilities.response.error(error.message)
     }

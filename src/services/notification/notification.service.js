@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-class NotificationController {
+class NotificationService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -8,7 +8,7 @@ class NotificationController {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     this._tableName = 'notifications'
@@ -279,4 +279,4 @@ class NotificationController {
   }
 }
 
-module.exports = NotificationController
+module.exports = NotificationService

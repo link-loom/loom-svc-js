@@ -1,4 +1,4 @@
-class BackendController {
+class BackendService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,7 +7,7 @@ class BackendController {
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
     this._firebase = dependencies.firebaseManager
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     this._auth = this._dependencies.auth
@@ -48,4 +48,4 @@ class BackendController {
   }
 }
 
-module.exports = BackendController
+module.exports = BackendService

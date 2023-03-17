@@ -4,14 +4,14 @@ class DeviceRoute {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityController = this._controllers.DeviceController
+    this.EntityService = this._services.DeviceService
   }
 
   /**
@@ -71,21 +71,21 @@ class DeviceRoute {
    */
   async get ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
       let response = {}
 
       switch (params.queryselector) {
         case 'id':
-          response = await entityController.getById(params)
+          response = await entityService.getById(params)
           break
         case 'user-id':
-          response = await entityController.getByUserId(params)
+          response = await entityService.getByUserId(params)
           break
         case 'fingerprint':
-          response = await entityController.getByFingerprint(params)
+          response = await entityService.getByFingerprint(params)
           break
         case 'identity':
-          response = await entityController.getByIdentity(params)
+          response = await entityService.getByIdentity(params)
           break
         default:
           response = this._utilities.response.error('Provide a valid slug to query')
@@ -145,9 +145,9 @@ class DeviceRoute {
    */
   async create ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.create(params)
+      return entityService.create(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -200,9 +200,9 @@ class DeviceRoute {
    */
   async update ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.update(params)
+      return entityService.update(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

@@ -1,4 +1,4 @@
-class UploadController {
+class UploadService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,7 +7,7 @@ class UploadController {
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
     this._firebase = dependencies.firebaseManager
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     this.excel = dependencies.exceljs
@@ -26,7 +26,7 @@ class UploadController {
         return this._utilities.response.error('Add a path to handle your bulk request, please')
       }
 
-      if (!this._controllers[req.body.route] || !this._controllers[req.body.route][req.body.handler]) {
+      if (!this._services[req.body.route] || !this._services[req.body.route][req.body.handler]) {
         return this._utilities.response.error('Given path to handle your bulk request is not available')
       }
 
@@ -97,7 +97,7 @@ class UploadController {
 
       // Execute all rows and try to save it
       for (const row of fileTransformed.rows) {
-        const entityResponse = await this._controllers[req.body.route][req.body.handler](row)
+        const entityResponse = await this._services[req.body.route][req.body.handler](row)
 
         if (entityResponse && entityResponse.success) {
           response.success += 1
@@ -123,7 +123,7 @@ class UploadController {
       return this._utilities.response.error('Add a path to handle your bulk request, please')
     }
 
-    if (!this._controllers[req.body.route] || !this._controllers[req.body.route][req.body.handler]) {
+    if (!this._services[req.body.route] || !this._services[req.body.route][req.body.handler]) {
       return this._utilities.response.error('Given path to handle your bulk request is not available')
     }
 
@@ -155,4 +155,4 @@ class UploadController {
   }
 }
 
-module.exports = UploadController
+module.exports = UploadService

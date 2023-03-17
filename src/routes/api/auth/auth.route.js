@@ -4,14 +4,14 @@ class AuthRoute {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityController = this._controllers.AuthController
+    this.EntityService = this._services.AuthService
   }
 
   /**
@@ -21,9 +21,9 @@ class AuthRoute {
    */
   async login ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.login(params)
+      return entityService.login(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -37,9 +37,9 @@ class AuthRoute {
    */
   async logout ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.logout(params)
+      return entityService.logout(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -53,9 +53,9 @@ class AuthRoute {
    */
   async validateEmail ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.validateEmail(params)
+      return entityService.validateEmail(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -69,9 +69,9 @@ class AuthRoute {
    */
   async validateAccountChatbot ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.validateAccountChatbot(params)
+      return entityService.validateAccountChatbot(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

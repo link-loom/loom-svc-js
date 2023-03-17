@@ -4,14 +4,14 @@ class UserRoute {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityController = this._controllers.UserController
+    this.EntityService = this._services.UserService
   }
 
   /**
@@ -71,24 +71,24 @@ class UserRoute {
    */
   async get ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
       let response = {}
 
       switch (params.queryselector) {
         case 'id':
-          response = await entityController.getById(params)
+          response = await entityService.getById(params)
           break
         case 'national-id':
-          response = await entityController.getByNationalId(params)
+          response = await entityService.getByNationalId(params)
           break
         case 'phone':
-          response = await entityController.getByPhone(params)
+          response = await entityService.getByPhone(params)
           break
         case 'email':
-          response = await entityController.getByEmail(params)
+          response = await entityService.getByEmail(params)
           break
         case 'business-id':
-          response = await entityController.getByBusinessId(params)
+          response = await entityService.getByBusinessId(params)
           break
         default:
           response = this._utilities.response.error('Provide a valid slug to query')
@@ -148,9 +148,9 @@ class UserRoute {
    */
   async create ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.create(params)
+      return entityService.create(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()
@@ -203,9 +203,9 @@ class UserRoute {
    */
   async update ({ params }) {
     try {
-      const entityController = new this.EntityController(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies)
 
-      return entityController.update(params)
+      return entityService.update(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

@@ -1,4 +1,4 @@
-class ServicesController {
+class StatusService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,24 +7,22 @@ class ServicesController {
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
     this._firebase = dependencies.firebaseManager
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
-    this._config = this._dependencies.config
+    /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async getBackendUri () {
-    return this._utilities.response.success({
-      uri: this._config.BACKEND_URI || '/'
-    })
+  async get () {
+    return this._utilities.response.success('Server is online')
   }
 
   get status () {
-    return this._models.Services.statuses
+    return this._models.Status.statuses
   }
 }
 
-module.exports = ServicesController
+module.exports = StatusService

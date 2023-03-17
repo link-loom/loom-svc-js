@@ -1,4 +1,4 @@
-class AuthController {
+class AuthService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,14 +7,14 @@ class AuthController {
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
     this._firebase = dependencies.firebaseManager
-    this._controllers = this._dependencies.controllers
+    this._services = this._dependencies.services
 
     /* Custom Properties */
     this._auth = this._dependencies.auth
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this._backendController = new this._controllers.BackendController(this._dependencies)
+    this._backendService = new this._services.BackendService(this._dependencies)
   }
 
   async authenticateUser (data, user) {
@@ -45,9 +45,9 @@ class AuthController {
         return this._utilities.response.error('Data provided not match with any registered user')
       }
 
-      const userController = new this._controllers.UserController(this._dependencies)
+      const userService = new this._services.UserService(this._dependencies)
       const timestamp = (new Date()).getTime() + ''
-      const userResponse = await userController.getByIdentity(data)
+      const userResponse = await userService.getByIdentity(data)
 
       if (!this._utilities.response.isValid(userResponse)) {
         return this._utilities.response.error('User not found')
@@ -56,7 +56,7 @@ class AuthController {
       const user = userResponse.result
       const result = await this.authenticateUser(data, user)
 
-      userController.update({
+      userService.update({
         last_login: timestamp,
         identity: data.id,
         session_time: Math.round(this._dependencies.config.TOKEN_EXPIRE / 24)
@@ -72,37 +72,37 @@ class AuthController {
   async validateEmail (data) {
     try {
       if (!data || !data.timestamp || !data.token) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendController.key, 'Token is invalid, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is invalid, please try requesting another email.'))
       }
 
-      const userController = new this._controllers.UserController(this._dependencies)
+      const userService = new this._services.UserService(this._dependencies)
       const timestamp = +data.timestamp
       const hours = Math.floor(Math.abs(new Date() - new Date(+timestamp)) / 3.6e6)
 
       // Check if token is still valid
       if (this.dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendController.key, 'Token is outdated, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is outdated, please try requesting another email.'))
       }
 
       // Decode encrypted data
       const decodedToken = this._auth.encoder.base64.decode(data.token)
-      const decipheredToken = this._auth.crypto.decipherObject(this._backendController.key, decodedToken)
+      const decipheredToken = this._auth.crypto.decipherObject(this._backendService.key, decodedToken)
 
       // If decyphered data is valid
       if (!decipheredToken || !decipheredToken.email) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendController.key, 'Token is not valid, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is not valid, please try requesting another email.'))
       }
 
       // Update the user
       decipheredToken.cipher = false
       decipheredToken.sanitized = false
-      const userResult = await userController.getByEmail(decipheredToken)
+      const userResult = await userService.getByEmail(decipheredToken)
 
       if (!this._utilities.response.isValid(userResult)) {
         return this._utilities.response.error('Token is not valid, please try requesting another email.')
       }
 
-      const updateResult = await userController.update({
+      const updateResult = await userService.update({
         email: userResult.result.email,
         identity: userResult.result.email,
         is_account_actived: true
@@ -123,14 +123,14 @@ class AuthController {
     if (!data || !data.chat || !data.chat.user) {
       return this._utilities.response.error('Is not possible validate account, please provide at least a phone number')
     }
-    const userController = new this._controllers.UserController(this._dependencies)
-    const userResult = await userController.getByIdentity({ identity: data.chat.user })
+    const userService = new this._services.UserService(this._dependencies)
+    const userResult = await userService.getByIdentity({ identity: data.chat.user })
 
     if (!this._utilities.response.isValid(userResult)) {
       return userResult
     }
 
-    const updateResult = await userController.update({
+    const updateResult = await userService.update({
       identity: data.chat.user,
       is_account_actived: true
     })
@@ -147,4 +147,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController
+module.exports = AuthService

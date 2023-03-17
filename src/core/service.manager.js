@@ -1,4 +1,4 @@
-class ControllerManager {
+class ServiceManager {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,24 +7,24 @@ class ControllerManager {
     /* Custom Properties */
 
     /* Assigments */
-    this._namespace = '[Server]::[Controller]::[Manager]'
+    this._namespace = '[Server]::[Service]::[Manager]'
   }
 
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    this.#loadControllers()
+    this.#loadServices()
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  #loadControllers () {
-    this._controllers = require(`${this._dependencies.root}/src/controllers/index`)
+  #loadServices () {
+    this._services = require(`${this._dependencies.root}/src/services/index`)
   }
 
-  get controllers () {
-    return this._controllers
+  get services () {
+    return this._services
   }
 }
 
-module.exports = { ControllerManager }
+module.exports = { ServiceManager }

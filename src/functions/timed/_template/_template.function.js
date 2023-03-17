@@ -21,8 +21,8 @@ class Function {
     try {
       _console.info('Executing timed function')
 
-      const statusController = new _controllers.Status(this._dependencies)
-      const statusResponse = await statusController.get()
+      const statusService = new _services.Status(this._dependencies)
+      const statusResponse = await statusService.get()
 
       if (_utilities.response.isValid(statusResponse)) {
         this._console.log(statusResponse, { namespace: this._namespace })
