@@ -124,4 +124,4 @@ class EventProducerManager {
   }
 }
 
-module.exports = EventProducerManager
+module.exports = { EventProducerManager }

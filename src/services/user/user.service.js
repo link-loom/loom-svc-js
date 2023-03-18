@@ -10,7 +10,6 @@ class UserService {
 
     /* Custom Properties */
     this._tableName = 'users'
-    this._auth = this._dependencies.auth
 
     /* Assigments */
     this._apiManagerService = new this._services.ApiManagerService(this._dependencies)
@@ -82,14 +81,14 @@ class UserService {
 
   #formatCreateEntity (data) {
     const timestamp = (new Date()).getTime() + ''
-    const timestampKey = this._auth.encoder.base64.encode('timestamp')
+    const timestampKey = this._utilities.encoder.base64.encode('timestamp')
     const serverUri = this._dependencies.config.SERVICES.FRONTEND.URI + this._dependencies.config.MAIL.VALIDATION_PATH
-    const emailTokenKey = this._auth.encoder.base64.encode('token')
-    const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._apiManagerService.key, { email: data.email }))
+    const emailTokenKey = this._utilities.encoder.base64.encode('token')
+    const emailLinkToken = this._utilities.encoder.base64.encode(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, { email: data.email }))
 
     data.id = this._utilities.idGenerator(15, 'usr-')
     data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`
-    data.password = this._auth.hash.stringToHash(data.password || '')
+    data.password = this._utilities.generator.hash.fromString(data.password || '')
   }
 
   async #sendConfirmationNotification (data) {

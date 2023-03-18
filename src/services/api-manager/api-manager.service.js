@@ -13,7 +13,7 @@ class ApiManagerService {
     this._config = this._dependencies.config
 
     /* Assigments */
-    this._key = this._auth.crypto.generatePrivateKey(dependencies.config.SERVICES.API_MANAGER.SECRET)
+    this._key = this._utilities.generator.privateKey(dependencies.config.SERVICES.API_MANAGER.SECRET)
   }
 
   async getApiManagerUri () {

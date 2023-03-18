@@ -1,11 +1,24 @@
-const { DependenciesManager } = require('./dependencies.manager')
 class ServerManager {
   constructor (args) {
     /* Base Properties */
     this._args = args
-    this._dependencies = {}
+    this._dependenciesManager = {}
 
     /* Assigments */
+    this._utilitiesManager = {}
+    this._settingsManager = {}
+    this._consoleManager = {}
+    this._eventBusManager = {}
+    this._modelsManager = {}
+    this._dalManager = {}
+    this._authManager = {}
+    this._databaseManager = {}
+    this._pushManager = {}
+    this._serviceManager = {}
+    this._apiManager = {}
+    this._functionsManager = {}
+    this._eventBrokerManager = {}
+    this._eventProducerManager = {}
     this._namespace = '[Server]::[Manager]'
   }
 
@@ -15,15 +28,13 @@ class ServerManager {
 
       this.#setupDependencies()
 
+      this.#setupConsole()
+
       this.#setupUtilities()
 
       this.#setupSettings()
 
-      this.#setupConsole()
-
       this.#setupEventBus()
-
-      this.#setupAuth()
 
       this.#setupDal()
 
@@ -35,7 +46,7 @@ class ServerManager {
 
       this.#setupModels()
 
-      this.#setupServicess()
+      this.#setupServices()
 
       this.#setupFunctions()
 
@@ -49,9 +60,9 @@ class ServerManager {
 
       this.#serverLoadedTrigger()
 
-      this._dependencies.core.get().console.success('Loaded', { namespace: this._namespace })
+      this._dependenciesManager.core.get().console.success('Loaded', { namespace: this._namespace })
 
-      return this._dependencies.core.get()
+      return this._dependenciesManager.core.get()
     } catch (error) {
       console.log(error)
       process.exit()
@@ -59,170 +70,150 @@ class ServerManager {
   }
 
   #setupDependencies () {
-    this._dependencies = new DependenciesManager(this._args)
-    this._dependencies.setup()
+    const { DependenciesManager } = require('./dependencies.manager')
+    this._dependenciesManager = new DependenciesManager(this._args)
+    this._dependenciesManager.setup()
 
-    this._dependencies.core.add(this._dependencies, 'dependenciesManager')
+    this._dependenciesManager.core.add(this._dependenciesManager, 'DependenciesManager')
   }
 
   #setupUtilities () {
     const { UtilitiesManager } = require('./utilities.manager')
-    const utilities = new UtilitiesManager(this._dependencies.core.get())
+    this._utilitiesManager = new UtilitiesManager(this._dependenciesManager.core.get())
+    this._utilitiesManager.setup()
 
-    this._dependencies.core.add(utilities, 'utilities')
+    this._dependenciesManager.core.add(this._utilitiesManager, 'UtilitiesManager')
+    this._dependenciesManager.core.add(this._utilitiesManager, 'utilities')
   }
 
   #setupSettings () {
     const { SettingsManager } = require('./settings.manager')
-    this._settings = new SettingsManager(this._dependencies.core.get())
-    this._settings.setup()
+    this._settingsManager = new SettingsManager(this._dependenciesManager.core.get())
+    this._settingsManager.setup()
 
-    this._dependencies.core.add(this._settings, 'settings')
+    this._dependenciesManager.core.add(this._settingsManager, 'SettingsManager')
   }
 
   #setupConsole () {
     const { ConsoleManager } = require('./console.manager')
-    this._console = new ConsoleManager(this._dependencies.core.get())
-    this._console.setup()
+    this._consoleManager = new ConsoleManager(this._dependenciesManager.core.get())
+    this._consoleManager.setup()
 
-    this._dependencies.core.add(this._console, 'console')
+    this._dependenciesManager.core.add(this._consoleManager, 'console')
   }
 
   #setupEventBus () {
-    const EventBusManager = require('./eventSystem/bus.manager')
-    const eventBus = new EventBusManager(this._dependencies.core.get())
-    eventBus.setup()
+    const { BusManager } = require('./eventSystem/bus.manager')
+    this._eventBusManager = new BusManager(this._dependenciesManager.core.get())
+    this._eventBusManager.setup()
 
-    this._dependencies.core.add(eventBus, 'eventBus')
+    this._dependenciesManager.core.add(this._eventBusManager, 'eventBus')
   }
 
   #setupModels () {
     const { ModelManager } = require('./model.manager')
-    const modelsManager = new ModelManager(this._dependencies.core.get())
-    modelsManager.setup()
+    this._modelsManager = new ModelManager(this._dependenciesManager.core.get())
+    this._modelsManager.setup()
 
-    this._dependencies.core.add(modelsManager.models, 'models')
+    this._dependenciesManager.core.add(this._modelsManager, 'ModelsManager')
+    this._dependenciesManager.core.add(this._modelsManager.models, 'models')
   }
 
   async #setupDal () {
-    const { DalManager } = require('./dal.manager')
-    const dalManager = new DalManager(this._dependencies.core.get())
-    dalManager.setup()
+    const { DataTypesManager } = require('./data-types.manager')
+    this._dalManager = new DataTypesManager(this._dependenciesManager.core.get())
+    this._dalManager.setup()
 
-    this._dependencies.core.add(dalManager, 'dal')
-  }
-
-  #setupAuth () {
-    const { AuthManager } = require('./auth.manager')
-    const authManager = new AuthManager(this._dependencies.core.get())
-    authManager.setup()
-
-    this._dependencies.core.add(authManager, 'auth')
+    this._dependenciesManager.core.add(this._dalManager, 'dal')
   }
 
   #setupDatabase () {
     const { DatabaseManager } = require('./database.manager')
-    const databaseManager = new DatabaseManager({
-      dependencies: this._dependencies.core.get(),
-      dependencyInjector: this._dependencies
+    this._databaseManager = new DatabaseManager({
+      dependencies: this._dependenciesManager.core.get(),
+      dependencyInjector: this._dependenciesManager
     })
-    databaseManager.setup()
+    this._databaseManager.setup()
 
-    this._dependencies.core.add(databaseManager, 'databaseManager')
+    this._dependenciesManager.core.add(this._databaseManager, 'DatabaseManager')
 
-    return databaseManager
+    return this._databaseManager
   }
 
   #setupStorage () {
     const { StorageManager } = require('./storage.manager')
-    const _storageManager = new StorageManager(this._dependencies.core.get())
+    const _storageManager = new StorageManager(this._dependenciesManager.core.get())
 
     return _storageManager.setup()
   }
 
   async #setupPushNotifications () {
     const { PushManager } = require('./push.manager')
-    const pushManager = new PushManager(this._dependencies.core.get())
-    await pushManager.setup()
+    this._pushManager = new PushManager(this._dependenciesManager.core.get())
+    await this._pushManager.setup()
 
-    this._dependencies.core.add(pushManager.push, 'pushNotificationManager')
+    this._dependenciesManager.core.add(this._pushManager.push, 'PushNotificationManager')
   }
 
-  #setupServicess () {
-    const { ServicesManager } = require('./service.manager')
-    const manager = new ServicesManager(this._dependencies.core.get())
-    manager.setup()
+  #setupServices () {
+    const { ServiceManager } = require('./service.manager')
+    this._serviceManager = new ServiceManager(this._dependenciesManager.core.get())
+    this._serviceManager.setup()
 
-    this._dependencies.core.add(manager.services, 'services')
+    this._dependenciesManager.core.add(this._serviceManager, 'ServiceManager')
+    this._dependenciesManager.core.add(this._serviceManager.services, 'services')
   }
 
   #setupApi () {
     const { ApiManager } = require('./api.manager')
-    const apiManager = new ApiManager(this._dependencies.core.get())
-    apiManager.setup()
+    this._apiManager = new ApiManager(this._dependenciesManager.core.get())
+    this._apiManager.setup()
 
-    this._dependencies.core.add(apiManager, 'apiManager')
+    this._dependenciesManager.core.add(this._apiManager, 'ApiManager')
   }
 
   #setupFunctions () {
     const { FunctionsManager } = require('./functions.manager')
-    const _functionsManager = new FunctionsManager(this._dependencies.core.get())
+    this._functionsManager = new FunctionsManager(this._dependenciesManager.core.get())
 
-    this._dependencies.core.add(_functionsManager, 'functionsManager')
+    this._dependenciesManager.core.add(this._functionsManager, 'FunctionsManager')
   }
 
   #setupEventBroker () {
+    const { EventBrokerManager } = require('./eventSystem/broker.manager')
+    this._eventBrokerManager = new EventBrokerManager(this._dependenciesManager.core.get())
+
+    this._eventBrokerManager.setup()
+
     // Listening and setup socket
-    const webSocketServer = this._dependencies.core.get().socketModule(this._dependencies.core.get().httpServer, {
+    const webSocketServer = this._dependenciesManager.core.get().socketModule(this._dependenciesManager.core.get().httpServer, {
       cors: {
         origin: '*'
       }
     })
-    this._dependencies.core.add(webSocketServer, 'websocketServer')
 
-    const EventBrokerManager = require('./eventSystem/broker.manager')
-    const eventBrokerManager = new EventBrokerManager(this._dependencies.core.get())
-    eventBrokerManager.setup()
-
-    this._dependencies.core.add(eventBrokerManager, 'brokerManager')
-
-    return eventBrokerManager
+    this._dependenciesManager.core.add(webSocketServer, 'websocketServer')
+    this._dependenciesManager.core.add(this._eventBrokerManager, 'BrokerManager')
   }
 
   #setupEventProducer () {
-    const EventProducerManager = require('./eventSystem/producer.manager')
-    const eventProducerManager = new EventProducerManager(this._dependencies.core.get())
-    eventProducerManager.setup()
+    const { EventProducerManager } = require('./eventSystem/producer.manager')
+    this._eventProducerManager = new EventProducerManager(this._dependenciesManager.core.get())
+    this._eventProducerManager.setup()
 
-    this._dependencies.core.add(eventProducerManager, 'producerManager')
+    this._dependenciesManager.core.add(this._eventProducerManager, 'ProducerManager')
   }
 
   #setupServer () {
-    // Listening on port
-    const port = this.normalizePort(process.env.PORT || this._dependencies.core.get().config.SERVER.PORT)
-    if (port) {
-      this._dependencies.core.get().httpServer.listen(port)
-    } else {
-      this._console.error('Failed to find a port for this app, please setup on PORT environment variable or default config file')
-      process.exit(0)
-    }
+    this._settingsManager.listenServer()
   }
 
   #serverLoadedTrigger () {
-    this._dependencies.core.get().eventBus.bus.emit('server::loaded')
-  }
-
-  normalizePort (val) {
-    const port = parseInt(val, 10)
-
-    if (isNaN(port)) return val
-    if (port >= 0) return port
-
-    return false
+    this._dependenciesManager.core.get().eventBus.bus.emit('server::loaded')
   }
 
   get settings () {
-    return this._settings
+    return this._settingsManager
   }
 }
 

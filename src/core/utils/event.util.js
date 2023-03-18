@@ -3,11 +3,11 @@ class EventUtil {
     this._dependencies = dependencies
   }
 
-  brokerEmitToSocket ({ socket, settings, payload }) {
+  #brokerEmitToSocket ({ socket, settings, payload }) {
     socket.emit(settings.name, payload)
   }
 
-  brokerEmitToTopics ({ websocketServer, settings, payload }) {
+  #brokerEmitToTopics ({ websocketServer, settings, payload }) {
     if (!payload.context.topics || !payload.context.topics.length) {
       payload.context.topics = settings.topics
     }
@@ -21,23 +21,23 @@ class EventUtil {
     }
   }
 
-  brokerEmit ({ websocketServer, socket, settings, payload }) {
+  #brokerEmit ({ websocketServer, socket, settings, payload }) {
     if (!socket) {
-      this.brokerEmitToTopics({ websocketServer, settings, payload })
+      this.#brokerEmitToTopics({ websocketServer, settings, payload })
       return
     }
 
-    this.brokerEmitToSocket({ socket, settings, payload })
+    this.#brokerEmitToSocket({ socket, settings, payload })
   }
 
   get broker () {
     return {
-      emit: this.brokerEmit.bind(this),
+      emit: this.#brokerEmit.bind(this),
       socket: {
-        emit: this.brokerEmitToSocket.bind(this)
+        emit: this.#brokerEmitToSocket.bind(this)
       },
       topic: {
-        emit: this.brokerEmitToTopics.bind(this)
+        emit: this.#brokerEmitToTopics.bind(this)
       }
     }
   }

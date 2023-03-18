@@ -117,4 +117,4 @@ class EventBrokerManager {
   }
 }
 
-module.exports = EventBrokerManager
+module.exports = { EventBrokerManager }

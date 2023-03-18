@@ -27,4 +27,4 @@ class BusManager {
   }
 }
 
-module.exports = BusManager
+module.exports = { BusManager }

@@ -7,7 +7,6 @@ class ApiManager {
 
     /* Custom Properties */
     this._config = dependencies.config
-    this._auth = dependencies.auth
     this._app = dependencies.express
     this._express = dependencies.expressModule
     this._swaggerJsdoc = dependencies.swaggerJsdoc
@@ -31,7 +30,7 @@ class ApiManager {
     if (endpoint.protected) {
       this._apiRoutes[endpoint.method.toLocaleLowerCase()](
         `/${domain}${endpoint.httpRoute}`,
-        this._auth.middleware.validateApi,
+        this._utilities.validator.api.endpoint,
         (req, res) => this.#handleRoute({ route, domain, endpoint, req, res })
       )
     } else {

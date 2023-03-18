@@ -10,7 +10,6 @@ class RemoteApiService {
     this._services = this._dependencies.services
 
     /* Custom Properties */
-    this._auth = this._dependencies.auth
     this._request = this._dependencies.request
 
     /* Assigments */

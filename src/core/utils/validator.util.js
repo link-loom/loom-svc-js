@@ -1,0 +1,89 @@
+class ValidatorUtil {
+  constructor (dependencies) {
+    /* Base Properties */
+    this._dependencies = dependencies
+
+    /* Custom Properties */
+
+    /* Assigments */
+    this._namespace = '[Server]::[Utils]::[Validator]'
+  }
+
+  #objectIsEmpty (obj) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  #hashIsValid (payload) {
+    let passwordIsValid = false
+
+    if (payload && payload.receivedPassword && payload.hash) {
+      passwordIsValid = this._bcrypt.compareSync(payload.receivedPassword, payload.hash)
+    }
+
+    return passwordIsValid
+  }
+
+  #validateToken (token) {
+    return new Promise((resolve, reject) => {
+      this._jwt.verify(token, this._dependencies.config.SERVER.SECRET, (err, decoded) => {
+        if (err) {
+          return reject(err)
+        } else {
+          resolve(decoded)
+        }
+      })
+    })
+  }
+
+  async #validateApi (req, res, next) {
+    try {
+      // check header or url parameters or post parameters for token
+      const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
+
+      // exist token
+      if (!encryptedToken) {
+        // if there is no token return an error
+        return res.status(403).json(this._utilities.response.error('No token provided.'))
+      }
+
+      const decipherToken = this._utilities.encoder.crypto.decipherObject(this._config.SERVICES.API_MANAGER.SECRET, encryptedToken)
+
+      if (!decipherToken || !decipherToken.token) {
+        return res.status(403).json(this._utilities.response.error('Malformed token. Try with a valid token'))
+      }
+
+      const decoded = await this.#validateToken(decipherToken.token)
+      req.decodedToken = decoded
+      req.token = encryptedToken
+
+      next()
+    } catch (error) {
+      return res.status(403).json(this._utilities.response.error('Failed to authenticate token.'))
+    }
+  }
+
+  get validator () {
+    return {
+      object: {
+        isEmpty: this.#objectIsEmpty.bind(this)
+      },
+      hash: {
+        isValid: this.#hashIsValid.bind(this)
+      },
+      jwt: {
+        token: this.#validateToken.bind(this)
+      },
+      api: {
+        endpoint: this.#validateApi.bind(this)
+      }
+    }
+  }
+
+}
+
+module.exports = ValidatorUtil

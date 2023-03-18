@@ -10,7 +10,6 @@ class AuthService {
     this._services = this._dependencies.services
 
     /* Custom Properties */
-    this._auth = this._dependencies.auth
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
@@ -18,7 +17,7 @@ class AuthService {
   }
 
   async authenticateUser (data, user) {
-    const authenticationResult = this._auth.hash.isValid({ receivedPassword: data.password, hash: user.password })
+    const authenticationResult = this._utilities.validator.hash.isValid({ receivedPassword: data.password, hash: user.password })
 
     if (!authenticationResult) {
       return this._utilities.response.error('Wrong password. Try again or click Forgot password to reset it. After 3 failed attempts your account will be blocked by 24 hours.')
@@ -26,16 +25,18 @@ class AuthService {
 
     const entity = new this._models.User(user, this._dependencies)
     const sanitizedUser = entity.get
-    const token = await this._auth.token.create(sanitizedUser, {
-      identity: user.national_id || user.phone || user.email,
-      session_time: Math.round(this._dependencies.config.TOKEN_EXPIRE / 24)
+    const token = await this._utilities.generator.jwt.token({
+      tokenizedData: sanitizedUser,
+      payload: {
+        identity: user.veripass_id, // Or change by your own ID
+        session_time: Math.round(this._dependencies.config.TOKEN_EXPIRE / 24)
+      },
+      settings: {
+        secret: this._dependencies.config.SERVER.SECRET,
+        expiresIn: this._dependencies.config.SECURITY.JWT_TOKEN_LIFETIME_HOURS * 3600
+      }
     })
 
-    return this._utilities.response.success(token)
-  }
-
-  async logout () {
-    const token = await this._auth.token.destroy()
     return this._utilities.response.success(token)
   }
 
@@ -72,7 +73,7 @@ class AuthService {
   async validateEmail (data) {
     try {
       if (!data || !data.timestamp || !data.token) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
+        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
       }
 
       const userService = new this._services.UserService(this._dependencies)
@@ -81,16 +82,16 @@ class AuthService {
 
       // Check if token is still valid
       if (this.dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
+        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
       }
 
       // Decode encrypted data
-      const decodedToken = this._auth.encoder.base64.decode(data.token)
-      const decipheredToken = this._auth.crypto.decipherObject(this._apiManagerService.key, decodedToken)
+      const decodedToken = this._utilities.encoder.base64.decode(data.token)
+      const decipheredToken = this._utilities.encoder.crypto.decipherObject(this._apiManagerService.key, decodedToken)
 
       // If decyphered data is valid
       if (!decipheredToken || !decipheredToken.email) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is not valid, please try requesting another email.'))
+        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is not valid, please try requesting another email.'))
       }
 
       // Update the user
