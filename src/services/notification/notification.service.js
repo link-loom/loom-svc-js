@@ -69,6 +69,36 @@ class NotificationService {
     }
   }
 
+  async get ({ params }) {
+    try {
+      if (!data || !data.queryselector) {
+        return this._utilities.io.response.error('Please provide a queryselector')
+      }
+
+      let response = {}
+
+      switch (params.queryselector) {
+        case 'id':
+          response = await this.#getById(params)
+          break
+        case 'receiver':
+          response = await this.#getByReceiverUserId(params)
+          break
+        case 'business-id':
+          response = await this.#getByBusinessId(params)
+          break
+        default:
+          response = this._utilities.io.response.error('Provide a valid slug to query')
+          break
+      }
+
+      return response
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
   async #channelStored (data) {
     try {
       if (!data || !data.message || !data.receiver_user_id) {
@@ -186,7 +216,7 @@ class NotificationService {
     }).catch(err => { throw err })
   }
 
-  async getByFilters (data) {
+  async #getByFilters (data) {
     try {
       if (!data || !data.filters) {
         return this._utilities.io.response.error('Please provide at least one filter')
@@ -204,13 +234,13 @@ class NotificationService {
     }
   }
 
-  async getById (data) {
+  async #getById (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'id', operator: '==', value: data.search }
         ]
@@ -221,13 +251,13 @@ class NotificationService {
     }
   }
 
-  async getByReceiverUserId (data) {
+  async #getByReceiverUserId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'receiver_user_id', operator: '==', value: data.search }
         ]
@@ -238,13 +268,13 @@ class NotificationService {
     }
   }
 
-  async getByBusinessId (data) {
+  async #getByBusinessId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'business_id', operator: '==', value: data.search }
         ]

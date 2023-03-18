@@ -21,7 +21,7 @@ class UserService {
         return this._utilities.io.response.error('Please provide minimum data')
       }
 
-      const entityResponse = await this.getByFilters({
+      const entityResponse = await this.#getByFilters({
         filters: [
           { key: 'phone', operator: '==', value: data.phone }
         ]
@@ -79,6 +79,145 @@ class UserService {
     }
   }
 
+  async get(data){
+    try {
+      if (!data || !data.queryselector) {
+        return this._utilities.io.response.error('Please provide a queryselector')
+      }
+
+      let response = {}
+
+      switch (data.queryselector) {
+        case 'id':
+          response = await this.#getById(data)
+          break
+        case 'national-id':
+          response = await this.#getByNationalId(data)
+          break
+        case 'phone':
+          response = await this.#getByPhone(data)
+          break
+        case 'email':
+          response = await this.#getByEmail(data)
+          break
+        case 'business-id':
+          response = await this.#getByBusinessId(data)
+          break
+        default:
+          response = this._utilities.io.response.error('Provide a valid slug to query')
+          break
+      }
+
+      return response
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getById (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.io.response.error('Please provide query to search')
+      }
+
+      return this.#getByFilters({
+        filters: [
+          { key: 'id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByNationalId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.io.response.error('Please provide query to search')
+      }
+
+      return this.#getByFilters({
+        filters: [
+          { key: 'national_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByPhone (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.io.response.error('Please provide query to search')
+      }
+
+      return this.#getByFilters({
+        filters: [
+          { key: 'phone', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByEmail (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.io.response.error('Please provide query to search')
+      }
+
+      return this.#getByFilters({
+        filters: [
+          { key: 'email', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByBusinessId (data) {
+    try {
+      if (!data || !data.search) {
+        return this._utilities.io.response.error('Please provide query to search')
+      }
+
+      return this.#getByFilters({
+        filters: [
+          { key: 'business_id', operator: '==', value: data.search }
+        ]
+      })
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByFilters (data) {
+    try {
+      if (!data || !data.filters) {
+        return this._utilities.io.response.error('Please provide at least one filter')
+      }
+
+      const response = await this._db.transaction.getByFilters({
+        tableName: this._tableName,
+        filters: data.filters
+      })
+
+      return this._utilities.io.response.success(response)
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
   #formatCreateEntity (data) {
     const timestamp = (new Date()).getTime() + ''
     const timestampKey = this._utilities.encoder.base64.encode('timestamp')
@@ -102,109 +241,6 @@ class UserService {
         mainActionLink: data.confirmEmailLink
       }
     })
-  }
-
-  async getByFilters (data) {
-    try {
-      if (!data || !data.filters) {
-        return this._utilities.io.response.error('Please provide at least one filter')
-      }
-
-      const response = await this._db.transaction.getByFilters({
-        tableName: this._tableName,
-        filters: data.filters
-      })
-
-      return this._utilities.io.response.success(response)
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
-  }
-
-  async getById (data) {
-    try {
-      if (!data || !data.search) {
-        return this._utilities.io.response.error('Please provide query to search')
-      }
-
-      return this.getByFilters({
-        filters: [
-          { key: 'id', operator: '==', value: data.search }
-        ]
-      })
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
-  }
-
-  async getByNationalId (data) {
-    try {
-      if (!data || !data.search) {
-        return this._utilities.io.response.error('Please provide query to search')
-      }
-
-      return this.getByFilters({
-        filters: [
-          { key: 'national_id', operator: '==', value: data.search }
-        ]
-      })
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
-  }
-
-  async getByPhone (data) {
-    try {
-      if (!data || !data.search) {
-        return this._utilities.io.response.error('Please provide query to search')
-      }
-
-      return this.getByFilters({
-        filters: [
-          { key: 'phone', operator: '==', value: data.search }
-        ]
-      })
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
-  }
-
-  async getByEmail (data) {
-    try {
-      if (!data || !data.search) {
-        return this._utilities.io.response.error('Please provide query to search')
-      }
-
-      return this.getByFilters({
-        filters: [
-          { key: 'email', operator: '==', value: data.search }
-        ]
-      })
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
-  }
-
-  async getByBusinessId (data) {
-    try {
-      if (!data || !data.search) {
-        return this._utilities.io.response.error('Please provide query to search')
-      }
-
-      return this.getByFilters({
-        filters: [
-          { key: 'business_id', operator: '==', value: data.search }
-        ]
-      })
-    } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
-    }
   }
 
   get status () {

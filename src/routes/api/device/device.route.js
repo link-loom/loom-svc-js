@@ -72,27 +72,8 @@ class DeviceRoute {
   async get ({ params }) {
     try {
       const entityService = new this.EntityService(this._dependencies)
-      let response = {}
 
-      switch (params.queryselector) {
-        case 'id':
-          response = await entityService.getById(params)
-          break
-        case 'user-id':
-          response = await entityService.getByUserId(params)
-          break
-        case 'fingerprint':
-          response = await entityService.getByFingerprint(params)
-          break
-        case 'identity':
-          response = await entityService.getByIdentity(params)
-          break
-        default:
-          response = this._utilities.io.response.error('Provide a valid slug to query')
-          break
-      }
-
-      return response
+      return entityService.get(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.io.response.error()

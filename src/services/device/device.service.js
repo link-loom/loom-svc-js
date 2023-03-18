@@ -21,7 +21,7 @@ class DeviceService {
         return this._utilities.io.response.error('Please provide minimum data')
       }
 
-      const entityResponse = await this.getByFilters({
+      const entityResponse = await this.#getByFilters({
         filters: [
           { key: 'fingerprint', operator: '==', value: data.fingerprint }
         ]
@@ -74,7 +74,40 @@ class DeviceService {
     }
   }
 
-  async getByFilters (data) {
+  async get ({ params }) {
+    try {
+      if (!data || !data.queryselector) {
+        return this._utilities.io.response.error('Please provide a queryselector')
+      }
+
+      let response = {}
+
+      switch (params.queryselector) {
+        case 'id':
+          response = await this.#getById(params)
+          break
+        case 'user-id':
+          response = await this.#getByUserId(params)
+          break
+        case 'fingerprint':
+          response = await this.#getByFingerprint(params)
+          break
+        case 'identity':
+          response = await this.#getByIdentity(params)
+          break
+        default:
+          response = this._utilities.io.response.error('Provide a valid slug to query')
+          break
+      }
+
+      return response
+    } catch (error) {
+      this._console.error(error)
+      return this._utilities.io.response.error()
+    }
+  }
+
+  async #getByFilters (data) {
     try {
       if (!data || !data.filters) {
         return this._utilities.io.response.error('Please provide at least one filter')
@@ -92,13 +125,13 @@ class DeviceService {
     }
   }
 
-  async getById (data) {
+  async #getById (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'id', operator: '==', value: data.search }
         ]
@@ -109,13 +142,13 @@ class DeviceService {
     }
   }
 
-  async getByUserId (data) {
+  async #getByUserId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'user_id', operator: '==', value: data.search }
         ]
@@ -126,13 +159,13 @@ class DeviceService {
     }
   }
 
-  async getByFingerprint (data) {
+  async #getByFingerprint (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'fingerprint', operator: '==', value: data.search }
         ]
@@ -143,13 +176,13 @@ class DeviceService {
     }
   }
 
-  async getByIdentity (data) {
+  async #getByIdentity (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error('Please provide query to search')
       }
 
-      return this.getByFilters({
+      return this.#getByFilters({
         filters: [
           { key: 'identity', operator: '==', value: data.search }
         ]

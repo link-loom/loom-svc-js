@@ -72,21 +72,8 @@ class TemplateRoute {
   async get ({ params }) {
     try {
       const entityService = new this.EntityService(this._dependencies)
-      let response = {}
-
-      switch (params.queryselector) {
-        case 'id':
-          response = await entityService.getById(params)
-          break
-        case 'PROPERTY':
-          response = await entityService.getByPROPERTY(params)
-          break
-        default:
-          response = this._utilities.io.response.error('Provide a valid slug to query')
-          break
-      }
-
-      return response
+      
+      return entityService.get(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.io.response.error()
