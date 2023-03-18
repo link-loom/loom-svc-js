@@ -27,10 +27,10 @@ class DeviceService {
         ]
       })
 
-      if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
+      if (this._utilities.validator.response(entityResponse) && entityResponse.result.length > 0) {
         return this._utilities.io.response.error('Provided device is already registered')
       }
-      
+
       this.#formatCreateEntity(data)
 
       const entity = new this._models.Device(data, this._dependencies)
@@ -161,7 +161,7 @@ class DeviceService {
   }
 
   #formatCreateEntity (data) {
-    data.id = this._utilities.idGenerator(15, 'device-')
+    data.id = this._utilities.generator.id({ length: 15, prefix: 'device-' })
   }
 
   get status () {

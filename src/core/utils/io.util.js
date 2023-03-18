@@ -2,6 +2,7 @@ class IOUtil {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
 
     /* Custom Properties */
 
@@ -14,20 +15,20 @@ class IOUtil {
 
     let params = {}
 
-    if (!this.isEmpty(data.query)) {
+    if (!this._utilities.validator.object.isEmpty(data.query)) {
       params = { ...params, ...data.query }
     }
-    if (!this.isEmpty(data.body)) {
+    if (!this._utilities.validator.object.isEmpty(data.body)) {
       params = { ...params, ...data.body }
     }
-    if (!this.isEmpty(data.params)) {
+    if (!this._utilities.validator.object.isEmpty(data.params)) {
       params = { ...params, ...data.params }
     }
 
     return params
   }
 
-  #throwError (message, { status }) {
+  #throwError (message, { status } = {}) {
     if (message) {
       return {
         status: status || 500,
@@ -54,16 +55,6 @@ class IOUtil {
     }
   }
 
-  #responseIsValid (property) {
-    let isValid = false
-
-    if (property && property.success === true) {
-      isValid = true
-    }
-
-    return isValid
-  }
-
   #cleanObjectData (rawObj) {
     if (rawObj && rawObj.formatted) {
       return rawObj.formatted
@@ -84,7 +75,6 @@ class IOUtil {
     return {
       success: this.#throwSuccess.bind(this),
       error: this.#throwError.bind(this),
-      isValid: this.#responseIsValid.bind(this),
       clean: this.#cleanObjectData.bind(this)
     }
   }

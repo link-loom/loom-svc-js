@@ -27,8 +27,8 @@ class UserService {
         ]
       })
 
-      if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
-        return this._utilities.io.response.error('Provided user is already registered')
+      if (this._utilities.validator.response(entityResponse) && entityResponse.result.length > 0) {
+        return this._utilities.io.response.error('Provided user is already registered', { status: 551 })
       }
 
       this.#formatCreateEntity(data)
@@ -61,7 +61,7 @@ class UserService {
       if (!data || !data.identity) {
         return this._utilities.io.response.error('Please provide an identity')
       }
-      
+
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
         entity: data
@@ -86,7 +86,7 @@ class UserService {
     const emailTokenKey = this._utilities.encoder.base64.encode('token')
     const emailLinkToken = this._utilities.encoder.base64.encode(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, { email: data.email }))
 
-    data.id = this._utilities.idGenerator(15, 'usr-')
+    data.id = this._utilities.generator.id({ length: 15, prefix: 'usr-' })
     data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`
     data.password = this._utilities.generator.hash.fromString(data.password || '')
   }
@@ -110,9 +110,9 @@ class UserService {
         return this._utilities.io.response.error('Please provide at least one filter')
       }
 
-      const response = this._db.transaction.getByFilters({
+      const response = await this._db.transaction.getByFilters({
         tableName: this._tableName,
-        filters
+        filters: data.filters
       })
 
       return this._utilities.io.response.success(response)

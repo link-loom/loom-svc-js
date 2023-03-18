@@ -42,7 +42,7 @@ class ApiManager {
   }
 
   async #handleRoute ({ route, domain, endpoint, req, res }) {
-    const params = this._utilities.request.getParameters(req)
+    const params = this._utilities.io.request.getParameters(req)
 
     const serviceResponse = await route[endpoint.handler]({ params, req, res })
 

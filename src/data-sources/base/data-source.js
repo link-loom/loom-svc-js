@@ -16,7 +16,7 @@ class DataSource {
     }
 
     return this._utilities.io.response.success({
-      id: this._utilities.idGenerator(15, 'usr-')
+      id: this._utilities.generator.id({ length: 15 })
     })
   }
 

@@ -1,7 +1,7 @@
 const router = {
   system: [
-    { httpRoute: '/status', route: '/routes/api/status/status.route', handler: 'get', method: 'GET', protected: false },
-    { httpRoute: '/services/backend-uri', route: '/routes/api/services/services.route', handler: 'getApiManagerUri', method: 'GET', protected: false }
+    { httpRoute: '/health', route: '/routes/api/health/health.route', handler: 'get', method: 'GET', protected: false },
+    { httpRoute: '/api-manager/uri', route: '/routes/api/api-manager/api-manager.route', handler: 'getApiManagerUri', method: 'GET', protected: false }
   ],
   file: [
     // Upload files

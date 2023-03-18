@@ -32,7 +32,7 @@ class FirebaseDataSource extends DataSource {
     try {
       const superResponse = await super.create({ tableName, entity })
 
-      if (!this._utilities.response.isValid(superResponse)) {
+      if (!this._utilities.validator.response(superResponse)) {
         return superResponse
       }
 
@@ -57,7 +57,7 @@ class FirebaseDataSource extends DataSource {
     try {
       const superResponse = await super.update({ tableName, entity })
 
-      if (!this._utilities.response.isValid(superResponse)) {
+      if (!this._utilities.validator.response(superResponse)) {
         return superResponse
       }
 
@@ -101,7 +101,7 @@ class FirebaseDataSource extends DataSource {
     try {
       const superResponse = await super.getByFilters({ tableName, filters })
 
-      if (!this._utilities.response.isValid(superResponse)) {
+      if (!this._utilities.validator.response(superResponse)) {
         return superResponse
       }
 

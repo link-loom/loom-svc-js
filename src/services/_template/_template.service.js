@@ -40,7 +40,7 @@ class TemplateService {
         return this._utilities.io.response.error('Please provide PROPERTY')
       }
 
-      data.id = this._utilities.idGenerator(15, 'id_prefix-')
+      data.id = this._utilities.generator.id({ length: 15, prefix: 'id_prefix-' })
 
       const entity = new this._models.Template(data, this._dependencies)
       const transactionResponse = await this._db.transaction.create({

@@ -1,4 +1,4 @@
-class ServicesRoute {
+class ApiManagerRoute {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -11,12 +11,12 @@ class ServicesRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.ServicesService
+    this.EntityService = this._services.ApiManagerService
   }
 
   /**
    * @swagger
-   * /system/services/backend-uri:
+   * /system/api-manager/uri:
    *   get:
    *     summary: Return the backend URI.
    *     description: Returns the user information that matches the query selector an search specified in the route.
@@ -62,4 +62,4 @@ class ServicesRoute {
   }
 }
 
-module.exports = ServicesRoute
+module.exports = ApiManagerRoute

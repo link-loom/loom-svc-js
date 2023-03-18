@@ -2,8 +2,10 @@ class SerializerUtil {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
+    this._console = this._dependencies.console
 
     /* Custom Properties */
+    this._aesjs = this._dependencies.aesjs
 
     /* Assigments */
     this._namespace = '[Server]::[Utils]::[Serializer]'

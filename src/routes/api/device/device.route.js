@@ -16,7 +16,7 @@ class DeviceRoute {
 
   /**
    * @swagger
-   * /device/{queryselector}:
+   * /identity/device/{queryselector}:
    *   get:
    *     summary: Get an device by query selector.
    *     description: Returns the device information that matches the query selector an search specified in the route.
@@ -101,7 +101,7 @@ class DeviceRoute {
 
   /**
    * @swagger
-   * /device/:
+   * /identity/device/:
    *   post:
    *      summary: Create a new device.
    *      description: Returns the created device with data provided.
@@ -156,7 +156,7 @@ class DeviceRoute {
 
   /**
    * @swagger
-   * /device/:
+   * /identity/device/:
    *   patch:
    *      summary: Update an existing device.
    *      description: Updates the data of an existing device with the data provided.

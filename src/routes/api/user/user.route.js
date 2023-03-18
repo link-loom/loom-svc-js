@@ -16,7 +16,7 @@ class UserRoute {
 
   /**
    * @swagger
-   * /user/{queryselector}:
+   * /identity/user/{queryselector}:
    *   get:
    *     summary: Get an user by query selector.
    *     description: Returns the user information that matches the query selector an search specified in the route.
@@ -104,7 +104,7 @@ class UserRoute {
 
   /**
    * @swagger
-   * /user/:
+   * /identity/user/:
    *   post:
    *      summary: Create a new user.
    *      description: Returns the created user with data provided.
@@ -159,7 +159,7 @@ class UserRoute {
 
   /**
    * @swagger
-   * /user/:
+   * /identity/user/:
    *   patch:
    *      summary: Update an existing user.
    *      description: Updates the data of an existing user with the data provided.

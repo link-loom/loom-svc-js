@@ -50,7 +50,7 @@ class AuthService {
       const timestamp = (new Date()).getTime() + ''
       const userResponse = await userService.getByIdentity(data)
 
-      if (!this._utilities.response.isValid(userResponse)) {
+      if (!this._utilities.validator.response(userResponse)) {
         return this._utilities.io.response.error('User not found')
       }
 
@@ -81,7 +81,7 @@ class AuthService {
       const hours = Math.floor(Math.abs(new Date() - new Date(+timestamp)) / 3.6e6)
 
       // Check if token is still valid
-      if (this.dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
+      if (this._dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
         return this._utilities.io.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
       }
 
@@ -99,7 +99,7 @@ class AuthService {
       decipheredToken.sanitized = false
       const userResult = await userService.getByEmail(decipheredToken)
 
-      if (!this._utilities.response.isValid(userResult)) {
+      if (!this._utilities.validator.response(userResult)) {
         return this._utilities.io.response.error('Token is not valid, please try requesting another email.')
       }
 
@@ -109,7 +109,7 @@ class AuthService {
         is_account_actived: true
       })
 
-      if (!this._utilities.response.isValid(updateResult)) {
+      if (!this._utilities.validator.response(updateResult)) {
         return this._utilities.io.response.error(updateResult.message)
       }
 
@@ -127,7 +127,7 @@ class AuthService {
     const userService = new this._services.UserService(this._dependencies)
     const userResult = await userService.getByIdentity({ identity: data.chat.user })
 
-    if (!this._utilities.response.isValid(userResult)) {
+    if (!this._utilities.validator.response(userResult)) {
       return userResult
     }
 
@@ -136,7 +136,7 @@ class AuthService {
       is_account_actived: true
     })
 
-    if (!this._utilities.response.isValid(updateResult)) {
+    if (!this._utilities.validator.response(updateResult)) {
       return this._utilities.io.response.error(updateResult.message)
     }
 

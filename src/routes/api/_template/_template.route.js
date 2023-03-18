@@ -16,7 +16,7 @@ class TemplateRoute {
 
   /**
    * @swagger
-   * /template/{queryselector}:
+   * /example/template/{queryselector}:
    *   get:
    *     summary: Get an template by query selector.
    *     description: Returns the template information that matches the query selector an search specified in the route.
@@ -95,7 +95,7 @@ class TemplateRoute {
 
   /**
    * @swagger
-   * /template/:
+   * /example/template/:
    *   post:
    *      summary: Create a new template.
    *      description: Returns the created template with data provided.
@@ -150,7 +150,7 @@ class TemplateRoute {
 
   /**
    * @swagger
-   * /template/:
+   * /example/template/:
    *   patch:
    *      summary: Update an existing template.
    *      description: Updates the data of an existing template with the data provided.

@@ -51,7 +51,7 @@ class NotificationService {
       if (!data || !data.id) {
         return this._utilities.io.response.error('Please provide an id')
       }
-      
+
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
         entity: data
@@ -78,7 +78,7 @@ class NotificationService {
 
       this.#formatCreateEntity(data)
 
-      const entity = new this._models.Notification(data, this.dependencies)
+      const entity = new this._models.Notification(data, this._dependencies)
       const transactionResponse = await this._db.transaction.create({
         tableName: this._tableName,
         entity: entity.get
@@ -107,19 +107,19 @@ class NotificationService {
 
   async #channelEmail (data) {
     try {
-      let emailPath = this.dependencies.root
+      let emailPath = this._dependencies.root
       let emailtemplate = ''
       const transporter = this._nodemailer.createTransport({
-        host: this.dependencies.config.MAIL.HOST,
-        port: this.dependencies.config.MAIL.PORT,
-        secure: this.dependencies.config.MAIL.SECURE,
+        host: this._dependencies.config.MAIL.HOST,
+        port: this._dependencies.config.MAIL.PORT,
+        secure: this._dependencies.config.MAIL.SECURE,
         auth: {
-          user: this.dependencies.config.MAIL.USER,
-          pass: this.dependencies.config.MAIL.PASSWORD
+          user: this._dependencies.config.MAIL.USER,
+          pass: this._dependencies.config.MAIL.PASSWORD
         }
       })
       const mailOptions = {
-        from: this.dependencies.config.MAIL.FROM,
+        from: this._dependencies.config.MAIL.FROM,
         to: data.to,
         subject: '',
         text: '',
@@ -129,8 +129,8 @@ class NotificationService {
       // Select what email type is needed
       switch (data.email.template.name) {
         case this._models.Notification.email_templates.confirmEmail.name:
-          emailPath += '/static/public/email/confirm-eng.html'
-          mailOptions.subject = `${data.email.subject || 'Welcome to Go Bot'}`
+          emailPath += '/src/static/email/confirm-eng.html'
+          mailOptions.subject = `${data.email.subject || 'Welcome to %BEAT%'}`
           emailtemplate = await this.readFileAsync(emailPath)
           emailtemplate = emailtemplate.replaceAll('OPEN_ACCOUNT_LINK', `${data.email.mainActionLink}`)
           break
@@ -162,7 +162,7 @@ class NotificationService {
 
   async readFileAsync (path) {
     return new Promise((resolve, reject) => {
-      fs.readFile(path, 'utf8', function (err, emailTemplate) {
+      fs.readFile(path, 'utf8', (err, emailTemplate) => {
         if (err) {
           this._console.log(err)
           reject(err)
@@ -258,7 +258,7 @@ class NotificationService {
   #formatCreateEntity (data) {
     const messageResume = this._unfluff.fromString((data.message.substring(0, 50) || ''))
 
-    data.id = this._utilities.idGenerator(20, 'not-')
+    data.id = this._utilities.generator.id({ length: 20, prefix: 'not-' })
     data.message_resume = messageResume
   }
 

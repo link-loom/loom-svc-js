@@ -67,6 +67,16 @@ class ValidatorUtil {
     }
   }
 
+  #responseIsValid (property) {
+    let isValid = false
+
+    if (property && property.success === true) {
+      isValid = true
+    }
+
+    return isValid
+  }
+
   get validator () {
     return {
       object: {
@@ -80,7 +90,8 @@ class ValidatorUtil {
       },
       api: {
         endpoint: this.#validateApi.bind(this)
-      }
+      },
+      response: this.#responseIsValid.bind(this)
     }
   }
 

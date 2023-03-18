@@ -49,19 +49,19 @@ const BaseModel = require('../base/base.model')
  *            type: string
  *            description: The user's business_id.
  *        example:
- *            national_id: 1023925418
+ *            national_id: "1023925418"
  *            email: jhon.doe@company.com
- *            phone: 573103494807
- *            password: secret123
- *            firstname: jhon
- *            lastname: doe
+ *            phone: "573103494807"
+ *            password: "secret123"
+ *            firstname: "jhon"
+ *            lastname: "doe"
  *            role: { id: 3, name: 'employee', title: 'Employee' }
- *            last_login: 1678660540978
- *            veripass_id: 1678660540978
- *            link_email_activation: https://....
+ *            last_login: "1678660540978"
+ *            veripass_id: "1678660540900"
+ *            link_email_activation: "https://...."
  *            accept_terms: true
  *            is_account_actived: true
- *            business_id: biz-12345
+ *            business_id: "biz-12345"
  */
 class UserModel extends BaseModel {
   constructor (args, dependencies) {

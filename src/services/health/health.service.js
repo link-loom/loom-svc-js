@@ -1,4 +1,4 @@
-class StatusService {
+class HealthService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -25,4 +25,4 @@ class StatusService {
   }
 }
 
-module.exports = StatusService
+module.exports = HealthService

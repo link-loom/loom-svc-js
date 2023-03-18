@@ -14,9 +14,11 @@ class UtilitiesManager {
     this._console = dependencies.console
 
     /* Custom Properties */
+    this._dependencies.utilities = this
 
     /* Assigments */
     this._namespace = '[Server]::[Utilities]::[Manager]'
+    this._validatorUtil = new ValidatorUtil(this._dependencies)
     this._eventUtil = new EventUtil(this._dependencies)
     this._generatorUtil = new GeneratorUtil(this._dependencies)
     this._ioUtil = new IOUtil(this._dependencies)
@@ -24,7 +26,6 @@ class UtilitiesManager {
     this._sanitizerUtil = new SanitizerUtil(this._dependencies)
     this._searchUtil = new SearchUtil(this._dependencies)
     this._encoderUtil = new EncoderUtil(this._dependencies)
-    this._validatorUtil = new ValidatorUtil(this._dependencies)
   }
 
   setup () {
@@ -40,7 +41,7 @@ class UtilitiesManager {
   }
 
   get validator () {
-    return this._validatorUtil
+    return this._validatorUtil.validator
   }
 
   get sanitizer () {

@@ -11,14 +11,14 @@ class StatusRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.StatusService
+    this.EntityService = this._services.HealthService
   }
 
   /**
    * @swagger
-   * /system/status:
+   * /system/health:
    *   get:
-   *     summary: Get server status.
+   *     summary: Get server health status.
    *     description: Returns if server is operative and online, this is useful to implement server checkers.
    *     tags:
    *       - System

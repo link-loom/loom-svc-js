@@ -4,7 +4,7 @@ class DependenciesManager {
     this._args = args
 
     /* Custom Properties */
-    this._dependencies = {}
+    this._dependencies = this._args
 
     /* Assigments */
     this._namespace = '[Server]::[Dependencies]::[Manager]'

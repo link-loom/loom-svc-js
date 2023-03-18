@@ -2,20 +2,23 @@ class GeneratorUtil {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
+    this._console = this._dependencies.console
 
     /* Custom Properties */
-    this._crypto = dependencies.crypto
+    this._crypto = this._dependencies.crypto
+    this._bcrypt = this._dependencies.bcrypt
+    this._jwt = this._dependencies.jwt
 
     /* Assigments */
     this._namespace = '[Server]::[Utils]::[Generator]'
   }
 
-  #idGenerator (length, prefix) {
+  #idGenerator ({ length, prefix }) {
     // Generate 256 random bytes and converted to hex to prevent failures on unscaped chars
     const buffer = this._crypto.randomBytes(256)
     const randomToken = buffer.toString('hex')
     // Generating of token
-    return `${prefix || 'id-'}${randomToken.slice(0, length)}`
+    return `${prefix || 'id-'}${randomToken.slice(0, (length || 15))}`
   }
 
   #generatePrivateKey (seed) {

@@ -24,7 +24,7 @@ class Function {
       const statusService = new _services.Status(this._dependencies)
       const statusResponse = await statusService.get()
 
-      if (_utilities.response.isValid(statusResponse)) {
+      if (this._utilities.validator.response.isValid(statusResponse)) {
         this._console.log(statusResponse, { namespace: this._namespace })
       }
     } catch (error) {
