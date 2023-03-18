@@ -13,13 +13,17 @@ class ApiManagerService {
     this._config = this._dependencies.config
 
     /* Assigments */
-    /* this._newPrivateObject = new SomeObject(this._dependencies) */
+    this._key = this._auth.crypto.generatePrivateKey(dependencies.config.SERVICES.API_MANAGER.SECRET)
   }
 
-  async getBackendUri () {
+  async getApiManagerUri () {
     return this._utilities.response.success({
-      uri: this._config.BACKEND_URI || '/'
+      uri: this._config.SERVICES.API_MANAGER.URI || '/'
     })
+  }
+
+  get key () {
+    return this._key
   }
 
   get status () {

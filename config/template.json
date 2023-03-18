@@ -14,7 +14,7 @@
     "FRONTEND": {
       "URI": "http://localhost:3500"
     },
-    "BACKEND": {
+    "API_MANAGER": {
       "SECRET": "zih9cVFnC0J0otOAFXrj",
       "URI": "http://localhost:3500"
     },

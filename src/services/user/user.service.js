@@ -13,7 +13,7 @@ class UserService {
     this._auth = this._dependencies.auth
 
     /* Assigments */
-    this._backendService = new this._services.BackendService(this._dependencies)
+    this._apiManagerService = new this._services.ApiManagerService(this._dependencies)
   }
 
   async create (data) {
@@ -85,7 +85,7 @@ class UserService {
     const timestampKey = this._auth.encoder.base64.encode('timestamp')
     const serverUri = this._dependencies.config.SERVICES.FRONTEND.URI + this._dependencies.config.MAIL.VALIDATION_PATH
     const emailTokenKey = this._auth.encoder.base64.encode('token')
-    const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._backendService.key, { email: data.email }))
+    const emailLinkToken = this._auth.encoder.base64.encode(this._auth.crypto.cypherObject(this._apiManagerService.key, { email: data.email }))
 
     data.id = this._utilities.idGenerator(15, 'usr-')
     data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`

@@ -2,14 +2,15 @@ class AuthManager {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
-    this._console = dependencies.console
+    this._console = this._dependencies.console
 
     /* Custom Properties */
-    this._bcrypt = dependencies.bcrypt
-    this._jwt = dependencies.jwt
-    this._utilities = dependencies.utilities
-    this._aesjs = dependencies.aesjs
-    this._crypto = dependencies.crypto
+    this._bcrypt = this._dependencies.bcrypt
+    this._jwt = this._dependencies.jwt
+    this._utilities = this._dependencies.utilities
+    this._aesjs = this._dependencies.aesjs
+    this._crypto = this._dependencies.crypto
+    this._config = this._dependencies.config
 
     /* Assigments */
     this._namespace = '[Server]::[Auth]::[Manager]'
@@ -126,7 +127,6 @@ class AuthManager {
 
   async validateApi (req, res, next) {
     try {
-      const _services = this._dependencies.services
       // check header or url parameters or post parameters for token
       const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
 
@@ -136,7 +136,7 @@ class AuthManager {
         return res.status(403).json(this._utilities.response.error('No token provided.'))
       }
 
-      const decipherToken = this.decipherObject(_services.backend.key, encryptedToken)
+      const decipherToken = this.decipherObject(this._config.SERVICES.API_MANAGER.SECRET, encryptedToken)
 
       if (!decipherToken || !decipherToken.token) {
         return res.status(403).json(this._utilities.response.error('Malformed token. Try with a valid token'))

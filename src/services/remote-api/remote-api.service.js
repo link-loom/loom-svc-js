@@ -1,4 +1,4 @@
-class BackendService {
+class RemoteApiService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -14,7 +14,7 @@ class BackendService {
     this._request = this._dependencies.request
 
     /* Assigments */
-    this._key = this._auth.crypto.generatePrivateKey(dependencies.config.BACKEND_SECRET)
+    /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
   async request (data) {
@@ -39,13 +39,9 @@ class BackendService {
     })
   }
 
-  get key () {
-    return this._key
-  }
-
   get status () {
     return this._models.Backend.statuses
   }
 }
 
-module.exports = BackendService
+module.exports = RemoteApiService

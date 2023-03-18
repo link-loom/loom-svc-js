@@ -50,11 +50,11 @@ class ServicesRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async getBackendUri ({ params }) {
+  async getApiManagerUri ({ params }) {
     try {
       const entityService = new this.EntityService(this._dependencies)
 
-      return entityService.getBackendUri(params)
+      return entityService.getApiManagerUri(params)
     } catch (error) {
       this._console.error(error)
       return this._utilities.response.error()

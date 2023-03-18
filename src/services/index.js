@@ -1,5 +1,5 @@
 const AuthService = require('./auth/auth.service')
-const BackendService = require('./backend/backend.service')
+const RemoteApiService = require('./remote-api/remote-api.service')
 const DeviceService = require('./device/device.service')
 const NotificationService = require('./notification/notification.service')
 const ApiManagerService = require('./api-manager/api-manager.service')
@@ -10,7 +10,7 @@ const UserService = require('./user/user.service')
 
 module.exports = {
   AuthService,
-  BackendService,
+  RemoteApiService,
   DeviceService,
   NotificationService,
   ApiManagerService,

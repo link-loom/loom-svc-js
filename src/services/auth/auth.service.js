@@ -14,7 +14,7 @@ class AuthService {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this._backendService = new this._services.BackendService(this._dependencies)
+    this._apiManagerService = new this._services.ApiManagerService(this._dependencies)
   }
 
   async authenticateUser (data, user) {
@@ -72,7 +72,7 @@ class AuthService {
   async validateEmail (data) {
     try {
       if (!data || !data.timestamp || !data.token) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is invalid, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
       }
 
       const userService = new this._services.UserService(this._dependencies)
@@ -81,16 +81,16 @@ class AuthService {
 
       // Check if token is still valid
       if (this.dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is outdated, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
       }
 
       // Decode encrypted data
       const decodedToken = this._auth.encoder.base64.decode(data.token)
-      const decipheredToken = this._auth.crypto.decipherObject(this._backendService.key, decodedToken)
+      const decipheredToken = this._auth.crypto.decipherObject(this._apiManagerService.key, decodedToken)
 
       // If decyphered data is valid
       if (!decipheredToken || !decipheredToken.email) {
-        return this._utilities.response.error(this._auth.crypto.cypherObject(this._backendService.key, 'Token is not valid, please try requesting another email.'))
+        return this._utilities.response.error(this._auth.crypto.cypherObject(this._apiManagerService.key, 'Token is not valid, please try requesting another email.'))
       }
 
       // Update the user
