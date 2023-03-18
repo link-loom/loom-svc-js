@@ -26,7 +26,7 @@ class AuthRoute {
       return entityService.login(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -42,7 +42,7 @@ class AuthRoute {
       return entityService.logout(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -58,7 +58,7 @@ class AuthRoute {
       return entityService.validateEmail(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -74,7 +74,7 @@ class AuthRoute {
       return entityService.validateAccountChatbot(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 }

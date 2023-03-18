@@ -19,7 +19,7 @@ class TemplateService {
   async getByFilters (data) {
     try {
       if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
+        return this._utilities.io.response.error('Please provide at least one filter')
       }
 
       const transactionResponse = await this._db.transaction.getByFilters({
@@ -27,17 +27,17 @@ class TemplateService {
         filters: data.filters
       })
 
-      return this._utilities.response.success(transactionResponse)
+      return this._utilities.io.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async create (data) {
     try {
       if (!data || !data.PROPERTY) {
-        return this._utilities.response.error('Please provide PROPERTY')
+        return this._utilities.io.response.error('Please provide PROPERTY')
       }
 
       data.id = this._utilities.idGenerator(15, 'id_prefix-')
@@ -50,20 +50,20 @@ class TemplateService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.io.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async update (data) {
     try {
       if (!data || !data.PROPERTY) {
-        return this._utilities.response.error('Please provide PROPERTY')
+        return this._utilities.io.response.error('Please provide PROPERTY')
       }
 
       const entity = new this._models.Template({ ...entityResponse.result, ...data }, this._dependencies)
@@ -74,13 +74,13 @@ class TemplateService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.io.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 

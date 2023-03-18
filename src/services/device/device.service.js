@@ -18,7 +18,7 @@ class DeviceService {
   async create (data) {
     try {
       if (!data || !data.fingerprint) {
-        return this._utilities.response.error('Please provide minimum data')
+        return this._utilities.io.response.error('Please provide minimum data')
       }
 
       const entityResponse = await this.getByFilters({
@@ -28,7 +28,7 @@ class DeviceService {
       })
 
       if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
-        return this._utilities.response.error('Provided device is already registered')
+        return this._utilities.io.response.error('Provided device is already registered')
       }
       
       this.#formatCreateEntity(data)
@@ -41,20 +41,20 @@ class DeviceService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.io.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async update (data) {
     try {
       if (!data || !data.id) {
-        return this._utilities.response.error('Please provide an id')
+        return this._utilities.io.response.error('Please provide an id')
       }
 
       const transactionResponse = await this._db.transaction.update({
@@ -64,20 +64,20 @@ class DeviceService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(data)
+      return this._utilities.io.response.success(data)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByFilters (data) {
     try {
       if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
+        return this._utilities.io.response.error('Please provide at least one filter')
       }
 
       const transactionResponse = await this._db.transaction.getByFilters({
@@ -85,17 +85,17 @@ class DeviceService {
         filters: data.filters
       })
 
-      return this._utilities.response.success(transactionResponse)
+      return this._utilities.io.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getById (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -105,14 +105,14 @@ class DeviceService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByUserId (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -122,14 +122,14 @@ class DeviceService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByFingerprint (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -139,14 +139,14 @@ class DeviceService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByIdentity (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -156,7 +156,7 @@ class DeviceService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 

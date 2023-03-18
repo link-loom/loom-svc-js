@@ -20,7 +20,7 @@ class AuthService {
     const authenticationResult = this._utilities.validator.hash.isValid({ receivedPassword: data.password, hash: user.password })
 
     if (!authenticationResult) {
-      return this._utilities.response.error('Wrong password. Try again or click Forgot password to reset it. After 3 failed attempts your account will be blocked by 24 hours.')
+      return this._utilities.io.response.error('Wrong password. Try again or click Forgot password to reset it. After 3 failed attempts your account will be blocked by 24 hours.')
     }
 
     const entity = new this._models.User(user, this._dependencies)
@@ -37,13 +37,13 @@ class AuthService {
       }
     })
 
-    return this._utilities.response.success(token)
+    return this._utilities.io.response.success(token)
   }
 
   async login (data) {
     try {
       if (!data.identity) {
-        return this._utilities.response.error('Data provided not match with any registered user')
+        return this._utilities.io.response.error('Data provided not match with any registered user')
       }
 
       const userService = new this._services.UserService(this._dependencies)
@@ -51,7 +51,7 @@ class AuthService {
       const userResponse = await userService.getByIdentity(data)
 
       if (!this._utilities.response.isValid(userResponse)) {
-        return this._utilities.response.error('User not found')
+        return this._utilities.io.response.error('User not found')
       }
 
       const user = userResponse.result
@@ -66,14 +66,14 @@ class AuthService {
       return result
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async validateEmail (data) {
     try {
       if (!data || !data.timestamp || !data.token) {
-        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
+        return this._utilities.io.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
       }
 
       const userService = new this._services.UserService(this._dependencies)
@@ -82,7 +82,7 @@ class AuthService {
 
       // Check if token is still valid
       if (this.dependencies.config.MAX_HOURS_TOKEN_VALID <= hours) {
-        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
+        return this._utilities.io.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is outdated, please try requesting another email.'))
       }
 
       // Decode encrypted data
@@ -91,7 +91,7 @@ class AuthService {
 
       // If decyphered data is valid
       if (!decipheredToken || !decipheredToken.email) {
-        return this._utilities.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is not valid, please try requesting another email.'))
+        return this._utilities.io.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is not valid, please try requesting another email.'))
       }
 
       // Update the user
@@ -100,7 +100,7 @@ class AuthService {
       const userResult = await userService.getByEmail(decipheredToken)
 
       if (!this._utilities.response.isValid(userResult)) {
-        return this._utilities.response.error('Token is not valid, please try requesting another email.')
+        return this._utilities.io.response.error('Token is not valid, please try requesting another email.')
       }
 
       const updateResult = await userService.update({
@@ -110,19 +110,19 @@ class AuthService {
       })
 
       if (!this._utilities.response.isValid(updateResult)) {
-        return this._utilities.response.error(updateResult.message)
+        return this._utilities.io.response.error(updateResult.message)
       }
 
-      return this._utilities.response.success('Token is valid')
+      return this._utilities.io.response.success('Token is valid')
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async validateAccountChatbot (data) {
     if (!data || !data.chat || !data.chat.user) {
-      return this._utilities.response.error('Is not possible validate account, please provide at least a phone number')
+      return this._utilities.io.response.error('Is not possible validate account, please provide at least a phone number')
     }
     const userService = new this._services.UserService(this._dependencies)
     const userResult = await userService.getByIdentity({ identity: data.chat.user })
@@ -137,10 +137,10 @@ class AuthService {
     })
 
     if (!this._utilities.response.isValid(updateResult)) {
-      return this._utilities.response.error(updateResult.message)
+      return this._utilities.io.response.error(updateResult.message)
     }
 
-    return this._utilities.response.success('Token is valid')
+    return this._utilities.io.response.success('Token is valid')
   }
 
   get status () {

@@ -17,7 +17,7 @@ class StatusService {
   }
 
   async get () {
-    return this._utilities.response.success('Server is online')
+    return this._utilities.io.response.success('Server is online')
   }
 
   get status () {

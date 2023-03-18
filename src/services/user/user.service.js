@@ -18,7 +18,7 @@ class UserService {
   async create (data) {
     try {
       if (!data || !data.phone) {
-        return this._utilities.response.error('Please provide minimum data')
+        return this._utilities.io.response.error('Please provide minimum data')
       }
 
       const entityResponse = await this.getByFilters({
@@ -28,7 +28,7 @@ class UserService {
       })
 
       if (this._utilities.response.isValid(entityResponse) && entityResponse.result.length > 0) {
-        return this._utilities.response.error('Provided user is already registered')
+        return this._utilities.io.response.error('Provided user is already registered')
       }
 
       this.#formatCreateEntity(data)
@@ -41,7 +41,7 @@ class UserService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
       // Send a confirmation email
@@ -49,17 +49,17 @@ class UserService {
         this.#sendConfirmationNotification(data)
       }
 
-      return this._utilities.response.success(entity.sanitized)
+      return this._utilities.io.response.success(entity.sanitized)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async update (data) {
     try {
       if (!data || !data.identity) {
-        return this._utilities.response.error('Please provide an identity')
+        return this._utilities.io.response.error('Please provide an identity')
       }
       
       const transactionResponse = await this._db.transaction.update({
@@ -69,13 +69,13 @@ class UserService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(transactionResponse)
+      return this._utilities.io.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -107,7 +107,7 @@ class UserService {
   async getByFilters (data) {
     try {
       if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
+        return this._utilities.io.response.error('Please provide at least one filter')
       }
 
       const response = this._db.transaction.getByFilters({
@@ -115,17 +115,17 @@ class UserService {
         filters
       })
 
-      return this._utilities.response.success(response)
+      return this._utilities.io.response.success(response)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getById (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -135,14 +135,14 @@ class UserService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByNationalId (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -152,14 +152,14 @@ class UserService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByPhone (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -169,14 +169,14 @@ class UserService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByEmail (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -186,14 +186,14 @@ class UserService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByBusinessId (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -203,7 +203,7 @@ class UserService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 

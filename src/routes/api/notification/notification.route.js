@@ -85,14 +85,14 @@ class NotificationRoute {
           response = await entityService.getByBusinessId(params)
           break
         default:
-          response = this._utilities.response.error('Provide a valid slug to query')
+          response = this._utilities.io.response.error('Provide a valid slug to query')
           break
       }
 
       return response
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -147,7 +147,7 @@ class NotificationRoute {
       return entityService.create(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -202,7 +202,7 @@ class NotificationRoute {
       return entityService.update(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 }

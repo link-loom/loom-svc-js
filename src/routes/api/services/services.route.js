@@ -57,7 +57,7 @@ class ServicesRoute {
       return entityService.getApiManagerUri(params)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 }

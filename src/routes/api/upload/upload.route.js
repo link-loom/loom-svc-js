@@ -26,7 +26,7 @@ class UploadRoute {
       return entityService.uploadFile(req, res)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -41,7 +41,7 @@ class UploadRoute {
 
       return entityService.bulk(req, res)
     } catch (error) {
-      return this._utilities.response.error(error.message)
+      return this._utilities.io.response.error(error.message)
     }
   }
 }

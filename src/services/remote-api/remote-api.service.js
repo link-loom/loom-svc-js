@@ -6,7 +6,6 @@ class RemoteApiService {
     this._models = dependencies.models
     this._utilities = dependencies.utilities
     this._console = this._dependencies.console
-    this._firebase = dependencies.firebaseManager
     this._services = this._dependencies.services
 
     /* Custom Properties */
@@ -22,24 +21,20 @@ class RemoteApiService {
     }
 
     try {
-      return await this.executeRequest(data)
+      return await this.#executeRequest(data)
     } catch (error) {
       console.log(error)
       return error
     }
   }
 
-  executeRequest ({ url, method, body, headers }) {
+  #executeRequest ({ url, method, body, headers }) {
     return this._request({
       url,
       method,
       data: body || {},
       headers
     })
-  }
-
-  get status () {
-    return this._models.Backend.statuses
   }
 }
 

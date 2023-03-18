@@ -19,15 +19,15 @@ class UploadService {
   async uploadFile (req) {
     try {
       if (!req || !req.file) {
-        return this._utilities.response.error('Add a file')
+        return this._utilities.io.response.error('Add a file')
       }
 
       if (!req.body || !req.body.route || !req.body.handler) {
-        return this._utilities.response.error('Add a path to handle your bulk request, please')
+        return this._utilities.io.response.error('Add a path to handle your bulk request, please')
       }
 
       if (!this._services[req.body.route] || !this._services[req.body.route][req.body.handler]) {
-        return this._utilities.response.error('Given path to handle your bulk request is not available')
+        return this._utilities.io.response.error('Given path to handle your bulk request is not available')
       }
 
       const file = req.file
@@ -35,9 +35,9 @@ class UploadService {
 
       // TODO: Do something with uploaded file
 
-      return this._utilities.response.success()
+      return this._utilities.io.response.success()
     } catch (error) {
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -108,26 +108,26 @@ class UploadService {
         response.rows.push(entityResponse)
       }
 
-      return this._utilities.response.success(response)
+      return this._utilities.io.response.success(response)
     } catch (error) {
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   validateBulk (req) {
     if (!req || !req.file) {
-      return this._utilities.response.error('Add a file')
+      return this._utilities.io.response.error('Add a file')
     }
 
     if (!req.body || !req.body.route || !req.body.handler) {
-      return this._utilities.response.error('Add a path to handle your bulk request, please')
+      return this._utilities.io.response.error('Add a path to handle your bulk request, please')
     }
 
     if (!this._services[req.body.route] || !this._services[req.body.route][req.body.handler]) {
-      return this._utilities.response.error('Given path to handle your bulk request is not available')
+      return this._utilities.io.response.error('Given path to handle your bulk request is not available')
     }
 
-    return this._utilities.response.success(response)
+    return this._utilities.io.response.success(response)
   }
 
   async bulk (req) {
@@ -141,12 +141,12 @@ class UploadService {
       }
 
       if (!fileTransformed || !fileTransformed.rows || !fileTransformed.rows.length) {
-        return this._utilities.response.error('File not processed because is empty')
+        return this._utilities.io.response.error('File not processed because is empty')
       }
 
       return this.uploadAllBulkRows()
     } catch (error) {
-      return this._utilities.response.error(error.message)
+      return this._utilities.io.response.error(error.message)
     }
   }
 

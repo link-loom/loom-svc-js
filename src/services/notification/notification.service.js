@@ -22,7 +22,7 @@ class NotificationService {
   async create (data) {
     try {
       if (!data) {
-        return this._utilities.response.error('Data provided not match with any registered user')
+        return this._utilities.io.response.error('Data provided not match with any registered user')
       }
 
       if (!data.channels) { data.channels = this._models.Notification.channels.stored }
@@ -39,17 +39,17 @@ class NotificationService {
         await this.#channelEmail(data)
       }
 
-      return this._utilities.response.success()
+      return this._utilities.io.response.success()
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async update (data) {
     try {
       if (!data || !data.id) {
-        return this._utilities.response.error('Please provide an id')
+        return this._utilities.io.response.error('Please provide an id')
       }
       
       const transactionResponse = await this._db.transaction.update({
@@ -59,13 +59,13 @@ class NotificationService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(transactionResponse)
+      return this._utilities.io.response.success(transactionResponse)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -73,7 +73,7 @@ class NotificationService {
     try {
       if (!data || !data.message || !data.receiver_user_id) {
         this._console.error('message or receiver not providen')
-        return this._utilities.response.error('Please provide at minimum a message and a receiver')
+        return this._utilities.io.response.error('Please provide at minimum a message and a receiver')
       }
 
       this.#formatCreateEntity(data)
@@ -86,13 +86,13 @@ class NotificationService {
 
       if (!transactionResponse) {
         this._console.error(transactionResponse)
-        return this._utilities.response.error()
+        return this._utilities.io.response.error()
       }
 
-      return this._utilities.response.success(entity.get)
+      return this._utilities.io.response.success(entity.get)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -101,7 +101,7 @@ class NotificationService {
       /* TODO: Implement the communication with event bus */
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -153,10 +153,10 @@ class NotificationService {
 
       const result = await this.sendEmailAsync(transporter, mailOptions)
 
-      return this._utilities.response.success(result)
+      return this._utilities.io.response.success(result)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
@@ -189,7 +189,7 @@ class NotificationService {
   async getByFilters (data) {
     try {
       if (!data || !data.filters) {
-        return this._utilities.response.error('Please provide at least one filter')
+        return this._utilities.io.response.error('Please provide at least one filter')
       }
 
       const response = this._db.transaction.getByFilters({
@@ -197,17 +197,17 @@ class NotificationService {
         filters
       })
 
-      return this._utilities.response.success(response)
+      return this._utilities.io.response.success(response)
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getById (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -217,14 +217,14 @@ class NotificationService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByReceiverUserId (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -234,14 +234,14 @@ class NotificationService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 
   async getByBusinessId (data) {
     try {
       if (!data || !data.search) {
-        return this._utilities.response.error('Please provide query to search')
+        return this._utilities.io.response.error('Please provide query to search')
       }
 
       return this.getByFilters({
@@ -251,7 +251,7 @@ class NotificationService {
       })
     } catch (error) {
       this._console.error(error)
-      return this._utilities.response.error()
+      return this._utilities.io.response.error()
     }
   }
 

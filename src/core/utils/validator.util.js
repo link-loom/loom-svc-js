@@ -48,13 +48,13 @@ class ValidatorUtil {
       // exist token
       if (!encryptedToken) {
         // if there is no token return an error
-        return res.status(403).json(this._utilities.response.error('No token provided.'))
+        return res.status(403).json(this._utilities.io.response.error('No token provided.'))
       }
 
       const decipherToken = this._utilities.encoder.crypto.decipherObject(this._config.SERVICES.API_MANAGER.SECRET, encryptedToken)
 
       if (!decipherToken || !decipherToken.token) {
-        return res.status(403).json(this._utilities.response.error('Malformed token. Try with a valid token'))
+        return res.status(403).json(this._utilities.io.response.error('Malformed token. Try with a valid token'))
       }
 
       const decoded = await this.#validateToken(decipherToken.token)
@@ -63,7 +63,7 @@ class ValidatorUtil {
 
       next()
     } catch (error) {
-      return res.status(403).json(this._utilities.response.error('Failed to authenticate token.'))
+      return res.status(403).json(this._utilities.io.response.error('Failed to authenticate token.'))
     }
   }
 

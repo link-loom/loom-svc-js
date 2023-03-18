@@ -17,7 +17,7 @@ class ApiManagerService {
   }
 
   async getApiManagerUri () {
-    return this._utilities.response.success({
+    return this._utilities.io.response.success({
       uri: this._config.SERVICES.API_MANAGER.URI || '/'
     })
   }

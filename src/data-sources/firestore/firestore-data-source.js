@@ -72,7 +72,7 @@ class FirebaseDataSource extends DataSource {
       })
 
       if (!entityResponse || !entityResponse.length) {
-        return this._utilities.response.error('Item not found')
+        return this._utilities.io.response.error('Item not found')
       }
 
       const currentEntity = entityResponse[0]
