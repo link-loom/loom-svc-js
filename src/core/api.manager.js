@@ -93,11 +93,14 @@ class ApiManager {
         ]
       },
       apis: ['src/routes/api/**/*.route.js', 'src/models/**/*.js'],
+      customSiteTitle: 'Mi Swagger'
     };
 
     const specs = this._swaggerJsdoc(options);
 
-    this._app.use('/open-api.playground', this._swaggerUi.serve, this._swaggerUi.setup(specs))
+    this._app.use('/open-api.playground', this._swaggerUi.serve, this._swaggerUi.setup(specs, {
+      customSiteTitle: `${this._config.SERVER.NAME} - ${this._config.SERVER.VERSION}`
+    }))
     this._app.get('/open-api.json', (_, res) => {
       res.setHeader('Content-Type', 'application/json');
       res.send(specs);
