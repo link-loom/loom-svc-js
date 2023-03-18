@@ -10,6 +10,9 @@ const BaseModel = require('../base/base.model')
  *        - user_id
  *        - fingerprint
  *      properties:
+ *        id:
+ *          type: string
+ *          description: Device's id
  *        user_id:
  *           type: string
  *           description: Device's user_id.
@@ -23,6 +26,7 @@ const BaseModel = require('../base/base.model')
  *           type: string
  *           description: Device's operating_system_version.
  *      example:
+ *        id: ""
  *        user_id: usr-12345
  *        fingerprint: 1678660540978
  *        operating_system_name: windows

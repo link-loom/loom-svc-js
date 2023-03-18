@@ -11,6 +11,9 @@ const BaseModel = require('../base/base.model')
  *          - message
  *          - receiver_user_id
  *        properties:
+ *          id:
+ *            type: string
+ *            description: Notification's id
  *          date:
  *            type: string
  *            description: Notification's date.
@@ -36,6 +39,7 @@ const BaseModel = require('../base/base.model')
  *            type: object
  *            description: Notification's folder.
  *        example:
+ *          id: ""
  *          date: "1678660540978"
  *          sender_user_id: "usr-12345"
  *          message: "Hello world! I'm from space"

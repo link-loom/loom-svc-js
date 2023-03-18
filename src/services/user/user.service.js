@@ -58,8 +58,8 @@ class UserService {
 
   async update (data) {
     try {
-      if (!data || !data.identity) {
-        return this._utilities.io.response.error('Please provide an identity')
+      if (!data || !data.id) {
+        return this._utilities.io.response.error('Please provide an id')
       }
 
       const transactionResponse = await this._db.transaction.update({

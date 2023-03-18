@@ -9,46 +9,50 @@ const BaseModel = require('../base/base.model')
  *        required:
  *          - phone
  *        properties:
+ *          id:
+ *            type: string
+ *            description: User's id.
  *          national_id:
  *            type: string
- *            description: The user's national_id.
+ *            description: User's national_id.
  *          email:
  *            type: string
- *            description: The user's email.
+ *            description: User's email.
  *          phone:
  *            type: string
- *            description: The user's phone.
+ *            description: User's phone.
  *          password:
  *            type: string
- *            description: The user's password.
+ *            description: User's password.
  *          firstname:
  *            type: string
- *            description: The user's firstname.
+ *            description: User's firstname.
  *          lastname:
  *            type: string
- *            description: The user's lastname.
+ *            description: User's lastname.
  *          role:
  *            type: string
- *            description: The user's role.
+ *            description: User's role.
  *          last_login:
  *            type: string
- *            description: The user's last_login.
+ *            description: User's last_login.
  *          veripass_id:
  *            type: string
- *            description: The user's veripass_id.
+ *            description: User's veripass_id.
  *          link_email_activation:
  *            type: string
- *            description: The user's link_email_activation.
+ *            description: User's link_email_activation.
  *          accept_terms:
  *            type: string
- *            description: The user's accept_terms.
+ *            description: User's accept_terms.
  *          is_account_actived:
  *            type: string
- *            description: The user's is_account_actived.
+ *            description: User's is_account_actived.
  *          business_id:
  *            type: string
- *            description: The user's business_id.
+ *            description: User's business_id.
  *        example:
+ *            id: ""
  *            national_id: "1023925418"
  *            email: jhon.doe@company.com
  *            phone: "573103494807"

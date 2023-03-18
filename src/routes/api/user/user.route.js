@@ -33,7 +33,7 @@ class UserRoute {
    *              - national-id
    *              - phone
    *              - email
-   *              - business
+   *              - business-id
    *       - in: query
    *         name: search
    *         description: Keyword to search for entities.
