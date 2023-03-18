@@ -60,6 +60,14 @@ class GeneratorUtil {
     }
   }
 
+  #generateNowTime () {
+    return new Date()
+  }
+
+  #generateTimestamp () {
+    return (new Date()).getTime() + ''
+  }
+
   get generator () {
     return {
       id: this.#idGenerator.bind(this),
@@ -69,6 +77,10 @@ class GeneratorUtil {
       },
       jwt: {
         token: this.#generateJWTToken.bind(this),
+      },
+      time: {
+        now: this.#generateNowTime.bind(this),
+        timestamp: this.#generateTimestamp.bind(this),
       }
     }
   }

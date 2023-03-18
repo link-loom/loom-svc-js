@@ -36,7 +36,7 @@ class ServerManager {
 
       this.#setupEventBus()
 
-      this.#setupDal()
+      this.#setupDataTypes()
 
       await this.#setupDatabase()
 
@@ -119,12 +119,12 @@ class ServerManager {
     this._dependenciesManager.core.add(this._modelsManager.models, 'models')
   }
 
-  async #setupDal () {
+  async #setupDataTypes () {
     const { DataTypesManager } = require('./data-types.manager')
     this._dalManager = new DataTypesManager(this._dependenciesManager.core.get())
     this._dalManager.setup()
 
-    this._dependenciesManager.core.add(this._dalManager, 'dal')
+    this._dependenciesManager.core.add(this._dalManager, 'DataTypesManager')
   }
 
   #setupDatabase () {

@@ -70,31 +70,39 @@ class UserModel extends BaseModel {
     }
 
     super(dependencies)
-    this.dependencies = dependencies
+    
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._dataTypesManager = this._dependencies.DataTypesManager
 
-    const timestamp = (new Date()).getTime() + ''
+    /* Custom Properties */
+    this._types = this._dataTypesManager.types
+
+    /* Assigments */
+    const timestamp = this._utilities.generator.time.timestamp()
 
     /* Base Properties */
-    this.last_modification = { value: timestamp, type: dependencies.dal.types.timestamp }
-    this.id = { value: args.id, type: dependencies.dal.types.bigserial, isPK: true }
-    this.date_creation = { value: timestamp, type: dependencies.dal.types.timestamp }
-    this.last_user_modification = { value: args.user_id, type: dependencies.dal.types.object }
-    this.status = { value: args.status || UserModel.statuses.active, type: dependencies.dal.types.object }
+    this.last_modification = { value: timestamp, type: this._types.timestamp }
+    this.id = { value: args.id, type: this._types.bigserial, isPK: true }
+    this.date_creation = { value: timestamp, type: this._types.timestamp }
+    this.last_user_modification = { value: args.user_id, type: this._types.object }
+    this.status = { value: args.status || UserModel.statuses.active, type: this._types.object }
 
     /* Custom fields */
-    this.national_id = { value: args.national_id, type: dependencies.dal.types.string }
-    this.email = { value: args.email, type: dependencies.dal.types.string }
-    this.phone = { value: args.phone, type: dependencies.dal.types.string }
-    this.password = { value: args.password, type: dependencies.dal.types.string }
-    this.firstname = { value: args.firstname, type: dependencies.dal.types.string }
-    this.lastname = { value: args.lastname, type: dependencies.dal.types.string }
-    this.role = { value: args.role || UserModel.roles.business, type: dependencies.dal.types.string }
-    this.last_login = { value: args.last_login, type: dependencies.dal.types.string }
-    this.veripass_id = { value: args.veripass_id, type: dependencies.dal.types.string }
-    this.link_email_activation = { value: args.link_email_activation, type: dependencies.dal.types.string }
-    this.accept_terms = { value: args.accept_terms, type: dependencies.dal.types.boolean }
-    this.is_account_actived = { value: args.is_account_actived, type: dependencies.dal.types.boolean }
-    this.business_id = { value: args.business_id, type: dependencies.dal.types.string }
+    this.national_id = { value: args.national_id, type: this._types.string }
+    this.email = { value: args.email, type: this._types.string }
+    this.phone = { value: args.phone, type: this._types.string }
+    this.password = { value: args.password, type: this._types.string }
+    this.firstname = { value: args.firstname, type: this._types.string }
+    this.lastname = { value: args.lastname, type: this._types.string }
+    this.role = { value: args.role || UserModel.roles.business, type: this._types.string }
+    this.last_login = { value: args.last_login, type: this._types.string }
+    this.veripass_id = { value: args.veripass_id, type: this._types.string }
+    this.link_email_activation = { value: args.link_email_activation, type: this._types.string }
+    this.accept_terms = { value: args.accept_terms, type: this._types.boolean }
+    this.is_account_actived = { value: args.is_account_actived, type: this._types.boolean }
+    this.business_id = { value: args.business_id, type: this._types.string }
   }
 
   // Return entity sanitized

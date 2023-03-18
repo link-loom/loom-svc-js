@@ -35,22 +35,30 @@ class DeviceModel extends BaseModel {
     }
 
     super(dependencies)
-    this.dependencies = dependencies
+    
+    /* Base Properties */
+    this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._dataTypesManager = this._dependencies.DataTypesManager
 
-    const timestamp = (new Date()).getTime() + ''
+    /* Custom Properties */
+    this._types = this._dataTypesManager.types
+
+    /* Assigments */
+    const timestamp = this._utilities.generator.time.timestamp()
 
     /* Base Properties */
-    this.last_modification = { value: timestamp, type: dependencies.dal.types.timestamp }
-    this.id = { value: args.id, type: dependencies.dal.types.bigserial, isPK: true }
-    this.date_creation = { value: timestamp, type: dependencies.dal.types.timestamp }
-    this.last_user_modification = { value: args.user_id, type: dependencies.dal.types.object }
-    this.status = { value: args.status || DeviceModel.statuses.active, type: dependencies.dal.types.object }
+    this.last_modification = { value: timestamp, type: this._types.timestamp }
+    this.id = { value: args.id, type: this._types.bigserial, isPK: true }
+    this.date_creation = { value: timestamp, type: this._types.timestamp }
+    this.last_user_modification = { value: args.user_id, type: this._types.object }
+    this.status = { value: args.status || DeviceModel.statuses.active, type: this._types.object }
 
     /* Custom fields */
-    this.user_id = { value: args.user_id, type: dependencies.dal.types.string }
-    this.fingerprint = { value: args.fingerprint, type: dependencies.dal.types.string }
-    this.operating_system_name = { value: args.operating_system_name, type: dependencies.dal.types.string }
-    this.operating_system_version = { value: args.operating_system_version, type: dependencies.dal.types.string }
+    this.user_id = { value: args.user_id, type: this._types.string }
+    this.fingerprint = { value: args.fingerprint, type: this._types.string }
+    this.operating_system_name = { value: args.operating_system_name, type: this._types.string }
+    this.operating_system_version = { value: args.operating_system_version, type: this._types.string }
   }
 
   // Return entity sanitized

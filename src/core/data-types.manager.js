@@ -8,19 +8,19 @@ class DataTypesManager {
 
     /* Assigments */
     this._namespace = '[Server]::[DAL]::[Manager]'
-    this._dal = {}
+    this._dataTypes = {}
   }
 
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    this._dal = require(`${this._dependencies.root}/src/data-types/definition.types`)
+    this._dataTypes = require(`${this._dependencies.root}/src/data-types/definition.types`)
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
   get types () {
-    return this._dal
+    return this._dataTypes
   }
 }
 

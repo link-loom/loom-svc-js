@@ -33,7 +33,7 @@ class ModelBase {
     if (!dependencies) {
       throw new Error('Required dependencies to build this entity')
     }
-    this.dependencies = dependencies
+    this._dependencies = dependencies
   }
 
   get getPropertiesAsCommas () {
