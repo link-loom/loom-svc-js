@@ -56,17 +56,6 @@ class ModelBase {
     return (keys.map(key => `${key}=${this.get[key].value}`)).join()
   }
 
-  get getPropertiesAsTypes () {
-    const keys = Object.keys(this.get)
-    return keys.map(key => {
-      if (this.get[key].isPK) {
-        return `"${key}" ${this.get[key].type.sqlType} PRIMARY KEY`
-      }
-
-      return `"${key}" ${this.get[key].type.sqlType}`
-    })
-  }
-
   getPropertyAsReference ({ namespace, property }) {
     return `REFERENCES "${namespace}"."${this.get[property].reference.table}" ("${this.get[property].reference.property}")`
   }
