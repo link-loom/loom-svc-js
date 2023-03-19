@@ -31,7 +31,7 @@
     "USE_PUSH": false,
     "USE_PRODUCER_ROLE": true,
     "USE_BROKER_ROLE": false,
-    "DATABASE_NAME": "firebase",
+    "DATABASE_NAME": "mongodb",
     "STORAGE_NAME": "spaces",
     "PUSH_NAME": "firebase"
   },
