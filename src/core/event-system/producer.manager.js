@@ -1,4 +1,4 @@
-class EventBrokerManager {
+class EventProducerManager {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
@@ -7,74 +7,71 @@ class EventBrokerManager {
     /* Custom Properties */
     this._path = this._dependencies.path
     this._config = this._dependencies.config
-    this._websocketServer = this._dependencies.websocketServer
+    this._websocketServer = this._dependencies.webSocketServer
     this._websocketClientModule = this._dependencies.websocketClientModule
 
     /* Assigments */
-    this._namespace = '[Server]::[Event System]::[Broker]'
+    this._namespace = '[Server]::[Event System]::[Producer]'
     this._eventSystemDefinition = {}
   }
 
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
 
-    this.#loadEvents()
+    this.#registerEvents()
 
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  #loadEvents () {
-    if (!this._config.SETTINGS.USE_BROKER_ROLE) {
+  #registerEvents () {
+    if (!this._config.SETTINGS.EVENT_SYSTEM.LISTEN_PRODUCER_EVENTS_ENABLED) {
       this._console.info('Manager is disabled', { namespace: this._namespace })
       return
     }
 
+    this._websocketServer.on('connection', (socket) => {
+      this._console.success(`Consumer connected ${socket.id}`, { namespace: this._namespace })
+
+      this.#registerDynamicEvents(socket)
+    })
+  }
+
+  #registerDynamicEvents (consumer) {
     this._eventSystemDefinition = require(`${this._dependencies.root}/src/events/index`)
 
-    this._websocketServer.on('connection', (socket) => {
-      this.#loadSocketEvents(socket)
+    this.#subscribeTopics({ consumer })
 
-      this._console.success(`Producer connected ${socket.id}`, { namespace: this._namespace })
-    })
-  }
-
-  #loadSocketEvents (socket) {
-    this.#subscribeTopics({ socket })
-    this.#createEvents({ socket })
-
-    socket.on('disconnect', () => {
-      this._console.success(`Producer disconnected ${socket.id}`, { namespace: this._namespace })
-    })
-  }
-
-  #subscribeTopics ({ socket }) {
-    this._console.success(`Initializing topics to ${socket.id}`, { namespace: this._namespace })
-
-    socket.join(this._eventSystemDefinition.broker.topics.map(topic => topic.name))
-  }
-
-  #createEvents ({ socket }) {
     // build each api routes
-    this._eventSystemDefinition.broker.events.map((eventDefinition) => {
+    this._eventSystemDefinition.producer.events.map((eventDefinition) => {
       try {
-        this._console.success(`Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
+        this._console.info(`Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
 
         /* Initialize event in websocket provider */
-        socket.on(eventDefinition.name + eventDefinition.command, (data) => {
+        consumer.on(eventDefinition.name + eventDefinition.command, (data) => {
           if (!data) {
             data = {}
           }
 
-          this.#executeEvent({ eventSettings: eventDefinition, data, socket })
+          this.#executeEvent({ eventSettings: eventDefinition, data, consumer })
         })
       } catch (error) {
         this._console.error(`Component failed: ${JSON.stringify(eventDefinition)}`, true, { namespace: this._namespace })
-        this._console.error(error)
+        this._console.error(error, { namespace: this._namespace })
       }
+    })
+
+    consumer.on('disconnect', () => {
+      this._console.success(`Consumer disconnected ${consumer.id}`, { namespace: this._namespace })
     })
   }
 
-  #executeEvent ({ eventSettings, data, socket }) {
+  #subscribeTopics ({ consumer }) {
+    this._console.success(`Subscribing to topics from ${consumer.id}`, { namespace: this._namespace })
+
+    consumer.join(this._eventSystemDefinition.producer.topics.map(topic => topic.name))
+  }
+
+  #executeEvent ({ eventSettings, data, consumer }) {
     if (!eventSettings || !eventSettings.filename) {
       return
     }
@@ -84,7 +81,7 @@ class EventBrokerManager {
 
     /* Setup event */
     const Event = require(pathname)
-    const event = new Event(this._dependencies, { socket })
+    const event = new Event(this._dependencies, { socket: consumer })
 
     event.execute({
       settings: eventSettings,
@@ -94,7 +91,7 @@ class EventBrokerManager {
             name: eventSettings.name
           },
           socket: {
-            id: socket.id,
+            id: consumer.id,
           },
           topics: eventSettings.topics
         },
@@ -117,4 +114,4 @@ class EventBrokerManager {
   }
 }
 
-module.exports = { EventBrokerManager }
+module.exports = { EventProducerManager }

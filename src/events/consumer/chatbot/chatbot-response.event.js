@@ -4,7 +4,8 @@ class Event {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._websocketServer = this._dependencies.websocketServer
+    this._socketManager = this._dependencies.socketManager
+    this._brokerManager = this._dependencies.brokerManager
     this._socket = socket
 
     /* Custom Properties */
@@ -20,14 +21,6 @@ class Event {
    */
   async execute ({ settings, payload }) {
     console.log(settings.name, payload)
-
-    payload.command = '#response'
-    this._utilities.event.broker.topic.emit({
-      websocketServer: this._websocketServer,
-      socket: this._socket,
-      settings,
-      payload
-    })
   }
 }
 

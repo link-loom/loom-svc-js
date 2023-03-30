@@ -29,8 +29,12 @@
     "USE_DATABASE": false,
     "USE_STORAGE": false,
     "USE_PUSH": false,
-    "USE_PRODUCER_ROLE": true,
-    "USE_BROKER_ROLE": false,
+    "EVENT_SYSTEM": {
+      "INTERNAL_BUS_MANAGER_ENABLED": true,
+      "BROKER_ENABLED": true,
+      "LISTEN_PRODUCER_EVENTS_ENABLED": true,
+      "LISTEN_CONSUMER_EVENTS_ENABLED": false
+    },
     "DATABASE_NAME": "mongodb",
     "STORAGE_NAME": "spaces",
     "PUSH_NAME": "firebase"

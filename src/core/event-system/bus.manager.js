@@ -3,6 +3,7 @@ class BusManager {
     /* Base Properties */
     this._dependencies = dependencies
     this._console = this._dependencies.console
+    this._config = this._dependencies.config
 
     /* Custom Properties */
     this._events = this._dependencies.events
@@ -14,6 +15,11 @@ class BusManager {
 
   setup () {
     this._console.success('Loading', { namespace: this._namespace })
+
+    if (!this._config.SETTINGS.EVENT_SYSTEM.INTERNAL_BUS_MANAGER_ENABLED) {
+      this._console.info('Manager is disabled', { namespace: this._namespace })
+      return
+    }
 
     this._bus = new this._events.EventEmitter()
 

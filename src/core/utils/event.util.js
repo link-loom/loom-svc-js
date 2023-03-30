@@ -1,43 +1,43 @@
 class EventUtil {
   constructor (dependencies) {
     this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._websocketServer = this._dependencies.webSocketServer
   }
 
-  #brokerEmitToSocket ({ socket, settings, payload }) {
-    socket.emit(settings.name, payload)
-  }
+  /**
+   * Emit message to topic inside payload.context.topics if not send to all
+   * @param {*} params 
+   */
+  #producerEmitToTopics ({ settings, payload }) {
+    this._websocketServer = this._dependencies.webSocketServer
 
-  #brokerEmitToTopics ({ websocketServer, settings, payload }) {
+    if (!payload || !payload.context) {
+      return this._utilities.io.response.error()
+    }
+
     if (!payload.context.topics || !payload.context.topics.length) {
-      payload.context.topics = settings.topics
+      return this._utilities.io.response.error()
     }
 
     for (const topic of payload.context.topics) {
       console.log(`${settings.name + payload.command}[${topic}]`)
 
-      if (websocketServer) {
-        websocketServer.to(topic).emit(settings.name + payload.command, payload)
+      if (this._websocketServer) {
+        this._websocketServer.to(topic).emit(settings.name + payload.command, payload)
       }
     }
   }
 
-  #brokerEmit ({ websocketServer, socket, settings, payload }) {
-    if (!socket) {
-      this.#brokerEmitToTopics({ websocketServer, settings, payload })
-      return
-    }
-
-    this.#brokerEmitToSocket({ socket, settings, payload })
+  #producerEmit ({ websocketServer, settings, payload }) {
+    this.#producerEmitToTopics({ websocketServer, settings, payload })
   }
 
-  get broker () {
+  get producer () {
     return {
-      emit: this.#brokerEmit.bind(this),
-      socket: {
-        emit: this.#brokerEmitToSocket.bind(this)
-      },
+      emit: this.#producerEmit.bind(this),
       topic: {
-        emit: this.#brokerEmitToTopics.bind(this)
+        emit: this.#producerEmitToTopics.bind(this)
       }
     }
   }

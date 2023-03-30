@@ -36,7 +36,7 @@ class UtilitiesManager {
     this._console.success('Loaded', { namespace: this._namespace })
   }
 
-  get generator(){
+  get generator () {
     return this._generatorUtil.generator
   }
 
@@ -52,7 +52,7 @@ class UtilitiesManager {
     return this._encoderUtil.encoder
   }
 
-  get io (){
+  get io () {
     return this._ioUtil
   }
 

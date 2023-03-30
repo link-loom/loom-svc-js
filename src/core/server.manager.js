@@ -18,7 +18,7 @@ class ServerManager {
     this._apiManager = {}
     this._functionsManager = {}
     this._eventBrokerManager = {}
-    this._eventProducerManager = {}
+    this._eventBrokerManager = {}
     this._namespace = '[Server]::[Manager]'
   }
 
@@ -55,6 +55,8 @@ class ServerManager {
       this.#setupEventBroker()
 
       this.#setupEventProducer()
+
+      this.#setupEventConsumer()
 
       this.#setupServer()
 
@@ -103,7 +105,7 @@ class ServerManager {
   }
 
   #setupEventBus () {
-    const { BusManager } = require('./eventSystem/bus.manager')
+    const { BusManager } = require('./event-system/bus.manager')
     this._eventBusManager = new BusManager(this._dependenciesManager.core.get())
     this._eventBusManager.setup()
 
@@ -179,29 +181,31 @@ class ServerManager {
     this._dependenciesManager.core.add(this._functionsManager, 'FunctionsManager')
   }
 
-  #setupEventBroker () {
-    const { EventBrokerManager } = require('./eventSystem/broker.manager')
+  #setupEventBroker(){
+    const { EventBrokerManager } = require('./event-system/broker.manager')
     this._eventBrokerManager = new EventBrokerManager(this._dependenciesManager.core.get())
 
     this._eventBrokerManager.setup()
-
-    // Listening and setup socket
-    const webSocketServer = this._dependenciesManager.core.get().socketModule(this._dependenciesManager.core.get().httpServer, {
-      cors: {
-        origin: '*'
-      }
-    })
-
-    this._dependenciesManager.core.add(webSocketServer, 'websocketServer')
+    
     this._dependenciesManager.core.add(this._eventBrokerManager, 'BrokerManager')
+    this._dependenciesManager.core.add(this._eventBrokerManager.webSocketServer, 'webSocketServer')
   }
 
   #setupEventProducer () {
-    const { EventProducerManager } = require('./eventSystem/producer.manager')
-    this._eventProducerManager = new EventProducerManager(this._dependenciesManager.core.get())
-    this._eventProducerManager.setup()
+    const { EventProducerManager } = require('./event-system/producer.manager')
+    this._eventBrokerManager = new EventProducerManager(this._dependenciesManager.core.get())
 
-    this._dependenciesManager.core.add(this._eventProducerManager, 'ProducerManager')
+    this._eventBrokerManager.setup()
+
+    this._dependenciesManager.core.add(this._eventBrokerManager, 'ProducerManager')
+  }
+
+  #setupEventConsumer () {
+    const { EventConsumerManager } = require('./event-system/consumer.manager')
+    this._eventBrokerManager = new EventConsumerManager(this._dependenciesManager.core.get())
+    this._eventBrokerManager.setup()
+
+    this._dependenciesManager.core.add(this._eventBrokerManager, 'ConsumerManager')
   }
 
   #setupServer () {

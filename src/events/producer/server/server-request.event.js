@@ -4,7 +4,7 @@ class Event {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._websocketServer = this._dependencies.websocketServer
+    this._websocketServer = this._dependencies.webSocketServer
     this._socket = socket
 
     /* Custom Properties */
@@ -21,15 +21,24 @@ class Event {
   async execute ({ settings, payload }) {
     console.log(settings.name, payload)
 
-    // Change request to response
-    payload.command = '#response'
-    settings.name = settings.name.split('#')[0] + '#response'
+    // Setup response
+    const responsePayload = {
+      context: {
+        topics: ['server'],
+        event: {
+          name: 'reversebytes.beat.server'
+        },
+        socket: {
+          id: this._socket.id
+        }
+      },
+      command: '#response',
+      values: {}
+    }
 
-    this._utilities.event.broker.socket.emit({
-      websocketServer: this._websocketServer,
-      socket: this._socket,
+    this._utilities.event.producer.emit({
       settings,
-      payload
+      payload: responsePayload
     })
   }
 }

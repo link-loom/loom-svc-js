@@ -1,19 +1,23 @@
 const definition = {
-  broker: {
-    events: [
-      { name: 'reversebytes.beat.server', command: '#request', filename: '/events/broker/server/server.event', topics: [] },
-      { name: 'reversebytes.beat.chatbot', command: '#request', filename: '/events/broker/chatbot/chatbot.event', topics: ['chatbot'] },
-      { name: 'reversebytes.beat.client', command: '#request', filename: '/events/broker/client/client.event', topics: ['client'] }
-    ],
+  // On producer
+  producer:{
+    // Describe all the topics that the consumer will subscribe to once it has connected to the broker.
     topics: [
-      { name: 'general' },
+      { name: 'server' },
       { name: 'chatbot' },
       { name: 'client' }
+    ],
+    events:[
+      { name: 'reversebytes.beat.chatbot', command: '#request', filename: '/events/producer/chatbot/chatbot-request.event', topics: ['chatbot'] },
+      { name: 'reversebytes.beat.server', command: '#request', filename: '/events/producer/server/server-request.event', topics: ['server'] },
     ]
   },
-  producer: {
+  // On consumer
+  consumer:{
+    // Listen events as consumer role
     events: [
-      { name: 'reversebytes.beat.server', command: '', filename: '/events/producer/server/server.event', topics: [] }
+      { name: 'reversebytes.beat.chatbot', command: '#response', filename: '/events/consumer/chatbot/chatbot-response.event', topics: ['chatbot'] },
+      { name: 'reversebytes.beat.server', command: '#response', filename: '/events/consumer/server/server-response.event', topics: ['server'] }
     ]
   }
 }
