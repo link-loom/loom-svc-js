@@ -4,7 +4,7 @@ class Event {
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities
     this._console = this._dependencies.console
-    this._websocketServer = this._dependencies.webSocketServer
+    this._producerManager = this._dependencies.ProducerManager
     this._socket = socket
 
     /* Custom Properties */
@@ -20,6 +20,9 @@ class Event {
    */
   async execute ({ settings, payload }) {
     console.log(settings.name, payload)
+
+    // Get a new event from producer events
+    const eventDefinition = this._producerManager.getEventDefinitionByName('reversebytes.beat.server')
 
     // Setup response
     const responsePayload = {

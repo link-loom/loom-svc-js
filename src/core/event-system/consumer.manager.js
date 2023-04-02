@@ -116,7 +116,7 @@ class EventConsumerManager {
       return
     }
 
-    this.definition.events.find(event => event.name === name)
+    this._eventSystemDefinition.consumer.events.find(event => event.name === name)
   }
 
   get definition () {

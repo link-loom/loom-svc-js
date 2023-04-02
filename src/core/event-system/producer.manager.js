@@ -106,7 +106,7 @@ class EventProducerManager {
       return
     }
 
-    return this.definition.events.find(event => event.name === name)
+    return this._eventSystemDefinition.producer.events.find(event => event.name === name)
   }
 
   get definition () {
