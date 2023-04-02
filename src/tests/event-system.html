@@ -17,30 +17,27 @@
     class EventSystem {
       constructor ({ brokerUri }) {
         this._brokerUri = brokerUri
-        this._core = {}
+        this._core = io(this._brokerUri, {
+          autoConnect: false
+        })
         this._consumer = {
           on: {}
         }
         this._producer = {
           send: {}
         }
-      }
-
-      connect () {
-        this._core = io(this._brokerUri)
-
-        this._consumer.on = this._core.on;
+        
+        this._consumer.on = this._core.on.bind(this._core);
         this._producer.send = this._core.emit.bind(this._core);
       }
 
-      get core () {
-        return this._core
+      connect () {
+        this._core.io.opts.autoConnect = true;
+        this._core.connect();
       }
 
       get broker () {
-        return {
-          id: this._core.id
-        }
+        return this._core
       }
 
       get consumer () {
@@ -69,7 +66,7 @@
           name: 'reversebytes.beat.server'
         },
         socket: {
-          id: broker.id
+          id: ''
         }
       },
       command: '#request',
@@ -82,18 +79,18 @@
           name: 'reversebytes.beat.chatbot'
         },
         socket: {
-          id: broker.id
+          id: ''
         }
       },
       command: '#request',
       values: {}
     }
 
-    consumer.on('connect', () => {
-      console.log('connected to Event System with id: ', broker.core.id);
+    consumer.on('connect', (args) => {
+      console.log('connected to Event System with id: ', broker.id);
 
-      producerServerPayload.context.broker.id = broker.id;
-      producerChatbotPayload.context.broker.id = broker.id;
+      producerServerPayload.context.socket.id = broker.id;
+      producerChatbotPayload.context.socket.id = broker.id;
     });
 
     consumer.on('reversebytes.beat.server#response', (data) => {
@@ -106,7 +103,7 @@
 
     function producerSendServer (event) {
       if (event) { event.preventDefault(); }
-      
+
       producer.send('reversebytes.beat.server' + producerServerPayload.command, producerServerPayload);
     }
 
