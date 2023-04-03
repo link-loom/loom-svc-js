@@ -1,7 +1,7 @@
 {
   "FRAMEWORK": {
     "NAME": "Beat",
-    "VERSION": "6.1.5"
+    "VERSION": "6.1.6"
   },
   "SERVER": {
     "PORT": "3601",

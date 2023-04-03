@@ -40,7 +40,7 @@ class Event {
     }
 
     this._utilities.event.producer.emit({
-      settings,
+      settings: eventDefinition,
       payload: responsePayload
     })
   }

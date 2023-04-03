@@ -30,7 +30,7 @@ class EventProducerManager {
     }
 
     this._websocketServer.on('connection', (socket) => {
-      this._console.success(`Consumer connected ${socket.id}`, { namespace: this._namespace })
+      this._console.success(`[${socket.id}]: Consumer connected`, { namespace: this._namespace })
 
       this.#registerDynamicEvents(socket)
     })
@@ -44,7 +44,7 @@ class EventProducerManager {
     // build each api routes
     this._eventSystemDefinition.producer.events.map((eventDefinition) => {
       try {
-        this._console.info(`Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
+        this._console.info(`[${consumer.id}]: Initializing ${eventDefinition.name}${eventDefinition.command} event`, { namespace: this._namespace })
 
         /* Initialize event in websocket provider */
         consumer.on(eventDefinition.name + eventDefinition.command, (data) => {
@@ -66,9 +66,11 @@ class EventProducerManager {
   }
 
   #subscribeTopics ({ consumer }) {
-    this._console.success(`Subscribing to topics from ${consumer.id}`, { namespace: this._namespace })
+    this._console.success(`[${consumer.id}]: Subscribing to topics`, { namespace: this._namespace })
 
     consumer.join(this._eventSystemDefinition.producer.topics.map(topic => topic.name))
+
+    this._console.success(`[${consumer.id}]: Topics subscribed ${[...consumer.rooms].join(', ')}`, { namespace: this._namespace })
   }
 
   #executeEvent ({ eventSettings, data, consumer }) {
