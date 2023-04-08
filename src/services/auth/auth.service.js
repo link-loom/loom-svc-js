@@ -23,7 +23,7 @@ class AuthService {
       return this._utilities.io.response.error('Wrong password. Try again or click Forgot password to reset it. After 3 failed attempts your account will be blocked by 24 hours.')
     }
 
-    const entity = new this._models.User(user, this._dependencies)
+    const entity = new this._models.UserManagement(user, this._dependencies)
     const sanitizedUser = entity.get
     const token = await this._utilities.generator.jwt.token({
       tokenizedData: sanitizedUser,
@@ -141,10 +141,6 @@ class AuthService {
     }
 
     return this._utilities.io.response.success('Token is valid')
-  }
-
-  get status () {
-    return this.this._models.Auth.statuses
   }
 }
 

@@ -25,17 +25,17 @@ class NotificationService {
         return this._utilities.io.response.error('Data provided not match with any registered user')
       }
 
-      if (!data.channels) { data.channels = this._models.Notification.channels.stored }
+      if (!data.channels) { data.channels = this._models.NotificationManagement.channels.stored }
 
-      if (data.channels.includes(this._models.Notification.channels.stored.name)) {
+      if (data.channels.includes(this._models.NotificationManagement.channels.stored.name)) {
         await this.#channelStored(data)
       }
 
-      if (data.channels.includes(this._models.Notification.channels.push.name)) {
+      if (data.channels.includes(this._models.NotificationManagement.channels.push.name)) {
         await this.#channelEventBus(data)
       }
 
-      if (data.channels.includes(this._models.Notification.channels.email.name)) {
+      if (data.channels.includes(this._models.NotificationManagement.channels.email.name)) {
         await this.#channelEmail(data)
       }
 
@@ -108,7 +108,7 @@ class NotificationService {
 
       this.#formatCreateEntity(data)
 
-      const entity = new this._models.Notification(data, this._dependencies)
+      const entity = new this._models.NotificationManagement(data, this._dependencies)
       const transactionResponse = await this._db.transaction.create({
         tableName: this._tableName,
         entity: entity.get
@@ -158,21 +158,21 @@ class NotificationService {
 
       // Select what email type is needed
       switch (data.email.template.name) {
-        case this._models.Notification.email_templates.confirmEmail.name:
+        case this._models.NotificationManagement.email_templates.confirmEmail.name:
           emailPath += '/src/static/email/confirm-eng.html'
           mailOptions.subject = `${data.email.subject || 'Welcome to %BEAT%'}`
           emailtemplate = await this.readFileAsync(emailPath)
           emailtemplate = emailtemplate.replaceAll('OPEN_ACCOUNT_LINK', `${data.email.mainActionLink}`)
           break
-        case this._models.Notification.email_templates.newsFeed.name:
+        case this._models.NotificationManagement.email_templates.newsFeed.name:
           break
-        case this._models.Notification.email_templates.warning.name:
+        case this._models.NotificationManagement.email_templates.warning.name:
           break
-        case this._models.Notification.email_templates.simple.name:
+        case this._models.NotificationManagement.email_templates.simple.name:
           break
-        case this._models.Notification.email_templates.danger.name:
+        case this._models.NotificationManagement.email_templates.danger.name:
           break
-        case this._models.Notification.email_templates.administrative.name:
+        case this._models.NotificationManagement.email_templates.administrative.name:
           break
         default:
           break
@@ -293,19 +293,19 @@ class NotificationService {
   }
 
   get status () {
-    return this._models.Notification.statuses
+    return this._models.NotificationManagement.statuses
   }
 
   get roleType () {
-    return this._models.Notification.role_types
+    return this._models.NotificationManagement.role_types
   }
 
   get channels () {
-    return this._models.Notification.channels
+    return this._models.NotificationManagement.channels
   }
 
   get emailTemplate () {
-    return this._models.Notification.email_templates
+    return this._models.NotificationManagement.email_templates
   }
 }
 

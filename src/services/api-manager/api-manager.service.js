@@ -25,10 +25,6 @@ class ApiManagerService {
   get key () {
     return this._key
   }
-
-  get status () {
-    return this._models.Services.statuses
-  }
 }
 
 module.exports = ApiManagerService

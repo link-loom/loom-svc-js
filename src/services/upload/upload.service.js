@@ -149,10 +149,6 @@ class UploadService {
       return this._utilities.io.response.error(error.message)
     }
   }
-
-  get status () {
-    return this._models.Upload.statuses
-  }
 }
 
 module.exports = UploadService

@@ -33,7 +33,7 @@ class DeviceService {
 
       this.#formatCreateEntity(data)
 
-      const entity = new this._models.Device(data, this._dependencies)
+      const entity = new this._models.DeviceManagement(data, this._dependencies)
       const transactionResponse = await this._db.transaction.create({
         tableName: this._tableName,
         entity: entity.get
@@ -198,7 +198,7 @@ class DeviceService {
   }
 
   get status () {
-    return this._models.Device.statuses
+    return this._models.DeviceManagement.statuses
   }
 }
 

@@ -19,10 +19,6 @@ class HealthService {
   async get () {
     return this._utilities.io.response.success('Server is online')
   }
-
-  get status () {
-    return this._models.Status.statuses
-  }
 }
 
 module.exports = HealthService
