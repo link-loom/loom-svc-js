@@ -11,7 +11,7 @@ class DeviceRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.DeviceService
+    this.EntityService = this._services.Device
   }
 
   /**

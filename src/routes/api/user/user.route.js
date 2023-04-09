@@ -11,7 +11,7 @@ class UserRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.UserService
+    this.EntityService = this._services.User
   }
 
   /**

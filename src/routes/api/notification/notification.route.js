@@ -11,7 +11,7 @@ class NotificationRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.NotificationService
+    this.EntityService = this._services.Notification
   }
 
   /**

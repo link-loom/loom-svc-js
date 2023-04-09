@@ -231,7 +231,7 @@ class UserService {
   }
 
   async #sendConfirmationNotification (data) {
-    const notificationService = new this._services.NotificationService(this._dependencies)
+    const notificationService = new this._services.Notification(this._dependencies)
 
     await notificationService.create({
       to: data.email,
