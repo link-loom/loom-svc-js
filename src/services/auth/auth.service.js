@@ -46,7 +46,7 @@ class AuthService {
         return this._utilities.io.response.error('Data provided not match with any registered user')
       }
 
-      const userService = new this._services.User(this._dependencies)
+      const userService = new this._services.UserService(this._dependencies)
       const timestamp = (new Date()).getTime() + ''
       const userResponse = await userService.getByIdentity(data)
 
@@ -76,7 +76,7 @@ class AuthService {
         return this._utilities.io.response.error(this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, 'Token is invalid, please try requesting another email.'))
       }
 
-      const userService = new this._services.User(this._dependencies)
+      const userService = new this._services.UserService(this._dependencies)
       const timestamp = +data.timestamp
       const hours = Math.floor(Math.abs(new Date() - new Date(+timestamp)) / 3.6e6)
 
@@ -124,7 +124,7 @@ class AuthService {
     if (!data || !data.chat || !data.chat.user) {
       return this._utilities.io.response.error('Is not possible validate account, please provide at least a phone number')
     }
-    const userService = new this._services.User(this._dependencies)
+    const userService = new this._services.UserService(this._dependencies)
     const userResult = await userService.getByIdentity({ identity: data.chat.user })
 
     if (!this._utilities.validator.response(userResult)) {
