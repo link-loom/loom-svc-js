@@ -1,4 +1,5 @@
-const BaseModel = require('../base/base.model')
+const path = require('path');
+const BaseModel = require(path.resolve(path.dirname(require.main.filename), 'src/models/base/base.model'))
 
 /**
  * @swagger
