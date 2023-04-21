@@ -2,8 +2,12 @@ class ValidatorUtil {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies
+    this._utilities = this._dependencies.utilities
+    this._config = this._dependencies.config
 
     /* Custom Properties */
+    this._bcrypt = this._dependencies.bcrypt
+    this._jwt = this._dependencies.jwt
 
     /* Assigments */
     this._namespace = '[Server]::[Utils]::[Validator]'

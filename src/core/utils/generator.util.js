@@ -53,7 +53,7 @@ class GeneratorUtil {
       })
 
       return {
-        userId: tokenizedData.userId,
+        identity: tokenizedData.identity,
         auth: true,
         token, payload
       }
