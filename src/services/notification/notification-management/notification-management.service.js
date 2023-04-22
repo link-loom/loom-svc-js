@@ -77,7 +77,7 @@ class NotificationService {
 
       let response = {}
 
-      switch (params.queryselector) {
+      switch (data.queryselector) {
         case 'id':
           response = await this.#getById(params)
           break
