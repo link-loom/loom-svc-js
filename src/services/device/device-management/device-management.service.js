@@ -74,7 +74,7 @@ class DeviceService {
     }
   }
 
-  async get ({ params }) {
+  async get (data) {
     try {
       if (!data || !data.queryselector) {
         return this._utilities.io.response.error('Please provide a queryselector')
