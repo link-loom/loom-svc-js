@@ -76,10 +76,10 @@ class TemplateService {
 
       switch (data.queryselector) {
         case 'id':
-          response = await this.#getById(params)
+          response = await this.#getById(data)
           break
         case 'PROPERTY':
-          response = await this.#getByPROPERTY(params)
+          response = await this.#getByPROPERTY(data)
           break
         default:
           response = this._utilities.io.response.error('Provide a valid slug to query')

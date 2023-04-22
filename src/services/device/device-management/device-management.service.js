@@ -84,16 +84,16 @@ class DeviceService {
 
       switch (data.queryselector) {
         case 'id':
-          response = await this.#getById(params)
+          response = await this.#getById(data)
           break
         case 'user-id':
-          response = await this.#getByUserId(params)
+          response = await this.#getByUserId(data)
           break
         case 'fingerprint':
-          response = await this.#getByFingerprint(params)
+          response = await this.#getByFingerprint(data)
           break
         case 'identity':
-          response = await this.#getByIdentity(params)
+          response = await this.#getByIdentity(data)
           break
         default:
           response = this._utilities.io.response.error('Provide a valid slug to query')

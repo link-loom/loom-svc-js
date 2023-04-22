@@ -79,13 +79,13 @@ class NotificationService {
 
       switch (data.queryselector) {
         case 'id':
-          response = await this.#getById(params)
+          response = await this.#getById(data)
           break
         case 'receiver':
-          response = await this.#getByReceiverUserId(params)
+          response = await this.#getByReceiverUserId(data)
           break
         case 'business-id':
-          response = await this.#getByBusinessId(params)
+          response = await this.#getByBusinessId(data)
           break
         default:
           response = this._utilities.io.response.error('Provide a valid slug to query')
