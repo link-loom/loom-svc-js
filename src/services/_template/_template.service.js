@@ -44,14 +44,13 @@ class TemplateService {
 
   async update (data) {
     try {
-      if (!data || !data.PROPERTY) {
-        return this._utilities.io.response.error('Please provide PROPERTY')
+      if (!data || !data.id) {
+        return this._utilities.io.response.error('Please provide an id')
       }
 
-      const entity = new this._models.Template({ ...entityResponse.result, ...data }, this._dependencies)
       const transactionResponse = await this._db.transaction.update({
         tableName: this._tableName,
-        entity: entity.get
+        entity: data
       })
 
       if (!transactionResponse) {
@@ -59,7 +58,7 @@ class TemplateService {
         return this._utilities.io.response.error()
       }
 
-      return this._utilities.io.response.success(entity.get)
+      return this._utilities.io.response.success(data)
     } catch (error) {
       this._console.error(error)
       return this._utilities.io.response.error()
