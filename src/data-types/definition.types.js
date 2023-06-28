@@ -1,58 +1,58 @@
 module.exports = {
   string: {
     name: 'string',
-    default: '',
+    default: ''
   },
   number: {
     name: 'number',
-    default: 0,
+    default: 0
   },
   array: {
     name: 'array',
-    default: [],
+    default: []
   },
   object: {
     name: 'object',
-    default: {},
+    default: {}
   },
   timestamp: {
     name: 'date',
-    default: (new Date()).getTime() + '',
+    default: (new Date()).getTime() + ''
   },
   date: {
     name: 'date',
-    default: new Date(),
+    default: new Date()
   },
   boolean: {
     name: 'boolean',
-    default: false,
+    default: false
   },
   serial: {
     name: 'serial',
-    default: '',
+    default: ''
   },
   bigserial: {
     name: 'bigserial',
-    default: '',
+    default: ''
   },
   macaddr: {
     name: 'macaddr',
-    default: '',
+    default: ''
   },
   inet: {
     name: 'inet',
-    default: '0.0.0.0',
+    default: '0.0.0.0'
   },
   tsquery: {
     name: 'tsquery',
-    default: '',
+    default: ''
   },
   tsvector: {
     name: 'tsvector',
-    default: '',
+    default: ''
   },
   xml: {
     name: 'xml',
-    default: '',
+    default: ''
   }
 }

@@ -25,7 +25,7 @@ class FirebaseDataSource extends DataSource {
     /* TODO: Setup all configurations of your database provider */
 
     // Create a client and create a new connection
-    this._db.client = {/* TODO: Save your client connected here */}
+    this._db.client = {/* TODO: Save your client connected here */ }
   }
 
   async create ({ tableName, entity } = {}) {
@@ -40,7 +40,7 @@ class FirebaseDataSource extends DataSource {
       const documentResponse = await document.set(entity)
 
       if (!documentResponse) {
-        this._console.error(error)
+        this._console.error('Empty response')
 
         return null
       }
@@ -127,14 +127,13 @@ class FirebaseDataSource extends DataSource {
         if (filter.key) {
           collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
         }
-
-        return collection
       }
+
+      return collection
     } catch (error) {
       this._console.error(error)
       return collection
     }
-
   }
 
   /**

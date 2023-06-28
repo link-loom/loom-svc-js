@@ -73,6 +73,7 @@ class DependenciesManager {
     dependencies.map(customDependency => {
       console.log(` ${this._dependencies.colors.cyan(this._namespace)}: Loading ${customDependency.name} dependency`)
       this._dependencies[customDependency.name] = require(customDependency.package)
+      return customDependency
     })
     console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded custom dependencies`)
   }

@@ -52,8 +52,8 @@ class StorageManager {
 
   async spacesConfig () {
     try {
-      const { SpacesManager } = require(`${dependencies.root}/src/core/spaces.manager`)
-      this._spacesManager = new SpacesManager(dependencies)
+      const { SpacesManager } = require(`${this._dependencies.root}/src/core/spaces.manager`)
+      this._spacesManager = new SpacesManager(this._dependencies)
       this._spacesManager.setup(this._dependencies.config.DIGITALOCEAN.SPACES)
 
       const spacesEndpoint = new this._aws.Endpoint(this._spacesManager.getCredentials().endpoint)

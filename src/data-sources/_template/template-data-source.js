@@ -26,11 +26,10 @@ class FirebaseDataSource extends DataSource {
       /* TODO: Implement all database provider configurations */
 
       // Create a client and create a new connection
-      this._db.client = {/* TODO: Save your databse connected client*/ }
+      this._db.client = {/* TODO: Save your databse connected client */ }
     } catch (error) {
       this._console.error(error)
     }
-
   }
 
   async create ({ tableName, entity } = {}) {
@@ -99,31 +98,6 @@ class FirebaseDataSource extends DataSource {
     } catch (error) {
       this._console.error(error)
       return collection
-    }
-
-  }
-
-  /**
-     * Cast a Firebase snapshot into an array
-     * @param {any} snapshot is the snapshop returned by database
-     * @returns an array of objects
-     */
-  #castArraySnapshot (snapshot) {
-    if (snapshot) {
-      const arr = []
-      const obj = {}
-
-      snapshot.docs.forEach(childSnapshot => {
-        const item = childSnapshot.data()
-        arr.push(item)
-      })
-
-      obj.raw = snapshot
-      obj.data = arr
-
-      return obj
-    } else {
-      return null
     }
   }
 }

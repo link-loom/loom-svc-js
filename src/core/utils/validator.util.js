@@ -98,7 +98,6 @@ class ValidatorUtil {
       response: this.#responseIsValid.bind(this)
     }
   }
-
 }
 
 module.exports = ValidatorUtil

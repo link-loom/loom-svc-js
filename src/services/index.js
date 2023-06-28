@@ -19,5 +19,5 @@ module.exports = {
   HealthService,
   UploadService,
   UserService,
-  Template,
+  Template
 }

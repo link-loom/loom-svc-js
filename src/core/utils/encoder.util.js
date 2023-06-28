@@ -121,7 +121,6 @@ class SerializerUtil {
       }
     }
   }
-
 }
 
 module.exports = SerializerUtil

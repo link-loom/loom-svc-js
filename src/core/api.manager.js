@@ -64,11 +64,13 @@ class ApiManager {
             this.#handleHttpMethod({
               route: new Route(this._dependencies),
               domain: domainName,
-              endpoint: endpoint
+              endpoint
             })
           } catch (error) {
             this._console.error(`Endpoint failed: ${JSON.stringify(endpoint)}`, true)
           }
+
+          return endpoint
         })
       }
     }
@@ -83,7 +85,7 @@ class ApiManager {
         openapi: '3.0.0',
         info: {
           title: this._config.SERVER.NAME,
-          version: this._config.SERVER.VERSION,
+          version: this._config.SERVER.VERSION
         },
         servers: [
           {
@@ -94,16 +96,16 @@ class ApiManager {
       },
       apis: ['src/routes/api/**/*.route.js', 'src/models/**/*.js'],
       customSiteTitle: 'Mi Swagger'
-    };
+    }
 
-    const specs = this._swaggerJsdoc(options);
+    const specs = this._swaggerJsdoc(options)
 
     this._app.use('/open-api.playground', this._swaggerUi.serve, this._swaggerUi.setup(specs, {
       customSiteTitle: `${this._config.SERVER.NAME} - ${this._config.SERVER.VERSION}`
     }))
     this._app.get('/open-api.json', (_, res) => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(specs);
+      res.setHeader('Content-Type', 'application/json')
+      res.send(specs)
     })
   }
 

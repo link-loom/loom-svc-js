@@ -33,7 +33,7 @@ class IOUtil {
       return {
         status: status || 500,
         success: false,
-        message: message,
+        message,
         result: null
       }
     }
@@ -78,7 +78,6 @@ class IOUtil {
       clean: this.#cleanObjectData.bind(this)
     }
   }
-
 }
 
 module.exports = IOUtil

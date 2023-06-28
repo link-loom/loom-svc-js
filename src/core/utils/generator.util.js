@@ -55,7 +55,8 @@ class GeneratorUtil {
       return {
         identity: tokenizedData.identity,
         auth: true,
-        token, payload
+        token,
+        payload
       }
     } catch (error) {
       this._console.error(error)
@@ -76,18 +77,17 @@ class GeneratorUtil {
       id: this.#idGenerator.bind(this),
       privateKey: this.#generatePrivateKey.bind(this),
       hash: {
-        fromString: this.#stringToHash.bind(this),
+        fromString: this.#stringToHash.bind(this)
       },
       jwt: {
-        token: this.#generateJWTToken.bind(this),
+        token: this.#generateJWTToken.bind(this)
       },
       time: {
         now: this.#generateNowTime.bind(this),
-        timestamp: this.#generateTimestamp.bind(this),
+        timestamp: this.#generateTimestamp.bind(this)
       }
     }
   }
-
 }
 
 module.exports = GeneratorUtil

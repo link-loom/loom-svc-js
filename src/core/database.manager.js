@@ -1,5 +1,5 @@
 class DatabaseManager {
-  constructor ({dependencies, dependencyInjector}) {
+  constructor ({ dependencies, dependencyInjector }) {
     /* Base Properties */
     this._dependencyInjector = dependencyInjector
     this._dependencies = dependencies
@@ -23,7 +23,7 @@ class DatabaseManager {
     this._console.success('Loading', { namespace: this._namespace })
 
     this.#loadDataSources()
-    
+
     if (!this._dependencies.config.SETTINGS.USE_DATABASE) {
       this._console.info('Database is disabled', { namespace: this._namespace })
       return

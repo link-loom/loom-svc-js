@@ -45,6 +45,8 @@ class FunctionsManager {
         this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
         this._console.log(error)
       }
+
+      return functionDefinition
     })
   }
 
@@ -85,6 +87,8 @@ class FunctionsManager {
         this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
         this._console.log(error)
       }
+
+      return functionDefinition
     })
   }
 
@@ -109,6 +113,8 @@ class FunctionsManager {
         this._console.error(`Function failed: ${JSON.stringify(functionDefinition)}`, { namespace: this._namespace })
         this._console.log(error)
       }
+
+      return functionDefinition
     })
   }
 

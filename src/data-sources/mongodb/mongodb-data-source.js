@@ -127,7 +127,6 @@ class MongoDBDataSource extends DataSource {
       return {}
     }
   }
-
 }
 
 module.exports = MongoDBDataSource

@@ -43,7 +43,7 @@ class UploadService {
 
   /**
    * Transform a xlsx file into a list
-   * @param {File} file 
+   * @param {File} file
    * @returns Transformed file into a list of { rows: [] }
    */
   async digestFileToArray (file) {
@@ -87,7 +87,7 @@ class UploadService {
     return new Promise(transformFileData)
   }
 
-  async uploadAllBulkRows (fileTransformed) {
+  async uploadAllBulkRows (req, fileTransformed) {
     try {
       const response = {
         success: 0,
@@ -127,7 +127,7 @@ class UploadService {
       return this._utilities.io.response.error('Given path to handle your bulk request is not available')
     }
 
-    return this._utilities.io.response.success(response)
+    return this._utilities.io.response.success(req)
   }
 
   async bulk (req) {
@@ -144,7 +144,7 @@ class UploadService {
         return this._utilities.io.response.error('File not processed because is empty')
       }
 
-      return this.uploadAllBulkRows()
+      return this.uploadAllBulkRows(req, fileTransformed)
     } catch (error) {
       return this._utilities.io.response.error(error.message)
     }

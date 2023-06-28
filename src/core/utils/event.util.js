@@ -7,7 +7,7 @@ class EventUtil {
 
   /**
    * Emit message to topic inside payload.context.topics if not send to all
-   * @param {*} params 
+   * @param {*} params
    */
   #producerEmitToTopics ({ settings, payload }) {
     this._websocketServer = this._dependencies.webSocketServer

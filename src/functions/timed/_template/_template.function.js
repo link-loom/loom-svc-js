@@ -7,6 +7,7 @@ class Function {
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
+    this._services = this._dependencies.services
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
@@ -19,16 +20,16 @@ class Function {
 
   async getStatus () {
     try {
-      _console.info('Executing timed function')
+      this._console.info('Executing timed function')
 
-      const statusService = new _services.Status(this._dependencies)
+      const statusService = new this._services.Status(this._dependencies)
       const statusResponse = await statusService.get()
 
       if (this._utilities.validator.response(statusResponse)) {
         this._console.log(statusResponse, { namespace: this._namespace })
       }
     } catch (error) {
-      _console.error(error)
+      this._console.error(error)
     }
   }
 }

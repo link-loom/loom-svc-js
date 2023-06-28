@@ -211,7 +211,6 @@ class LangUtil {
       this.arrayFindIndexExtension()
     }
 
-
     if ((!('isJson' in String.prototype))) {
       this.isJsonStringExtension()
     }

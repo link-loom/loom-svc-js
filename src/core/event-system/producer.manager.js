@@ -58,6 +58,8 @@ class EventProducerManager {
         this._console.error(`Component failed: ${JSON.stringify(eventDefinition)}`, true, { namespace: this._namespace })
         this._console.error(error, { namespace: this._namespace })
       }
+
+      return eventDefinition
     })
 
     consumer.on('disconnect', () => {
@@ -93,7 +95,7 @@ class EventProducerManager {
             name: eventSettings.name
           },
           socket: {
-            id: consumer.id,
+            id: consumer.id
           },
           topics: eventSettings.topics
         },

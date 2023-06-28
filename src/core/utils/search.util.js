@@ -90,7 +90,6 @@ class SearchUtil {
       }
     }
   }
-
 }
 
 module.exports = SearchUtil

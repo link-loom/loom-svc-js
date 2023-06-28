@@ -181,12 +181,12 @@ class ServerManager {
     this._dependenciesManager.core.add(this._functionsManager, 'FunctionsManager')
   }
 
-  #setupEventBroker(){
+  #setupEventBroker () {
     const { EventBrokerManager } = require('./event-system/broker.manager')
     this._eventBrokerManager = new EventBrokerManager(this._dependenciesManager.core.get())
 
     this._eventBrokerManager.setup()
-    
+
     this._dependenciesManager.core.add(this._eventBrokerManager, 'BrokerManager')
     this._dependenciesManager.core.add(this._eventBrokerManager.webSocketServer, 'webSocketServer')
   }

@@ -20,11 +20,9 @@ class SanitizerUtil {
 
   get sanitizer () {
     return {
-      port: this.#sanitizePort.bind(this),
-      
+      port: this.#sanitizePort.bind(this)
     }
   }
-
 }
 
 module.exports = SanitizerUtil

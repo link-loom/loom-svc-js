@@ -72,7 +72,7 @@ class TemplateRoute {
   async get ({ params }) {
     try {
       const entityService = new this.EntityService(this._dependencies)
-      
+
       return entityService.get(params)
     } catch (error) {
       this._console.error(error)

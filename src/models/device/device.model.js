@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 const BaseModel = require(path.resolve(path.dirname(require.main.filename), 'src/models/base/base.model'))
 
 /**
@@ -40,7 +40,7 @@ class DeviceModel extends BaseModel {
     }
 
     super(dependencies)
-    
+
     /* Base Properties */
     this._dependencies = dependencies
     this._utilities = this._dependencies.utilities

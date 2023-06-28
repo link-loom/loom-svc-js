@@ -224,7 +224,7 @@ class NotificationService {
 
       const response = this._db.transaction.getByFilters({
         tableName: this._tableName,
-        filters
+        filters: data.filters
       })
 
       return this._utilities.io.response.success(response)
