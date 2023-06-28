@@ -50,7 +50,7 @@ const BaseModel = require(path.resolve(path.dirname(require.main.filename), 'src
  *          business_id: "biz-1234"
  *          folder: { id: 1, name: 'inbox', title: 'SIDE_INBOX_OPTION', icon: 'mdi-email-outline' }
  */
-class NotificationModel extends BaseModel {
+class NotificationManagementModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args to build this entity')
@@ -74,7 +74,7 @@ class NotificationModel extends BaseModel {
     this.id = { value: args.id, type: this._types.bigserial, isPK: true }
     this.date_creation = { value: timestamp, type: this._types.timestamp }
     this.last_user_modification = { value: args.user_id, type: this._types.object }
-    this.status = { value: args.status || NotificationModel.statuses.active, type: this._types.object }
+    this.status = { value: args.status || NotificationManagementModel.statuses.active, type: this._types.object }
 
     /* Custom fields */
     this.date = { value: timestamp, type: this._types.timestamp }
@@ -84,7 +84,7 @@ class NotificationModel extends BaseModel {
     this.subject = { value: args.subject, type: this._types.string }
     this.message_resume = { value: args.message_resume, type: this._types.string }
     this.business_id = { value: args.business_id, type: this._types.string }
-    this.folder = { value: args.folder || NotificationModel.folders.inbox, type: this._types.object }
+    this.folder = { value: args.folder || NotificationManagementModel.folders.inbox, type: this._types.object }
   }
 
   // Return entity sanitized
@@ -120,27 +120,27 @@ class NotificationModel extends BaseModel {
   }
 }
 
-NotificationModel.folders = {
+NotificationManagementModel.folders = {
   inbox: { id: 1, name: 'inbox', title: 'SIDE_INBOX_OPTION', icon: 'mdi-email-outline' },
   sent: { id: 2, name: 'sent', title: 'SIDE_SENT_OPTION', icon: 'mdi-share' },
   junk: { id: 3, name: 'junk', title: 'SIDE_DRAFT_OPTION', icon: 'mdi-file-outline' },
   draft: { id: 4, name: 'draft', title: 'SIDE_TRASH_OPTION', icon: 'mdi-delete' }
 }
 
-NotificationModel.statuses = {
+NotificationManagementModel.statuses = {
   read: { id: 1, name: 'read', title: 'Read' },
   unread: { id: 2, name: 'unread', title: 'Unread' },
   deleted: { id: 3, name: 'deleted', title: 'Deleted' },
   ignored: { id: 4, name: 'ignored', title: 'Ignored' }
 }
 
-NotificationModel.channels = {
+NotificationManagementModel.channels = {
   stored: { id: 1, name: 'stored', title: 'Stored' },
   push: { id: 2, name: 'push', title: 'Push' },
   email: { id: 3, name: 'email', title: 'Email' }
 }
 
-NotificationModel.email_templates = {
+NotificationManagementModel.email_templates = {
   confirmEmail: { id: 1, name: 'confirmEmail', title: 'Confirm email' },
   newsFeed: { id: 2, name: 'newsFeed', title: 'News feed' },
   warning: { id: 3, name: 'warning', title: 'Warning' },
@@ -149,4 +149,4 @@ NotificationModel.email_templates = {
   administrative: { id: 6, name: 'administrative', title: 'Administrative' }
 }
 
-module.exports = NotificationModel
+module.exports = NotificationManagementModel

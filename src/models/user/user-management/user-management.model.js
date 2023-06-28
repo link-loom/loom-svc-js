@@ -68,7 +68,7 @@ const BaseModel = require(path.resolve(path.dirname(require.main.filename), 'src
  *            is_account_actived: true
  *            business_id: "biz-12345"
  */
-class UserModel extends BaseModel {
+class UserManagementModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args to build this entity')
@@ -92,7 +92,7 @@ class UserModel extends BaseModel {
     this.id = { value: args.id, type: this._types.bigserial, isPK: true }
     this.date_creation = { value: timestamp, type: this._types.timestamp }
     this.last_user_modification = { value: args.user_id, type: this._types.object }
-    this.status = { value: args.status || UserModel.statuses.active, type: this._types.object }
+    this.status = { value: args.status || UserManagementModel.statuses.active, type: this._types.object }
 
     /* Custom fields */
     this.national_id = { value: args.national_id, type: this._types.string }
@@ -101,7 +101,7 @@ class UserModel extends BaseModel {
     this.password = { value: args.password, type: this._types.string }
     this.firstname = { value: args.firstname, type: this._types.string }
     this.lastname = { value: args.lastname, type: this._types.string }
-    this.role = { value: args.role || UserModel.roles.business, type: this._types.string }
+    this.role = { value: args.role || UserManagementModel.roles.business, type: this._types.string }
     this.last_login = { value: args.last_login, type: this._types.string }
     this.veripass_id = { value: args.veripass_id, type: this._types.string }
     this.link_email_activation = { value: args.link_email_activation, type: this._types.string }
@@ -152,18 +152,18 @@ class UserModel extends BaseModel {
   }
 }
 
-UserModel.statuses = {
+UserManagementModel.statuses = {
   inactive: { id: 1, name: 'inactive', title: 'Inactive' },
   active: { id: 2, name: 'active', title: 'Active' },
   deleted: { id: 3, name: 'deleted', title: 'Deleted' },
   blocked: { id: 4, name: 'blocked', title: 'Blocked' }
 }
 
-UserModel.roles = {
+UserManagementModel.roles = {
   business: { id: 1, name: 'business', title: 'Business' },
   auditor: { id: 2, name: 'auditor', title: 'Auditor' },
   employee: { id: 3, name: 'employee', title: 'Employee' },
   admin: { id: 9999, name: 'admin', title: 'Admin' }
 }
 
-module.exports = UserModel
+module.exports = UserManagementModel

@@ -33,7 +33,7 @@ const BaseModel = require(path.resolve(path.dirname(require.main.filename), 'src
  *        operating_system_name: windows
  *        operating_system_version: 11
  */
-class DeviceModel extends BaseModel {
+class DeviceManagementModel extends BaseModel {
   constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args to build this entity')
@@ -57,7 +57,7 @@ class DeviceModel extends BaseModel {
     this.id = { value: args.id, type: this._types.bigserial, isPK: true }
     this.date_creation = { value: timestamp, type: this._types.timestamp }
     this.last_user_modification = { value: args.user_id, type: this._types.object }
-    this.status = { value: args.status || DeviceModel.statuses.active, type: this._types.object }
+    this.status = { value: args.status || DeviceManagementModel.statuses.active, type: this._types.object }
 
     /* Custom fields */
     this.user_id = { value: args.user_id, type: this._types.string }
@@ -93,11 +93,11 @@ class DeviceModel extends BaseModel {
   }
 }
 
-DeviceModel.statuses = {
+DeviceManagementModel.statuses = {
   inactive: { id: 1, name: 'inactive', title: 'Inactive' },
   active: { id: 2, name: 'active', title: 'Active' },
   deleted: { id: 3, name: 'deleted', title: 'Deleted' },
   blocked: { id: 4, name: 'blocked', title: 'Blocked' }
 }
 
-module.exports = DeviceModel
+module.exports = DeviceManagementModel
