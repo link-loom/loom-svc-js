@@ -179,6 +179,7 @@ class ServerManager {
     this._functionsManager = new FunctionsManager(this._dependenciesManager.core.get())
 
     this._dependenciesManager.core.add(this._functionsManager, 'FunctionsManager')
+    this._dependenciesManager.core.add(this._functionsManager, 'functions')
   }
 
   #setupEventBroker () {

@@ -10,7 +10,7 @@ class FunctionsManager {
 
     /* Assigments */
     this._namespace = '[Server]::[Functions]'
-    this._bucket = require(this._path.join(this._dependencies.root, 'src/functions/bucket'))
+    this._cluster = require(this._path.join(this._dependencies.root, 'src/functions/index'))
     this._functions = {
       cache: {},
       timed: {},
@@ -30,7 +30,7 @@ class FunctionsManager {
     this._console.info('Initializing Cache Functions', { namespace: this._namespace })
 
     // build all cache functions
-    this._bucket.cache.map((functionDefinition) => {
+    this._cluster.cache.map((functionDefinition) => {
       try {
         this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
 
@@ -54,7 +54,7 @@ class FunctionsManager {
     this._console.info('Initializing Timed Functions', { namespace: this._namespace })
 
     // build each timed routes
-    this._bucket.timed.map((functionDefinition) => {
+    this._cluster.timed.map((functionDefinition) => {
       try {
         this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
 
@@ -96,7 +96,7 @@ class FunctionsManager {
     this._console.info('Initializing Startup Functions', { namespace: this._namespace })
 
     // build each startup routes
-    this._bucket.startup.map((functionDefinition) => {
+    this._cluster.startup.map((functionDefinition) => {
       try {
         this._console.info(`Setting up ${functionDefinition.name} function`, { namespace: this._namespace })
 
@@ -129,7 +129,10 @@ class FunctionsManager {
   }
 
   get functions () {
-    return this._functions
+    return {
+      definition: this._functions,
+      cluster: this._cluster
+    }
   }
 }
 

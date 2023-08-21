@@ -160,7 +160,7 @@ class NotificationService {
       switch (data.email.template.name) {
         case this._models.NotificationManagement.email_templates.confirmEmail.name:
           emailPath += '/src/static/email/confirm-eng.html'
-          mailOptions.subject = `${data.email.subject || 'Welcome to %BEAT%'}`
+          mailOptions.subject = `${data.email.subject || 'Welcome to %LOOM%'}`
           emailtemplate = await this.readFileAsync(emailPath)
           emailtemplate = emailtemplate.replaceAll('OPEN_ACCOUNT_LINK', `${data.email.mainActionLink}`)
           break

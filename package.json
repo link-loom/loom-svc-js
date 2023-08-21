@@ -1,23 +1,23 @@
 {
-  "name": "beat",
-  "title": "Beat",
-  "description": "Server framework to create fast and lightweight projects",
+  "name": "@linkloom/loom-svc-js",
+  "title": "Loom service",
+  "description": "Another Node.js Server framework to create microservices or huge monoliths.",
   "version": "6.1.8",
   "homepage": "https://reversebytes.wordpress.com",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thEpisode/beat.git"
+    "url": "https://github.com/link-loom/loom-svc-js.git"
   },
   "keywords": [
     "Main",
-    "%BEAT%",
+    "%LOOM%",
     "template",
     "lite",
     "tool"
   ],
   "bugs": {
-    "url": "https://github.com/thEpisode/beat/issues"
+    "url": "https://github.com/link-loom/loom-svc-js/issues"
   },
   "license": "MIT",
   "dependencies": {
@@ -50,11 +50,7 @@
   },
   "standard": {
     "ignore": [
-      "/node_modules/**/*.js",
-      "/static/private/js/**/*.js",
-      "/static/public/js/**/*.js",
-      "/src/views/*",
-      "/ui-template/*"
+      "/node_modules/**/*.js"
     ]
   },
   "engine": {
