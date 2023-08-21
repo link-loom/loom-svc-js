@@ -128,11 +128,12 @@ class FunctionsManager {
     }
   }
 
-  get functions () {
-    return {
-      definition: this._functions,
-      cluster: this._cluster
-    }
+  get definition () {
+    return this._functions
+  }
+
+  get cluster () {
+    return this._cluster
   }
 }
 
