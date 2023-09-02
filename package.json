@@ -16,7 +16,8 @@
     "microservices",
     "node.js",
     "javascript",
-    "loom"
+    "loom",
+    "link-loom"
   ],
   "bugs": {
     "url": "https://github.com/link-loom/loom-svc-js/issues"
@@ -48,19 +49,17 @@
     "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
-    "standard": "^17.0.0"
-  },
-  "standard": {
-    "ignore": [
-      "/node_modules/**/*.js"
-    ]
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3"
   },
   "engine": {
     "node": "10.x"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "standard",
-    "standard-fix": "standard --fix"
+    "lint": "eslint src/**/*.{js,jsx}",
+    "format": "prettier --write src/**/*.{js,jsx}"
   }
 }
