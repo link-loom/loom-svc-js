@@ -3,7 +3,7 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-# Beat
+# Link loom
 
 Another Node.js Server framework to create microservices or huge monoliths.
 
@@ -25,16 +25,16 @@ Another Node.js Server framework to create microservices or huge monoliths.
 
 ## Create project
 
-Step 1. Install beat-cli to easily manage files and project
+Step 1. Install Loom to easily manage files and project
 
 ```shell
-npm install -g beat-cli
+npm install -g link-loom
 ```
 
 Step 2. Create a project with cli tool and follow instructions
 
 ```shell
-beat-cli new-project name-of-project
+link-loom new-project name-of-project
 ```
 
 ## Install dependencies
@@ -80,7 +80,7 @@ Navigate to:
 
 For all docs you need go to Wiki in this project.
 
-> https://github.com/thEpisode/beat/wiki
+> https://github.com/link-loom/loom-svc-js/wiki
 
 ## License
 
