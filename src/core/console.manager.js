@@ -1,70 +1,73 @@
 class ConsoleManager {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
+    this._dependencies = dependencies;
 
     /* Custom Properties */
-    this._colors = dependencies.colors
+    this._colors = dependencies.colors;
 
     /* Assigments */
-    this._namespace = '[Server]::[Console]::[Manager]'
+    this._namespace = '[Server]::[Console]::[Manager]';
   }
 
-  setup () {
-    this.success('Loading', { namespace: this._namespace })
+  setup() {
+    this.success('Loading', { namespace: this._namespace });
 
-    this.success('Loaded', { namespace: this._namespace })
+    this.success('Loaded', { namespace: this._namespace });
   }
 
-  code (body, args = {}) {
-    const { title, namespace } = args
+  code(body, args = {}) {
+    const { title, namespace } = args;
 
     if (typeof body === 'string') {
-      console.log('>' + (body.isJson() === true ? JSON.stringify(body) : body))
-      return
+      console.log('>' + (body.isJson() === true ? JSON.stringify(body) : body));
+      return;
     }
 
-    console.log((title || namespace || '') + ' > ', body)
+    console.log((title || namespace || '') + ' > ', body);
   }
 
-  log (body, args = {}) {
-    const { title, namespace } = args
+  log(body, args = {}) {
+    const { title, namespace } = args;
 
     if (typeof body === 'string') {
-      console.log(body.isJson() === true ? JSON.stringify(body) : body)
-      return
+      console.log(body.isJson() === true ? JSON.stringify(body) : body);
+      return;
     }
 
     if (title) {
-      console.log((title || namespace || ''), body)
+      console.log(title || namespace || '', body);
     } else {
-      console.log(body)
+      console.log(body);
     }
   }
 
-  error (body, args = {}) {
-    const { title, namespace } = args
+  error(body, args = {}) {
+    const { title, namespace } = args;
 
-    console.log(` ${this._colors.red(`${(title || namespace || '')}[ERROR]`)}: `, body)
+    console.log(
+      ` ${this._colors.red(`${title || namespace || ''}[ERROR]`)}: `,
+      body,
+    );
   }
 
-  info (body, args = {}) {
-    const { title, namespace } = args
+  info(body, args = {}) {
+    const { title, namespace } = args;
 
-    console.log(` ${this._colors.cyan((title || namespace || ''))}: `, body)
+    console.log(` ${this._colors.cyan(title || namespace || '')}: `, body);
   }
 
-  warning (body, args = {}) {
-    const { title, namespace } = args
+  warning(body, args = {}) {
+    const { title, namespace } = args;
 
-    console.log(` ${this._colors.yellow((title || namespace || ''))}: `, body)
+    console.log(` ${this._colors.yellow(title || namespace || '')}: `, body);
   }
 
-  success (body, args = {}) {
-    const { title, namespace } = args
+  success(body, args = {}) {
+    const { title, namespace } = args;
 
-    console.log(` ${this._colors.green((title || namespace || ''))}: `, body)
+    console.log(` ${this._colors.green(title || namespace || '')}: `, body);
   }
 }
 
-module.exports = { ConsoleManager }
+module.exports = { ConsoleManager };

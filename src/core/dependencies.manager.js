@@ -1,31 +1,31 @@
 class DependenciesManager {
-  constructor (args) {
+  constructor(args) {
     /* Base Properties */
-    this._args = args
+    this._args = args;
 
     /* Custom Properties */
-    this._dependencies = this._args
+    this._dependencies = this._args;
 
     /* Assigments */
-    this._namespace = '[Server]::[Dependencies]::[Manager]'
+    this._namespace = '[Server]::[Dependencies]::[Manager]';
   }
 
-  setup () {
-    this.loadDependencies()
+  setup() {
+    this.loadDependencies();
   }
 
-  loadDependencies () {
-    console.log(` ${this._namespace}: Loading`)
+  loadDependencies() {
+    console.log(` ${this._namespace}: Loading`);
 
-    const root = this._args.root
-    const http = require('http')
-    const events = require('events')
-    const expressModule = require('express')
-    const express = expressModule()
-    const httpServer = http.createServer(express)
-    const socketModule = require('socket.io')
-    const websocketClientModule = require('socket.io-client')
-    const multerModule = require('multer')
+    const root = this._args.root;
+    const http = require('http');
+    const events = require('events');
+    const expressModule = require('express');
+    const express = expressModule();
+    const httpServer = http.createServer(express);
+    const socketModule = require('socket.io');
+    const websocketClientModule = require('socket.io-client');
+    const multerModule = require('multer');
 
     this._dependencies = {
       root,
@@ -54,48 +54,62 @@ class DependenciesManager {
       cookieParser: require('cookie-parser'),
       exceljs: require('exceljs'),
       swaggerJsdoc: require('swagger-jsdoc'),
-      swaggerUi: require('swagger-ui-express')
-    }
+      swaggerUi: require('swagger-ui-express'),
+    };
 
-    this.#importCustomDependencies()
+    this.#importCustomDependencies();
 
-    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded`)
+    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded`);
   }
 
-  #importCustomDependencies () {
-    const dependencies = this._dependencies.config.CUSTOM_DEPENDENCIES
+  #importCustomDependencies() {
+    const dependencies = this._dependencies.config.CUSTOM_DEPENDENCIES;
 
     if (!dependencies || !dependencies.length) {
-      return
+      return;
     }
 
-    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loading custom dependencies`)
-    dependencies.map(customDependency => {
-      console.log(` ${this._dependencies.colors.cyan(this._namespace)}: Loading ${customDependency.name} dependency`)
-      this._dependencies[customDependency.name] = require(customDependency.package)
-      return customDependency
-    })
-    console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded custom dependencies`)
+    console.log(
+      ` ${this._dependencies.colors.green(
+        this._namespace,
+      )}: Loading custom dependencies`,
+    );
+    dependencies.map((customDependency) => {
+      console.log(
+        ` ${this._dependencies.colors.cyan(this._namespace)}: Loading ${
+          customDependency.name
+        } dependency`,
+      );
+      this._dependencies[customDependency.name] = require(
+        customDependency.package,
+      );
+      return customDependency;
+    });
+    console.log(
+      ` ${this._dependencies.colors.green(
+        this._namespace,
+      )}: Loaded custom dependencies`,
+    );
   }
 
-  getDependencies () {
-    return this._dependencies
+  getDependencies() {
+    return this._dependencies;
   }
 
-  addCustomDependency (dependency, name) {
-    this._dependencies[name] = dependency
+  addCustomDependency(dependency, name) {
+    this._dependencies[name] = dependency;
   }
 
-  get get () {
-    return this.getDependencies
+  get get() {
+    return this.getDependencies;
   }
 
-  get core () {
+  get core() {
     return {
       add: this.addCustomDependency.bind(this),
-      get: this.getDependencies.bind(this)
-    }
+      get: this.getDependencies.bind(this),
+    };
   }
 }
 
-module.exports = { DependenciesManager }
+module.exports = { DependenciesManager };

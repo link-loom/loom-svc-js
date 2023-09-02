@@ -1,28 +1,28 @@
 class SanitizerUtil {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
+    this._dependencies = dependencies;
 
     /* Custom Properties */
 
     /* Assigments */
-    this._namespace = '[Server]::[Utils]::[Sanitizer]'
+    this._namespace = '[Server]::[Utils]::[Sanitizer]';
   }
 
-  #sanitizePort (val) {
-    const port = parseInt(val, 10)
+  #sanitizePort(val) {
+    const port = parseInt(val, 10);
 
-    if (isNaN(port)) return val
-    if (port >= 0) return port
+    if (isNaN(port)) return val;
+    if (port >= 0) return port;
 
-    return false
+    return false;
   }
 
-  get sanitizer () {
+  get sanitizer() {
     return {
-      port: this.#sanitizePort.bind(this)
-    }
+      port: this.#sanitizePort.bind(this),
+    };
   }
 }
 
-module.exports = SanitizerUtil
+module.exports = SanitizerUtil;

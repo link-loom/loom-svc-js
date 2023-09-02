@@ -1,17 +1,17 @@
 class AuthRoute {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._console = this._dependencies.console
-    this._services = this._dependencies.services
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._console = this._dependencies.console;
+    this._services = this._dependencies.services;
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.AuthService
+    this.EntityService = this._services.AuthService;
   }
 
   /**
@@ -19,14 +19,14 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async login ({ params }) {
+  async login({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.login(params)
+      return entityService.login(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 
@@ -35,14 +35,14 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async logout ({ params }) {
+  async logout({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.logout(params)
+      return entityService.logout(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 
@@ -51,14 +51,14 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async validateEmail ({ params }) {
+  async validateEmail({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.validateEmail(params)
+      return entityService.validateEmail(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 
@@ -67,16 +67,16 @@ class AuthRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async validateAccountChatbot ({ params }) {
+  async validateAccountChatbot({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.validateAccountChatbot(params)
+      return entityService.validateAccountChatbot(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 }
 
-module.exports = AuthRoute
+module.exports = AuthRoute;

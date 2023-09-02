@@ -1,105 +1,108 @@
-const DataSource = require('../base/data-source')
+const DataSource = require('../base/data-source');
 
 class FirebaseDataSource extends DataSource {
-  constructor (dependencies) {
+  constructor(dependencies) {
     if (!dependencies) {
-      throw new Error('Required args to build this entity')
+      throw new Error('Required args to build this entity');
     }
 
-    super(dependencies)
+    super(dependencies);
 
     /* Base Properties */
-    this._dependencies = dependencies
-    this._console = this._dependencies.console
-    this._utilities = this._dependencies.utilities
-    this._db = this._dependencies.db
+    this._dependencies = dependencies;
+    this._console = this._dependencies.console;
+    this._utilities = this._dependencies.utilities;
+    this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE
-    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {}
-    this._databaseSettings = this._dataSourceConfig.SETTINGS || {}
+    this._dataSourceConfig =
+      this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE;
+    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {};
+    this._databaseSettings = this._dataSourceConfig.SETTINGS || {};
   }
 
-  async setup () {
+  async setup() {
     try {
       // Setup the driver/client
       /* TODO: Implement all database provider configurations */
 
       // Create a client and create a new connection
-      this._db.client = {/* TODO: Save your databse connected client */ }
+      this._db.client = {
+        /* TODO: Save your databse connected client */
+      };
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
     }
   }
 
-  async create ({ tableName, entity } = {}) {
+  async create({ tableName, entity } = {}) {
     try {
-      const superResponse = await super.create({ tableName, entity })
+      const superResponse = await super.create({ tableName, entity });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
       /* TODO: Create your own data insertion using this._db.client */
 
-      return entity || {}
+      return entity || {};
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return null
+      return null;
     }
   }
 
-  async update ({ tableName, entity }) {
+  async update({ tableName, entity }) {
     try {
-      const superResponse = await super.update({ tableName, entity })
+      const superResponse = await super.update({ tableName, entity });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
       /* TODO: Create your own data update using this._db.client */
 
-      return entity || {}
+      return entity || {};
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return null
+      return null;
     }
   }
 
-  async getByFilters ({ tableName, filters }) {
+  async getByFilters({ tableName, filters }) {
     try {
-      const superResponse = await super.getByFilters({ tableName, filters })
+      const superResponse = await super.getByFilters({ tableName, filters });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
-      const transformedFilters = this.#transformFilters(filters)
+      const transformedFilters = this.#transformFilters(filters);
 
       /* TODO: Create your own data get using this._db.client */
 
-      return []
+      return [];
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return []
+      return [];
     }
   }
 
-  #transformFilters (collection, filters) {
+  #transformFilters(collection, filters) {
     try {
-      const transformedFilters = {} // [] it depends of your database provider
+      const transformedFilters = {}; // [] it depends of your database provider
 
       /* TODO: Implement all transformations you need to be consistent between your database providers */
 
-      return transformedFilters
+      return transformedFilters;
     } catch (error) {
-      this._console.error(error)
-      return collection
+      this._console.error(error);
+      return collection;
     }
   }
 }
 
-module.exports = FirebaseDataSource
+module.exports = FirebaseDataSource;

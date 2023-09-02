@@ -1,37 +1,39 @@
 class Function {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._console = this._dependencies.console
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._console = this._dependencies.console;
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
-    this._services = this._dependencies.services
+    this._services = this._dependencies.services;
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this._namespace = '[Function]::[Timed]::[_Template]'
+    this._namespace = '[Function]::[Timed]::[_Template]';
   }
 
-  run () {
-    this.getStatus()
+  run() {
+    this.getStatus();
   }
 
-  async getStatus () {
+  async getStatus() {
     try {
-      this._console.info('Executing timed function')
+      this._console.info('Executing timed function');
 
-      const statusService = new this._services.HealthService(this._dependencies)
-      const statusResponse = await statusService.get()
+      const statusService = new this._services.HealthService(
+        this._dependencies,
+      );
+      const statusResponse = await statusService.get();
 
       if (this._utilities.validator.response(statusResponse)) {
-        this._console.log(statusResponse, { namespace: this._namespace })
+        this._console.log(statusResponse, { namespace: this._namespace });
       }
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
     }
   }
 }
 
-module.exports = Function
+module.exports = Function;

@@ -1,103 +1,126 @@
 class ValidatorUtil {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._config = this._dependencies.config
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._config = this._dependencies.config;
 
     /* Custom Properties */
-    this._bcrypt = this._dependencies.bcrypt
-    this._jwt = this._dependencies.jwt
+    this._bcrypt = this._dependencies.bcrypt;
+    this._jwt = this._dependencies.jwt;
 
     /* Assigments */
-    this._namespace = '[Server]::[Utils]::[Validator]'
+    this._namespace = '[Server]::[Utils]::[Validator]';
   }
 
-  #objectIsEmpty (obj) {
+  #objectIsEmpty(obj) {
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        return false
+        return false;
       }
     }
-    return true
+    return true;
   }
 
-  #hashIsValid (payload) {
-    let passwordIsValid = false
+  #hashIsValid(payload) {
+    let passwordIsValid = false;
 
     if (payload && payload.receivedPassword && payload.hash) {
-      passwordIsValid = this._bcrypt.compareSync(payload.receivedPassword, payload.hash)
+      passwordIsValid = this._bcrypt.compareSync(
+        payload.receivedPassword,
+        payload.hash,
+      );
     }
 
-    return passwordIsValid
+    return passwordIsValid;
   }
 
-  #validateToken (token) {
+  #validateToken(token) {
     return new Promise((resolve, reject) => {
-      this._jwt.verify(token, this._dependencies.config.SERVER.SECRET, (err, decoded) => {
-        if (err) {
-          return reject(err)
-        } else {
-          resolve(decoded)
-        }
-      })
-    })
+      this._jwt.verify(
+        token,
+        this._dependencies.config.SERVER.SECRET,
+        (err, decoded) => {
+          if (err) {
+            return reject(err);
+          } else {
+            resolve(decoded);
+          }
+        },
+      );
+    });
   }
 
-  async #validateApi (req, res, next) {
+  async #validateApi(req, res, next) {
     try {
       // check header or url parameters or post parameters for token
-      const encryptedToken = req.body.token || req.query.token || req.headers['x-access-token']
+      const encryptedToken =
+        req.body.token || req.query.token || req.headers['x-access-token'];
 
       // exist token
       if (!encryptedToken) {
         // if there is no token return an error
-        return res.status(403).json(this._utilities.io.response.error('No token provided.'))
+        return res
+          .status(403)
+          .json(this._utilities.io.response.error('No token provided.'));
       }
 
-      const decipherToken = this._utilities.encoder.crypto.decipherObject(this._config.SERVICES.API_MANAGER.SECRET, encryptedToken)
+      const decipherToken = this._utilities.encoder.crypto.decipherObject(
+        this._config.SERVICES.API_MANAGER.SECRET,
+        encryptedToken,
+      );
 
       if (!decipherToken || !decipherToken.token) {
-        return res.status(403).json(this._utilities.io.response.error('Malformed token. Try with a valid token'))
+        return res
+          .status(403)
+          .json(
+            this._utilities.io.response.error(
+              'Malformed token. Try with a valid token',
+            ),
+          );
       }
 
-      const decoded = await this.#validateToken(decipherToken.token)
-      req.decodedToken = decoded
-      req.token = encryptedToken
+      const decoded = await this.#validateToken(decipherToken.token);
+      req.decodedToken = decoded;
+      req.token = encryptedToken;
 
-      next()
+      next();
     } catch (error) {
-      return res.status(403).json(this._utilities.io.response.error('Failed to authenticate token.'))
+      return res
+        .status(403)
+        .json(
+          this._utilities.io.response.error('Failed to authenticate token.'),
+        );
     }
   }
 
-  #responseIsValid (property) {
-    let isValid = false
+  #responseIsValid(property) {
+    let isValid = false;
 
     if (property && property.success === true) {
-      isValid = true
+      isValid = true;
     }
 
-    return isValid
+    return isValid;
   }
 
-  get validator () {
+  get validator() {
     return {
       object: {
-        isEmpty: this.#objectIsEmpty.bind(this)
+        isEmpty: this.#objectIsEmpty.bind(this),
       },
       hash: {
-        isValid: this.#hashIsValid.bind(this)
+        isValid: this.#hashIsValid.bind(this),
       },
       jwt: {
-        token: this.#validateToken.bind(this)
+        token: this.#validateToken.bind(this),
       },
       api: {
-        endpoint: this.#validateApi.bind(this)
+        endpoint: this.#validateApi.bind(this),
       },
-      response: this.#responseIsValid.bind(this)
-    }
+      response: this.#responseIsValid.bind(this),
+    };
   }
 }
 
-module.exports = ValidatorUtil
+module.exports = ValidatorUtil;

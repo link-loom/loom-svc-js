@@ -1,164 +1,175 @@
-const DataSource = require('./../base/data-source')
+const DataSource = require('./../base/data-source');
 
 class FirebaseDataSource extends DataSource {
-  constructor (dependencies) {
+  constructor(dependencies) {
     if (!dependencies) {
-      throw new Error('Required args to build this entity')
+      throw new Error('Required args to build this entity');
     }
 
-    super(dependencies)
+    super(dependencies);
 
     /* Base Properties */
-    this._dependencies = dependencies
-    this._console = this._dependencies.console
-    this._utilities = this._dependencies.utilities
-    this._db = this._dependencies.db
+    this._dependencies = dependencies;
+    this._console = this._dependencies.console;
+    this._utilities = this._dependencies.utilities;
+    this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.YOUR_CONFIG
-    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {}
-    this._databaseSettings = this._dataSourceConfig.SETTINGS || {}
+    this._dataSourceConfig =
+      this._dependencies.config.DATASOURCE_CONFIGS.YOUR_CONFIG;
+    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {};
+    this._databaseSettings = this._dataSourceConfig.SETTINGS || {};
   }
 
-  async setup () {
+  async setup() {
     // Setup the driver/client
     /* TODO: Setup all configurations of your database provider */
 
     // Create a client and create a new connection
-    this._db.client = {/* TODO: Save your client connected here */ }
+    this._db.client = {
+      /* TODO: Save your client connected here */
+    };
   }
 
-  async create ({ tableName, entity } = {}) {
+  async create({ tableName, entity } = {}) {
     try {
-      const superResponse = await super.create({ tableName, entity })
+      const superResponse = await super.create({ tableName, entity });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
-      const document = this._db.client.collection(tableName).doc(entity.id)
-      const documentResponse = await document.set(entity)
+      const document = this._db.client.collection(tableName).doc(entity.id);
+      const documentResponse = await document.set(entity);
 
       if (!documentResponse) {
-        this._console.error('Empty response')
+        this._console.error('Empty response');
 
-        return null
+        return null;
       }
 
-      return entity || {}
+      return entity || {};
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return null
+      return null;
     }
   }
 
-  async update ({ tableName, entity }) {
+  async update({ tableName, entity }) {
     try {
-      const superResponse = await super.update({ tableName, entity })
+      const superResponse = await super.update({ tableName, entity });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
       // Getting the original entity
       const entityResponse = await this.getByFilters({
         tableName,
-        filters: [{
-          key: 'id',
-          operator: '==',
-          value: entity.id
-        }]
-      })
+        filters: [
+          {
+            key: 'id',
+            operator: '==',
+            value: entity.id,
+          },
+        ],
+      });
 
       if (!entityResponse || !entityResponse.length) {
-        return this._utilities.io.response.error('Item not found')
+        return this._utilities.io.response.error('Item not found');
       }
 
-      const currentEntity = entityResponse[0]
+      const currentEntity = entityResponse[0];
 
       // "Merging" the new data with the old data
-      entity = { ...currentEntity, ...entity }
+      entity = { ...currentEntity, ...entity };
 
-      const document = this._db.client.collection(tableName).doc(currentEntity.id)
-      const documentResponse = await document.update(entity)
+      const document = this._db.client
+        .collection(tableName)
+        .doc(currentEntity.id);
+      const documentResponse = await document.update(entity);
 
       if (!documentResponse) {
-        this._console.error(documentResponse)
+        this._console.error(documentResponse);
 
-        return null
+        return null;
       }
 
-      return entity || {}
+      return entity || {};
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return null
+      return null;
     }
   }
 
-  async getByFilters ({ tableName, filters }) {
+  async getByFilters({ tableName, filters }) {
     try {
-      const superResponse = await super.getByFilters({ tableName, filters })
+      const superResponse = await super.getByFilters({ tableName, filters });
 
       if (!this._utilities.validator.response(superResponse)) {
-        return superResponse
+        return superResponse;
       }
 
-      let collection = this._db.client.collection(tableName)
-      collection = this.#transformFilters(collection, filters)
+      let collection = this._db.client.collection(tableName);
+      collection = this.#transformFilters(collection, filters);
 
-      const snapshot = await collection.get()
+      const snapshot = await collection.get();
 
       // Cast Firebase object into an arry of devices
-      const entityResponse = this.#castArraySnapshot(snapshot)
+      const entityResponse = this.#castArraySnapshot(snapshot);
 
-      return entityResponse.data || []
+      return entityResponse.data || [];
     } catch (error) {
-      this._console.error(error)
+      this._console.error(error);
 
-      return []
+      return [];
     }
   }
 
-  #transformFilters (collection, filters) {
+  #transformFilters(collection, filters) {
     try {
       for (const filter of filters) {
         if (filter.key) {
-          collection = collection.where(filter.key || '', filter.operator || '==', filter.value || '')
+          collection = collection.where(
+            filter.key || '',
+            filter.operator || '==',
+            filter.value || '',
+          );
         }
       }
 
-      return collection
+      return collection;
     } catch (error) {
-      this._console.error(error)
-      return collection
+      this._console.error(error);
+      return collection;
     }
   }
 
   /**
-     * Cast a Firebase snapshot into an array
-     * @param {any} snapshot is the snapshop returned by database
-     * @returns an array of objects
-     */
-  #castArraySnapshot (snapshot) {
+   * Cast a Firebase snapshot into an array
+   * @param {any} snapshot is the snapshop returned by database
+   * @returns an array of objects
+   */
+  #castArraySnapshot(snapshot) {
     if (snapshot) {
-      const arr = []
-      const obj = {}
+      const arr = [];
+      const obj = {};
 
-      snapshot.docs.forEach(childSnapshot => {
-        const item = childSnapshot.data()
-        arr.push(item)
-      })
+      snapshot.docs.forEach((childSnapshot) => {
+        const item = childSnapshot.data();
+        arr.push(item);
+      });
 
-      obj.raw = snapshot
-      obj.data = arr
+      obj.raw = snapshot;
+      obj.data = arr;
 
-      return obj
+      return obj;
     } else {
-      return null
+      return null;
     }
   }
 }
 
-module.exports = FirebaseDataSource
+module.exports = FirebaseDataSource;

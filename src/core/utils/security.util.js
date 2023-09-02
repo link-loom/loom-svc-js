@@ -1,22 +1,13 @@
 class SecurityUtil {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
+    this._dependencies = dependencies;
 
     /* Custom Properties */
 
     /* Assigments */
-    this._namespace = '[Server]::[Utils]::[Serializer]'
+    this._namespace = '[Server]::[Utils]::[Security]';
   }
-
-  get serializer () {
-    return {
-      object: {
-        toQueryString: this.#objectToQueryString.bind(this)
-      }
-    }
-  }
-
 }
 
-module.exports = SecurityUtil
+module.exports = SecurityUtil;

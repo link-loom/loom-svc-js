@@ -1,17 +1,17 @@
 class ApiManagerRoute {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._console = this._dependencies.console
-    this._services = this._dependencies.services
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._console = this._dependencies.console;
+    this._services = this._dependencies.services;
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.ApiManagerService
+    this.EntityService = this._services.ApiManagerService;
   }
 
   /**
@@ -50,16 +50,16 @@ class ApiManagerRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async getApiManagerUri ({ params }) {
+  async getApiManagerUri({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.getApiManagerUri(params)
+      return entityService.getApiManagerUri(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 }
 
-module.exports = ApiManagerRoute
+module.exports = ApiManagerRoute;

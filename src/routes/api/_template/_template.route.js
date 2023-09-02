@@ -1,17 +1,17 @@
 class TemplateRoute {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._console = this._dependencies.console
-    this._services = this._dependencies.services
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._console = this._dependencies.console;
+    this._services = this._dependencies.services;
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.Template
+    this.EntityService = this._services.Template;
   }
 
   /**
@@ -69,14 +69,14 @@ class TemplateRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async get ({ params }) {
+  async get({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.get(params)
+      return entityService.get(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 
@@ -124,14 +124,14 @@ class TemplateRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async create ({ params }) {
+  async create({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.create(params)
+      return entityService.create(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 
@@ -179,16 +179,16 @@ class TemplateRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async update ({ params }) {
+  async update({ params }) {
     try {
-      const entityService = new this.EntityService(this._dependencies)
+      const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.update(params)
+      return entityService.update(params);
     } catch (error) {
-      this._console.error(error)
-      return this._utilities.io.response.error()
+      this._console.error(error);
+      return this._utilities.io.response.error();
     }
   }
 }
 
-module.exports = TemplateRoute
+module.exports = TemplateRoute;

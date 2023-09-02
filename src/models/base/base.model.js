@@ -29,36 +29,36 @@
  *         result: {}
  */
 class ModelBase {
-  constructor (dependencies) {
+  constructor(dependencies) {
     if (!dependencies) {
-      throw new Error('Required dependencies to build this entity')
+      throw new Error('Required dependencies to build this entity');
     }
-    this._dependencies = dependencies
+    this._dependencies = dependencies;
   }
 
-  get getPropertiesAsCommas () {
-    return (Object.keys(this.get)).join()
+  get getPropertiesAsCommas() {
+    return Object.keys(this.get).join();
   }
 
-  get getPropertiesAsBindings () {
-    const keys = Object.keys(this.get)
+  get getPropertiesAsBindings() {
+    const keys = Object.keys(this.get);
 
-    return (keys.map((key, index) => `$${index + 1}`)).join()
+    return keys.map((key, index) => `$${index + 1}`).join();
   }
 
-  get getValuesAsArray () {
-    return (Object.values(this.get.value)).join()
+  get getValuesAsArray() {
+    return Object.values(this.get.value).join();
   }
 
-  get getPropertiesAsAssignment () {
-    let keys = Object.keys(this.get)
-    keys = keys.filter(key => this.get[key].value)
-    return (keys.map(key => `${key}=${this.get[key].value}`)).join()
+  get getPropertiesAsAssignment() {
+    let keys = Object.keys(this.get);
+    keys = keys.filter((key) => this.get[key].value);
+    return keys.map((key) => `${key}=${this.get[key].value}`).join();
   }
 
-  getPropertyAsReference ({ namespace, property }) {
-    return `REFERENCES "${namespace}"."${this.get[property].reference.table}" ("${this.get[property].reference.property}")`
+  getPropertyAsReference({ namespace, property }) {
+    return `REFERENCES "${namespace}"."${this.get[property].reference.table}" ("${this.get[property].reference.property}")`;
   }
 }
 
-module.exports = ModelBase
+module.exports = ModelBase;

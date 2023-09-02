@@ -1,11 +1,11 @@
 class Event {
-  constructor (dependencies, { socket }) {
+  constructor(dependencies, { socket }) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
-    this._console = this._dependencies.console
-    this._producerManager = this._dependencies.ProducerManager
-    this._socket = socket
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
+    this._console = this._dependencies.console;
+    this._producerManager = this._dependencies.ProducerManager;
+    this._socket = socket;
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
@@ -18,33 +18,35 @@ class Event {
    * Is executed event when is fired by busEventName
    * @param payload Is the information to work with event {context, command, values}
    */
-  async execute ({ settings, payload }) {
-    console.log(settings.name, payload)
+  async execute({ settings, payload }) {
+    console.log(settings.name, payload);
 
     // Get a new event from producer events
-    const eventDefinition = this._producerManager.getEventDefinitionByName('reversebytes.beat.chatbot')
+    const eventDefinition = this._producerManager.getEventDefinitionByName(
+      'reversebytes.beat.chatbot',
+    );
 
     // Setup response
     const responsePayload = {
       context: {
         topics: ['chatbot'],
         event: {
-          name: 'reversebytes.beat.chatbot'
+          name: 'reversebytes.beat.chatbot',
         },
         socket: {
-          id: this._socket.id
-        }
+          id: this._socket.id,
+        },
       },
       command: '#response',
-      values: {}
-    }
+      values: {},
+    };
 
     // Emit the event with new target
     this._utilities.event.producer.emit({
       settings: eventDefinition,
-      payload: responsePayload
-    })
+      payload: responsePayload,
+    });
   }
 }
 
-module.exports = Event
+module.exports = Event;

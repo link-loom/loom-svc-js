@@ -1,83 +1,85 @@
 class IOUtil {
-  constructor (dependencies) {
+  constructor(dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies
-    this._utilities = this._dependencies.utilities
+    this._dependencies = dependencies;
+    this._utilities = this._dependencies.utilities;
 
     /* Custom Properties */
 
     /* Assigments */
-    this._namespace = '[Server]::[Utils]::[IO]'
+    this._namespace = '[Server]::[Utils]::[IO]';
   }
 
-  #getParameters (data) {
-    if (!data) { return {} }
+  #getParameters(data) {
+    if (!data) {
+      return {};
+    }
 
-    let params = {}
+    let params = {};
 
     if (!this._utilities.validator.object.isEmpty(data.query)) {
-      params = { ...params, ...data.query }
+      params = { ...params, ...data.query };
     }
     if (!this._utilities.validator.object.isEmpty(data.body)) {
-      params = { ...params, ...data.body }
+      params = { ...params, ...data.body };
     }
     if (!this._utilities.validator.object.isEmpty(data.params)) {
-      params = { ...params, ...data.params }
+      params = { ...params, ...data.params };
     }
 
-    return params
+    return params;
   }
 
-  #throwError (message, { status } = {}) {
+  #throwError(message, { status } = {}) {
     if (message) {
       return {
         status: status || 500,
         success: false,
         message,
-        result: null
-      }
+        result: null,
+      };
     }
 
     return {
       status: status || 500,
       success: false,
       message: 'Something was wrong while you make this action',
-      result: null
-    }
+      result: null,
+    };
   }
 
-  #throwSuccess (data, message, { status } = {}) {
+  #throwSuccess(data, message, { status } = {}) {
     return {
       status: status || 200,
       success: true,
       message: message || 'Operation completed successfully',
-      result: data || {}
-    }
+      result: data || {},
+    };
   }
 
-  #cleanObjectData (rawObj) {
+  #cleanObjectData(rawObj) {
     if (rawObj && rawObj.formatted) {
-      return rawObj.formatted
+      return rawObj.formatted;
     } else if (rawObj && rawObj.data) {
-      return rawObj.data
+      return rawObj.data;
     } else {
-      return null
+      return null;
     }
   }
 
-  get request () {
+  get request() {
     return {
-      getParameters: this.#getParameters.bind(this)
-    }
+      getParameters: this.#getParameters.bind(this),
+    };
   }
 
-  get response () {
+  get response() {
     return {
       success: this.#throwSuccess.bind(this),
       error: this.#throwError.bind(this),
-      clean: this.#cleanObjectData.bind(this)
-    }
+      clean: this.#cleanObjectData.bind(this),
+    };
   }
 }
 
-module.exports = IOUtil
+module.exports = IOUtil;
