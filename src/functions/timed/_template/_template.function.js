@@ -22,7 +22,7 @@ class Function {
     try {
       this._console.info('Executing timed function')
 
-      const statusService = new this._services.Status(this._dependencies)
+      const statusService = new this._services.HealthService(this._dependencies)
       const statusResponse = await statusService.get()
 
       if (this._utilities.validator.response(statusResponse)) {
