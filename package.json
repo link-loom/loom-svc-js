@@ -2,8 +2,8 @@
   "name": "@linkloom/loom-svc-js",
   "title": "Loom service",
   "description": "Another Node.js Server framework to create microservices or huge monoliths.",
-  "version": "6.1.8",
-  "homepage": "https://reversebytes.wordpress.com",
+  "version": "6.1.9",
+  "homepage": "https://github.com/link-loom",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
     "type": "git",
@@ -12,9 +12,11 @@
   "keywords": [
     "Main",
     "%LOOM%",
-    "template",
-    "lite",
-    "tool"
+    "beat",
+    "microservices",
+    "node.js",
+    "javascript",
+    "loom"
   ],
   "bugs": {
     "url": "https://github.com/link-loom/loom-svc-js/issues"
