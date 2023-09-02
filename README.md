@@ -1,5 +1,4 @@
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![GitHub license](https://img.shields.io/github/license/thepisode/beat.svg)](https://github.com/thepisode/beat/blob/master/LICENSE) 
+[![GitHub license](https://img.shields.io/github/license/link-loom/loom-svc-js.svg)](https://github.com/link-loom/loom-svc-js/blob/master/LICENSE) 
 [![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/beat-cli)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
