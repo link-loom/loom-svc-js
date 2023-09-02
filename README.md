@@ -1,8 +1,6 @@
 [![GitHub license](https://img.shields.io/github/license/link-loom/loom-svc-js.svg)](https://github.com/link-loom/loom-svc-js/blob/master/LICENSE) 
 [![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/beat-cli)
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
-
 # Link loom
 
 Another Node.js Server framework to create microservices or huge monoliths.
