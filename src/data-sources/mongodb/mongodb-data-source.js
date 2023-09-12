@@ -87,6 +87,14 @@ class MongoDBDataSource extends DataSource {
     }
   }
 
+  /**
+   * Retrieve entities by applying given filters.
+   *
+   * @param {object} params - The parameters for getting by filters.
+   * @param {string} params.tableName - The name of the MongoDB collection.
+   * @param {Array<object>} params.filters - An array of filter objects.
+   * @returns {Array<object>} The array of found entities or an empty array if none found.
+   */
   async getByFilters({ tableName, filters }) {
     try {
       const superResponse = await super.getByFilters({ tableName, filters });
@@ -96,13 +104,38 @@ class MongoDBDataSource extends DataSource {
       }
 
       const transformedFilters = this.#transformFilters(filters);
+      const pagination = this.#extractPagination(filters);
       const collection = this._db.client
         .db(this._databaseSettings.dbName)
         .collection(tableName);
+      const dataPipeline = [{ $match: transformedFilters }];
       let entityResponse = {};
 
+      if (pagination.skip !== null) {
+        dataPipeline.push({ $skip: +pagination.skip });
+      }
+
+      if (pagination.limit !== null) {
+        dataPipeline.push({ $limit: +pagination.limit });
+      }
+
       entityResponse = await collection
-        .find(transformedFilters || {})
+        .aggregate([
+          {
+            $facet: {
+              data: dataPipeline,
+              matchCount: [...dataPipeline, { $count: 'total' }],
+              totalCount: [{ $count: 'total' }],
+            },
+          },
+          {
+            $project: {
+              data: '$data',
+              matchCount: { $arrayElemAt: ['$matchCount.total', 0] },
+              totalCount: { $arrayElemAt: ['$totalCount.total', 0] },
+            },
+          },
+        ])
         .toArray();
 
       return entityResponse || [];
@@ -113,31 +146,89 @@ class MongoDBDataSource extends DataSource {
     }
   }
 
+  /**
+   * Transform a single filter into its MongoDB counterpart.
+   *
+   * @param {object} filter - The filter object to transform.
+   * @returns {object} The MongoDB filter object.
+   */
+  #transformSingleFilter(filter) {
+    if (!filter.key) return {};
+
+    const valueToArray = (value) => {
+      if (typeof value === 'string') {
+        return value.split(',');
+      } else if (Array.isArray(value)) {
+        return value;
+      } else {
+        return [];
+      }
+    };
+
+    switch (filter.operator) {
+      case '==':
+        return { [filter.key]: filter.value };
+      case '!==':
+        return { [filter.key]: { $ne: filter.value } };
+      case 'in':
+        return { [filter.key]: { $in: valueToArray(filter.value) } };
+      case 'not-in':
+        return { [filter.key]: { $nin: valueToArray(filter.value) } };
+      default:
+        return { [filter.key]: filter.value };
+    }
+  }
+
+  /**
+   * Transform an array of filters into a MongoDB filter query.
+   *
+   * @param {Array<object>} filters - An array of filter objects to transform.
+   * @returns {object} The MongoDB filter query.
+   * @throws Will throw an error if a single filter transformation fails.
+   */
   #transformFilters(filters) {
     try {
-      const transformedFilters = {};
+      const transformedFilters = { $and: [] };
 
-      if (filters && filters.length > 1) {
-        transformedFilters['$and'] = [];
+      filters.forEach((filter) => {
+        if (!filter.value) return;
 
-        for (const filter of filters) {
-          if (filter.key) {
-            transformedFilters['$and'].push({
-              [filter.key]: filter.value,
-            });
-          }
+        if (filter.key !== 'skip' && filter.key !== 'limit') {
+          transformedFilters.$and.push(this.#transformSingleFilter(filter));
         }
-      } else if (filters && filters.length === 1) {
-        const filter = filters[0];
-        transformedFilters[filter.key] = filter.value;
-      }
+      });
 
-      return transformedFilters;
+      return transformedFilters.$and.length ? transformedFilters : {};
     } catch (error) {
-      this._console.error(error);
-
+      this._console.error('Error transforming filter: ', error);
       return {};
     }
+  }
+
+  /**
+   * Extract pagination data from the given filter array.
+   *
+   * @param {Array<object>} filters - An array of filter objects.
+   * @returns {object} An object containing the 'skip' and 'limit' pagination values.
+   * @throws Will throw an error if pagination values are not valid numbers.
+   */
+  #extractPagination(filters) {
+    const pagination = {
+      skip: null,
+      limit: null,
+    };
+
+    for (const filter of filters) {
+      const { key, value } = filter;
+
+      if (typeof value === 'number' && value >= 0 && !isNaN(value)) {
+        if (['skip', 'limit'].includes(key)) {
+          pagination[key] = value;
+        }
+      }
+    }
+
+    return pagination;
   }
 }
 
