@@ -90,10 +90,26 @@ class MongoDBDataSource extends DataSource {
   /**
    * Retrieve entities by applying given filters.
    *
+   * This method queries the specified MongoDB collection based on given filters
+   * and provides both the matched data and the count of matched and total records.
+   * It makes use of the aggregation pipeline to achieve this.
+   *
+   * The `facet` operation in the pipeline allows us to process multiple aggregation
+   * operations within a single stage and outputs the results in an array for each operation.
+   * Specifically:
+   * - 'data' contains the documents that match the transformed filters.
+   * - 'matchCount' provides the count of the documents matching the filters.
+   * - 'totalCount' provides the count of all documents in the collection.
+   *
+   * The `project` operation reshapes the output, making it more suitable for further processing
+   * or final output. Here, it's used to extract values from the arrays produced by the `facet` operation.
+   *
    * @param {object} params - The parameters for getting by filters.
    * @param {string} params.tableName - The name of the MongoDB collection.
    * @param {Array<object>} params.filters - An array of filter objects.
+   *
    * @returns {Array<object>} The array of found entities or an empty array if none found.
+   *                          The returned object includes 'data', 'matchCount', and 'totalCount' fields.
    */
   async getByFilters({ tableName, filters }) {
     try {
@@ -109,14 +125,16 @@ class MongoDBDataSource extends DataSource {
         .db(this._databaseSettings.dbName)
         .collection(tableName);
       const dataPipeline = [{ $match: transformedFilters }];
+      const matchCountIndex = 0;
+      const totalCountIndex = 0;
       let entityResponse = {};
 
       if (pagination.skip !== null) {
-        dataPipeline.push({ $skip: +pagination.skip });
+        dataPipeline.push({ $skip: pagination.skip });
       }
 
       if (pagination.limit !== null) {
-        dataPipeline.push({ $limit: +pagination.limit });
+        dataPipeline.push({ $limit: pagination.limit });
       }
 
       entityResponse = await collection
@@ -131,8 +149,12 @@ class MongoDBDataSource extends DataSource {
           {
             $project: {
               data: '$data',
-              matchCount: { $arrayElemAt: ['$matchCount.total', 0] },
-              totalCount: { $arrayElemAt: ['$totalCount.total', 0] },
+              matchCount: {
+                $arrayElemAt: ['$matchCount.total', matchCountIndex],
+              },
+              totalCount: {
+                $arrayElemAt: ['$totalCount.total', totalCountIndex],
+              },
             },
           },
         ])
@@ -220,6 +242,7 @@ class MongoDBDataSource extends DataSource {
 
     for (const filter of filters) {
       const { key, value } = filter;
+      value = +value;
 
       if (typeof value === 'number' && value >= 0 && !isNaN(value)) {
         if (['skip', 'limit'].includes(key)) {

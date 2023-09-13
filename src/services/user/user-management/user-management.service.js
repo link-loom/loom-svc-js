@@ -143,14 +143,26 @@ class UserService {
     try {
       const result = await this.#getByFilters({
         filters: [
-          { key: 'status.name', operator: 'in', value: data.include_status },
+          {
+            key: 'status.name',
+            operator: 'in',
+            value: data.include_status,
+          },
           {
             key: 'status.name',
             operator: 'not-in',
             value: data.exclude_status,
           },
-          { key: 'skip', operator: '==', value: +data.skip },
-          { key: 'limit', operator: '==', value: +data.limit },
+          {
+            key: 'skip',
+            operator: '==',
+            value: data.skip,
+          },
+          {
+            key: 'limit',
+            operator: '==',
+            value: data.limit,
+          },
         ],
       });
 
