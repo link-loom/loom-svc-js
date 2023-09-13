@@ -17,21 +17,15 @@ const router = {
   ],
   file: [
     // Upload files
-    {
-      httpRoute: '/upload/single',
-      route: '/routes/api/upload/upload.route',
-      handler: 'upload',
-      method: 'POST',
-      protected: false,
-      isUpload: true,
-    },
+    { httpRoute: '/upload/single', route: '/routes/api/upload/upload.route', handler: 'uploadFile', method: 'POST', protected: false, supportFile: true },
+
     {
       httpRoute: '/upload/bulk',
       route: '/routes/api/upload/upload.route',
       handler: 'bulk',
       method: 'POST',
       protected: false,
-      isUpload: true,
+      supportFile: true,
     },
   ],
   security: [

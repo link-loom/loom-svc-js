@@ -1,56 +1,41 @@
 class UploadService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
-    this._dependencies = dependencies;
-    this._db = dependencies.db;
-    this._models = dependencies.models;
-    this._utilities = dependencies.utilities;
-    this._console = this._dependencies.console;
-    this._firebase = dependencies.firebaseManager;
-    this._services = this._dependencies.services;
+    this._dependencies = dependencies
+    this._db = dependencies.db
+    this._models = dependencies.models
+    this._utilities = dependencies.utilities
+    this._console = this._dependencies.console
+    this._services = this._dependencies.services
+    this.uploadStorage = this._dependencies.storage.instance
 
     /* Custom Properties */
-    this.excel = dependencies.exceljs;
+    this.excel = dependencies.exceljs
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async uploadFile(req) {
+  async uploadFile (req) {
     try {
       if (!req || !req.file) {
-        return this._utilities.io.response.error('Add a file');
+        return this._utilities.io.response.error('Agrega un archivo')
       }
 
-      if (!req.body || !req.body.route || !req.body.handler) {
-        return this._utilities.io.response.error(
-          'Add a path to handle your bulk request, please',
-        );
+      if (!req || !req.body || !req.body.folder) {
+        return this._utilities.io.response.error('Provea un folder, por favor')
       }
 
-      if (
-        !this._services[req.body.route] ||
-        !this._services[req.body.route][req.body.handler]
-      ) {
-        return this._utilities.io.response.error(
-          'Given path to handle your bulk request is not available',
-        );
-      }
-
-      const file = req.file;
-      file.originalname = `${file.originalname.slice(
-        0,
-        file.originalname.lastIndexOf('.'),
-      )}_${Date.now()}${file.originalname.slice(
-        file.originalname.lastIndexOf('.'),
-        file.originalname.length,
-      )}`;
-
-      // TODO: Do something with uploaded file
-
-      return this._utilities.io.response.success();
+      const clientFile = req.file
+      const folder = req.body.folder
+      clientFile.originalname = clientFile.originalname.replaceAll(' ', '_')
+      clientFile.originalname = `${clientFile.originalname.slice(0, clientFile.originalname.lastIndexOf('.'))}_${Date.now()}${clientFile.originalname.slice(clientFile.originalname.lastIndexOf('.'), clientFile.originalname.length)}`
+      
+      const response = await this.uploadStorage.upload(clientFile, folder)
+      
+      return response 
     } catch (error) {
-      return this._utilities.io.response.error();
+      return this._utilities.io.response.error(error.message ? error.message : error)
     }
   }
 
@@ -59,127 +44,109 @@ class UploadService {
    * @param {File} file
    * @returns Transformed file into a list of { rows: [] }
    */
-  async digestFileToArray(file) {
-    const processedFile = { rows: [] };
+  async digestFileToArray (file) {
+    const processedFile = { rows: [] }
 
     if (!file) {
-      return processedFile;
+      return processedFile
     }
 
     const transformFileData = async (resolve) => {
-      const workbook = new this._excel.Workbook();
+      const workbook = new this._excel.Workbook()
 
-      await workbook.xlsx.load(file.buffer);
+      await workbook.xlsx.load(file.buffer)
 
       workbook.eachSheet((worksheet) => {
         if (worksheet._rows <= 0) {
-          resolve(processedFile);
-          return;
+          resolve(processedFile)
+          return
         }
 
-        const labels = worksheet._rows[0].values;
+        const labels = worksheet._rows[0].values
 
         worksheet.eachRow({}, (row, rowNumber) => {
           if (rowNumber > 1) {
             // Transform rows to objects
-            const transformedRow = Object.assign(
-              {},
-              ...row.values.map((item, index) => ({
-                [labels[index].toLocaleLowerCase()]:
-                  item && item.result
-                    ? item.result
-                    : item && item.text
-                    ? item.text
-                    : item,
-              })),
-            );
+            const transformedRow = Object
+              .assign({}, ...row.values
+                .map((item, index) => ({
+                  [labels[index].toLocaleLowerCase()]: (item && item.result ? item.result : item && item.text ? item.text : item)
+                })
+                )
+              )
 
-            processedFile.rows.push(transformedRow);
-            resolve(processedFile);
+            processedFile.rows.push(transformedRow)
+            resolve(processedFile)
           }
-        });
-      });
-    };
+        })
+      })
+    }
 
-    return new Promise(transformFileData);
+    return new Promise(transformFileData)
   }
 
-  async uploadAllBulkRows(req, fileTransformed) {
+  async uploadAllBulkRows (req, fileTransformed) {
     try {
       const response = {
         success: 0,
         failed: 0,
-        rows: [],
-      };
+        rows: []
+      }
 
       // Execute all rows and try to save it
       for (const row of fileTransformed.rows) {
-        const entityResponse =
-          await this._services[req.body.route][req.body.handler](row);
+        const entityResponse = await this._services[req.body.route][req.body.handler](row)
 
         if (entityResponse && entityResponse.success) {
-          response.success += 1;
+          response.success += 1
         } else {
-          response.failed += 1;
+          response.failed += 1
         }
 
-        response.rows.push(entityResponse);
+        response.rows.push(entityResponse)
       }
 
-      return this._utilities.io.response.success(response);
+      return this._utilities.io.response.success(response)
     } catch (error) {
-      return this._utilities.io.response.error();
+      return this._utilities.io.response.error()
     }
   }
 
-  validateBulk(req) {
+  validateBulk (req) {
     if (!req || !req.file) {
-      return this._utilities.io.response.error('Add a file');
+      return this._utilities.io.response.error('Add a file')
     }
 
     if (!req.body || !req.body.route || !req.body.handler) {
-      return this._utilities.io.response.error(
-        'Add a path to handle your bulk request, please',
-      );
+      return this._utilities.io.response.error('Add a path to handle your bulk request, please')
     }
 
-    if (
-      !this._services[req.body.route] ||
-      !this._services[req.body.route][req.body.handler]
-    ) {
-      return this._utilities.io.response.error(
-        'Given path to handle your bulk request is not available',
-      );
+    if (!this._services[req.body.route] || !this._services[req.body.route][req.body.handler]) {
+      return this._utilities.io.response.error('Given path to handle your bulk request is not available')
     }
 
-    return this._utilities.io.response.success(req);
+    return this._utilities.io.response.success(req)
   }
 
-  async bulk(req) {
+  async bulk (req) {
     try {
-      const canBulk = this.validateBulk(req);
-      const file = req.file;
-      const fileTransformed = await this.digestFileToArray(file);
+      const canBulk = this.validateBulk(req)
+      const file = req.file
+      const fileTransformed = await this.digestFileToArray(file)
 
       if (!canBulk.success) {
-        return canBulk;
+        return canBulk
       }
 
-      if (
-        !fileTransformed ||
-        !fileTransformed.rows ||
-        !fileTransformed.rows.length
-      ) {
-        return this._utilities.io.response.error(
-          'File not processed because is empty',
-        );
+      if (!fileTransformed || !fileTransformed.rows || !fileTransformed.rows.length) {
+        return this._utilities.io.response.error('File not processed because is empty')
       }
 
-      return this.uploadAllBulkRows(req, fileTransformed);
+      return this.uploadAllBulkRows(req, fileTransformed)
     } catch (error) {
-      return this._utilities.io.response.error(error.message);
+      return this._utilities.io.response.error(error.message)
     }
   }
 }
 
-module.exports = UploadService;
+module.exports = UploadService
