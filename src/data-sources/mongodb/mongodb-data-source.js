@@ -232,7 +232,6 @@ class MongoDBDataSource extends DataSource {
    *
    * @param {Array<object>} filters - An array of filter objects.
    * @returns {object} An object containing the 'skip' and 'limit' pagination values.
-   * @throws Will throw an error if pagination values are not valid numbers.
    */
   #extractPagination(filters) {
     const pagination = {
@@ -242,9 +241,9 @@ class MongoDBDataSource extends DataSource {
 
     for (const filter of filters) {
       const { key, value } = filter;
-      value = +value;
+      let convertedValue = Number(value);
 
-      if (typeof value === 'number' && value >= 0 && !isNaN(value)) {
+      if (typeof value === 'number' && value >= 0 && !isNaN(convertedValue)) {
         if (['skip', 'limit'].includes(key)) {
           pagination[key] = value;
         }
