@@ -36,7 +36,7 @@
       "LISTEN_CONSUMER_EVENTS_ENABLED": false
     },
     "DATABASE_NAME": "mongodb",
-    "STORAGE_NAME": "spaces",
+    "STORAGE_NAME": "firebase",
     "PUSH_NAME": "firebase"
   },
   "DATASOURCE_CONFIGS": {
