@@ -11,27 +11,27 @@ class ApiManager {
     this._express = dependencies.expressModule;
     this._swaggerJsdoc = dependencies.swaggerJsdoc;
     this._swaggerUi = dependencies.swaggerUi;
-    this._storage = {}
+    this._storage = {};
 
     /* Assigments */
     this._namespace = '[Server]::[API]::[Manager]';
     this._apiRoutes = this._express.Router();
     this._path = dependencies.path;
-    this._multer = dependencies.multerModule
-    this._storage = {}
+    this._multer = dependencies.multerModule;
+    this._storage = {};
   }
 
   setup() {
     this._console.success('Loading', { namespace: this._namespace });
 
-    this.#handleStorageConfig()
+    this.#handleStorageConfig();
 
     this.#buildRoutes();
 
     this._console.success('Loaded', { namespace: this._namespace });
   }
 
- /**
+  /**
    * Handles the HTTP method for a given route, domain, and endpoint.
    *
    * This function takes in details about the route, domain, and endpoint, and
@@ -44,44 +44,44 @@ class ApiManager {
    * @param {Object} args.endpoint - Information about the endpoint including its method, httpRoute, and whether it's protected.
    * @returns {void}
    */
-  #handleHttpMethod ({ route, domain, endpoint }) {
+  #handleHttpMethod({ route, domain, endpoint }) {
     // Convert endpoint method to lower case.
-    const method = endpoint.method.toLocaleLowerCase()
+    const method = endpoint.method.toLocaleLowerCase();
 
     // Construct the full route path.
-    const routePath = `/${domain}${endpoint.httpRoute}`
+    const routePath = `/${domain}${endpoint.httpRoute}`;
 
     // Define the main route handler function.
     const routeHandler = (req, res) =>
-      this.#handleRoute({ route, domain, endpoint, req, res })
+      this.#handleRoute({ route, domain, endpoint, req, res });
 
     // An array to hold any middleware functions that need to be applied.
-    const middlewares = []
+    const middlewares = [];
 
     // If the component supports file uploads, add the file handling middleware.
     if (endpoint.supportFile) {
-      middlewares.push(this._storage.single('file'))
+      middlewares.push(this._storage.single('file'));
     }
 
     // If the endpoint is protected, add the validation middleware.
     if (endpoint.protected) {
-      middlewares.push(this._utilities.validator.api.endpoint)
+      middlewares.push(this._utilities.validator.api.endpoint);
     }
 
     // Always add the main route handler as the last middleware.
-    middlewares.push(routeHandler)
+    middlewares.push(routeHandler);
 
     // Register the route with all its middleware.
-    this._apiRoutes[method](routePath, ...middlewares)
+    this._apiRoutes[method](routePath, ...middlewares);
   }
 
-  #handleStorageConfig () {
+  #handleStorageConfig() {
     this._storage = this._multer({
       limits: {
-        fileSize: this._config.STORAGESOURCE_CONFIG.FIRESTORE.SETTINGS.fileSize
+        fileSize: this._config.STORAGESOURCE_CONFIG.FIRESTORE.SETTINGS.fileSize,
       },
-      storage: this._multer.memoryStorage()
-    })
+      storage: this._multer.memoryStorage(),
+    });
   }
 
   async #handleRoute({ route, domain, endpoint, req, res }) {

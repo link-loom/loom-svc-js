@@ -172,12 +172,12 @@ class ServerManager {
     const { StorageManager } = require('./storage.manager');
     const _storageManager = new StorageManager({
       dependencies: this._dependenciesManager.core.get(),
-      dependencyInjector: this._dependenciesManager
-    })
-    
-    _storageManager.setup()
-    this._dependenciesManager.core.add(_storageManager, 'StorageManager')
-    return _storageManager
+      dependencyInjector: this._dependenciesManager,
+    });
+
+    _storageManager.setup();
+    this._dependenciesManager.core.add(_storageManager, 'StorageManager');
+    return _storageManager;
   }
 
   async #setupPushNotifications() {

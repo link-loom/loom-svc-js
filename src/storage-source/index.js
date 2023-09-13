@@ -1,5 +1,10 @@
 const storageSources = [
-  { name: 'firebase', path: 'firebase/firebase-storage-source', handler: 'FirebaseStorageSource', customDependencyName: 'firebase' }
-]
+  {
+    name: 'firebase',
+    path: 'firebase/firebase-storage-source',
+    handler: 'FirebaseStorageSource',
+    customDependencyName: 'firebase',
+  },
+];
 
-module.exports = storageSources
+module.exports = storageSources;
