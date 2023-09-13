@@ -34,10 +34,35 @@ class UserRoute {
    *              - phone
    *              - email
    *              - business-id
+   *              - all
    *       - in: query
    *         name: search
    *         description: Keyword to search for entities.
-   *         required: true
+   *         required: false
+   *         schema:
+   *           type: string
+   *       - in: query
+   *         name: include_status
+   *         description: Optional status parameter to include users of a specific status.
+   *         required: false
+   *         schema:
+   *           type: string
+   *       - in: query
+   *         name: exclude_status
+   *         description: Optional status parameter to exclude users of a specific status.
+   *         required: false
+   *         schema:
+   *           type: string
+   *       - in: query
+   *         name: skip
+   *         description: Limit the number of users returned in the response.
+   *         required: false
+   *         schema:
+   *           type: string
+   *       - in: query
+   *         name: limit
+   *         description: The number of users to skip before starting the fetch. Useful for pagination.
+   *         required: false
    *         schema:
    *           type: string
    *     responses:
