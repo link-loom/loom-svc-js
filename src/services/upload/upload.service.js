@@ -6,8 +6,8 @@ class UploadService {
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
-    this._firebase = dependencies.firebaseManager;
     this._services = this._dependencies.services;
+    this.uploadStorage = this._dependencies.storage.operation;
 
     /* Custom Properties */
     this.excel = dependencies.exceljs;
@@ -22,35 +22,32 @@ class UploadService {
         return this._utilities.io.response.error('Add a file');
       }
 
-      if (!req.body || !req.body.route || !req.body.handler) {
-        return this._utilities.io.response.error(
-          'Add a path to handle your bulk request, please',
-        );
+      if (!req || !req.body || !req.body.folder) {
+        return this._utilities.io.response.error('Provide a folder, please');
       }
 
-      if (
-        !this._services[req.body.route] ||
-        !this._services[req.body.route][req.body.handler]
-      ) {
-        return this._utilities.io.response.error(
-          'Given path to handle your bulk request is not available',
-        );
-      }
-
-      const file = req.file;
-      file.originalname = `${file.originalname.slice(
+      const clientFile = req.file;
+      const folder = req.body.folder;
+      clientFile.originalname = clientFile.originalname.replaceAll(' ', '_');
+      clientFile.originalname = `${clientFile.originalname.slice(
         0,
-        file.originalname.lastIndexOf('.'),
-      )}_${Date.now()}${file.originalname.slice(
-        file.originalname.lastIndexOf('.'),
-        file.originalname.length,
+        clientFile.originalname.lastIndexOf('.'),
+      )}_${Date.now()}${clientFile.originalname.slice(
+        clientFile.originalname.lastIndexOf('.'),
+        clientFile.originalname.length,
       )}`;
 
-      // TODO: Do something with uploaded file
+      const response = await this.uploadStorage.upload(
+        clientFile,
+        folder,
+        req.settings,
+      );
 
-      return this._utilities.io.response.success();
+      return response;
     } catch (error) {
-      return this._utilities.io.response.error();
+      return this._utilities.io.response.error(
+        error.message ? error.message : error,
+      );
     }
   }
 

@@ -19,7 +19,7 @@ class UploadRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async upload({ params, req, res }) {
+  async uploadFile({ params, req, res }) {
     try {
       const entityService = new this.EntityService(this._dependencies);
 

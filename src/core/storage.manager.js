@@ -1,88 +1,89 @@
 class StorageManager {
-  constructor(dependencies) {
+  constructor({ dependencies, dependencyInjector }) {
     /* Base Properties */
+    this._dependencyInjector = dependencyInjector;
     this._dependencies = dependencies;
     this._console = dependencies.console;
 
     /* Custom Properties */
-    this._aws = dependencies.aws;
-    this._multer = dependencies.multerModule;
+    this._storageSources = [];
+    this._currentStorageSourceName = '';
+    this._currentStorageSourceConfig = {};
 
     /* Assigments */
     this._namespace = '[Server]::[Storage]::[Manager]';
     this._storage = {};
-    this._s3 = {};
-    this._stg = {};
+    this._stg = {
+      operation: {},
+      driver: {},
+    };
   }
 
   async setup() {
     this._console.success('Loading', { namespace: this._namespace });
 
-    await this.storageConfig();
-
-    this._dependencies.storage = this._storage || {};
+    this.#loadStorageSources();
 
     if (!this._dependencies.config.SETTINGS.USE_STORAGE) {
-      this._console.info('Manager is disabled', { namespace: this._namespace });
+      this._console.info('Storage is disabled', { namespace: this._namespace });
       return;
     }
 
-    switch (this._dependencies.config.SETTINGS.STORAGE_NAME) {
-      case 'spaces':
-        await this.spacesConfig();
-        break;
-      case 'firebase':
-        await this.firebaseConfig();
-        break;
-      default:
-        break;
-    }
+    this.#getCurrentStorageSource();
+    this.#setupSelectedStorageSource();
 
     this._console.success('Loaded', { namespace: this._namespace });
   }
 
-  async storageConfig() {
-    this._storage = this._multer({
-      limits: {
-        fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-      },
-      storage: this._multer.memoryStorage(),
-    });
-  }
-
-  async spacesConfig() {
+  #loadStorageSources() {
     try {
-      const { SpacesManager } = require(
-        `${this._dependencies.root}/src/core/spaces.manager`,
+      this._storageSources = require(
+        `${this._dependencies.root}/src/storage-source/index`,
       );
-      this._spacesManager = new SpacesManager(this._dependencies);
-      this._spacesManager.setup(this._dependencies.config.DIGITALOCEAN.SPACES);
-
-      const spacesEndpoint = new this._aws.Endpoint(
-        this._spacesManager.getCredentials().endpoint,
-      );
-
-      this._dependencies.dependenciesManager.core.add(
-        this._spacesManager,
-        'spacesManager',
-      );
-      this._dependencies.s3 = this._s3;
-
-      this._s3 = new this._aws.S3({
-        endpoint: spacesEndpoint,
-        accessKeyId: this._spacesManager.getCredentials().accessKeyId,
-        secretAccessKey: this._spacesManager.getCredentials().secretAccessKey,
-      });
     } catch (error) {
-      console.log(error);
+      this._console.error(error, { namespace: this._namespace });
     }
   }
 
-  async firebaseConfig() {
+  #getCurrentStorageSource() {
     try {
-      this._stg = this._dependencies.firebase.storage();
+      this._currentStorageSourceName =
+        this._dependencies.config.SETTINGS.STORAGE_NAME || '';
+      this._currentStorageSourceConfig = this._storageSources.find(
+        (dataSource) => dataSource.name === this._currentStorageSourceName,
+      );
+
+      this._console.success(
+        `Current Storage Source: ${this._currentStorageSourceName}`,
+        { namespace: this._namespace },
+      );
     } catch (error) {
-      console.log(error);
+      this._console.error(error, { namespace: this._namespace });
+    }
+  }
+
+  #setupSelectedStorageSource() {
+    try {
+      const DataSource = require(
+        `${this._dependencies.root}/src/storage-source/${this._currentStorageSourceConfig.path}`,
+      );
+
+      this._stg.driver =
+        this._dependencies[
+          this._currentStorageSourceConfig.customDependencyName
+        ];
+
+      this._dependencyInjector.core.add(this._stg, 'storage');
+
+      this._stg.operation = new DataSource(this._dependencies);
+
+      this._stg.operation.setup();
+
+      this._console.success('Storage manager loaded', {
+        namespace: this._namespace,
+      });
+    } catch (error) {
+      this._console.error(error, { namespace: this._namespace });
     }
   }
 

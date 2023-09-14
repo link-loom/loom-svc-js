@@ -20,18 +20,19 @@ const router = {
     {
       httpRoute: '/upload/single',
       route: '/routes/api/upload/upload.route',
-      handler: 'upload',
+      handler: 'uploadFile',
       method: 'POST',
       protected: false,
-      isUpload: true,
+      supportFile: true,
     },
+
     {
       httpRoute: '/upload/bulk',
       route: '/routes/api/upload/upload.route',
       handler: 'bulk',
       method: 'POST',
       protected: false,
-      isUpload: true,
+      supportFile: true,
     },
   ],
   security: [
