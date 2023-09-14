@@ -111,6 +111,9 @@ class UserService {
         case 'business-id':
           response = await this.#getByBusinessId(data);
           break;
+        case 'all':
+          response = await this.#getAll(data);
+          break;
         default:
           response = this._utilities.io.response.error(
             'Provide a valid slug to query',
@@ -119,6 +122,51 @@ class UserService {
       }
 
       return response;
+    } catch (error) {
+      this._console.error(error);
+      return this._utilities.io.response.error();
+    }
+  }
+
+  /**
+   * Retrieve entities based on certain filters provided in the `data` object.
+   *
+   * @param {object} data - The data object containing filters and pagination details.
+   * @property {string} data.include_status - An string of status names to be included separated by comma.
+   * @property {string} data.exclude_status - An string of status names to be excluded separated by comma.
+   * @property {number} data.skip - Number of records to skip for pagination.
+   * @property {number} data.limit - Maximum number of records to return.
+   * @returns {Array<object>} The array of found entities based on the given filters.
+   * @throws Will throw and log an error if there's an issue retrieving the entities.
+   */
+  async #getAll(data) {
+    try {
+      const result = await this.#getByFilters({
+        filters: [
+          {
+            key: 'status.name',
+            operator: 'in',
+            value: data.include_status,
+          },
+          {
+            key: 'status.name',
+            operator: 'not-in',
+            value: data.exclude_status,
+          },
+          {
+            key: 'skip',
+            operator: '==',
+            value: data.skip,
+          },
+          {
+            key: 'limit',
+            operator: '==',
+            value: data.limit,
+          },
+        ],
+      });
+
+      return result;
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();

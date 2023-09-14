@@ -2,7 +2,7 @@
   "name": "@linkloom/loom-svc-js",
   "title": "Loom service",
   "description": "Another Node.js Server framework to create microservices or huge monoliths.",
-  "version": "6.1.10",
+  "version": "6.1.11",
   "homepage": "https://github.com/link-loom",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
