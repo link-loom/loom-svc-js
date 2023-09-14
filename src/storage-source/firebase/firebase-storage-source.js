@@ -1,13 +1,8 @@
-const DataSource = require('./../base/data-source');
-
-class FirebaseStorageSource extends DataSource {
+class FirebaseStorageSource {
   constructor(dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
     }
-
-    super(dependencies);
-
     /* Base Properties */
     this._dependencies = dependencies;
     this._console = this._dependencies.console;
@@ -25,20 +20,20 @@ class FirebaseStorageSource extends DataSource {
   }
 
   async setup() {
-    // Setup the driver/client
     // configurate and initialize firebase admin
 
-    this._dependencies.storage.firebase.initializeApp({
-      credential: this._dependencies.storage.firebase.credential.cert(
+    this._dependencies.storage.driver.initializeApp({
+      credential: this._dependencies.storage.driver.credential.cert(
         this._AdminFirestore,
       ),
       storageBucket: this._StorageConnectionObj.storageBucket,
     });
-
-    this._storage = this._dependencies.storage.firebase.storage();
+    this._storage = this._dependencies.storage.driver.storage();
   }
 
-  async upload(clientFile, folder) {
+  async upload(clientFile, folder, settings = {}) {
+    const { action = 'read', expires = this.#getDatePlus50Years() } = settings;
+
     try {
       const bucketName = this._StorageConnectionObj.storageBucket;
       const bucket = this._storage.bucket(bucketName);
@@ -47,8 +42,8 @@ class FirebaseStorageSource extends DataSource {
 
       await bucketFile.save(clientFile.buffer, uploadParams);
       const url = await bucketFile.getSignedUrl({
-        action: 'read',
-        expires: '01-01-2050',
+        action,
+        expires,
       });
 
       if (!url || !url.length) {
@@ -84,6 +79,22 @@ class FirebaseStorageSource extends DataSource {
       contentType: clientFile.mimetype,
     };
   };
+
+  #getDatePlus50Years() {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Add 50 years to the current date
+    currentDate.setFullYear(currentDate.getFullYear() + 50);
+
+    // Extract day, month, and year
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so we add 1
+    const year = currentDate.getFullYear();
+
+    // Return in 'dd-mm-yyyy' format
+    return `${month}-${day}-${year}`;
+  }
 }
 
 module.exports = FirebaseStorageSource;

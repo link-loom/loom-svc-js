@@ -14,8 +14,8 @@ class StorageManager {
     this._namespace = '[Server]::[Storage]::[Manager]';
     this._storage = {};
     this._stg = {
-      instance: {},
-      firebase: {},
+      operation: {},
+      driver: {},
     };
   }
 
@@ -68,18 +68,18 @@ class StorageManager {
         `${this._dependencies.root}/src/storage-source/${this._currentStorageSourceConfig.path}`,
       );
 
-      this._stg.firebase =
+      this._stg.driver =
         this._dependencies[
           this._currentStorageSourceConfig.customDependencyName
         ];
 
       this._dependencyInjector.core.add(this._stg, 'storage');
 
-      this._stg.instance = new DataSource(this._dependencies);
+      this._stg.operation = new DataSource(this._dependencies);
 
-      this._stg.instance.setup();
+      this._stg.operation.setup();
 
-      this._console.success('Database manager loaded', {
+      this._console.success('Storage manager loaded', {
         namespace: this._namespace,
       });
     } catch (error) {

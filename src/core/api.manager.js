@@ -11,7 +11,6 @@ class ApiManager {
     this._express = dependencies.expressModule;
     this._swaggerJsdoc = dependencies.swaggerJsdoc;
     this._swaggerUi = dependencies.swaggerUi;
-    this._storage = {};
 
     /* Assigments */
     this._namespace = '[Server]::[API]::[Manager]';
@@ -78,7 +77,8 @@ class ApiManager {
   #handleStorageConfig() {
     this._storage = this._multer({
       limits: {
-        fileSize: this._config.STORAGESOURCE_CONFIG.FIRESTORE.SETTINGS.fileSize,
+        fileSize:
+          this._config.STORAGESOURCE_CONFIG.FIRESTORE.SETTINGS.maxFileSize,
       },
       storage: this._multer.memoryStorage(),
     });

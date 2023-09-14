@@ -7,7 +7,7 @@ class UploadService {
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
     this._services = this._dependencies.services;
-    this.uploadStorage = this._dependencies.storage.instance;
+    this.uploadStorage = this._dependencies.storage.operation;
 
     /* Custom Properties */
     this.excel = dependencies.exceljs;
@@ -19,11 +19,11 @@ class UploadService {
   async uploadFile(req) {
     try {
       if (!req || !req.file) {
-        return this._utilities.io.response.error('Agrega un archivo');
+        return this._utilities.io.response.error('Add a file');
       }
 
       if (!req || !req.body || !req.body.folder) {
-        return this._utilities.io.response.error('Provea un folder, por favor');
+        return this._utilities.io.response.error('Provide a folder, please');
       }
 
       const clientFile = req.file;
@@ -37,7 +37,11 @@ class UploadService {
         clientFile.originalname.length,
       )}`;
 
-      const response = await this.uploadStorage.upload(clientFile, folder);
+      const response = await this.uploadStorage.upload(
+        clientFile,
+        folder,
+        req.settings,
+      );
 
       return response;
     } catch (error) {

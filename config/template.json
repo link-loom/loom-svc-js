@@ -78,7 +78,7 @@
       },
       "SETTINGS": {
         "timestampsInSnapshots": true,
-        "fileSize": 5242880
+        "maxFileSize": 5242880
       }
     }
    },
