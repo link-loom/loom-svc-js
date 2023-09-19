@@ -127,6 +127,7 @@ class MongoDBDataSource extends DataSource {
       const dataPipeline = [{ $match: transformedFilters }];
       const matchCountIndex = 0;
       const totalCountIndex = 0;
+      const aggregatedDefaultIndex = 0;
       let entityResponse = {};
 
       if (pagination.skip !== null) {
@@ -137,22 +138,22 @@ class MongoDBDataSource extends DataSource {
         dataPipeline.push({ $limit: pagination.limit });
       }
 
-      entityResponse = await collection
+      const results = await collection
         .aggregate([
           {
             $facet: {
-              data: dataPipeline,
+              matchedItems: dataPipeline,
               matchCount: [...dataPipeline, { $count: 'total' }],
               totalCount: [{ $count: 'total' }],
             },
           },
           {
             $project: {
-              data: '$data',
-              matchCount: {
+              matchedItems: '$matchedItems',
+              filteredCount: {
                 $arrayElemAt: ['$matchCount.total', matchCountIndex],
               },
-              totalCount: {
+              totalItems: {
                 $arrayElemAt: ['$totalCount.total', totalCountIndex],
               },
             },
@@ -160,7 +161,10 @@ class MongoDBDataSource extends DataSource {
         ])
         .toArray();
 
-      return entityResponse || [];
+      entityResponse =
+        !results || !results.length ? null : results[aggregatedDefaultIndex];
+
+      return entityResponse;
     } catch (error) {
       this._console.error(error);
 
