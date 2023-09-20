@@ -81,7 +81,7 @@
         "maxFileSize": 5242880
       }
     }
-   },
+  },
   "MAIL": {
     "VALIDATION_PATH": "/validate-email",
     "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",
