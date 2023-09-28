@@ -1,7 +1,7 @@
 /**
  * Main start
  *
- * To read documentation go to https://github.com/thepisode/beat/wiki
+ * To read documentation go to https://github.com/link-loom/loom-svc-js/wiki
  */
 
 const { ServerManager } = require('./src/core/server.manager')

@@ -159,6 +159,13 @@ const router = {
       method: 'PATCH',
       protected: false,
     },
+    {
+      httpRoute: '/template/',
+      route: '/routes/api/_template/_template.route',
+      handler: 'delete',
+      method: 'DELETE',
+      protected: false,
+    },
   ],
 };
 

@@ -33,13 +33,42 @@ class TemplateRoute {
    *              - national-id
    *              - phone
    *              - email
-   *              - business
+   *              - organization-id
+   *              - all
    *       - in: query
    *         name: search
    *         description: Keyword to search for entities.
-   *         required: true
+   *         required: false
    *         schema:
    *           type: string
+   *       - in: query
+   *         name: include_status
+   *         description: Optional status parameter to include templates of a specific status.
+   *         required: false
+   *         schema:
+   *           type: string
+   *         example: "active,inactive"
+   *       - in: query
+   *         name: exclude_status
+   *         description: Optional status parameter to exclude templates of a specific status.
+   *         required: false
+   *         schema:
+   *           type: string
+   *         example: "deleted,blocked"
+   *       - in: query
+   *         name: skip
+   *         description: Number of records to skip for pagination.
+   *         required: false
+   *         schema:
+   *           type: integer
+   *         example: 10
+   *       - in: query
+   *         name: limit
+   *         description: Maximum number of records to return.
+   *         required: false
+   *         schema:
+   *           type: integer
+   *         example: 50
    *     responses:
    *       200:
    *         description: OK.
@@ -184,6 +213,64 @@ class TemplateRoute {
       const entityService = new this.EntityService(this._dependencies);
 
       return entityService.update(params);
+    } catch (error) {
+      this._console.error(error);
+      return this._utilities.io.response.error();
+    }
+  }
+
+  /**
+   * @swagger
+   * /example/template/:
+   *   delete:
+   *     summary: Delete a template by its id.
+   *     description: Deletes a template based on the provided ID.
+   *     tags:
+   *       - Template
+   *     requestBody:
+   *       description: ID of the template to delete
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: string
+   *             example:
+   *               id: ""
+   *     responses:
+   *       200:
+   *         description: OK.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Success:
+   *                 value:
+   *                   status: 200
+   *                   success: true
+   *                   message: Template successfully deleted
+   *                   result: null
+   *       500:
+   *         description: Something went wrong while performing this action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Response'
+   *             examples:
+   *               Error:
+   *                 value:
+   *                   status: 500
+   *                   success: false
+   *                   message: Something went wrong while performing this action
+   *                   result: null
+   */
+  async delete({ params }) {
+    try {
+      const entityService = new this.EntityService(this._dependencies);
+      return entityService.delete(params);
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
