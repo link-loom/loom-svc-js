@@ -194,6 +194,7 @@ NotificationManagementModel.email_templates = {
   simple: { id: 4, name: 'simple', title: 'Simple' },
   danger: { id: 5, name: 'danger', title: 'Danger' },
   administrative: { id: 6, name: 'administrative', title: 'Administrative' },
+  recoverPassword: { id: 7, name: 'recoverPassword', title: 'recoverPassword' },
 };
 
 module.exports = NotificationManagementModel;
