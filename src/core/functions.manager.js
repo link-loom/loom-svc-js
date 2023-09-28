@@ -111,7 +111,11 @@ class FunctionsManager {
           setTimeout(() => {
             /* Setup next ticks */
             setInterval(
-              this._functions.timed[functionName].run,
+              () => {
+                this._functions.timed[functionName].run.bind(
+                  this._functions.timed[functionName],
+                )();
+              },
               this._moment
                 .duration(
                   +`${functionDefinition.intervalTime}`,
