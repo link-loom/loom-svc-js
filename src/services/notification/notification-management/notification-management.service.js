@@ -165,16 +165,16 @@ class NotificationService {
       let emailPath = this._dependencies.root;
       let emailtemplate = '';
       const transporter = this._nodemailer.createTransport({
-        host: this._dependencies.config.MAIL.HOST,
-        port: this._dependencies.config.MAIL.PORT,
-        secure: this._dependencies.config.MAIL.SECURE,
+        host: this._dependencies.config.EMAIL.SETTINGS.HOST,
+        port: this._dependencies.config.EMAIL.SETTINGS.PORT,
+        secure: this._dependencies.config.EMAIL.SETTINGS.SECURE,
         auth: {
-          user: this._dependencies.config.MAIL.USER,
-          pass: this._dependencies.config.MAIL.PASSWORD,
+          user: this._dependencies.config.EMAIL.SETTINGS.USER,
+          pass: this._dependencies.config.EMAIL.SETTINGS.PASSWORD,
         },
       });
       const mailOptions = {
-        from: this._dependencies.config.MAIL.FROM,
+        from: '',
         to: data.to,
         subject: '',
         text: '',
@@ -186,10 +186,24 @@ class NotificationService {
         case this._models.NotificationManagement.email_templates.confirmEmail
           .name:
           emailPath += '/src/static/email/confirm-eng.html';
+          mailOptions.from =
+            this._dependencies.config.EMAIL.ACTIONS.VALIDATE_EMAIL.FROM;
           mailOptions.subject = `${data.email.subject || 'Welcome to %LOOM%'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
             'OPEN_ACCOUNT_LINK',
+            `${data.email.mainActionLink}`,
+          );
+          break;
+        case this._models.NotificationManagement.email_templates.recoverPassword
+          .name:
+          emailPath += '/src/static/email/recover-esp.html';
+          mailOptions.from =
+            this._dependencies.config.EMAIL.ACTIONS.RECOVER_PASSWORD.FROM;
+          mailOptions.subject = `${data.email.subject || 'Email recover'}`;
+          emailtemplate = await this.readFileAsync(emailPath);
+          emailtemplate = emailtemplate.replaceAll(
+            'RECOVER_PASSWORD_LINK',
             `${data.email.mainActionLink}`,
           );
           break;

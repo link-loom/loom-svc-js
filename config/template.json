@@ -1,7 +1,7 @@
 {
   "FRAMEWORK": {
     "NAME": "Loom",
-    "VERSION": "6.1.9"
+    "VERSION": "6.1.12"
   },
   "SERVER": {
     "PORT": "3601",
@@ -81,15 +81,25 @@
         "maxFileSize": 5242880
       }
     }
-  },
-  "MAIL": {
-    "VALIDATION_PATH": "/validate-email",
-    "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",
-    "USER": "xxxx__your_config@xxxx__your_config.com",
-    "PASSWORD": "xxxx__your_config",
-    "SECURE": true,
-    "HOST": "xxxx__your_config",
-    "PORT": 465
+   },
+   "EMAIL": {
+    "ACTIONS": {
+      "VALIDATE_EMAIL": {
+        "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",
+        "PATH": "/validate-email"
+      },
+      "RECOVER_PASSWORD": {
+        "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",
+        "PATH": "/auth/new-password"
+      }
+    },
+    "SETTINGS": {
+      "USER": "xxxx__your_config@xxxx__your_config.com",
+      "PASSWORD": "xxxx__your_config",
+      "SECURE": true,
+      "HOST": "xxxx__your_config",
+      "PORT": 465
+    }
   },
   "DIGITALOCEAN": {
     "SPACES": {
