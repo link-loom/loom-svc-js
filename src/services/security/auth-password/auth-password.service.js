@@ -198,6 +198,8 @@ class SecurityAuthPassword {
           { email: data.email },
         ),
       );
+
+      // Assing recover link and check if data.appId exists. If it does, append it to the recovery link; otherwise, leave the link unchanged.
       data.link_email_recover_password = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`;
       data.link_email_recover_password = data.appId
         ? data.link_email_recover_password + `&appId=${data.appId}`
@@ -215,7 +217,7 @@ class SecurityAuthPassword {
   async newPassword(data) {
     try {
       if (!data || !data.password) {
-        return this._utilities.io.response.error('Please provide an Email');
+        return this._utilities.io.response.error('Please provide a password');
       }
 
       if (
@@ -224,7 +226,7 @@ class SecurityAuthPassword {
         !data[this._utilities.encoder.base64.encode('recover-token')]
       ) {
         return this._utilities.response.error(
-          'Token no válido, copia todo el enlace del email',
+          'Invalid token, copy the entire link from the email',
         );
       }
 
@@ -274,13 +276,29 @@ class SecurityAuthPassword {
         queryselector: 'email',
         search: decipheredToken.email,
       });
+      const user = userResponse?.result?.[0];
+
+      if (!this._utilities.validator.response(userResponse) || !user) {
+        return this._utilities.io.response.error('User not found', {
+          status: 404,
+        });
+      }
+
       const userSecurityResponse = await userSecurityService.get({
         queryselector: 'user-id',
-        search: userResponse.result[0].id,
+        search: user?.id,
       });
 
+      const userSecurity = userSecurityResponse?.result?.[0];
+
+      if (!this._utilities.validator.response(userResponse) || !userSecurity) {
+        return this._utilities.io.response.error('User security not found', {
+          status: 404,
+        });
+      }
+
       return await userSecurityService.update({
-        id: userSecurityResponse.result[0].id,
+        id: userSecurity?.id,
         password: data.password || '',
       });
     } catch (error) {
