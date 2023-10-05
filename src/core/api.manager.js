@@ -89,7 +89,7 @@ class ApiManager {
 
     const serviceResponse = await route[endpoint.handler]({ params, req, res });
 
-    res.status(serviceResponse.status).json(serviceResponse);
+    res.status(serviceResponse?.status || 200).json(serviceResponse);
   }
 
   #buildApiEndpoints() {
