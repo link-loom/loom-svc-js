@@ -25,7 +25,6 @@ const router = {
       protected: false,
       supportFile: true,
     },
-
     {
       httpRoute: '/upload/bulk',
       route: '/routes/api/upload/upload.route',

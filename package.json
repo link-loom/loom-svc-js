@@ -60,6 +60,6 @@
   "scripts": {
     "start": "node app.js",
     "lint": "eslint src/**/*.{js,jsx}",
-    "format": "prettier --write src/**/*.{js,jsx}"
+    "format": "prettier --write **/*.{js,jsx}"
   }
 }
