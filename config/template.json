@@ -1,7 +1,7 @@
 {
   "FRAMEWORK": {
     "NAME": "Loom",
-    "VERSION": "6.1.13"
+    "VERSION": "6.1.14"
   },
   "SERVER": {
     "PORT": "3601",
@@ -66,23 +66,22 @@
       }
     }
   },
-  "STORAGESOURCE_CONFIG":{
-    "FIRESTORE":{
-      "CONNECTION_OBJ":{
+  "STORAGESOURCE_CONFIG": {
+    "SETTINGS": {
+      "MAX_FILE_SIZE": 5242880
+    },
+    "FIRESTORE": {
+      "CONNECTION_OBJ": {
         "apiKey": "xxxx__your_config",
         "authDomain": "xxxx__your_config",
         "projectId": "xxxx__your_config",
         "storageBucket": "xxxx__your_config",
         "messagingSenderId": "xxxx__your_config",
         "appId": "xxxx__your_config"
-      },
-      "SETTINGS": {
-        "timestampsInSnapshots": true,
-        "maxFileSize": 5242880
       }
     }
-   },
-   "EMAIL": {
+  },
+  "EMAIL": {
     "ACTIONS": {
       "VALIDATE_EMAIL": {
         "FROM": "\"xxxx__your_config\" support@xxxx__your_config.com",

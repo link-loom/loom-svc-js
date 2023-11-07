@@ -28,12 +28,12 @@ class NotificationService {
       }
 
       if (!data.channels) {
-        data.channels = this._models.NotificationManagement.channels.stored;
+        data.channels = this._models.NotificationManagementModel.channels.stored;
       }
 
       if (
         data.channels.includes(
-          this._models.NotificationManagement.channels.stored.name,
+          this._models.NotificationManagementModel.channels.stored.name,
         )
       ) {
         await this.#channelStored(data);
@@ -41,7 +41,7 @@ class NotificationService {
 
       if (
         data.channels.includes(
-          this._models.NotificationManagement.channels.push.name,
+          this._models.NotificationManagementModel.channels.push.name,
         )
       ) {
         await this.#channelEventBus(data);
@@ -49,7 +49,7 @@ class NotificationService {
 
       if (
         data.channels.includes(
-          this._models.NotificationManagement.channels.email.name,
+          this._models.NotificationManagementModel.channels.email.name,
         )
       ) {
         await this.#channelEmail(data);
@@ -130,7 +130,7 @@ class NotificationService {
 
       this.#formatCreateEntity(data);
 
-      const entity = new this._models.NotificationManagement(
+      const entity = new this._models.NotificationManagementModel(
         data,
         this._dependencies,
       );
@@ -183,7 +183,7 @@ class NotificationService {
 
       // Select what email type is needed
       switch (data.email.template.name) {
-        case this._models.NotificationManagement.email_templates.confirmEmail
+        case this._models.NotificationManagementModel.email_templates.confirmEmail
           .name:
           emailPath += '/src/static/email/confirm-eng.html';
           mailOptions.from =
@@ -195,7 +195,7 @@ class NotificationService {
             `${data.email.mainActionLink}`,
           );
           break;
-        case this._models.NotificationManagement.email_templates.recoverPassword
+        case this._models.NotificationManagementModel.email_templates.recoverPassword
           .name:
           emailPath += '/src/static/email/recover-esp.html';
           mailOptions.from =
@@ -207,15 +207,15 @@ class NotificationService {
             `${data.email.mainActionLink}`,
           );
           break;
-        case this._models.NotificationManagement.email_templates.newsFeed.name:
+        case this._models.NotificationManagementModel.email_templates.newsFeed.name:
           break;
-        case this._models.NotificationManagement.email_templates.warning.name:
+        case this._models.NotificationManagementModel.email_templates.warning.name:
           break;
-        case this._models.NotificationManagement.email_templates.simple.name:
+        case this._models.NotificationManagementModel.email_templates.simple.name:
           break;
-        case this._models.NotificationManagement.email_templates.danger.name:
+        case this._models.NotificationManagementModel.email_templates.danger.name:
           break;
-        case this._models.NotificationManagement.email_templates.administrative
+        case this._models.NotificationManagementModel.email_templates.administrative
           .name:
           break;
         default:
@@ -347,19 +347,19 @@ class NotificationService {
   }
 
   get status() {
-    return this._models.NotificationManagement.statuses;
+    return this._models.NotificationManagementModel.statuses;
   }
 
   get roleType() {
-    return this._models.NotificationManagement.role_types;
+    return this._models.NotificationManagementModel.role_types;
   }
 
   get channels() {
-    return this._models.NotificationManagement.channels;
+    return this._models.NotificationManagementModel.channels;
   }
 
   get emailTemplate() {
-    return this._models.NotificationManagement.email_templates;
+    return this._models.NotificationManagementModel.email_templates;
   }
 }
 

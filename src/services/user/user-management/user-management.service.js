@@ -39,7 +39,7 @@ class UserService {
 
       this.#formatCreateEntity(data);
 
-      const entity = new this._models.UserManagement(data, this._dependencies);
+      const entity = new this._models.UserManagementModel(data, this._dependencies);
       const transactionResponse = await this._db.transaction.create({
         tableName: this._tableName,
         entity: entity.get,
@@ -314,11 +314,11 @@ class UserService {
   }
 
   get status() {
-    return this._models.UserManagement.statuses;
+    return this._models.UserManagementModel.statuses;
   }
 
   get role() {
-    return this._models.UserManagement.roles;
+    return this._models.UserManagementModel.roles;
   }
 }
 

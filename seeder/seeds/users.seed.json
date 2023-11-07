@@ -1,0 +1,20 @@
+{
+  "route": {
+    "method": "POST",
+    "path": "/identity/user"
+  },
+  "seedData": [
+    {
+      "firstname": "Alice",
+      "email": "alice@example.com",
+      "phone": "3103494807",
+      "password": "Alice123"
+    },
+    {
+      "firstname": "Bob",
+      "email": "bob@example.com",
+      "phone": "3103494808",
+      "password": "Bob123"
+    }
+  ]
+}

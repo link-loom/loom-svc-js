@@ -78,7 +78,7 @@ class ApiManager {
     this._storage = this._multer({
       limits: {
         fileSize:
-          this._config.STORAGESOURCE_CONFIG.FIRESTORE.SETTINGS.maxFileSize,
+          this._config?.STORAGESOURCE_CONFIG?.SETTINGS?.MAX_FILE_SIZE, // 5MB by default
       },
       storage: this._multer.memoryStorage(),
     });
