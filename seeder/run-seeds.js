@@ -42,21 +42,23 @@ async function runSeed(seedFile) {
       delete dataToPost.identifier;
       delete dataToPost.dependsOn;
 
-      // Resolve dependencies if they exist.
-      if (item.dependsOn) {
-        const { 
-          dependencyIdentifier,
-          dependencyProperty,
-          useOn 
-        } = item.dependsOn;
-        
-        // Throw an error if the required dependency is not found in createdRecords.
-        if (!createdRecords[dependencyIdentifier]) {
-          throw new Error(`Dependency ${dependencyIdentifier} not found for ${item.identifier}`);
-        }
+      // Resolve dependencies if they exist, now assuming 'dependsOn' is an array of objects.
+      if (Array.isArray(item.dependsOn)) {
+        for (const dependency of item.dependsOn) {
+          const { 
+            dependencyIdentifier,
+            dependencyProperty,
+            useOn 
+          } = dependency;
 
-        // Assign the dependency's property value to the specified field in the data to be posted.
-        dataToPost[useOn] = createdRecords[dependencyIdentifier][dependencyProperty];
+          // Throw an error if the required dependency is not found in createdRecords.
+          if (!createdRecords[dependencyIdentifier]) {
+            throw new Error(`Dependency ${dependencyIdentifier} not found for ${item.identifier}`);
+          }
+
+          // Assign the dependency's property value to the specified field in the data to be posted.
+          dataToPost[useOn] = createdRecords[dependencyIdentifier][dependencyProperty];
+        }
       }
 
       // Send the request to create the record via the API.

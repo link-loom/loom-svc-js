@@ -9,11 +9,13 @@
       "fingerprint": "device-001-fp",
       "operating_system_name": "Ubuntu",
       "operating_system_version": "20.04",
-      "dependsOn": {
-        "dependencyIdentifier":"userAlice",
-        "dependencyProperty": "id",
-        "useOn": "user_id"
-      }
+      "dependsOn": [
+        {
+          "dependencyIdentifier": "userAlice",
+          "dependencyProperty": "id",
+          "useOn": "user_id"
+        }
+      ]
     },
     {
       "identifier": "device2",
@@ -21,7 +23,7 @@
       "operating_system_name": "Windows",
       "operating_system_version": "10",
       "dependsOn": {
-        "dependencyIdentifier":"userBob",
+        "dependencyIdentifier": "userBob",
         "dependencyProperty": "id",
         "useOn": "user_id"
       }
