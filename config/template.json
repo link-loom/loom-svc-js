@@ -1,7 +1,7 @@
 {
   "FRAMEWORK": {
     "NAME": "Loom",
-    "VERSION": "6.1.14"
+    "VERSION": "6.1.15"
   },
   "SERVER": {
     "PORT": "3601",

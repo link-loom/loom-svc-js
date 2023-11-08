@@ -38,7 +38,7 @@ class DeviceService {
 
       this.#formatCreateEntity(data);
 
-      const entity = new this._models.DeviceManagement(
+      const entity = new this._models.DeviceManagementModel(
         data,
         this._dependencies,
       );
@@ -212,7 +212,7 @@ class DeviceService {
   }
 
   get status() {
-    return this._models.DeviceManagement.statuses;
+    return this._models.DeviceManagementModel.statuses;
   }
 }
 

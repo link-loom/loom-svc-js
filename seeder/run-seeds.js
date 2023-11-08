@@ -3,74 +3,108 @@ const config = require('config');
 const fs = require('fs');
 const path = require('path');
 
-// Base URL of the API constructed from the server's configuration.
+// Base URL constructed from the server port setting in the configuration.
 const apiBaseUrl = `http://localhost:${config.get('SERVER.PORT')}`;
 
+// Object to hold the mappings of identifier to created record for reference.
+const createdRecords = {};
+
 /**
- * Send a request to the specified URL using axios.
- * @param {string} method - The HTTP method to use (e.g., 'POST').
- * @param {string} url - The full URL to which the request is sent.
- * @param {Object} data - The data to be sent as the request's payload.
- * @returns {Promise<Object>} - An object containing the response data.
+ * Sends an HTTP request using axios with the given method, url, and data.
+ * @param {string} method - The HTTP method (e.g., 'POST', 'GET').
+ * @param {string} url - The URL to which the request is sent.
+ * @param {Object} data - The data to be sent as the request body.
+ * @returns {Promise<Object>} - The data from the response if successful, or an error object.
  */
-async function sendRequest (method, url, data) {
+async function sendRequest(method, url, data) {
   try {
     const response = await axios({ method, url, data });
-    response.data.result = response.data.result.id
-    return response.data
+    return response.data;
   } catch (error) {
-    // Parsing error response for consistent error handling.
     return { error: error.response ? error.response.data : error.message };
   }
 }
 
 /**
- * Read the seed file, parse its contents and run seeding operations.
- * @param {string} seedFile - Path to the seed JSON file.
+ * Processes a seed file to create records using the API.
+ * @param {string} seedFile - The path to the seed file to be processed.
  * @returns {Promise<Array>} - An array of results from the seeding operations.
  */
-async function runSeed (seedFile) {
+async function runSeed(seedFile) {
   try {
-    // Synchronously read and parse the seed file content.
     const seedContent = JSON.parse(fs.readFileSync(seedFile));
     const { route, seedData } = seedContent;
     const results = [];
 
-    // Iterate over the seedData array and send HTTP requests for each item.
     for (const item of seedData) {
-      const result = await sendRequest(route.method, `${apiBaseUrl}${route.path}`, item);
+      // Clone item data and remove control properties like 'identifier' and 'dependsOn'.
+      const dataToPost = { ...item };
+      delete dataToPost.identifier;
+      delete dataToPost.dependsOn;
 
-      results.push(result);
+      // Resolve dependencies if they exist.
+      if (item.dependsOn) {
+        const { 
+          dependencyIdentifier,
+          dependencyProperty,
+          useOn 
+        } = item.dependsOn;
+        
+        // Throw an error if the required dependency is not found in createdRecords.
+        if (!createdRecords[dependencyIdentifier]) {
+          throw new Error(`Dependency ${dependencyIdentifier} not found for ${item.identifier}`);
+        }
+
+        // Assign the dependency's property value to the specified field in the data to be posted.
+        dataToPost[useOn] = createdRecords[dependencyIdentifier][dependencyProperty];
+      }
+
+      // Send the request to create the record via the API.
+      const response = await sendRequest(route.method, `${apiBaseUrl}${route.path}`, dataToPost);
+
+      // If the response indicates success, store the created record's data and id.
+      if (response.success) {
+        const responseData = response.result;
+
+        if (item.identifier && responseData && !responseData.error) {
+          createdRecords[item.identifier] = responseData;
+        }
+
+        results.push(responseData.id);
+      }
     }
 
     return results;
   } catch (error) {
-    // Parsing error response for consistent error handling.
     const errorMessage = error.response ? error.response.data.message : error.message;
     return { error: errorMessage, success: false };
   }
 }
 
 /**
- * The main runner function that initializes the seeding process.
- * It reads all seed files and executes them in sequence.
+ * The main function that reads the seed configuration and sequentially processes each seed file.
  */
-async function main () {
-  // Directory path where seed files are located.
+async function main() {
+  // Define directories for seed files and configuration.
   const seedsDir = path.join(__dirname, 'seeds');
-  // Read all files in seeds directory that end with '.json'.
-  const seedFiles = fs.readdirSync(seedsDir).filter(file => file.endsWith('.json'));
+  const seedConfigDir = path.join(__dirname, 'config');
+  
+  // Read the seed order configuration.
+  const seedsOrderFile = path.join(seedConfigDir, 'seeds-config.json');
+  const seedsOrder = JSON.parse(fs.readFileSync(seedsOrderFile));
 
-  // Process each seed file found in the seeds directory.
-  for (const file of seedFiles) {
-    const seedPath = path.join(seedsDir, file);
+  // Iterate over each seed file in the order specified by the configuration.
+  for (const fileName of seedsOrder) {
+    const seedPath = path.join(seedsDir, fileName);
+    console.log(`Seeding: ${fileName}`);
+    
+    // Process each seed file and log the results.
     const results = await runSeed(seedPath);
 
-    // Log the results for each seed file in a tabular format.
-    console.log(`Results for ${file}:`);
+    console.log(`Results for ${fileName}:`);
     console.table(results);
   }
 }
 
-// Invoke the main function to start the seeding process.
-main();
+// Run the main function and catch any unhandled errors.
+main().catch(console.error);
