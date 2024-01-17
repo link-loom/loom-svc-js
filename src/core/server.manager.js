@@ -26,7 +26,7 @@ class ServerManager {
     try {
       console.log(` ${this._namespace}: Loading`);
 
-      this.#setupDependencies();
+      await this.#setupDependencies();
 
       this.#setupConsole();
 
@@ -73,10 +73,14 @@ class ServerManager {
     }
   }
 
-  #setupDependencies() {
+  async #setupDependencies() {
     const { DependenciesManager } = require('./dependencies.manager');
     this._dependenciesManager = new DependenciesManager(this._args);
-    this._dependenciesManager.setup();
+    const isSetupSuccessful = await this._dependenciesManager.setup();
+
+    if (!isSetupSuccessful) {
+      process.exit();
+    }
 
     this._dependenciesManager.core.add(
       this._dependenciesManager,

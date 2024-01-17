@@ -10,13 +10,15 @@ class DependenciesManager {
     this._namespace = '[Server]::[Dependencies]::[Manager]';
   }
 
-  setup() {
-    this.loadDependencies();
+  async setup() {
+    const isLoadedDependecies = await this.loadDependencies();
+    return isLoadedDependecies;
   }
 
-  loadDependencies() {
+  async loadDependencies() {
     console.log(` ${this._namespace}: Loading`);
 
+    const request = require('axios');
     const root = this._args.root;
     const http = require('http');
     const events = require('events');
@@ -26,6 +28,8 @@ class DependenciesManager {
     const socketModule = require('socket.io');
     const websocketClientModule = require('socket.io-client');
     const multerModule = require('multer');
+    const dotenv = require('dotenv').config();
+    const config = require('config');
 
     this._dependencies = {
       root,
@@ -37,15 +41,16 @@ class DependenciesManager {
       socketModule,
       websocketClientModule,
       expressModule,
+      request,
+      dotenv,
       aesjs: require('aes-js'),
       cors: require('cors'),
       path: require('path'),
       moment: require('moment'),
       crypto: require('crypto'),
-      config: require('config'),
+      config: {},
       helmet: require('helmet'),
       bcrypt: require('bcryptjs'),
-      request: require('axios'),
       jwt: require('jsonwebtoken'),
       colors: require('colors/safe'),
       compress: require('compression'),
@@ -57,9 +62,94 @@ class DependenciesManager {
       swaggerUi: require('swagger-ui-express'),
     };
 
+    const isConfigLoaded = await this.#loadConfig(config);
+
+    if (!isConfigLoaded) {
+      console.error(
+        ` ${this._dependencies.colors.green(
+          this._namespace,
+        )}: Error occurred while loading configuration`,
+      );
+      return false;
+    }
+
     this.#importCustomDependencies();
 
     console.log(` ${this._dependencies.colors.green(this._namespace)}: Loaded`);
+    return true;
+  }
+
+  async #loadConfig(config) {
+    try {
+      const hasVeripassConfiguration = this.#validateVeripassConfig();
+
+      if (hasVeripassConfiguration) {
+        return this.#loadConfigFromVeripass();
+      }
+
+      return this.#loadConfigFile(config);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  #validateVeripassConfig() {
+    if (!process.env.VERIPASS_SERVICE_URL || !process.env.VERIPASS_API_KEY) {
+      return false;
+    }
+
+    return true;
+  }
+
+  #objectIsEmpty(obj) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async #loadConfigFromVeripass() {
+    try {
+      const veripassServiceUrl = process.env.VERIPASS_SERVICE_URL;
+      const veripassApiKey = process.env.VERIPASS_API_KEY;
+
+      const veripassResponse = await this._dependencies.request.get(
+        veripassServiceUrl,
+        {
+          headers: {
+            Authorization: `Bearer ${veripassApiKey}`,
+          },
+        },
+      );
+
+      const veripassConfig =
+        veripassResponse.data?.result?.matchedItems?.[0]?.variables;
+
+      this._dependencies.config = veripassConfig;
+      return true;
+    } catch (error) {
+      console.error(
+        ` ${this._dependencies.colors.green(
+          this._namespace,
+        )}: Error loading Veripass configuration`,
+      );
+      return false;
+    }
+  }
+
+  #loadConfigFile(config) {
+    try {
+      if (this.#objectIsEmpty(config)) {
+        return false;
+      }
+
+      this._dependencies.config = config;
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   #importCustomDependencies() {
