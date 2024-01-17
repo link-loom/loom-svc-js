@@ -1,5 +1,6 @@
 const EventUtil = require('./utils/event.util');
 const GeneratorUtil = require('./utils/generator.util');
+const CryptoUtil = require('./utils/crypto.util');
 const IOUtil = require('./utils/io.util');
 const LangUtil = require('./utils/lang.utils');
 const SanitizerUtil = require('./utils/sanitizer.util');
@@ -26,6 +27,7 @@ class UtilitiesManager {
     this._sanitizerUtil = new SanitizerUtil(this._dependencies);
     this._searchUtil = new SearchUtil(this._dependencies);
     this._encoderUtil = new EncoderUtil(this._dependencies);
+    this._cryptoUtil = new CryptoUtil(this._dependencies);
   }
 
   setup() {
@@ -38,6 +40,10 @@ class UtilitiesManager {
 
   get generator() {
     return this._generatorUtil.generator;
+  }
+
+  get crypto() {
+    return this._cryptoUtil.crypto;
   }
 
   get validator() {
