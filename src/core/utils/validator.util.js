@@ -51,6 +51,23 @@ class ValidatorUtil {
     });
   }
 
+  /**
+   * Verifies if the provided signed data is valid by comparing it with an expected HMAC signature.
+   *
+   * @param {string} signedData - The signed data to verify. It should be in the format 'data_signature'.
+   * @param {string} secret - The secret key used to generate the HMAC signature.
+   * @returns {boolean} Returns true if the HMAC signature is valid, false otherwise.
+   */
+  #validateSignedData(signedData, secret) {
+    const [data, providedSignature] = signedData.split('_');
+    const expectedSignature = this._utilities.crypto.hmac.generateSignature(
+      data,
+      secret,
+    );
+
+    return providedSignature === expectedSignature;
+  }
+
   async #validateApi(req, res, next) {
     try {
       // check header or url parameters or post parameters for token
@@ -117,6 +134,9 @@ class ValidatorUtil {
       },
       api: {
         endpoint: this.#validateApi.bind(this),
+      },
+      signedData: {
+        isValid: this.#validateSignedData.bind(this),
       },
       response: this.#responseIsValid.bind(this),
     };
