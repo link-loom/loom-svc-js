@@ -77,8 +77,7 @@ class ApiManager {
   #handleStorageConfig() {
     this._storage = this._multer({
       limits: {
-        fileSize:
-          this._config?.STORAGESOURCE_CONFIG?.SETTINGS?.MAX_FILE_SIZE, // 5MB by default
+        fileSize: this._config?.STORAGESOURCE_CONFIG?.SETTINGS?.MAX_FILE_SIZE, // 5MB by default
       },
       storage: this._multer.memoryStorage(),
     });
@@ -86,8 +85,14 @@ class ApiManager {
 
   async #handleRoute({ route, domain, endpoint, req, res }) {
     const params = this._utilities.io.request.getParameters(req);
+    const headers = req.headers;
 
-    const serviceResponse = await route[endpoint.handler]({ params, req, res });
+    const serviceResponse = await route[endpoint.handler]({
+      params,
+      req,
+      res,
+      headers,
+    });
 
     res.status(serviceResponse?.status || 200).json(serviceResponse);
   }
