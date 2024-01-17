@@ -61,6 +61,6 @@
     "start": "node app.js",
     "lint": "eslint src/**/*.{js,jsx}",
     "format": "prettier --write **/*.{js,jsx}",
-    "seed": "node seeder/run-seeds.js"
+    "seed": "node src/seeder/run-seeds.js"
   }
 }
