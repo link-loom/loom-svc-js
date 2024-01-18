@@ -2,7 +2,7 @@
   "name": "@linkloom/loom-svc-js",
   "title": "Loom service",
   "description": "Another Node.js Server framework to create microservices or huge monoliths.",
-  "version": "6.1.14",
+  "version": "7.1.0",
   "homepage": "https://github.com/link-loom",
   "author": "Camilo Alexander Rodriguez Cuaran <camiepisode@outlook.com>",
   "repository": {
@@ -24,6 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@link-loom/sdk": "^7.0.3",
     "aes-js": "^3.1.2",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
@@ -54,8 +55,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3"
   },
-  "engine": {
-    "node": "10.x"
+  "engines": {
+    "node": "18.x"
   },
   "scripts": {
     "start": "node app.js",

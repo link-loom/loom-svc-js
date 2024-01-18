@@ -4,7 +4,7 @@
  * To read documentation go to https://github.com/link-loom/loom-svc-js/wiki
  */
 
-const { ServerManager } = require('./src/core/server.manager');
+const { ServerManager } = require('@link-loom/sdk');
 const server = new ServerManager({ root: __dirname });
 
 const main = async () => {
