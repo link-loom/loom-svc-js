@@ -1,7 +1,7 @@
 {
   "FRAMEWORK": {
     "NAME": "Loom",
-    "VERSION": "6.1.15"
+    "VERSION": "7.1.14"
   },
   "SERVER": {
     "PORT": "3601",
@@ -15,7 +15,7 @@
       "URI": "http://localhost:3500"
     },
     "API_MANAGER": {
-      "SECRET": "zih9cVFnC0J0otOAFXrj",
+      "SECRET": "xxxx__your_secret",
       "URI": "http://localhost:3500"
     },
     "BROKER": {
