@@ -4,10 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "Launch Program Mac",
+          "program": "${workspaceRoot}/app.js",
+          "cwd": "${workspaceRoot}"
+      },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch Program Windows",
             "program": "${workspaceRoot}\\app.js",
             "cwd": "${workspaceRoot}"
         },

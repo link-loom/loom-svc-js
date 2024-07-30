@@ -105,49 +105,49 @@ class UserManagementModel extends BaseModel {
   initializeEntityProperties(args) {
     this.national_id = new Property({
       value: args.national_id,
-      type: this._types.string,
+      type: this.types.string,
     });
-    this.email = new Property({ value: args.email, type: this._types.string });
-    this.phone = new Property({ value: args.phone, type: this._types.string });
+    this.email = new Property({ value: args.email, type: this.types.string });
+    this.phone = new Property({ value: args.phone, type: this.types.string });
     this.password = new Property({
       value: args.password,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.firstname = new Property({
       value: args.firstname,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.lastname = new Property({
       value: args.lastname,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.role = new Property({
       value: args.role || UserManagementModel.roles.business,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.last_login = new Property({
       value: args.last_login,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.veripass_id = new Property({
       value: args.veripass_id,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.link_email_activation = new Property({
       value: args.link_email_activation,
-      type: this._types.string,
+      type: this.types.string,
     });
     this.accept_terms = new Property({
       value: args.accept_terms,
-      type: this._types.boolean,
+      type: this.types.boolean,
     });
     this.is_account_actived = new Property({
       value: args.is_account_actived,
-      type: this._types.boolean,
+      type: this.types.boolean,
     });
     this.business_id = new Property({
       value: args.business_id,
-      type: this._types.string,
+      type: this.types.string,
     });
   }
 

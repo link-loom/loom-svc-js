@@ -82,7 +82,7 @@ class NotificationManagementModel extends BaseModel {
   }
 
   initializeEntityProperties(args) {
-    this.date = new Property({ value: timestamp, type: this.types.timestamp });
+    this.date = new Property({ value: this.timestamp, type: this.types.timestamp });
     this.sender_user_id = new Property({ value: args.sender_user_id, type: this.types.string });
     this.message = new Property({ value: args.message, type: this.types.string });
     this.receiver_user_id = new Property({
