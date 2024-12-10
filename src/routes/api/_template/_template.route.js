@@ -11,7 +11,7 @@ class TemplateRoute {
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
-    this.EntityService = this._services.Template;
+    this.EntityService = this._services.TemplateService;
   }
 
   /**
