@@ -1,7 +1,7 @@
 const DataSource = require('./../base/data-source');
 
 class MongoDBDataSource extends DataSource {
-  constructor(dependencies) {
+  constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
     }
@@ -15,30 +15,26 @@ class MongoDBDataSource extends DataSource {
     this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig =
-      this._dependencies.config.DATASOURCE_CONFIGS.MONGODB;
+    this._dataSourceConfig = this._dependencies.config.DATASOURCE_CONFIGS.MONGODB;
     this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {};
     this._databaseSettings = this._dataSourceConfig.SETTINGS || {};
   }
 
-  async setup() {
+  async setup () {
     try {
       // Setup the driver/client
       const settings = this._databaseSettings;
       settings.serverApi = this._db.driver.ServerApiVersion.v1;
 
       // Create a client and create a new connection
-      this.mongoClient = new this._db.driver.MongoClient(
-        this._databaseConnectionObj,
-        settings,
-      );
+      this.mongoClient = new this._db.driver.MongoClient(this._databaseConnectionObj, settings);
       this._db.client = await this.mongoClient.connect();
     } catch (error) {
       this._console.error(error);
     }
   }
 
-  async create({ tableName, entity } = {}) {
+  async create ({ tableName, entity, databaseName = '' } = {}) {
     try {
       const superResponse = await super.create({ tableName, entity });
 
@@ -46,9 +42,7 @@ class MongoDBDataSource extends DataSource {
         return superResponse;
       }
 
-      const collection = this._db.client
-        .db(this._databaseSettings.dbName)
-        .collection(tableName);
+      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
       const documentResponse = collection.insertOne(entity);
 
       if (!documentResponse) {
@@ -63,7 +57,7 @@ class MongoDBDataSource extends DataSource {
     }
   }
 
-  async update({ tableName, entity } = {}) {
+  async update ({ tableName, entity, databaseName = '' } = {}) {
     try {
       const superResponse = await super.update({ tableName, entity });
 
@@ -72,10 +66,9 @@ class MongoDBDataSource extends DataSource {
       }
 
       const query = { id: entity.id };
-      const contract = { $set: entity };
-      const collection = this._db.client
-        .db(this._databaseSettings.dbName)
-        .collection(tableName);
+      const { _id, ...updateFields } = entity;
+      const contract = { $set: updateFields };
+      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
 
       const documentResponse = await collection.updateOne(query, contract);
 
@@ -111,7 +104,7 @@ class MongoDBDataSource extends DataSource {
    * @returns {Array<object>} The array of found entities or an empty array if none found.
    *                          The returned object includes 'data', 'matchCount', and 'totalCount' fields.
    */
-  async getByFilters({ tableName, filters }) {
+  async getByFilters ({ tableName, filters, page = 1, pageSize = 25, relationships = [], databaseName = '' }) {
     try {
       const superResponse = await super.getByFilters({ tableName, filters });
 
@@ -120,54 +113,64 @@ class MongoDBDataSource extends DataSource {
       }
 
       const transformedFilters = this.#transformFilters(filters);
-      const pagination = this.#extractPagination(filters);
-      const collection = this._db.client
-        .db(this._databaseSettings.dbName)
-        .collection(tableName);
-      const dataPipeline = [{ $match: transformedFilters }];
-      const matchCountIndex = 0;
-      const totalCountIndex = 0;
-      const aggregatedDefaultIndex = 0;
-      let entityResponse = {};
+      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
 
-      if (pagination.skip !== null) {
-        dataPipeline.push({ $skip: pagination.skip });
-      }
+      const skip = (page - 1) * pageSize;
 
-      if (pagination.limit !== null) {
-        dataPipeline.push({ $limit: pagination.limit });
-      }
+      const pipeline = [{ $match: transformedFilters }];
 
-      const results = await collection
-        .aggregate([
-          {
-            $facet: {
-              matchedItems: dataPipeline,
-              matchCount: [...dataPipeline, { $count: 'total' }],
-              totalCount: [{ $count: 'total' }],
+      relationships.forEach((relation) => {
+        pipeline.push({
+          $lookup: {
+            from: relation.fromCollection,
+            localField: relation.localKey,
+            foreignField: relation.foreignKey,
+            as: relation.as,
+          },
+        });
+
+        if (relation.unwind) {
+          pipeline.push({ $unwind: `$${relation.as}` });
+        }
+      });
+
+      pipeline.push(
+        {
+          $facet: {
+            items: [{ $skip: skip }, { $limit: pageSize }],
+            totalItems: [{ $count: 'total' }],
+          },
+        },
+        {
+          $project: {
+            items: 1,
+            totalItems: {
+              $cond: {
+                if: { $gt: [{ $size: '$totalItems' }, 0] },
+                then: { $arrayElemAt: ['$totalItems.total', 0] },
+                else: 0,
+              },
+            },
+            totalPages: {
+              $cond: {
+                if: { $gt: [{ $size: '$totalItems' }, 0] },
+                then: { $ceil: { $divide: [{ $arrayElemAt: ['$totalItems.total', 0] }, pageSize] } },
+                else: 1,
+              },
             },
           },
-          {
-            $project: {
-              matchedItems: '$matchedItems',
-              filteredCount: {
-                $arrayElemAt: ['$matchCount.total', matchCountIndex],
-              },
-              totalItems: {
-                $arrayElemAt: ['$totalCount.total', totalCountIndex],
-              },
-            },
-          },
-        ])
-        .toArray();
+        }
+      );
 
-      entityResponse =
-        !results || !results.length ? null : results[aggregatedDefaultIndex];
+      const results = await collection.aggregate(pipeline).toArray();
+      const entityResponse = results && results.length > 0 ? results[0] : { items: [], totalItems: 0, totalPages: 1 };
+
+      entityResponse.currentPage = page;
+      entityResponse.pageSize = pageSize;
 
       return entityResponse;
     } catch (error) {
       this._console.error(error);
-
       return [];
     }
   }
@@ -178,7 +181,7 @@ class MongoDBDataSource extends DataSource {
    * @param {object} filter - The filter object to transform.
    * @returns {object} The MongoDB filter object.
    */
-  #transformSingleFilter(filter) {
+  #transformSingleFilter (filter) {
     if (!filter.key) return {};
 
     const valueToArray = (value) => {
@@ -200,6 +203,14 @@ class MongoDBDataSource extends DataSource {
         return { [filter.key]: { $in: valueToArray(filter.value) } };
       case 'not-in':
         return { [filter.key]: { $nin: valueToArray(filter.value) } };
+      case '>=':
+        return { [filter.key]: { $gte: filter.value } };
+      case '<=':
+        return { [filter.key]: { $lte: filter.value } };
+      case '>':
+        return { [filter.key]: { $gt: filter.value } };
+      case '<':
+        return { [filter.key]: { $lt: filter.value } };
       default:
         return { [filter.key]: filter.value };
     }
@@ -212,7 +223,7 @@ class MongoDBDataSource extends DataSource {
    * @returns {object} The MongoDB filter query.
    * @throws Will throw an error if a single filter transformation fails.
    */
-  #transformFilters(filters) {
+  #transformFilters (filters) {
     try {
       const transformedFilters = { $and: [] };
 
@@ -232,29 +243,67 @@ class MongoDBDataSource extends DataSource {
   }
 
   /**
-   * Extract pagination data from the given filter array.
+   * Perform a text search in the specified MongoDB collection with pagination.
    *
-   * @param {Array<object>} filters - An array of filter objects.
-   * @returns {object} An object containing the 'skip' and 'limit' pagination values.
+   * This method queries the specified MongoDB collection using a text search
+   * on the 'query' field. If pagination is provided, it applies the pagination settings.
+   *
+   * @param {object} params - The parameters for the text search.
+   * @param {string} params.tableName - The name of the MongoDB collection.
+   * @param {string} params.query - The text to search for.
+   * @param {number} params.page - The page number for pagination (optional).
+   * @param {number} params.pageSize - The number of items per page for pagination (optional).
+   *
+   * @returns {object} The array of found entities or an empty array if none found.
+   *                   The returned object includes 'items', 'totalItems', 'totalPages', and 'currentPage' fields.
    */
-  #extractPagination(filters) {
-    const pagination = {
-      skip: null,
-      limit: null,
-    };
+  async getBySearchQuery ({ tableName, query, page = 1, pageSize = 25, databaseName = '' }) {
+    try {
+      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
 
-    for (const filter of filters) {
-      const { key, value } = filter;
-      let convertedValue = Number(value);
+      const skip = (page - 1) * pageSize;
 
-      if (typeof value === 'number' && value >= 0 && !isNaN(convertedValue)) {
-        if (['skip', 'limit'].includes(key)) {
-          pagination[key] = value;
-        }
-      }
+      // Perform the search query with pagination
+      const pipeline = [
+        { $match: query },
+        {
+          $facet: {
+            items: [{ $skip: skip }, { $limit: pageSize }],
+            totalItems: [{ $count: 'total' }],
+          },
+        },
+        {
+          $project: {
+            items: 1,
+            totalItems: {
+              $cond: {
+                if: { $gt: [{ $size: '$totalItems' }, 0] },
+                then: { $arrayElemAt: ['$totalItems.total', 0] },
+                else: 0,
+              },
+            },
+            totalPages: {
+              $cond: {
+                if: { $gt: [{ $size: '$totalItems' }, 0] },
+                then: { $ceil: { $divide: [{ $arrayElemAt: ['$totalItems.total', 0] }, pageSize] } },
+                else: 1,
+              },
+            },
+          },
+        },
+      ];
+
+      const results = await collection.aggregate(pipeline).toArray();
+      const entityResponse = results && results.length > 0 ? results[0] : { items: [], totalItems: 0, totalPages: 1 };
+
+      entityResponse.currentPage = page;
+      entityResponse.pageSize = pageSize;
+
+      return entityResponse;
+    } catch (error) {
+      this._console.error(error);
+      return [];
     }
-
-    return pagination;
   }
 }
 
