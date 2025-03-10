@@ -46,6 +46,9 @@ class TemplateModel extends BaseModel {
   get sanitized() {
     return {
       id: this.id?.value,
+      status: this.status?.value,
+      metadata: this.metadata?.value,
+      context: this.context?.value,
       name: this.name?.value,
     };
   }
@@ -57,6 +60,8 @@ class TemplateModel extends BaseModel {
       last_modification: this.last_modification?.value,
       last_user_modification: this.last_user_modification?.value,
       status: this.status?.value,
+      metadata: this.metadata?.value,
+      context: this.context?.value,
       name: this.name?.value,
     };
   }
