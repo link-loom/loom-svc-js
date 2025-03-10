@@ -45,11 +45,11 @@ class DeviceManagementModel extends BaseModel {
     review: { id: 4, name: 'review', title: 'Under Review' },
   };
 
-  static get statuses() {
+  static get statuses () {
     return { ...BaseModel.defaultStatuses, ...this.prototype.entityStatuses };
   }
 
-  constructor(args, dependencies) {
+  constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args and dependencies to build this entity');
     }
@@ -60,7 +60,7 @@ class DeviceManagementModel extends BaseModel {
     this.initializeEntityProperties(args);
   }
 
-  initializeEntityProperties(args) {
+  initializeEntityProperties (args) {
     this.user_id = new Property({ value: args.user_id, type: this.types.string });
     this.fingerprint = new Property({ value: args.fingerprint, type: this.types.string });
     this.operating_system_name = new Property({
@@ -74,7 +74,7 @@ class DeviceManagementModel extends BaseModel {
   }
 
   // Return entity sanitized
-  get sanitized() {
+  get sanitized () {
     return {
       id: this.id?.value,
       status: this.status?.value,
@@ -85,12 +85,12 @@ class DeviceManagementModel extends BaseModel {
     };
   }
 
-  get get() {
+  get get () {
     return {
       id: this.id?.value,
-      date_creation: this.date_creation?.value,
-      last_modification: this.last_modification?.value,
-      last_user_modification: this.last_user_modification?.value,
+      created: this.created?.value,
+      modified: this.modified?.value,
+      deleted: this.deleted?.value,
       status: this.status?.value,
       user_id: this.user_id?.value,
       fingerprint: this.fingerprint?.value,

@@ -87,11 +87,11 @@ class UserManagementModel extends BaseModel {
     review: { id: 4, name: 'review', title: 'Under Review' },
   };
 
-  static get statuses() {
+  static get statuses () {
     return { ...BaseModel.defaultStatuses, ...this.prototype.entityStatuses };
   }
 
-  constructor(args, dependencies) {
+  constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args and dependencies to build this entity');
     }
@@ -102,7 +102,7 @@ class UserManagementModel extends BaseModel {
     this.initializeEntityProperties(args);
   }
 
-  initializeEntityProperties(args) {
+  initializeEntityProperties (args) {
     this.national_id = new Property({
       value: args.national_id,
       type: this.types.string,
@@ -152,7 +152,7 @@ class UserManagementModel extends BaseModel {
   }
 
   // Return entity sanitized
-  get sanitized() {
+  get sanitized () {
     return {
       id: this.id?.value,
       status: this.status?.value,
@@ -170,12 +170,12 @@ class UserManagementModel extends BaseModel {
     };
   }
 
-  get get() {
+  get get () {
     return {
       id: this.id?.value,
-      date_creation: this.date_creation?.value,
-      last_modification: this.last_modification?.value,
-      last_user_modification: this.last_user_modification?.value,
+      created: this.created?.value,
+      modified: this.modified?.value,
+      deleted: this.deleted?.value,
       status: this.status?.value,
       national_id: this.national_id?.value,
       email: this.email?.value,

@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@link-loom/sdk": "7.2.15",
+    "@link-loom/sdk": "7.2.19",
     "aes-js": "^3.1.2",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",

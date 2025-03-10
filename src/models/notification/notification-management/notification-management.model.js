@@ -66,11 +66,11 @@ class NotificationManagementModel extends BaseModel {
     ignored: { id: 6, name: 'ignored', title: 'Ignored' },
   };
 
-  static get statuses() {
+  static get statuses () {
     return { ...BaseModel.defaultStatuses, ...this.prototype.entityStatuses };
   }
 
-  constructor(args, dependencies) {
+  constructor (args, dependencies) {
     if (!args || !dependencies) {
       throw new Error('Required args and dependencies to build this entity');
     }
@@ -81,7 +81,7 @@ class NotificationManagementModel extends BaseModel {
     this.initializeEntityProperties(args);
   }
 
-  initializeEntityProperties(args) {
+  initializeEntityProperties (args) {
     this.date = new Property({ value: this.timestamp, type: this.types.timestamp });
     this.sender_user_id = new Property({ value: args.sender_user_id, type: this.types.string });
     this.message = new Property({ value: args.message, type: this.types.string });
@@ -99,7 +99,7 @@ class NotificationManagementModel extends BaseModel {
   }
 
   // Return entity sanitized
-  get sanitized() {
+  get sanitized () {
     return {
       id: this.id?.value,
       status: this.status?.value,
@@ -113,12 +113,12 @@ class NotificationManagementModel extends BaseModel {
     };
   }
 
-  get get() {
+  get get () {
     return {
       id: this.id?.value,
-      date_creation: this.date_creation?.value,
-      last_modification: this.last_modification?.value,
-      last_user_modification: this.last_user_modification?.value,
+      created: this.created?.value,
+      modified: this.modified?.value,
+      deleted: this.deleted?.value,
       status: this.status?.value,
       date: this.date?.value,
       message: this.message?.value,
