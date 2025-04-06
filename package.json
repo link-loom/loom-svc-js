@@ -26,7 +26,7 @@
   "dependencies": {
     "@link-loom/sdk": "7.3.0",
     "aes-js": "^3.1.2",
-    "axios": "^0.27.2",
+    "axios": "^1.8.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "latest",
     "colors": "latest",
@@ -36,7 +36,7 @@
     "cors": "latest",
     "exceljs": "^3.3.1",
     "express": "latest",
-    "firebase-admin": "^11.2.0",
+    "firebase-admin": "^13.2.0",
     "helmet": "^3.21.2",
     "html-to-text": "^5.1.1",
     "jsonwebtoken": "latest",
@@ -44,8 +44,8 @@
     "mongodb": "^5.1.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.7.3",
-    "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
   },
