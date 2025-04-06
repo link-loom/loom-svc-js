@@ -12,11 +12,10 @@ class FirebaseStorageSource {
     this._storage = {};
     this._storageMiddleware = {};
     this._StoreSourceConfig =
-      this._dependencies.config.STORAGESOURCE_CONFIG.FIRESTORE;
-    this._AdminFirestore =
-      this._dependencies.config.DATASOURCE_CONFIGS.FIRESTORE.CONNECTION_OBJ;
-    this._StorageConnectionObj = this._StoreSourceConfig.CONNECTION_OBJ || {};
-    this._databaseSettings = this._StoreSourceConfig.SETTINGS || {};
+      this._dependencies?.config?.behaviors?.storage?.firebase?.settings || {};
+    this._AdminFirestoreConfig =
+      this._dependencies?.config?.behaviors?.database?.firestore?.settings || {};
+
   }
 
   async setup() {
@@ -24,9 +23,9 @@ class FirebaseStorageSource {
 
     this._dependencies.storage.driver.initializeApp({
       credential: this._dependencies.storage.driver.credential.cert(
-        this._AdminFirestore,
+        this._AdminFirestoreConfig,
       ),
-      storageBucket: this._StorageConnectionObj.storageBucket,
+      storageBucket: this._StoreSourceConfig?.storageBucket,
     });
     this._storage = this._dependencies.storage.driver.storage();
   }
@@ -35,7 +34,7 @@ class FirebaseStorageSource {
     const { action = 'read', expires = this.#getDatePlus50Years() } = settings;
 
     try {
-      const bucketName = this._StorageConnectionObj.storageBucket;
+      const bucketName = this._StoreSourceConfig?.storageBucket;
       const bucket = this._storage.bucket(bucketName);
       const bucketFile = bucket.file(`${folder}/${clientFile.originalname}`);
       const uploadParams = this.#getUploadParams(clientFile);

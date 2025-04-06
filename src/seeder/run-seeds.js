@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Base URL constructed from the server port setting in the configuration.
-const apiBaseUrl = `http://localhost:${config.get('SERVER.PORT')}`;
+const apiBaseUrl = `http://localhost:${config?.get('server.port')}`;
 
 // Object to hold the mappings of identifier to created record for reference.
 const createdRecords = {};

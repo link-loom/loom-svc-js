@@ -13,19 +13,19 @@ const main = async () => {
 
   // Launching server
   dependencies.console.info(
-    `http://localhost:${dependencies.config.SERVER.PORT}/`,
+    `http://localhost:${dependencies?.config?.server?.port}/`,
     { namespace },
   );
   dependencies.console.info(
-    `http://localhost:${dependencies.config.SERVER.PORT}/open-api.playground`,
+    `http://localhost:${dependencies?.config?.server?.port}/open-api.playground`,
     { namespace },
   );
   dependencies.console.info(
-    `http://localhost:${dependencies.config.SERVER.PORT}/open-api.json`,
+    `http://localhost:${dependencies?.config?.server?.port}/open-api.json`,
     { namespace },
   );
   dependencies.console.info(
-    `${dependencies.config.SERVER.NAME} v${dependencies.config.SERVER.VERSION}`,
+    `${dependencies?.config?.server?.name} v${dependencies?.config?.server?.version}`,
     { namespace },
   );
   dependencies.console.log(' ------------------------------------');

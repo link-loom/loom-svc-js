@@ -165,12 +165,12 @@ class NotificationService {
       let emailPath = this._dependencies.root;
       let emailtemplate = '';
       const transporter = this._nodemailer.createTransport({
-        host: this._dependencies.config.EMAIL.SETTINGS.HOST,
-        port: this._dependencies.config.EMAIL.SETTINGS.PORT,
-        secure: this._dependencies.config.EMAIL.SETTINGS.SECURE,
+        host: this._dependencies?.config?.behaviors?.email?.SETTINGS.HOST,
+        port: this._dependencies?.config?.behaviors?.email?.SETTINGS.PORT,
+        secure: this._dependencies?.config?.behaviors?.email?.SETTINGS.SECURE,
         auth: {
-          user: this._dependencies.config.EMAIL.SETTINGS.USER,
-          pass: this._dependencies.config.EMAIL.SETTINGS.PASSWORD,
+          user: this._dependencies?.config?.behaviors?.email?.SETTINGS.USER,
+          pass: this._dependencies?.config?.behaviors?.email?.SETTINGS.PASSWORD,
         },
       });
       const mailOptions = {
@@ -187,7 +187,7 @@ class NotificationService {
           .name:
           emailPath += '/src/static/email/confirm-eng.html';
           mailOptions.from =
-            this._dependencies.config.EMAIL.ACTIONS.VALIDATE_EMAIL.FROM;
+            this._dependencies?.config?.behaviors?.email?.actions.validateEmail.from;
           mailOptions.subject = `${data.email.subject || 'Welcome to %LOOM%'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
@@ -199,7 +199,7 @@ class NotificationService {
           .name:
           emailPath += '/src/static/email/recover-esp.html';
           mailOptions.from =
-            this._dependencies.config.EMAIL.ACTIONS.RECOVER_PASSWORD.FROM;
+            this._dependencies?.config?.behaviors?.email?.actions?.recoverPassword?.from;
           mailOptions.subject = `${data.email.subject || 'Email recover'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(

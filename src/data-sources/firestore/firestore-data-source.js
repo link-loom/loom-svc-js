@@ -16,9 +16,9 @@ class FirebaseDataSource extends DataSource {
 
     /* Custom Properties */
     this._dataSourceConfig =
-      this._dependencies.config.DATASOURCE_CONFIGS.YOUR_CONFIG;
-    this._databaseConnectionObj = this._dataSourceConfig.CONNECTION_OBJ || {};
-    this._databaseSettings = this._dataSourceConfig.SETTINGS || {};
+      this._dependencies?.config?.behaviors?.database?.providers?.firestore || {};
+    this._databaseConnectionObj = this._dataSourceConfig?.settings || {};
+    this._databaseSettings = this._dataSourceConfig?.settings || {};
   }
 
   async setup() {

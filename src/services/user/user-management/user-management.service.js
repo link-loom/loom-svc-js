@@ -282,8 +282,8 @@ class UserService {
     const timestamp = new Date().getTime() + '';
     const timestampKey = this._utilities.encoder.base64.encode('timestamp');
     const serverUri =
-      this._dependencies.config.SERVICES.FRONTEND.URI +
-      this._dependencies.config.MAIL.VALIDATION_PATH;
+      this._dependencies?.config?.services?.frontend?.uri +
+      this._dependencies?.config?.behaviors?.email?.validateEmail?.path;
     const emailTokenKey = this._utilities.encoder.base64.encode('token');
     const emailLinkToken = this._utilities.encoder.base64.encode(
       this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, {

@@ -14,13 +14,13 @@ class ApiManagerService {
 
     /* Assigments */
     this._key = this._utilities.generator.privateKey(
-      dependencies.config.SERVICES.API_MANAGER.SECRET,
+      dependencies?.config?.services?.apiManager?.secret,
     );
   }
 
   async getApiManagerUri() {
     return this._utilities.io.response.success({
-      uri: this._config.SERVICES.API_MANAGER.URI || '/',
+      uri: this._config?.services?.apiManager?.secret || '/',
     });
   }
 

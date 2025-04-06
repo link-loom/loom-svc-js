@@ -188,8 +188,8 @@ class SecurityAuthPassword {
       const timestamp = new Date().getTime() + '';
       const timestampKey = this._utilities.encoder.base64.encode('timestamp');
       const serverUri =
-        this._dependencies.config.SERVICES.FRONTEND.URI +
-        this._dependencies.config.EMAIL.ACTIONS.RECOVER_PASSWORD.PATH;
+        this._dependencies?.config?.services?.frontend?.uri +
+        this._dependencies?.config?.behavior?.email?.actions?.recoverPassword?.path;
       const emailTokenKey =
         this._utilities.encoder.base64.encode('recover-token');
       const emailLinkToken = this._utilities.encoder.base64.encode(
@@ -237,7 +237,7 @@ class SecurityAuthPassword {
       );
 
       if (
-        this._dependencies.config.SECURITY.JWT_TOKEN_LIFETIME_HOURS <= hours
+        this._dependencies.config?.security?.jwtTokenLifetimeHours <= hours
       ) {
         return this._utilities.response.error(
           this._utilities.encoder.crypto.cypherObject(
@@ -345,7 +345,7 @@ class SecurityAuthPassword {
     const augmentedPayload = {
       ...payload,
       identity: sanitizedUser.id, // Or change by your own ID
-      sessionTime: this._dependencies.config.SECURITY.JWT_TOKEN_LIFETIME_HOURS,
+      sessionTime: this._dependencies?.config?.security?.jwtTokenLifetimeHours,
     };
 
     const token = await this._utilities.generator.jwt.token({
@@ -354,9 +354,9 @@ class SecurityAuthPassword {
       },
       payload: augmentedPayload,
       settings: {
-        secret: this._dependencies.config.SERVER.SECRET,
+        secret: this._dependencies?.config?.server?.secret,
         expiresIn:
-          this._dependencies.config.SECURITY.JWT_TOKEN_LIFETIME_HOURS * 3600,
+          this._dependencies?.config?.security?.jwtTokenLifetimeHours * 3600,
       },
     });
 
