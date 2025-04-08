@@ -4,12 +4,12 @@
  * To read documentation go to https://github.com/link-loom/loom-svc-js/wiki
  */
 
-const { ServerManager } = require('@link-loom/sdk');
-const server = new ServerManager({ root: __dirname });
+const { Loom } = require('@link-loom/sdk');
+const server = new Loom({ root: __dirname });
 
 const main = async () => {
   const namespace = '[Server]';
-  const dependencies = await server.load();
+  const dependencies = await server.ignite();
 
   // Launching server
   dependencies.console.info(
