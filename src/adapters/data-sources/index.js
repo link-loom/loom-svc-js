@@ -1,4 +1,4 @@
-const dataSources = [
+const adapters = [
   {
     name: 'firestore',
     path: 'firestore/firestore-data-source',
@@ -13,4 +13,4 @@ const dataSources = [
   },
 ];
 
-module.exports = dataSources;
+module.exports = adapters;

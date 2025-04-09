@@ -15,7 +15,7 @@ class MongoDBDataSource extends DataSource {
     this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig = this._dependencies?.config?.behaviors?.providers?.mongodb || {};
+    this._dataSourceConfig = this._dependencies?.config?.modules?.providers?.mongodb || {};
     this._databaseConnectionObj = this._dataSourceConfig?.settings?.connection || '';
     this._databaseSettings = this._dataSourceConfig?.settings || {};
   }

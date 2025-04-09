@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 class NotificationService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
     this._db = dependencies.db;
@@ -19,7 +19,7 @@ class NotificationService {
     /* Assigments */
   }
 
-  async create(data) {
+  async create (data) {
     try {
       if (!data) {
         return this._utilities.io.response.error(
@@ -62,7 +62,7 @@ class NotificationService {
     }
   }
 
-  async update(data) {
+  async update (data) {
     try {
       if (!data || !data.id) {
         return this._utilities.io.response.error('Please provide an id');
@@ -85,7 +85,7 @@ class NotificationService {
     }
   }
 
-  async get(data) {
+  async get (data) {
     try {
       if (!data || !data.queryselector) {
         return this._utilities.io.response.error(
@@ -119,7 +119,7 @@ class NotificationService {
     }
   }
 
-  async #channelStored(data) {
+  async #channelStored (data) {
     try {
       if (!data || !data.message || !data.receiver_user_id) {
         this._console.error('message or receiver not providen');
@@ -151,7 +151,7 @@ class NotificationService {
     }
   }
 
-  async #channelEventBus(data) {
+  async #channelEventBus (data) {
     try {
       /* TODO: Implement the communication with event bus */
     } catch (error) {
@@ -160,17 +160,17 @@ class NotificationService {
     }
   }
 
-  async #channelEmail(data) {
+  async #channelEmail (data) {
     try {
       let emailPath = this._dependencies.root;
       let emailtemplate = '';
       const transporter = this._nodemailer.createTransport({
-        host: this._dependencies?.config?.behaviors?.email?.SETTINGS.HOST,
-        port: this._dependencies?.config?.behaviors?.email?.SETTINGS.PORT,
-        secure: this._dependencies?.config?.behaviors?.email?.SETTINGS.SECURE,
+        host: this._dependencies?.config?.modules?.email?.SETTINGS.HOST,
+        port: this._dependencies?.config?.modules?.email?.SETTINGS.PORT,
+        secure: this._dependencies?.config?.modules?.email?.SETTINGS.SECURE,
         auth: {
-          user: this._dependencies?.config?.behaviors?.email?.SETTINGS.USER,
-          pass: this._dependencies?.config?.behaviors?.email?.SETTINGS.PASSWORD,
+          user: this._dependencies?.config?.modules?.email?.SETTINGS.USER,
+          pass: this._dependencies?.config?.modules?.email?.SETTINGS.PASSWORD,
         },
       });
       const mailOptions = {
@@ -187,7 +187,7 @@ class NotificationService {
           .name:
           emailPath += '/src/static/email/confirm-eng.html';
           mailOptions.from =
-            this._dependencies?.config?.behaviors?.email?.actions.validateEmail.from;
+            this._dependencies?.config?.modules?.email?.actions.validateEmail.from;
           mailOptions.subject = `${data.email.subject || 'Welcome to %LOOM%'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
@@ -199,7 +199,7 @@ class NotificationService {
           .name:
           emailPath += '/src/static/email/recover-esp.html';
           mailOptions.from =
-            this._dependencies?.config?.behaviors?.email?.actions?.recoverPassword?.from;
+            this._dependencies?.config?.modules?.email?.actions?.recoverPassword?.from;
           mailOptions.subject = `${data.email.subject || 'Email recover'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
@@ -234,7 +234,7 @@ class NotificationService {
     }
   }
 
-  async readFileAsync(path) {
+  async readFileAsync (path) {
     return new Promise((resolve, reject) => {
       fs.readFile(path, 'utf8', (err, emailTemplate) => {
         if (err) {
@@ -249,7 +249,7 @@ class NotificationService {
     });
   }
 
-  async sendEmailAsync(transporter, mailOptions) {
+  async sendEmailAsync (transporter, mailOptions) {
     return new Promise((resolve, reject) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -264,7 +264,7 @@ class NotificationService {
     });
   }
 
-  async #getByFilters(data) {
+  async #getByFilters (data) {
     try {
       if (!data || !data.filters) {
         return this._utilities.io.response.error(
@@ -284,7 +284,7 @@ class NotificationService {
     }
   }
 
-  async #getById(data) {
+  async #getById (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -301,7 +301,7 @@ class NotificationService {
     }
   }
 
-  async #getByReceiverUserId(data) {
+  async #getByReceiverUserId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -320,7 +320,7 @@ class NotificationService {
     }
   }
 
-  async #getByBusinessId(data) {
+  async #getByBusinessId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -337,7 +337,7 @@ class NotificationService {
     }
   }
 
-  #formatCreateEntity(data) {
+  #formatCreateEntity (data) {
     const messageResume = this._unfluff.fromString(
       data.message.substring(0, 50) || '',
     );
@@ -346,19 +346,19 @@ class NotificationService {
     data.message_resume = messageResume;
   }
 
-  get status() {
+  get status () {
     return this._models.NotificationManagementModel.statuses;
   }
 
-  get roleType() {
+  get roleType () {
     return this._models.NotificationManagementModel.role_types;
   }
 
-  get channels() {
+  get channels () {
     return this._models.NotificationManagementModel.channels;
   }
 
-  get emailTemplate() {
+  get emailTemplate () {
     return this._models.NotificationManagementModel.email_templates;
   }
 }

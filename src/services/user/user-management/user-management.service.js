@@ -1,5 +1,5 @@
 class UserService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
     this._db = dependencies.db;
@@ -17,7 +17,7 @@ class UserService {
     );
   }
 
-  async create(data) {
+  async create (data) {
     try {
       if (!data || !data.phone) {
         return this._utilities.io.response.error('Please provide minimum data');
@@ -62,7 +62,7 @@ class UserService {
     }
   }
 
-  async update(data) {
+  async update (data) {
     try {
       if (!data || !data.id) {
         return this._utilities.io.response.error('Please provide an id');
@@ -85,7 +85,7 @@ class UserService {
     }
   }
 
-  async get(data) {
+  async get (data) {
     try {
       if (!data || !data.queryselector) {
         return this._utilities.io.response.error(
@@ -139,7 +139,7 @@ class UserService {
    * @returns {Array<object>} The array of found entities based on the given filters.
    * @throws Will throw and log an error if there's an issue retrieving the entities.
    */
-  async #getAll(data) {
+  async #getAll (data) {
     try {
       const result = await this.#getByFilters({
         filters: [
@@ -173,7 +173,7 @@ class UserService {
     }
   }
 
-  async #getById(data) {
+  async #getById (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -190,7 +190,7 @@ class UserService {
     }
   }
 
-  async #getByNationalId(data) {
+  async #getByNationalId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -207,7 +207,7 @@ class UserService {
     }
   }
 
-  async #getByPhone(data) {
+  async #getByPhone (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -224,7 +224,7 @@ class UserService {
     }
   }
 
-  async #getByEmail(data) {
+  async #getByEmail (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -241,7 +241,7 @@ class UserService {
     }
   }
 
-  async #getByBusinessId(data) {
+  async #getByBusinessId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -258,7 +258,7 @@ class UserService {
     }
   }
 
-  async #getByFilters(data) {
+  async #getByFilters (data) {
     try {
       if (!data || !data.filters) {
         return this._utilities.io.response.error(
@@ -278,12 +278,12 @@ class UserService {
     }
   }
 
-  #formatCreateEntity(data) {
+  #formatCreateEntity (data) {
     const timestamp = new Date().getTime() + '';
     const timestampKey = this._utilities.encoder.base64.encode('timestamp');
     const serverUri =
       this._dependencies?.config?.services?.frontend?.uri +
-      this._dependencies?.config?.behaviors?.email?.validateEmail?.path;
+      this._dependencies?.config?.modules?.email?.validateEmail?.path;
     const emailTokenKey = this._utilities.encoder.base64.encode('token');
     const emailLinkToken = this._utilities.encoder.base64.encode(
       this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, {
@@ -298,7 +298,7 @@ class UserService {
     );
   }
 
-  async #sendConfirmationNotification(data) {
+  async #sendConfirmationNotification (data) {
     const notificationService = new this._services.NotificationService(
       this._dependencies,
     );
@@ -313,11 +313,11 @@ class UserService {
     });
   }
 
-  get status() {
+  get status () {
     return this._models.UserManagementModel.statuses;
   }
 
-  get role() {
+  get role () {
     return this._models.UserManagementModel.roles;
   }
 }

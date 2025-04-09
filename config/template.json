@@ -24,7 +24,7 @@
   "security": {
     "jwtTokenLifetimeHours": 24
   },
-  "behaviors": {
+  "modules": {
     "database": {
       "enabled": false,
       "default": "mongodb",
@@ -150,6 +150,10 @@
     {
       "name": "mongodb",
       "package": "mongodb"
+    },
+    {
+      "name": "vectry",
+      "package": "@vectry/node"
     }
   ]
 }

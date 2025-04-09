@@ -1,7 +1,7 @@
 const DataSource = require('./../base/data-source');
 
 class FirebaseDataSource extends DataSource {
-  constructor(dependencies) {
+  constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
     }
@@ -16,12 +16,12 @@ class FirebaseDataSource extends DataSource {
 
     /* Custom Properties */
     this._dataSourceConfig =
-      this._dependencies?.config?.behaviors?.database?.providers?.firestore || {};
+      this._dependencies?.config?.modules?.database?.providers?.firestore || {};
     this._databaseConnectionObj = this._dataSourceConfig?.settings || {};
     this._databaseSettings = this._dataSourceConfig?.settings || {};
   }
 
-  async setup() {
+  async setup () {
     // Setup the driver/client
     /* TODO: Setup all configurations of your database provider */
 
@@ -31,7 +31,7 @@ class FirebaseDataSource extends DataSource {
     };
   }
 
-  async create({ tableName, entity } = {}) {
+  async create ({ tableName, entity } = {}) {
     try {
       const superResponse = await super.create({ tableName, entity });
 
@@ -56,7 +56,7 @@ class FirebaseDataSource extends DataSource {
     }
   }
 
-  async update({ tableName, entity }) {
+  async update ({ tableName, entity }) {
     try {
       const superResponse = await super.update({ tableName, entity });
 
@@ -104,7 +104,7 @@ class FirebaseDataSource extends DataSource {
     }
   }
 
-  async getByFilters({ tableName, filters }) {
+  async getByFilters ({ tableName, filters }) {
     try {
       const superResponse = await super.getByFilters({ tableName, filters });
 
@@ -128,7 +128,7 @@ class FirebaseDataSource extends DataSource {
     }
   }
 
-  #transformFilters(collection, filters) {
+  #transformFilters (collection, filters) {
     try {
       for (const filter of filters) {
         if (filter.key) {
@@ -152,7 +152,7 @@ class FirebaseDataSource extends DataSource {
    * @param {any} snapshot is the snapshop returned by database
    * @returns an array of objects
    */
-  #castArraySnapshot(snapshot) {
+  #castArraySnapshot (snapshot) {
     if (snapshot) {
       const arr = [];
       const obj = {};

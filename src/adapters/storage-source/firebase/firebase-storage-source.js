@@ -1,5 +1,5 @@
 class FirebaseStorageSource {
-  constructor(dependencies) {
+  constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
     }
@@ -12,13 +12,13 @@ class FirebaseStorageSource {
     this._storage = {};
     this._storageMiddleware = {};
     this._StoreSourceConfig =
-      this._dependencies?.config?.behaviors?.storage?.firebase?.settings || {};
+      this._dependencies?.config?.modules?.storage?.firebase?.settings || {};
     this._AdminFirestoreConfig =
-      this._dependencies?.config?.behaviors?.database?.firestore?.settings || {};
+      this._dependencies?.config?.modules?.database?.firestore?.settings || {};
 
   }
 
-  async setup() {
+  async setup () {
     // configurate and initialize firebase admin
 
     this._dependencies.storage.driver.initializeApp({
@@ -30,7 +30,7 @@ class FirebaseStorageSource {
     this._storage = this._dependencies.storage.driver.storage();
   }
 
-  async upload(clientFile, folder, settings = {}) {
+  async upload (clientFile, folder, settings = {}) {
     const { action = 'read', expires = this.#getDatePlus50Years() } = settings;
 
     try {
@@ -79,7 +79,7 @@ class FirebaseStorageSource {
     };
   };
 
-  #getDatePlus50Years() {
+  #getDatePlus50Years () {
     // Get the current date
     const currentDate = new Date();
 
