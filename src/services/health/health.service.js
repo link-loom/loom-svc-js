@@ -1,5 +1,5 @@
 class HealthService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
     this._db = dependencies.db;
@@ -11,12 +11,13 @@ class HealthService {
 
     /* Custom Properties */
     /* this._myPrivateProperty = 'Some value' */
+    this._observability = this._dependencies?.observability?.default?.client;
 
     /* Assigments */
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async get() {
+  async get () {
     return this._utilities.io.response.success('Server is online');
   }
 }
