@@ -15,8 +15,10 @@ class MongoDBDataSource extends DataSource {
     this._utilities = this._dependencies.utilities;
 
     /* Custom Properties */
+    this._module = this._dependencies.modules?.database?.mongodb || {};
     this._driver = null;
     this._settings = null;
+    this._namespace = '[Loom]::[Database]::[MongoDB]';
   }
 
   async setup({ settings }) {
@@ -53,7 +55,7 @@ class MongoDBDataSource extends DataSource {
         return superResponse;
       }
 
-      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
+      const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
       const documentResponse = collection.insertOne(entity);
 
       if (!documentResponse) {
@@ -79,7 +81,7 @@ class MongoDBDataSource extends DataSource {
       const query = { id: entity.id };
       const { _id, ...updateFields } = entity;
       const contract = { $set: updateFields };
-      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
+      const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const documentResponse = await collection.updateOne(query, contract);
 
@@ -124,7 +126,7 @@ class MongoDBDataSource extends DataSource {
       }
 
       const transformedFilters = this.#transformFilters(filters);
-      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
+      const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const skip = (page - 1) * pageSize;
 
@@ -270,7 +272,7 @@ class MongoDBDataSource extends DataSource {
    */
   async getBySearchQuery ({ tableName, query, page = 1, pageSize = 25, databaseName = '' }) {
     try {
-      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
+      const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const skip = (page - 1) * pageSize;
 

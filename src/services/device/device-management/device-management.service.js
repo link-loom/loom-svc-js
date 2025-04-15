@@ -2,7 +2,7 @@ class DeviceService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._database = dependencies.db;
+    this._database = this._dependencies?.database?.default?.adapter;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -42,7 +42,7 @@ class DeviceService {
         data,
         this._dependencies,
       );
-      const transactionResponse = await this._database.transaction.create({
+      const transactionResponse = await this._database.create({
         tableName: this._tableName,
         entity: entity.get,
       });
@@ -65,7 +65,7 @@ class DeviceService {
         return this._utilities.io.response.error('Please provide an id');
       }
 
-      const transactionResponse = await this._database.transaction.update({
+      const transactionResponse = await this._database.update({
         tableName: this._tableName,
         entity: data,
       });
@@ -127,7 +127,7 @@ class DeviceService {
         );
       }
 
-      const transactionResponse = await this._database.transaction.getByFilters({
+      const transactionResponse = await this._database.getByFilters({
         tableName: this._tableName,
         filters: data.filters,
       });
