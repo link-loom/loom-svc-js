@@ -1,6 +1,6 @@
 const DataSource = require('../base/data-source');
 
-class FirebaseDataSource extends DataSource {
+class FirestoreDataSource extends DataSource {
   constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
@@ -12,7 +12,7 @@ class FirebaseDataSource extends DataSource {
     this._dependencies = dependencies;
     this._console = this._dependencies.console;
     this._utilities = this._dependencies.utilities;
-    this._db = this._dependencies.db;
+    this._database = this._dependencies?.database?.default?.client;
 
     /* Custom Properties */
     this._dataSourceConfig =
@@ -26,7 +26,7 @@ class FirebaseDataSource extends DataSource {
     /* TODO: Setup all configurations of your database provider */
 
     // Create a client and create a new connection
-    this._db.client = {
+    this._database.client = {
       /* TODO: Save your client connected here */
     };
   }
@@ -39,7 +39,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse;
       }
 
-      const document = this._db.client.collection(tableName).doc(entity.id);
+      const document = this._database.client.collection(tableName).doc(entity.id);
       const documentResponse = await document.set(entity);
 
       if (!documentResponse) {
@@ -85,7 +85,7 @@ class FirebaseDataSource extends DataSource {
       // "Merging" the new data with the old data
       entity = { ...currentEntity, ...entity };
 
-      const document = this._db.client
+      const document = this._database.client
         .collection(tableName)
         .doc(currentEntity.id);
       const documentResponse = await document.update(entity);
@@ -112,7 +112,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse;
       }
 
-      let collection = this._db.client.collection(tableName);
+      let collection = this._database.client.collection(tableName);
       collection = this.#transformFilters(collection, filters);
 
       const snapshot = await collection.get();
@@ -172,4 +172,4 @@ class FirebaseDataSource extends DataSource {
   }
 }
 
-module.exports = FirebaseDataSource;
+module.exports = FirestoreDataSource;

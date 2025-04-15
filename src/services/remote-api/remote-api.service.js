@@ -1,8 +1,8 @@
 class RemoteApiService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -15,7 +15,7 @@ class RemoteApiService {
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async request(data) {
+  async request (data) {
     if (
       !data ||
       !data.url ||
@@ -33,7 +33,7 @@ class RemoteApiService {
     }
   }
 
-  #executeRequest({ url, method, body, headers }) {
+  #executeRequest ({ url, method, body, headers }) {
     return this._request({
       url,
       method,

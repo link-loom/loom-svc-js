@@ -1,8 +1,8 @@
 class DeviceService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -15,7 +15,7 @@ class DeviceService {
     /* Assigments */
   }
 
-  async create(data) {
+  async create (data) {
     try {
       if (!data || !data.fingerprint) {
         return this._utilities.io.response.error('Please provide minimum data');
@@ -42,7 +42,7 @@ class DeviceService {
         data,
         this._dependencies,
       );
-      const transactionResponse = await this._db.transaction.create({
+      const transactionResponse = await this._database.transaction.create({
         tableName: this._tableName,
         entity: entity.get,
       });
@@ -59,13 +59,13 @@ class DeviceService {
     }
   }
 
-  async update(data) {
+  async update (data) {
     try {
       if (!data || !data.id) {
         return this._utilities.io.response.error('Please provide an id');
       }
 
-      const transactionResponse = await this._db.transaction.update({
+      const transactionResponse = await this._database.transaction.update({
         tableName: this._tableName,
         entity: data,
       });
@@ -82,7 +82,7 @@ class DeviceService {
     }
   }
 
-  async get(data) {
+  async get (data) {
     try {
       if (!data || !data.queryselector) {
         return this._utilities.io.response.error(
@@ -119,7 +119,7 @@ class DeviceService {
     }
   }
 
-  async #getByFilters(data) {
+  async #getByFilters (data) {
     try {
       if (!data || !data.filters) {
         return this._utilities.io.response.error(
@@ -127,7 +127,7 @@ class DeviceService {
         );
       }
 
-      const transactionResponse = await this._db.transaction.getByFilters({
+      const transactionResponse = await this._database.transaction.getByFilters({
         tableName: this._tableName,
         filters: data.filters,
       });
@@ -139,7 +139,7 @@ class DeviceService {
     }
   }
 
-  async #getById(data) {
+  async #getById (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -156,7 +156,7 @@ class DeviceService {
     }
   }
 
-  async #getByUserId(data) {
+  async #getByUserId (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -173,7 +173,7 @@ class DeviceService {
     }
   }
 
-  async #getByFingerprint(data) {
+  async #getByFingerprint (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -190,7 +190,7 @@ class DeviceService {
     }
   }
 
-  async #getByIdentity(data) {
+  async #getByIdentity (data) {
     try {
       if (!data || !data.search) {
         return this._utilities.io.response.error(
@@ -207,11 +207,11 @@ class DeviceService {
     }
   }
 
-  #formatCreateEntity(data) {
+  #formatCreateEntity (data) {
     data.id = this._utilities.generator.id({ length: 15, prefix: 'device-' });
   }
 
-  get status() {
+  get status () {
     return this._models.DeviceManagementModel.statuses;
   }
 }

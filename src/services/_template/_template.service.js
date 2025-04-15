@@ -2,7 +2,7 @@ class TemplateService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -28,7 +28,7 @@ class TemplateService {
       });
 
       const entity = new this._models.TemplateModel(data, this._dependencies);
-      const transactionResponse = await this._db.transaction.create({
+      const transactionResponse = await this._database.transaction.create({
         tableName: this._tableName,
         entity: entity.get,
       });
@@ -51,7 +51,7 @@ class TemplateService {
         return this._utilities.io.response.error('Please provide an id');
       }
 
-      const transactionResponse = await this._db.transaction.update({
+      const transactionResponse = await this._database.transaction.update({
         tableName: this._tableName,
         entity: data,
       });
@@ -113,7 +113,7 @@ class TemplateService {
         return this._utilities.io.response.error('The provided ID does not match any record');
       }
 
-      const transactionResponse = await this._db.transaction.update({
+      const transactionResponse = await this._database.transaction.update({
         tableName: this._tableName,
         entity: { id: data.id, status: this.status.deleted },
       });
@@ -203,7 +203,7 @@ class TemplateService {
         return this._utilities.io.response.error('Please provide at least one filter');
       }
 
-      const transactionResponse = await this._db.transaction.getByFilters({
+      const transactionResponse = await this._database.transaction.getByFilters({
         ...{ tableName: this._tableName },
         ...data,
       });

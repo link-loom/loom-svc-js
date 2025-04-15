@@ -15,7 +15,6 @@ class MongoDBDataSource extends DataSource {
     this._utilities = this._dependencies.utilities;
 
     /* Custom Properties */
-    this._module = this._dependencies.modules?.database?.mongodb || {};
     this._driver = null;
     this._settings = null;
   }

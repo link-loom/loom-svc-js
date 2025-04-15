@@ -2,7 +2,7 @@ class HealthService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;

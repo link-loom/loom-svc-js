@@ -1,8 +1,8 @@
 class ApiManagerService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -18,13 +18,13 @@ class ApiManagerService {
     );
   }
 
-  async getApiManagerUri() {
+  async getApiManagerUri () {
     return this._utilities.io.response.success({
       uri: this._config?.services?.apiManager?.secret || '/',
     });
   }
 
-  get key() {
+  get key () {
     return this._key;
   }
 }

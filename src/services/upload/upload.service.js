@@ -1,8 +1,8 @@
 class UploadService {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -16,7 +16,7 @@ class UploadService {
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async uploadFile(req) {
+  async uploadFile (req) {
     try {
       if (!req || !req.file) {
         return this._utilities.io.response.error('Add a file');
@@ -56,7 +56,7 @@ class UploadService {
    * @param {File} file
    * @returns Transformed file into a list of { rows: [] }
    */
-  async digestFileToArray(file) {
+  async digestFileToArray (file) {
     const processedFile = { rows: [] };
 
     if (!file) {
@@ -86,8 +86,8 @@ class UploadService {
                   item && item.result
                     ? item.result
                     : item && item.text
-                    ? item.text
-                    : item,
+                      ? item.text
+                      : item,
               })),
             );
 
@@ -101,7 +101,7 @@ class UploadService {
     return new Promise(transformFileData);
   }
 
-  async uploadAllBulkRows(req, fileTransformed) {
+  async uploadAllBulkRows (req, fileTransformed) {
     try {
       const response = {
         success: 0,
@@ -129,7 +129,7 @@ class UploadService {
     }
   }
 
-  validateBulk(req) {
+  validateBulk (req) {
     if (!req || !req.file) {
       return this._utilities.io.response.error('Add a file');
     }
@@ -152,7 +152,7 @@ class UploadService {
     return this._utilities.io.response.success(req);
   }
 
-  async bulk(req) {
+  async bulk (req) {
     try {
       const canBulk = this.validateBulk(req);
       const file = req.file;

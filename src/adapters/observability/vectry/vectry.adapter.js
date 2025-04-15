@@ -9,7 +9,7 @@ class VectryAdapter extends ObservabilityBase {
     this._dependencies = dependencies;
     this._console = this._dependencies.console;
     this._utilities = this._dependencies.utilities;
-    this._db = this._dependencies.db;
+    this._database = this._dependencies?.database?.default?.client;
 
     /* Custom Properties */
     this._observabilityModule = this._dependencies.modules?.observability?.sentry || {};

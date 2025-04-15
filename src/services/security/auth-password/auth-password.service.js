@@ -1,8 +1,8 @@
 class SecurityAuthPassword {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -18,7 +18,7 @@ class SecurityAuthPassword {
     );
   }
 
-  async signUpPassword(data) {
+  async signUpPassword (data) {
     if (!data || !data.primary_email_address || !data.password) {
       return this._utilities.io.response.error(
         'Is not possible create account, please provide an email and password',
@@ -47,7 +47,7 @@ class SecurityAuthPassword {
     return userResponse;
   }
 
-  async signInPassword(data) {
+  async signInPassword (data) {
     try {
       if (!data.email || !data.password) {
         return this._utilities.io.response.error(
@@ -161,7 +161,7 @@ class SecurityAuthPassword {
     }
   }
 
-  async resetPassword(data) {
+  async resetPassword (data) {
     try {
       if (!data || !data.email) {
         return this._utilities.io.response.error('Please provide an Email');
@@ -214,7 +214,7 @@ class SecurityAuthPassword {
     }
   }
 
-  async newPassword(data) {
+  async newPassword (data) {
     try {
       if (!data || !data.password) {
         return this._utilities.io.response.error('Please provide a password');
@@ -307,7 +307,7 @@ class SecurityAuthPassword {
     }
   }
 
-  async verifyEmail(data) {
+  async verifyEmail (data) {
     try {
       if (!data || !data.timestamp || !data.token) {
         return this._utilities.io.response.error(
@@ -327,7 +327,7 @@ class SecurityAuthPassword {
     }
   }
 
-  async #authenticateUser(data, user) {
+  async #authenticateUser (data, user) {
     const authenticationResult = this._utilities.validator.hash.isValid({
       receivedPassword: data.password,
       hash: user.password,
@@ -336,7 +336,7 @@ class SecurityAuthPassword {
     return authenticationResult;
   }
 
-  async #generateJWTToken(payload) {
+  async #generateJWTToken (payload) {
     const entity = new this._models.UserManagementModel(
       payload.user,
       this._dependencies,
@@ -363,7 +363,7 @@ class SecurityAuthPassword {
     return token;
   }
 
-  async #sendEmailRecoverNotification(data) {
+  async #sendEmailRecoverNotification (data) {
     const notificationService = new this._services.NotificationService(
       this._dependencies,
     );

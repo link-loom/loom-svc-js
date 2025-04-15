@@ -1,6 +1,6 @@
 const DataSource = require('../base/data-source');
 
-class FirebaseDataSource extends DataSource {
+class TemplateDataSource extends DataSource {
   constructor (dependencies) {
     if (!dependencies) {
       throw new Error('Required args to build this entity');
@@ -12,26 +12,33 @@ class FirebaseDataSource extends DataSource {
     this._dependencies = dependencies;
     this._console = this._dependencies.console;
     this._utilities = this._dependencies.utilities;
-    this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig =
-      this._dependencies?.config?.modules?.database?.providers?.firestore || {};
-    this._databaseConnectionObj = this._dataSourceConfig?.settings || {};
-    this._databaseSettings = this._dataSourceConfig?.settings || {};
+    this._driver = null;
+    this._settings = null;
+    this._namespace = '[Loom]::[Database]::[TemplateDB]';
   }
 
-  async setup () {
+  async setup({ settings }) {
     try {
-      // Setup the driver/client
-      /* TODO: Implement all database provider configurations */
+      if (!settings) {
+        throw new Error('TemplateDB configuration missing');
+      }
 
-      // Create a client and create a new connection
-      this._db.client = {
-        /* TODO: Save your databse connected client */
-      };
+      this._settings = settings || {};
+
+      const { connection, ...options } = this._settings;
+
+      this._driver = {/* TODO: Your configuration */};
+
+      await this._driver.connect();
+
+      this._console.success('Client initialized', { namespace: this._namespace });
+
+      return this._driver;
     } catch (error) {
-      this._console.error(error);
+      this._console.error('Error setting up Module', { namespace: this._namespace });
+      console.error(error);
     }
   }
 
@@ -43,7 +50,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse;
       }
 
-      /* TODO: Create your own data insertion using this._db.client */
+      /* TODO: Create your own data insertion  */
 
       return entity || {};
     } catch (error) {
@@ -61,7 +68,7 @@ class FirebaseDataSource extends DataSource {
         return superResponse;
       }
 
-      /* TODO: Create your own data update using this._db.client */
+      /* TODO: Create your own data update  */
 
       return entity || {};
     } catch (error) {
@@ -81,7 +88,7 @@ class FirebaseDataSource extends DataSource {
 
       const transformedFilters = this.#transformFilters(filters);
 
-      /* TODO: Create your own data get using this._db.client */
+      /* TODO: Create your own data get  */
 
       return [];
     } catch (error) {
@@ -105,4 +112,4 @@ class FirebaseDataSource extends DataSource {
   }
 }
 
-module.exports = FirebaseDataSource;
+module.exports = TemplateDataSource;

@@ -2,7 +2,7 @@ class UserService {
   constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
-    this._db = dependencies.db;
+    this._database = dependencies.db;
     this._models = dependencies.models;
     this._utilities = dependencies.utilities;
     this._console = this._dependencies.console;
@@ -40,7 +40,7 @@ class UserService {
       this.#formatCreateEntity(data);
 
       const entity = new this._models.UserManagementModel(data, this._dependencies);
-      const transactionResponse = await this._db.transaction.create({
+      const transactionResponse = await this._database.transaction.create({
         tableName: this._tableName,
         entity: entity.get,
       });
@@ -68,7 +68,7 @@ class UserService {
         return this._utilities.io.response.error('Please provide an id');
       }
 
-      const transactionResponse = await this._db.transaction.update({
+      const transactionResponse = await this._database.transaction.update({
         tableName: this._tableName,
         entity: data,
       });
@@ -266,7 +266,7 @@ class UserService {
         );
       }
 
-      const response = await this._db.transaction.getByFilters({
+      const response = await this._database.transaction.getByFilters({
         tableName: this._tableName,
         filters: data.filters,
       });
