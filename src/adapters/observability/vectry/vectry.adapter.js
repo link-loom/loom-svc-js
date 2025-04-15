@@ -25,19 +25,17 @@ class VectryAdapter extends ObservabilityBase {
   async setup ({ settings }) {
     try {
       if (!settings) {
-        throw new Error('Vectry configuration missing: apiKey and apiUrl are required');
+        throw new Error('Vectry configuration missing');
       }
 
       this._driver = new Vectry(settings);
 
-      this._console.success('Vectry client initialized', { namespace: this._namespace });
+      this._console.success('Client initialized', { namespace: this._namespace });
 
       return this._driver;
     } catch (err) {
-      this._console.error('Failed to initialize Vectry client', {
-        error: err,
-        namespace: this._namespace,
-      });
+      this._console.error('Error setting up Module', { namespace: this._namespace });
+      console.error(error);
     }
   }
 

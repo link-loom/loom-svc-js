@@ -18,6 +18,31 @@ class HealthService {
   }
 
   async get () {
+    // TODO: Implement 3 Vectry payloads
+    var mutation = this._observability.detectMutation({
+      original: { status: 'active', test: { otro: { test: '1', arr: [1, 2, 3] } } },
+      updated: { status: 'active', test: { otro: { test: '1', arr: [1, 2] } } }
+    })
+    const response = await this._observability.capture({
+      organization_id: 'org-0551fb033225671',
+      namespace: 'inventory.item.updated',
+      title: 'Item updated',
+      details: 'Item inventory item-9f69908e2b422ed updated',
+      actor_id: 'usr-594bb39d19919d5',
+      actor_type: 'user',
+      operation: {
+        type: 'updated',
+        system_domain: 'inventory',
+        system_entity: 'item',
+        system_entity_id: 'item-9f69908e2b422ed',
+        source: {
+          type: 'user',
+          id: 'usr-594bb39d19919d5',
+        },
+        changes: mutation,
+      },
+    });
+    console.log(response)
     return this._utilities.io.response.success('Server is online');
   }
 }

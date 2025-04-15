@@ -1,4 +1,4 @@
-const DataSource = require('./../base/data-source');
+const DataSource = require('../base/data-source');
 
 class FirebaseDataSource extends DataSource {
   constructor (dependencies) {

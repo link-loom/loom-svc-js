@@ -1,4 +1,5 @@
-const DataSource = require('./../base/data-source');
+const DataSource = require('../base/data-source');
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 class MongoDBDataSource extends DataSource {
   constructor (dependencies) {
@@ -12,25 +13,36 @@ class MongoDBDataSource extends DataSource {
     this._dependencies = dependencies;
     this._console = this._dependencies.console;
     this._utilities = this._dependencies.utilities;
-    this._db = this._dependencies.db;
 
     /* Custom Properties */
-    this._dataSourceConfig = this._dependencies?.config?.modules?.providers?.mongodb || {};
-    this._databaseConnectionObj = this._dataSourceConfig?.settings?.connection || '';
-    this._databaseSettings = this._dataSourceConfig?.settings || {};
+    this._module = this._dependencies.modules?.database?.mongodb || {};
+    this._driver = null;
+    this._settings = null;
   }
 
-  async setup () {
+  async setup({ settings }) {
     try {
-      // Setup the driver/client
-      const settings = this._databaseSettings;
-      settings.serverApi = this._db.driver.ServerApiVersion.v1;
+      if (!settings) {
+        throw new Error('MongoDB configuration missing');
+      }
 
-      // Create a client and create a new connection
-      this.mongoClient = new this._db.driver.MongoClient(this._databaseConnectionObj, settings);
-      this._db.client = await this.mongoClient.connect();
+      this._settings = settings || {};
+
+      const { connection, ...options } = this._settings;
+
+      this._driver = new MongoClient(connection, {
+        ...options,
+        serverApi: ServerApiVersion.v1,
+      });
+
+      await this._driver.connect();
+
+      this._console.success('Client initialized', { namespace: this._namespace });
+
+      return this._driver;
     } catch (error) {
-      this._console.error(error);
+      this._console.error('Error setting up Module', { namespace: this._namespace });
+      console.error(error);
     }
   }
 
@@ -42,7 +54,7 @@ class MongoDBDataSource extends DataSource {
         return superResponse;
       }
 
-      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
+      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
       const documentResponse = collection.insertOne(entity);
 
       if (!documentResponse) {
@@ -68,7 +80,7 @@ class MongoDBDataSource extends DataSource {
       const query = { id: entity.id };
       const { _id, ...updateFields } = entity;
       const contract = { $set: updateFields };
-      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
+      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const documentResponse = await collection.updateOne(query, contract);
 
@@ -113,7 +125,7 @@ class MongoDBDataSource extends DataSource {
       }
 
       const transformedFilters = this.#transformFilters(filters);
-      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
+      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const skip = (page - 1) * pageSize;
 
@@ -259,7 +271,7 @@ class MongoDBDataSource extends DataSource {
    */
   async getBySearchQuery ({ tableName, query, page = 1, pageSize = 25, databaseName = '' }) {
     try {
-      const collection = this._db.client.db(databaseName || this._databaseSettings.dbName).collection(tableName);
+      const collection = this.driver.db(databaseName || this._settings.dbName).collection(tableName);
 
       const skip = (page - 1) * pageSize;
 
