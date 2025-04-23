@@ -22,11 +22,13 @@ class VectryAdapter extends ObservabilityBase {
   /**
    * Initializes the Vectry SDK client.
    */
-  async setup ({ settings }) {
+  async setup ({ adapter }) {
     try {
-      if (!settings) {
+      if (!adapter) {
         throw new Error('Vectry configuration missing');
       }
+
+      const { settings } = adapter;
 
       this._driver = new Vectry(settings);
 

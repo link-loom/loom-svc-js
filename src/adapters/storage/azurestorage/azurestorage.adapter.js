@@ -17,15 +17,17 @@ class AzureStorageSource {
     this._settings = null;
   }
 
-  async setup({ settings }) {
+  async setup({ settings: adapter }) {
     try {
-      if (!settings) {
+      if (!adapter) {
         throw new Error('Azure Blob Storage configuration missing');
       }
 
+      const { settings } = adapter;
+
       this._settings = settings || {};
 
-      this._driver = BlobServiceClient.fromConnectionString(settings.connection);
+      this._driver = BlobServiceClient.fromConnectionString(adapter.connection);
 
       this._console.success('Client initialized', { namespace: this._namespace });
 

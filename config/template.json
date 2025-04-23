@@ -26,8 +26,10 @@
   },
   "modules": {
     "database": {
-      "enabled": false,
-      "default": "mongodb",
+      "settings": {
+        "enabled": false,
+        "default": "mongodb"
+      },
       "providers": {
         "mongodb": {
           "settings": {
@@ -55,12 +57,16 @@
       }
     },
     "storage": {
-      "enabled": false,
-      "default": "firebase",
       "settings": {
+        "enabled": false,
+        "default": "firebase",
         "maxFileSize": 5242880
       },
       "providers": {
+        "azurestorage": {
+          "connection": "xxxx__your_config",
+          "containerName": "xxxx__your_config"
+        },
         "firebase": {
           "settings": {
             "apiKey": "xxxx__your_config",
@@ -74,8 +80,10 @@
       }
     },
     "push": {
-      "enabled": false,
-      "default": "firebase",
+      "settings": {
+        "enabled": false,
+        "default": "firebase"
+      },
       "providers": {
         "firebase": {
           "connectionObj": {
@@ -89,8 +97,10 @@
       }
     },
     "observability": {
-      "enabled": false,
-      "default": "vectry",
+      "settings": {
+        "enabled": false,
+        "default": "vectry"
+      },
       "providers": {
         "vectry": {
           "settings": {
@@ -107,14 +117,19 @@
       }
     },
     "eventSystem": {
-      "enabled": true,
-      "internalBusManager": true,
-      "broker": true,
-      "listenProducerEvents": true,
-      "listenConsumerEvents": false
+      "settings": {
+        "enabled": true,
+        "internalBusManager": true,
+        "broker": true,
+        "listenProducerEvents": true,
+        "listenConsumerEvents": false
+      }
     },
     "email": {
-      "default": "office365",
+      "settings": {
+        "enabled": true,
+        "default": "office365"
+      },
       "providers": {
         "office365": {
           "settings": {

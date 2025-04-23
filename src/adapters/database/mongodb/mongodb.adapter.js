@@ -21,11 +21,13 @@ class MongoDBDataSource extends DataSource {
     this._namespace = '[Loom]::[Database]::[MongoDB]';
   }
 
-  async setup({ settings }) {
+  async setup({ settings: adapter }) {
     try {
-      if (!settings) {
+      if (!adapter) {
         throw new Error('MongoDB configuration missing');
       }
+
+      const { settings } = adapter;
 
       this._settings = settings || {};
 

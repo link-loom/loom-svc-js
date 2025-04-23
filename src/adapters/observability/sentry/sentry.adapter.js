@@ -12,17 +12,19 @@ class SentryAdapter extends ObservabilityBase {
   /**
    * Initializes the Sentry SDK.
    */
-  async setup () {
+  async setup ({adapter}) {
     try {
-      if (!this._config?.dsn) {
-        throw new Error('Missing Sentry DSN in configuration');
+      if (!adapter) {
+        throw new Error('Sentry configuration missing');
       }
 
+      const { settings } = adapter;
+
       Sentry.init({
-        dsn: this._config.dsn,
-        environment: this._config.environment || 'production',
-        tracesSampleRate: this._config.tracesSampleRate || 1.0,
-        ...this._config.options,
+        dsn: settings.dsn,
+        environment: settings.environment || 'production',
+        tracesSampleRate: settings.tracesSampleRate || 1.0,
+        ...settings.options,
       });
 
       this._console.success('Sentry client initialized', { namespace: this._namespace });
