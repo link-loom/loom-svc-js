@@ -107,7 +107,8 @@
         "vectry": {
           "settings": {
             "organizationId": "xxxx__your_config",
-            "apiKey": "xxxx__your_config"
+            "apiKey": "xxxx__your_config",
+            "vectryEnvironment": "prod"
           }
         },
         "sentry": {
