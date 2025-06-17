@@ -32,7 +32,7 @@ npm install -g link-loom
 Step 2. Create a project with cli tool and follow instructions
 
 ```shell
-link-loom new-project name-of-project
+link-loom create --name my-project
 ```
 
 ## Install dependencies
