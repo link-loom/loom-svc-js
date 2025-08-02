@@ -17,14 +17,14 @@ class UserService {
     );
   }
 
-  async create (data) {
+  async create ({ params }) {
     try {
-      if (!data || !data.phone) {
-        return this._utilities.io.response.error('Please provide minimum data');
+      if (!params || !params.phone) {
+        return this._utilities.io.response.error('Please provide minimum params');
       }
 
       const entityResponse = await this.#getByFilters({
-        filters: [{ key: 'phone', operator: '==', value: data.phone }],
+        filters: [{ key: 'phone', operator: '==', value: params.phone }],
       });
 
       if (
@@ -37,9 +37,9 @@ class UserService {
         );
       }
 
-      this.#formatCreateEntity(data);
+      this.#formatCreateEntity(params);
 
-      const entity = new this._models.UserManagementModel(data, this._dependencies);
+      const entity = new this._models.UserManagementModel(params, this._dependencies);
       const transactionResponse = await this._database.create({
         tableName: this._tableName,
         entity: entity.get,
@@ -51,8 +51,8 @@ class UserService {
       }
 
       // Send a confirmation email
-      if (!data.is_account_activated) {
-        this.#sendConfirmationNotification(data);
+      if (!params.is_account_activated) {
+        this.#sendConfirmationNotification(params);
       }
 
       return this._utilities.io.response.success(entity.sanitized);
@@ -62,15 +62,15 @@ class UserService {
     }
   }
 
-  async update (data) {
+  async update ({ params }) {
     try {
-      if (!data || !data.id) {
+      if (!params || !params.id) {
         return this._utilities.io.response.error('Please provide an id');
       }
 
       const transactionResponse = await this._database.update({
         tableName: this._tableName,
-        entity: data,
+        entity: params,
       });
 
       if (!transactionResponse) {
@@ -85,9 +85,9 @@ class UserService {
     }
   }
 
-  async get (data) {
+  async get ({ params }) {
     try {
-      if (!data || !data.queryselector) {
+      if (!params || !params.queryselector) {
         return this._utilities.io.response.error(
           'Please provide a queryselector',
         );
@@ -95,24 +95,24 @@ class UserService {
 
       let response = {};
 
-      switch (data.queryselector) {
+      switch (params.queryselector) {
         case 'id':
-          response = await this.#getById(data);
+          response = await this.#getById({ params });
           break;
         case 'national-id':
-          response = await this.#getByNationalId(data);
+          response = await this.#getByNationalId({ params });
           break;
         case 'phone':
-          response = await this.#getByPhone(data);
+          response = await this.#getByPhone({ params });
           break;
         case 'email':
-          response = await this.#getByEmail(data);
+          response = await this.#getByEmail({ params });
           break;
         case 'business-id':
-          response = await this.#getByBusinessId(data);
+          response = await this.#getByBusinessId({ params });
           break;
         case 'all':
-          response = await this.#getAll(data);
+          response = await this.#getAll({ params });
           break;
         default:
           response = this._utilities.io.response.error(
@@ -129,39 +129,39 @@ class UserService {
   }
 
   /**
-   * Retrieve entities based on certain filters provided in the `data` object.
+   * Retrieve entities based on certain filters provided in the `params` object.
    *
-   * @param {object} data - The data object containing filters and pagination details.
-   * @property {string} data.include_status - An string of status names to be included separated by comma.
-   * @property {string} data.exclude_status - An string of status names to be excluded separated by comma.
-   * @property {number} data.skip - Number of records to skip for pagination.
-   * @property {number} data.limit - Maximum number of records to return.
+   * @param {object} params - The params object containing filters and pagination details.
+   * @property {string} params.include_status - An string of status names to be included separated by comma.
+   * @property {string} params.exclude_status - An string of status names to be excluded separated by comma.
+   * @property {number} params.skip - Number of records to skip for pagination.
+   * @property {number} params.limit - Maximum number of records to return.
    * @returns {Array<object>} The array of found entities based on the given filters.
    * @throws Will throw and log an error if there's an issue retrieving the entities.
    */
-  async #getAll (data) {
+  async #getAll ({ params }) {
     try {
       const result = await this.#getByFilters({
         filters: [
           {
             key: 'status.name',
             operator: 'in',
-            value: data.include_status,
+            value: params.include_status,
           },
           {
             key: 'status.name',
             operator: 'not-in',
-            value: data.exclude_status,
+            value: params.exclude_status,
           },
           {
             key: 'skip',
             operator: '==',
-            value: data.skip,
+            value: params.skip,
           },
           {
             key: 'limit',
             operator: '==',
-            value: data.limit,
+            value: params.limit,
           },
         ],
       });
@@ -173,16 +173,16 @@ class UserService {
     }
   }
 
-  async #getById (data) {
+  async #getById ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'id', operator: '==', value: data.search }],
+        filters: [{ key: 'id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -190,16 +190,16 @@ class UserService {
     }
   }
 
-  async #getByNationalId (data) {
+  async #getByNationalId ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'national_id', operator: '==', value: data.search }],
+        filters: [{ key: 'national_id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -207,16 +207,16 @@ class UserService {
     }
   }
 
-  async #getByPhone (data) {
+  async #getByPhone ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'phone', operator: '==', value: data.search }],
+        filters: [{ key: 'phone', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -224,16 +224,16 @@ class UserService {
     }
   }
 
-  async #getByEmail (data) {
+  async #getByEmail ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'email', operator: '==', value: data.search }],
+        filters: [{ key: 'email', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -241,16 +241,16 @@ class UserService {
     }
   }
 
-  async #getByBusinessId (data) {
+  async #getByBusinessId ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'business_id', operator: '==', value: data.search }],
+        filters: [{ key: 'business_id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -258,9 +258,9 @@ class UserService {
     }
   }
 
-  async #getByFilters (data) {
+  async #getByFilters (params) {
     try {
-      if (!data || !data.filters) {
+      if (!params || !params.filters) {
         return this._utilities.io.response.error(
           'Please provide at least one filter',
         );
@@ -268,7 +268,7 @@ class UserService {
 
       const response = await this._database.getByFilters({
         tableName: this._tableName,
-        filters: data.filters,
+        filters: params.filters,
       });
 
       return this._utilities.io.response.success(response);
@@ -278,7 +278,7 @@ class UserService {
     }
   }
 
-  #formatCreateEntity (data) {
+  #formatCreateEntity (params) {
     const timestamp = new Date().getTime() + '';
     const timestampKey = this._utilities.encoder.base64.encode('timestamp');
     const serverUri =
@@ -287,28 +287,28 @@ class UserService {
     const emailTokenKey = this._utilities.encoder.base64.encode('token');
     const emailLinkToken = this._utilities.encoder.base64.encode(
       this._utilities.encoder.crypto.cypherObject(this._apiManagerService.key, {
-        email: data.email,
+        email: params.email,
       }),
     );
 
-    data.id = this._utilities.generator.id({ length: 15, prefix: 'usr-' });
-    data.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`;
-    data.password = this._utilities.generator.hash.fromString(
-      data.password || '',
+    params.id = this._utilities.generator.id({ length: 15, prefix: 'usr-' });
+    params.link_email_activation = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`;
+    params.password = this._utilities.generator.hash.fromString(
+      params.password || '',
     );
   }
 
-  async #sendConfirmationNotification (data) {
+  async #sendConfirmationNotification (params) {
     const notificationService = new this._services.NotificationService(
       this._dependencies,
     );
 
     await notificationService.create({
-      to: data.email,
+      to: params.email,
       channels: [notificationService.channels.email.name],
       email: {
         template: notificationService.emailTemplate.confirmEmail,
-        mainActionLink: data.confirmEmailLink,
+        mainActionLink: params.confirmEmailLink,
       },
     });
   }

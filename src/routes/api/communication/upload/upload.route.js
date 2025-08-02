@@ -1,5 +1,5 @@
 class UploadRoute {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
     this._utilities = this._dependencies.utilities;
@@ -19,11 +19,11 @@ class UploadRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async uploadFile({ params, req, res }) {
+  async uploadFile ({ params, req, res }) {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.uploadFile(req, res);
+      return entityService.uploadFile({ req, res, params });
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
@@ -35,11 +35,11 @@ class UploadRoute {
    * @param {*} req Express request
    * @param {*} res Express response
    */
-  async bulk({ params, req, res }) {
+  async bulk ({ params, req, res }) {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.bulk(req, res);
+      return entityService.bulk({ req, res, params });
     } catch (error) {
       return this._utilities.io.response.error(error.message);
     }

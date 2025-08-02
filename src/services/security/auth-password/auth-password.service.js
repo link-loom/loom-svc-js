@@ -18,8 +18,8 @@ class SecurityAuthPassword {
     );
   }
 
-  async signUpPassword (data) {
-    if (!data || !data.primary_email_address || !data.password) {
+  async signUpPassword ({ params }) {
+    if (!params || !params.primary_email_address || !params.password) {
       return this._utilities.io.response.error(
         'Is not possible create account, please provide an email and password',
       );
@@ -29,7 +29,7 @@ class SecurityAuthPassword {
     );
     const entityResponse = await userManagementService.get({
       queryselector: 'email',
-      search: data.primary_email_address,
+      search: params.primary_email_address,
     });
 
     if (
@@ -42,56 +42,37 @@ class SecurityAuthPassword {
       );
     }
 
-    const userResponse = await userManagementService.create(data);
+    const userResponse = await userManagementService.create(params);
 
     return userResponse;
   }
 
-  async signInPassword (data) {
+  async signInPassword ({ params }) {
     try {
-      if (!data.email || !data.password) {
+      if (!params.email || !params.password) {
         return this._utilities.io.response.error(
           'Data provided not match with any registered user',
-        );
-      }
-
-      if (!data.app_id) {
-        return this._utilities.io.response.error(
-          'Data provided not match with any registered app',
         );
       }
 
       const userService = new this._services.UserManagementService(
         this._dependencies,
       );
-      const userSecurityService = new this._services.UserSecurityService(
-        this._dependencies,
-      );
-      const userAppService = new this._services.UserAppService(
-        this._dependencies,
-      );
       const userOrganizationService =
         new this._services.UserOrganizationService(this._dependencies);
       const userDto = await userService.get({
-        queryselector: 'email',
-        search: data.email,
+        params: {
+          queryselector: 'email',
+          search: params.email,
+        }
       });
       const user = userDto?.result?.[0] ?? {};
-      const userSecurityDto = await userSecurityService.get({
-        queryselector: 'user-id',
-        search: user.id,
-      });
-      const userAppDto = await userAppService.get({
-        queryselector: 'user-app-id',
-        userId: user.id,
-        appId: data.app_id,
-      });
       const userOrganizationDto = await userOrganizationService.get({
-        queryselector: 'user-id',
-        search: user.id,
+        params: {
+          queryselector: 'user-id',
+          search: user.id,
+        }
       });
-      const userSecurity = userSecurityDto?.result?.[0] ?? {};
-      const userApp = userAppDto?.result?.[0] ?? {};
       const userOrganization = userOrganizationDto?.result ?? [];
 
       if (
@@ -104,30 +85,8 @@ class SecurityAuthPassword {
         );
       }
 
-      if (
-        !this._utilities.validator.response(userSecurityDto) ||
-        !userSecurityDto.result.length
-      ) {
-        return this._utilities.io.response.error(
-          'Unauthorized user. After 3 failed attempts your account will be blocked by 24 hours.',
-          { status: 404 },
-        );
-      }
-
-      if (
-        !this._utilities.validator.response(userAppDto) ||
-        !userAppDto.result.length
-      ) {
-        return this._utilities.io.response.error(
-          'User is not registered in this app, you need to signup',
-          { status: 404 },
-        );
-      }
-
-      const isAuthenticated = await this.#authenticateUser(data, {
+      const isAuthenticated = await this.#authenticateUser(params, {
         ...user,
-        ...userSecurity,
-        ...userApp,
       });
 
       if (!isAuthenticated) {
@@ -139,7 +98,6 @@ class SecurityAuthPassword {
 
       const token = await this.#generateJWTToken({
         user,
-        userApp,
         organizations: userOrganization,
       });
 
@@ -161,9 +119,9 @@ class SecurityAuthPassword {
     }
   }
 
-  async resetPassword (data) {
+  async resetPassword ({ params }) {
     try {
-      if (!data || !data.email) {
+      if (!params || !params.email) {
         return this._utilities.io.response.error('Please provide an Email');
       }
 
@@ -172,7 +130,7 @@ class SecurityAuthPassword {
       );
       const userResponse = await userService.get({
         queryselector: 'email',
-        search: data.email,
+        search: params.email,
       });
 
       if (
@@ -195,35 +153,35 @@ class SecurityAuthPassword {
       const emailLinkToken = this._utilities.encoder.base64.encode(
         this._utilities.encoder.crypto.cypherObject(
           this._apiManagerService.key,
-          { email: data.email },
+          { email: params.email },
         ),
       );
 
       // Assing recover link and check if data.appId exists. If it does, append it to the recovery link; otherwise, leave the link unchanged.
-      data.link_email_recover_password = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`;
-      data.link_email_recover_password = data.appId
-        ? data.link_email_recover_password + `&appId=${data.appId}`
-        : data.link_email_recover_password;
+      params.link_email_recover_password = `${serverUri}?${timestampKey}=${timestamp}&${emailTokenKey}=${emailLinkToken}`;
+      params.link_email_recover_password = params.appId
+        ? params.link_email_recover_password + `&appId=${params.appId}`
+        : params.link_email_recover_password;
 
-      this.#sendEmailRecoverNotification(data);
+      this.#sendEmailRecoverNotification(params);
 
-      return this._utilities.io.response.success(data);
+      return this._utilities.io.response.success(params);
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
     }
   }
 
-  async newPassword (data) {
+  async newPassword ({ params }) {
     try {
-      if (!data || !data.password) {
+      if (!params || !params.password) {
         return this._utilities.io.response.error('Please provide a password');
       }
 
       if (
-        !data ||
-        !data[this._utilities.encoder.base64.encode('timestamp')] ||
-        !data[this._utilities.encoder.base64.encode('recover-token')]
+        !params ||
+        !params[this._utilities.encoder.base64.encode('timestamp')] ||
+        !params[this._utilities.encoder.base64.encode('recover-token')]
       ) {
         return this._utilities.response.error(
           'Invalid token, copy the entire link from the email',
@@ -231,7 +189,7 @@ class SecurityAuthPassword {
       }
 
       const timestamp =
-        +data[this._utilities.encoder.base64.encode('timestamp')];
+        +params[this._utilities.encoder.base64.encode('timestamp')];
       const hours = Math.floor(
         Math.abs(new Date() - new Date(+timestamp)) / 3.6e6,
       );
@@ -249,7 +207,7 @@ class SecurityAuthPassword {
 
       // Decode encrypted data
       const decodedToken = this._utilities.encoder.base64.decode(
-        data[this._utilities.encoder.base64.encode('recover-token')],
+        params[this._utilities.encoder.base64.encode('recover-token')],
       );
       const decipheredToken = this._utilities.encoder.crypto.decipherObject(
         this._apiManagerService.key,
@@ -269,9 +227,6 @@ class SecurityAuthPassword {
       const userService = new this._services.UserManagementService(
         this._dependencies,
       );
-      const userSecurityService = new this._services.UserSecurityService(
-        this._dependencies,
-      );
       const userResponse = await userService.get({
         queryselector: 'email',
         search: decipheredToken.email,
@@ -284,22 +239,8 @@ class SecurityAuthPassword {
         });
       }
 
-      const userSecurityResponse = await userSecurityService.get({
-        queryselector: 'user-id',
-        search: user?.id,
-      });
-
-      const userSecurity = userSecurityResponse?.result?.[0];
-
-      if (!this._utilities.validator.response(userResponse) || !userSecurity) {
-        return this._utilities.io.response.error('User security not found', {
-          status: 404,
-        });
-      }
-
-      return await userSecurityService.update({
-        id: userSecurity?.id,
-        password: data.password || '',
+      return this._utilities.io.response.success({
+        password: params.password || '',
       });
     } catch (error) {
       this._console.error(error);
@@ -307,9 +248,9 @@ class SecurityAuthPassword {
     }
   }
 
-  async verifyEmail (data) {
+  async verifyEmail ({ params }) {
     try {
-      if (!data || !data.timestamp || !data.token) {
+      if (!params || !params.timestamp || !params.token) {
         return this._utilities.io.response.error(
           this._utilities.encoder.crypto.cypherObject(
             this._apiManagerService.key,

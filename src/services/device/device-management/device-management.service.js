@@ -15,15 +15,15 @@ class DeviceService {
     /* Assigments */
   }
 
-  async create (data) {
+  async create ({ params }) {
     try {
-      if (!data || !data.fingerprint) {
-        return this._utilities.io.response.error('Please provide minimum data');
+      if (!params || !params.fingerprint) {
+        return this._utilities.io.response.error('Please provide minimum params');
       }
 
       const entityResponse = await this.#getByFilters({
         filters: [
-          { key: 'fingerprint', operator: '==', value: data.fingerprint },
+          { key: 'fingerprint', operator: '==', value: params.fingerprint },
         ],
       });
 
@@ -36,10 +36,10 @@ class DeviceService {
         );
       }
 
-      this.#formatCreateEntity(data);
+      this.#formatCreateEntity(params);
 
       const entity = new this._models.DeviceManagementModel(
-        data,
+        params,
         this._dependencies,
       );
       const transactionResponse = await this._database.create({
@@ -59,15 +59,15 @@ class DeviceService {
     }
   }
 
-  async update (data) {
+  async update ({ params }) {
     try {
-      if (!data || !data.id) {
+      if (!params || !params.id) {
         return this._utilities.io.response.error('Please provide an id');
       }
 
       const transactionResponse = await this._database.update({
         tableName: this._tableName,
-        entity: data,
+        entity: params,
       });
 
       if (!transactionResponse) {
@@ -75,16 +75,16 @@ class DeviceService {
         return this._utilities.io.response.error();
       }
 
-      return this._utilities.io.response.success(data);
+      return this._utilities.io.response.success(params);
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
     }
   }
 
-  async get (data) {
+  async get ({ params }) {
     try {
-      if (!data || !data.queryselector) {
+      if (!params || !params.queryselector) {
         return this._utilities.io.response.error(
           'Please provide a queryselector',
         );
@@ -92,18 +92,18 @@ class DeviceService {
 
       let response = {};
 
-      switch (data.queryselector) {
+      switch (params.queryselector) {
         case 'id':
-          response = await this.#getById(data);
+          response = await this.#getById({ params });
           break;
         case 'user-id':
-          response = await this.#getByUserId(data);
+          response = await this.#getByUserId({ params });
           break;
         case 'fingerprint':
-          response = await this.#getByFingerprint(data);
+          response = await this.#getByFingerprint({ params });
           break;
         case 'identity':
-          response = await this.#getByIdentity(data);
+          response = await this.#getByIdentity({ params });
           break;
         default:
           response = this._utilities.io.response.error(
@@ -119,9 +119,9 @@ class DeviceService {
     }
   }
 
-  async #getByFilters (data) {
+  async #getByFilters (params) {
     try {
-      if (!data || !data.filters) {
+      if (!params || !params.filters) {
         return this._utilities.io.response.error(
           'Please provide at least one filter',
         );
@@ -129,7 +129,7 @@ class DeviceService {
 
       const transactionResponse = await this._database.getByFilters({
         tableName: this._tableName,
-        filters: data.filters,
+        filters: params.filters,
       });
 
       return this._utilities.io.response.success(transactionResponse);
@@ -139,16 +139,16 @@ class DeviceService {
     }
   }
 
-  async #getById (data) {
+  async #getById ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'id', operator: '==', value: data.search }],
+        filters: [{ key: 'id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -156,16 +156,16 @@ class DeviceService {
     }
   }
 
-  async #getByUserId (data) {
+  async #getByUserId ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'user_id', operator: '==', value: data.search }],
+        filters: [{ key: 'user_id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -173,16 +173,16 @@ class DeviceService {
     }
   }
 
-  async #getByFingerprint (data) {
+  async #getByFingerprint ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'fingerprint', operator: '==', value: data.search }],
+        filters: [{ key: 'fingerprint', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -190,16 +190,16 @@ class DeviceService {
     }
   }
 
-  async #getByIdentity (data) {
+  async #getByIdentity ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'identity', operator: '==', value: data.search }],
+        filters: [{ key: 'identity', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -207,8 +207,8 @@ class DeviceService {
     }
   }
 
-  #formatCreateEntity (data) {
-    data.id = this._utilities.generator.id({ length: 15, prefix: 'device-' });
+  #formatCreateEntity (params) {
+    params.id = this._utilities.generator.id({ length: 15, prefix: 'device-' });
   }
 
   get status () {

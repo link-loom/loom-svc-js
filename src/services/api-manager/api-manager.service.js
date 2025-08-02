@@ -18,7 +18,7 @@ class ApiManagerService {
     );
   }
 
-  async getApiManagerUri () {
+  async getApiManagerUri ({ params }) {
     return this._utilities.io.response.success({
       uri: this._config?.services?.apiManager?.secret || '/',
     });

@@ -19,40 +19,40 @@ class NotificationService {
     /* Assigments */
   }
 
-  async create (data) {
+  async create ({ params }) {
     try {
-      if (!data) {
+      if (!params) {
         return this._utilities.io.response.error(
           'Data provided not match with any registered user',
         );
       }
 
-      if (!data.channels) {
-        data.channels = this._models.NotificationManagementModel.channels.stored;
+      if (!params.channels) {
+        params.channels = this._models.NotificationManagementModel.channels.stored;
       }
 
       if (
-        data.channels.includes(
+        params.channels.includes(
           this._models.NotificationManagementModel.channels.stored.name,
         )
       ) {
-        await this.#channelStored(data);
+        await this.#channelStored(params);
       }
 
       if (
-        data.channels.includes(
+        params.channels.includes(
           this._models.NotificationManagementModel.channels.push.name,
         )
       ) {
-        await this.#channelEventBus(data);
+        await this.#channelEventBus(params);
       }
 
       if (
-        data.channels.includes(
+        params.channels.includes(
           this._models.NotificationManagementModel.channels.email.name,
         )
       ) {
-        await this.#channelEmail(data);
+        await this.#channelEmail(params);
       }
 
       return this._utilities.io.response.success();
@@ -62,15 +62,15 @@ class NotificationService {
     }
   }
 
-  async update (data) {
+  async update ({ params }) {
     try {
-      if (!data || !data.id) {
+      if (!params || !params.id) {
         return this._utilities.io.response.error('Please provide an id');
       }
 
       const transactionResponse = await this._database.update({
         tableName: this._tableName,
-        entity: data,
+        entity: params,
       });
 
       if (!transactionResponse) {
@@ -85,9 +85,9 @@ class NotificationService {
     }
   }
 
-  async get (data) {
+  async get ({ params }) {
     try {
-      if (!data || !data.queryselector) {
+      if (!params || !params.queryselector) {
         return this._utilities.io.response.error(
           'Please provide a queryselector',
         );
@@ -95,15 +95,15 @@ class NotificationService {
 
       let response = {};
 
-      switch (data.queryselector) {
+      switch (params.queryselector) {
         case 'id':
-          response = await this.#getById(data);
+          response = await this.#getById({ params });
           break;
         case 'receiver':
-          response = await this.#getByReceiverUserId(data);
+          response = await this.#getByReceiverUserId({ params });
           break;
         case 'business-id':
-          response = await this.#getByBusinessId(data);
+          response = await this.#getByOrganizationId({ params });
           break;
         default:
           response = this._utilities.io.response.error(
@@ -119,19 +119,19 @@ class NotificationService {
     }
   }
 
-  async #channelStored (data) {
+  async #channelStored (params) {
     try {
-      if (!data || !data.message || !data.receiver_user_id) {
+      if (!params || !params.message || !params.receiver_user_id) {
         this._console.error('message or receiver not providen');
         return this._utilities.io.response.error(
           'Please provide at minimum a message and a receiver',
         );
       }
 
-      this.#formatCreateEntity(data);
+      this.#formatCreateEntity(params);
 
       const entity = new this._models.NotificationManagementModel(
-        data,
+        params,
         this._dependencies,
       );
       const transactionResponse = await this._database.create({
@@ -151,7 +151,7 @@ class NotificationService {
     }
   }
 
-  async #channelEventBus (data) {
+  async #channelEventBus (params) {
     try {
       /* TODO: Implement the communication with event bus */
     } catch (error) {
@@ -160,7 +160,7 @@ class NotificationService {
     }
   }
 
-  async #channelEmail (data) {
+  async #channelEmail (params) {
     try {
       let emailPath = this._dependencies.root;
       let emailtemplate = '';
@@ -175,24 +175,24 @@ class NotificationService {
       });
       const mailOptions = {
         from: '',
-        to: data.to,
+        to: params.to,
         subject: '',
         text: '',
         html: '',
       };
 
       // Select what email type is needed
-      switch (data.email.template.name) {
+      switch (params.email.template.name) {
         case this._models.NotificationManagementModel.email_templates.confirmEmail
           .name:
           emailPath += '/src/static/email/confirm-eng.html';
           mailOptions.from =
             this._dependencies?.config?.modules?.email?.actions.validateEmail.from;
-          mailOptions.subject = `${data.email.subject || 'Welcome to %LOOM%'}`;
+          mailOptions.subject = `${params.email.subject || 'Welcome to %LOOM%'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
             'OPEN_ACCOUNT_LINK',
-            `${data.email.mainActionLink}`,
+            `${params.email.mainActionLink}`,
           );
           break;
         case this._models.NotificationManagementModel.email_templates.recoverPassword
@@ -200,11 +200,11 @@ class NotificationService {
           emailPath += '/src/static/email/recover-esp.html';
           mailOptions.from =
             this._dependencies?.config?.modules?.email?.actions?.recoverPassword?.from;
-          mailOptions.subject = `${data.email.subject || 'Email recover'}`;
+          mailOptions.subject = `${params.email.subject || 'Email recover'}`;
           emailtemplate = await this.readFileAsync(emailPath);
           emailtemplate = emailtemplate.replaceAll(
             'RECOVER_PASSWORD_LINK',
-            `${data.email.mainActionLink}`,
+            `${params.email.mainActionLink}`,
           );
           break;
         case this._models.NotificationManagementModel.email_templates.newsFeed.name:
@@ -264,9 +264,9 @@ class NotificationService {
     });
   }
 
-  async #getByFilters (data) {
+  async #getByFilters (params) {
     try {
-      if (!data || !data.filters) {
+      if (!params || !params.filters) {
         return this._utilities.io.response.error(
           'Please provide at least one filter',
         );
@@ -274,7 +274,7 @@ class NotificationService {
 
       const response = this._database.getByFilters({
         tableName: this._tableName,
-        filters: data.filters,
+        filters: params.filters,
       });
 
       return this._utilities.io.response.success(response);
@@ -284,16 +284,16 @@ class NotificationService {
     }
   }
 
-  async #getById (data) {
+  async #getById ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'id', operator: '==', value: data.search }],
+        filters: [{ key: 'id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -301,9 +301,9 @@ class NotificationService {
     }
   }
 
-  async #getByReceiverUserId (data) {
+  async #getByReceiverUserId ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
@@ -311,7 +311,7 @@ class NotificationService {
 
       return this.#getByFilters({
         filters: [
-          { key: 'receiver_user_id', operator: '==', value: data.search },
+          { key: 'receiver_user_id', operator: '==', value: params.search },
         ],
       });
     } catch (error) {
@@ -320,16 +320,16 @@ class NotificationService {
     }
   }
 
-  async #getByBusinessId (data) {
+  async #getByOrganizationId ({ params }) {
     try {
-      if (!data || !data.search) {
+      if (!params || !params.search) {
         return this._utilities.io.response.error(
           'Please provide query to search',
         );
       }
 
       return this.#getByFilters({
-        filters: [{ key: 'business_id', operator: '==', value: data.search }],
+        filters: [{ key: 'organization_id', operator: '==', value: params.search }],
       });
     } catch (error) {
       this._console.error(error);
@@ -337,13 +337,13 @@ class NotificationService {
     }
   }
 
-  #formatCreateEntity (data) {
+  #formatCreateEntity (params) {
     const messageResume = this._unfluff.fromString(
-      data.message.substring(0, 50) || '',
+      params.message.substring(0, 50) || '',
     );
 
-    data.id = this._utilities.generator.id({ length: 20, prefix: 'not-' });
-    data.message_resume = messageResume;
+    params.id = this._utilities.generator.id({ length: 20, prefix: 'not-' });
+    params.message_resume = messageResume;
   }
 
   get status () {

@@ -1,5 +1,5 @@
 class ApiManagerRoute {
-  constructor(dependencies) {
+  constructor (dependencies) {
     /* Base Properties */
     this._dependencies = dependencies;
     this._utilities = this._dependencies.utilities;
@@ -50,11 +50,11 @@ class ApiManagerRoute {
    *                   message: Something was wrong while you make this action
    *                   result: null
    */
-  async getApiManagerUri({ params }) {
+  async getApiManagerUri ({ params }) {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.getApiManagerUri(params);
+      return entityService.getApiManagerUri({ params });
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();

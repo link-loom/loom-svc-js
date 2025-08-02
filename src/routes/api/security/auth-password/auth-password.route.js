@@ -62,7 +62,7 @@ class SecurityRoute {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.signUpPassword(params);
+      return entityService.signUpPassword({params});
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
@@ -117,7 +117,7 @@ class SecurityRoute {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.signInPassword(params);
+      return entityService.signInPassword({params});
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
@@ -172,7 +172,7 @@ class SecurityRoute {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.resetPassword(params);
+      return entityService.resetPassword({params});
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();
@@ -227,7 +227,7 @@ class SecurityRoute {
     try {
       const entityService = new this.EntityService(this._dependencies);
 
-      return entityService.newPassword(params);
+      return entityService.newPassword({params});
     } catch (error) {
       this._console.error(error);
       return this._utilities.io.response.error();

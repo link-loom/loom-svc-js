@@ -16,7 +16,7 @@ class UploadService {
     /* this._newPrivateObject = new SomeObject(this._dependencies) */
   }
 
-  async uploadFile (req) {
+  async uploadFile ({ req }) {
     try {
       if (!req || !req.file) {
         return this._utilities.io.response.error('Add a file');
@@ -51,12 +51,38 @@ class UploadService {
     }
   }
 
+  async bulk ({ req }) {
+    try {
+      const canBulk = this.#validateBulk(req);
+      const file = req.file;
+      const fileTransformed = await this.#digestFileToArray(file);
+
+      if (!canBulk.success) {
+        return canBulk;
+      }
+
+      if (
+        !fileTransformed ||
+        !fileTransformed.rows ||
+        !fileTransformed.rows.length
+      ) {
+        return this._utilities.io.response.error(
+          'File not processed because is empty',
+        );
+      }
+
+      return this.#uploadAllBulkRows(req, fileTransformed);
+    } catch (error) {
+      return this._utilities.io.response.error(error.message);
+    }
+  }
+
   /**
    * Transform a xlsx file into a list
    * @param {File} file
    * @returns Transformed file into a list of { rows: [] }
    */
-  async digestFileToArray (file) {
+  async #digestFileToArray (file) {
     const processedFile = { rows: [] };
 
     if (!file) {
@@ -101,7 +127,7 @@ class UploadService {
     return new Promise(transformFileData);
   }
 
-  async uploadAllBulkRows (req, fileTransformed) {
+  async #uploadAllBulkRows (req, fileTransformed) {
     try {
       const response = {
         success: 0,
@@ -129,7 +155,7 @@ class UploadService {
     }
   }
 
-  validateBulk (req) {
+  #validateBulk (req) {
     if (!req || !req.file) {
       return this._utilities.io.response.error('Add a file');
     }
@@ -150,32 +176,6 @@ class UploadService {
     }
 
     return this._utilities.io.response.success(req);
-  }
-
-  async bulk (req) {
-    try {
-      const canBulk = this.validateBulk(req);
-      const file = req.file;
-      const fileTransformed = await this.digestFileToArray(file);
-
-      if (!canBulk.success) {
-        return canBulk;
-      }
-
-      if (
-        !fileTransformed ||
-        !fileTransformed.rows ||
-        !fileTransformed.rows.length
-      ) {
-        return this._utilities.io.response.error(
-          'File not processed because is empty',
-        );
-      }
-
-      return this.uploadAllBulkRows(req, fileTransformed);
-    } catch (error) {
-      return this._utilities.io.response.error(error.message);
-    }
   }
 }
 
