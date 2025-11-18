@@ -2,8 +2,8 @@
 module.exports = [
   {
     name: 'hello',
-    route: 'apps/hello/hello.app', // → requires src/apps/hello/hello.app.js
+    route: 'apps/hello/hello.app',
     autostart: true,
-    autostartMode: 'background',
+    autostartMode: 'foreground',
   },
 ];
