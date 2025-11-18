@@ -8,6 +8,13 @@ const router = {
   ...communicationRoutes,
   ...identityRoutes,
   ...securityRoutes,
+  hello: [
+    { method: 'GET',  httpRoute: '/ping',   route: 'routes/api/hello/hello.route', handler: 'ping',   protected: false },
+    { method: 'GET',  httpRoute: '/status', route: 'routes/api/hello/hello.route', handler: 'status', protected: false },
+    { method: 'POST', httpRoute: '/echo',   route: 'routes/api/hello/hello.route', handler: 'echo',   protected: false },
+    { method: 'POST', httpRoute: '/write',  route: 'routes/api/hello/hello.route', handler: 'write',  protected: false },
+    { method: 'GET',  httpRoute: '/read',   route: 'routes/api/hello/hello.route', handler: 'read',   protected: false },
+  ],
   example: [
     // Template
     {
