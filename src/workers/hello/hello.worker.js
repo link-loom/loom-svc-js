@@ -2,16 +2,16 @@
 /**
  * HelloApp
  * ========
- * Minimal App that extends BaseApp and exposes a tiny public API.
+ * Minimal App that extends BaseWorker and exposes a tiny public API.
  * No timers. No assumptions about external infra.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { BaseApp } = require('@link-loom/sdk');
+const { BaseWorker } = require('@link-loom/sdk');
 
-class HelloApp extends BaseApp {
-  static namespace = '[App]::[Hello]';
+class HelloWorker extends BaseWorker {
+  static namespace = '[Worker]::[Hello]';
 
   constructor(dependencies) {
     super(dependencies);
@@ -33,7 +33,7 @@ class HelloApp extends BaseApp {
   }
 
   // -------------------------
-  // Lifecycle (override BaseApp virtuals)
+  // Lifecycle (override BaseWorker virtuals)
   // -------------------------
   async setup(_ctx) {
     this._state.createdAt = Date.now();
@@ -143,4 +143,4 @@ class HelloApp extends BaseApp {
   }
 }
 
-module.exports = HelloApp;
+module.exports = HelloWorker;

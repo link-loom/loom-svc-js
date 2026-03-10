@@ -2,7 +2,7 @@
 module.exports = [
   {
     name: 'hello',
-    route: 'apps/hello/hello.app',
+    route: 'workers/hello/hello.worker',
     autostart: true,
     autostartMode: 'foreground',
   },

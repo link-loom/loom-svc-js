@@ -3,11 +3,11 @@
 /**
  * TemplateApp
  * =============
- * Minimal Link Loom App template built on top of BaseApp (SDK).
+ * Minimal Link Loom App template built on top of BaseWorker (SDK).
  *
  * Purpose
  * -------
- * - Demonstrate how to extend BaseApp and expose a public API.
+ * - Demonstrate how to extend BaseWorker and expose a public API.
  * - Show how lifecycle hooks are optionally implemented (no-op if omitted).
  *
  * Public API
@@ -30,15 +30,15 @@
  *
  * Notes
  * -----
- * - You do NOT need to implement every hook; BaseApp provides safe no-ops.
+ * - You do NOT need to implement every hook; BaseWorker provides safe no-ops.
  * - Logging uses the injected ConsoleModule (`this._console`).
- * - `this._namespace` is derived from `static namespace` or class name by BaseApp.
+ * - `this._namespace` is derived from `static namespace` or class name by BaseWorker.
  */
 
-const { BaseApp } = require('@link-loom/sdk');
+const { BaseWorker } = require('@link-loom/sdk');
 
-class TemplateApp extends BaseApp {
-  static namespace = '[App]::[Template]';
+class TemplateWorker extends BaseWorker {
+  static namespace = '[Worker]::[Template]';
 
   constructor (dependencies) {
     super(dependencies);
@@ -110,4 +110,4 @@ class TemplateApp extends BaseApp {
   }
 }
 
-module.exports = TemplateApp;
+module.exports = TemplateWorker;
