@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSE Test — Link Loom</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h2 { margin-bottom: 0.5rem; }
+    .controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    button { padding: 0.4rem 1rem; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background: #f9f9f9; }
+    button:hover { background: #eee; }
+    #log { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; min-height: 200px; overflow-y: auto; max-height: 500px; font-size: 0.85rem; line-height: 1.5; }
+    .event-open { color: #4ec9b0; }
+    .event-tick { color: #9cdcfe; }
+    .event-heartbeat { color: #ce9178; }
+    .event-done { color: #b5cea8; }
+    .event-error { color: #f44747; }
+    .event-stopped { color: #808080; }
+  </style>
+</head>
+<body>
+  <h2>Link Loom — SSE Test</h2>
+  <p>Test Server-Sent Events streaming endpoints.</p>
+
+  <div class="controls">
+    <button onclick="startTick()">Tick (finite)</button>
+    <button onclick="startHeartbeat()">Heartbeat (infinite)</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="clearLog()">Clear</button>
+  </div>
+
+  <pre id="log"></pre>
+
+  <script>
+    let source;
+    const el = document.getElementById('log');
+
+    function log(msg, cls) {
+      const span = document.createElement('span');
+      span.className = cls || '';
+      span.textContent = msg + '\n';
+      el.appendChild(span);
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function clearLog() {
+      el.innerHTML = '';
+    }
+
+    function listen(url) {
+      stop();
+      log('Connecting to ' + url + '...', 'event-stopped');
+      source = new EventSource(url);
+
+      source.addEventListener('open', function (e) {
+        log('[open] ' + e.data, 'event-open');
+      });
+
+      source.addEventListener('tick', function (e) {
+        log('[tick] ' + e.data, 'event-tick');
+      });
+
+      source.addEventListener('heartbeat', function (e) {
+        log('[heartbeat] ' + e.data, 'event-heartbeat');
+      });
+
+      source.addEventListener('done', function (e) {
+        log('[done] ' + e.data, 'event-done');
+        source.close();
+      });
+
+      source.addEventListener('error', function (e) {
+        log('[error] ' + (e.data || 'Connection lost'), 'event-error');
+      });
+
+      source.onerror = function () {
+        log('[connection error]', 'event-error');
+      };
+    }
+
+    function startTick() {
+      listen('/streaming/tick?count=10&interval=1000');
+    }
+
+    function startHeartbeat() {
+      listen('/streaming/heartbeat?interval=3000');
+    }
+
+    function stop() {
+      if (source) {
+        source.close();
+        log('[stopped]', 'event-stopped');
+      }
+    }
+  </script>
+</body>
+</html>
