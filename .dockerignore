@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log*
+.git
+.gitignore
+.vscode
+.DS_Store
+docs
+tests
+coverage
+*.md
+LICENSE
+.env
+_.env
+.env.sample
+config/default.json
+.eslintrc.js
+.prettierrc
