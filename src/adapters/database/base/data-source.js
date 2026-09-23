@@ -40,6 +40,18 @@ class DataSource {
     return this._utilities.io.response.success();
   }
 
+  async createIndexes({ tableName, specs } = {}) {
+    if (!tableName) {
+      return this._utilities.io.response.error('Valid table name');
+    }
+
+    if (!Array.isArray(specs) || !specs.length) {
+      return this._utilities.io.response.error('Provide at least one index spec');
+    }
+
+    return this._utilities.io.response.success(specs);
+  }
+
   validateTableName(tableName) {
     if (!tableName) {
       return this._utilities.io.response.error('Provide a table name');

@@ -58,7 +58,7 @@ class MongoDBDataSource extends DataSource {
       }
 
       const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
-      const documentResponse = collection.insertOne(entity);
+      const documentResponse = await collection.insertOne(entity);
 
       if (!documentResponse) {
         this._utilities.io.response.error();
@@ -88,6 +88,34 @@ class MongoDBDataSource extends DataSource {
       const documentResponse = await collection.updateOne(query, contract);
 
       return documentResponse || {};
+    } catch (error) {
+      this._console.error(error);
+
+      return null;
+    }
+  }
+
+  /**
+   * Declares indexes for a collection. MongoDB's createIndexes is idempotent,
+   * so it is safe to run on every boot.
+   *
+   * @param {object} params
+   * @param {string} params.tableName - The MongoDB collection.
+   * @param {Array<object>} params.specs - Index specs, e.g. `[{ key: { slug: 1 }, unique: true }]`.
+   * @param {string} [params.databaseName] - Target database; defaults to the configured one.
+   * @returns {Array<string>|null} The names of the indexes now present, or null on failure.
+   */
+  async createIndexes ({ tableName, specs, databaseName = '' } = {}) {
+    try {
+      const superResponse = await super.createIndexes({ tableName, specs });
+
+      if (!this._utilities.validator.response(superResponse)) {
+        return null;
+      }
+
+      const collection = this._driver.db(databaseName || this._settings.dbName).collection(tableName);
+
+      return await collection.createIndexes(specs);
     } catch (error) {
       this._console.error(error);
 
