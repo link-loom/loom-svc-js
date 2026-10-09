@@ -19,7 +19,7 @@ class HealthService {
 
   async get () {
     // TODO: Implement 3 Vectry payloads
-    var mutation = this._observability.detectMutation({
+    /* var mutation = this._observability.detectMutation({
       original: { status: 'active', test: { otro: { test: '1', arr: [1, 2, 3] } } },
       updated: { status: 'active', test: { otro: { test: '1', arr: [1, 2] } } }
     })
@@ -42,7 +42,7 @@ class HealthService {
         changes: mutation,
       },
     });
-    console.log(response)
+    console.log(response) */
     return this._utilities.io.response.success('Server is online');
   }
 }
