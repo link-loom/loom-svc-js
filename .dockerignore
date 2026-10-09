@@ -12,6 +12,7 @@ LICENSE
 .env
 .env.*
 _.env
-config/default.json
+config/*
+!config/template.json
 .eslintrc.js
 .prettierrc
