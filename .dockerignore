@@ -10,8 +10,8 @@ coverage
 *.md
 LICENSE
 .env
+.env.*
 _.env
-.env.sample
 config/default.json
 .eslintrc.js
 .prettierrc
